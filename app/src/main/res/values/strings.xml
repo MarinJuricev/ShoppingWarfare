@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ShoppingWarfare</string>
+
+    <string name="grocery">Grocery</string>
+    <string name="cart">Cart</string>
+    <string name="history">History</string>
+    <string name="user">User</string>
+    <string name="category">Category</string>
+</resources>
