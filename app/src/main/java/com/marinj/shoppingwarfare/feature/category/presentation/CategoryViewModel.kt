@@ -23,7 +23,5 @@ class CategoryViewModel @Inject constructor() : BaseViewModel<CategoryEvent>() {
 
     private fun handleGetGroceries() = viewModelScope.launch {
         _groceryViewState.value = _groceryViewState.value.copy(isLoading = true)
-
-
     }
 }
