@@ -39,3 +39,9 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task check {
+    dependsOn "installKotlinterPrePushHook"
+}
+
+apply plugin: "org.jmailen.kotlinter"

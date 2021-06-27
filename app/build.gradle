@@ -74,8 +74,4 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version"
 }
 
-check {
-    dependsOn "installKotlinterPrePushHook"
-}
-
 apply plugin: "org.jmailen.kotlinter"
