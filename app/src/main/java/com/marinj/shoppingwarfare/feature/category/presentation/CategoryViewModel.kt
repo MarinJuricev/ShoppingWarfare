@@ -1,8 +1,8 @@
-package com.marinj.shoppingwarfare.feature.category
+package com.marinj.shoppingwarfare.feature.category.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
-import com.marinj.shoppingwarfare.feature.category.CategoryEvent.GetCategories
+import com.marinj.shoppingwarfare.feature.category.presentation.CategoryEvent.GetCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

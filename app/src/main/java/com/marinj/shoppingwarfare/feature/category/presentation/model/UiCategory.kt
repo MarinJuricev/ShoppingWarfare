@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.category.model
+package com.marinj.shoppingwarfare.feature.category.presentation.model
 
 import androidx.annotation.DrawableRes
 

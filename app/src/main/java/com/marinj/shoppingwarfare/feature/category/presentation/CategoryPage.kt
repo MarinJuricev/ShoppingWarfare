@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.category
+package com.marinj.shoppingwarfare.feature.category.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.height
@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.feature.category.components.GroceryCard
+import com.marinj.shoppingwarfare.feature.category.presentation.components.GroceryCard
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

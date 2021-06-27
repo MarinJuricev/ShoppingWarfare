@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.category.components
+package com.marinj.shoppingwarfare.feature.category.presentation.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
