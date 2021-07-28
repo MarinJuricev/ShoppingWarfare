@@ -28,6 +28,8 @@ class CategoryViewModel @Inject constructor() : BaseViewModel<CategoryEvent>() {
     }
 
     private fun handleCreateCategory() = viewModelScope.launch {
-
+        _groceryViewState.value = _groceryViewState.value.copy(
+            isAddCategoryFabExpanded = !_groceryViewState.value.isAddCategoryFabExpanded
+        )
     }
 }
