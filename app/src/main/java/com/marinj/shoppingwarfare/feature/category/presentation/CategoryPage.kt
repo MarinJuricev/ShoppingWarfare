@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.category.presentation
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
@@ -20,13 +19,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.feature.category.presentation.CategoryEvent.CreateCategory
 import com.marinj.shoppingwarfare.feature.category.presentation.components.GroceryCard
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
-fun GroceryPage(
+fun CategoryPage(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
+    navigateToCreateCategory: () -> Unit,
 ) {
     val viewState by categoryViewModel.categoryViewState.collectAsState()
 
@@ -38,7 +37,7 @@ fun GroceryPage(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { categoryViewModel.onEvent(CreateCategory) },
+                onClick = navigateToCreateCategory,
             ) {
                 Row(modifier = Modifier.padding(horizontal = 16.dp)) {
                     Icon(
@@ -46,13 +45,6 @@ fun GroceryPage(
                         contentDescription = stringResource(id = R.string.create_category),
                         tint = Color.White,
                     )
-                    AnimatedVisibility(visible = viewState.isAddCategoryFabExpanded) {
-                        Text(
-                            text = stringResource(R.string.expanded),
-                            color = Color.White,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
-                        )
-                    }
                 }
             }
         }

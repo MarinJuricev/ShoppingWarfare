@@ -5,6 +5,5 @@ import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
 data class CategoryViewState(
     val isLoading: Boolean = true,
     val errorMessage: String = "",
-    val isAddCategoryFabExpanded: Boolean = false,
     val categories: List<UiCategory> = emptyList(),
 )

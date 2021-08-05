@@ -14,7 +14,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.marinj.shoppingwarfare.feature.cart.CartPage
-import com.marinj.shoppingwarfare.feature.category.presentation.GroceryPage
+import com.marinj.shoppingwarfare.feature.category.presentation.CategoryPage
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.CREATE_CATEGORY_ROUTE
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.CreateCategoryPage
 import com.marinj.shoppingwarfare.feature.history.HistoryPage
 import com.marinj.shoppingwarfare.feature.user.UserPage
 
@@ -66,7 +68,14 @@ fun ShoppingWarfareNavigation() {
         ) {
             composable(BottomNavigationItem.Category.route) {
                 EnterAnimation {
-                    GroceryPage()
+                    CategoryPage(
+                        navigateToCreateCategory = { navController.navigate(CREATE_CATEGORY_ROUTE) }
+                    )
+                }
+            }
+            composable(CREATE_CATEGORY_ROUTE) {
+                EnterAnimation {
+                    CreateCategoryPage()
                 }
             }
             composable(BottomNavigationItem.Cart.route) {
