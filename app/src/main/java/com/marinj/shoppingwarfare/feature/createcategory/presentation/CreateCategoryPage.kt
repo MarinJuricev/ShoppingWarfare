@@ -35,9 +35,12 @@ fun CreateCategoryPage() {
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
                         .align(Alignment.CenterHorizontally)
+                        .padding(top = 24.dp)
                 )
 
-                Button(onClick = { /*TODO*/ }) {
+                Button(
+                    modifier = Modifier.padding(top = 24.dp),
+                    onClick = { /*TODO*/ }) {
                     Text("Create category")
                 }
             }
