@@ -1,7 +1,12 @@
 package com.marinj.shoppingwarfare.core.components
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -9,10 +14,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.marinj.shoppingwarfare.feature.cart.CartPage
 import com.marinj.shoppingwarfare.feature.category.presentation.CategoryPage
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.CREATE_CATEGORY_ROUTE
@@ -20,9 +25,10 @@ import com.marinj.shoppingwarfare.feature.createcategory.presentation.CreateCate
 import com.marinj.shoppingwarfare.feature.history.HistoryPage
 import com.marinj.shoppingwarfare.feature.user.UserPage
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ShoppingWarfareNavigation() {
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
 
     Scaffold(
         bottomBar = {
@@ -61,37 +67,27 @@ fun ShoppingWarfareNavigation() {
             }
         }
     ) { innerPadding ->
-        NavHost(
+        AnimatedNavHost(
             navController = navController,
             startDestination = BottomNavigationItem.Category.route,
             Modifier.padding(innerPadding)
         ) {
             composable(BottomNavigationItem.Category.route) {
-                EnterAnimation {
-                    CategoryPage(
-                        navigateToCreateCategory = { navController.navigate(CREATE_CATEGORY_ROUTE) }
-                    )
-                }
+                CategoryPage(
+                    navigateToCreateCategory = { navController.navigate(CREATE_CATEGORY_ROUTE) }
+                )
             }
             composable(CREATE_CATEGORY_ROUTE) {
-                EnterAnimation {
-                    CreateCategoryPage()
-                }
+                CreateCategoryPage()
             }
             composable(BottomNavigationItem.Cart.route) {
-                EnterAnimation {
-                    CartPage()
-                }
+                CartPage()
             }
             composable(BottomNavigationItem.History.route) {
-                EnterAnimation {
-                    HistoryPage()
-                }
+                HistoryPage()
             }
             composable(BottomNavigationItem.User.route) {
-                EnterAnimation {
-                    UserPage()
-                }
+                UserPage()
             }
         }
     }
