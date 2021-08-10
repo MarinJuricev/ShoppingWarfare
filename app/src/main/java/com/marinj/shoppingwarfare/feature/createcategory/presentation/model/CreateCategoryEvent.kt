@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.createcategory.presentation.viewmodel
+package com.marinj.shoppingwarfare.feature.createcategory.presentation.model
 
 import androidx.compose.ui.graphics.Color
 

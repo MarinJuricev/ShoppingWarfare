@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,33 +24,24 @@ import com.marinj.shoppingwarfare.R
 @Composable
 fun ColorPicker(
     modifier: Modifier = Modifier,
-    colors: List<Color> = listOf( //TODO Connect to some colors data
-        Color.Blue,
-        Color.Cyan,
-        Color.DarkGray,
-        Color.Gray,
-        Color.Green,
-        Color.LightGray,
-        Color.Magenta,
-        Color.Red,
-    ),
+    onColorChanged: (Color) -> Unit,
+    selectedColor: Color?,
+    colors: List<Color>
 ) {
-    var selectedColorPosition by remember { mutableStateOf(0) }
-
     LazyVerticalGrid(
         modifier = modifier,
         cells = GridCells.Adaptive(36.dp)
     ) {
-        itemsIndexed(colors) { index, color ->
+        itemsIndexed(colors) { index, newColor ->
             Box(
                 modifier = Modifier
                     .size(36.dp)
                     .padding(4.dp)
                     .clip(CircleShape)
-                    .background(color)
-                    .clickable { selectedColorPosition = index }
+                    .background(newColor)
+                    .clickable { onColorChanged(colors[index]) }
             ) {
-                if (index == selectedColorPosition) {
+                if (selectedColor == newColor) {
                     Image(
                         modifier = Modifier
                             .size(16.dp)

@@ -8,4 +8,5 @@
     <string name="category">Category</string>
     <string name="create_category">Create category</string>
     <string name="expanded">Expanded</string>
+    <string name="category_name">Category name</string>
 </resources>
