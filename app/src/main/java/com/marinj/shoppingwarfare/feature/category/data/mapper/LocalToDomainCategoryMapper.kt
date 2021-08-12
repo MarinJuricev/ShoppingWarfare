@@ -10,6 +10,7 @@ class LocalToDomainCategoryMapper @Inject constructor() : Mapper<Category, Local
         return with(origin) {
             Category(
                 title,
+                backgroundColor,
             )
         }
     }

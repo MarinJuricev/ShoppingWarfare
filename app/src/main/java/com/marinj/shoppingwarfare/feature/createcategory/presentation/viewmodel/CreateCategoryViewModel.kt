@@ -2,13 +2,16 @@ package com.marinj.shoppingwarfare.feature.createcategory.presentation.viewmodel
 
 import androidx.compose.ui.graphics.Color
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
+import com.marinj.shoppingwarfare.feature.category.domain.repository.CategoryRepository
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class CreateCategoryViewModel @Inject constructor() : BaseViewModel<CreateCategoryEvent>() {
+class CreateCategoryViewModel @Inject constructor(
+    private val categoryRepository: CategoryRepository,
+) : BaseViewModel<CreateCategoryEvent>() {
 
     private val _createCategoryViewState = MutableStateFlow(CreateCategoryViewState())
     val createCategoryViewState: StateFlow<CreateCategoryViewState> = _createCategoryViewState

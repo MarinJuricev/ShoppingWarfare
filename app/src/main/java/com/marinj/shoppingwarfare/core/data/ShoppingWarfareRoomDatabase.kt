@@ -9,5 +9,6 @@ import com.marinj.shoppingwarfare.feature.category.data.model.LocalCategory
         LocalCategory::class
     ],
     version = 1,
+    exportSchema = false,
 )
 abstract class ShoppingWarfareRoomDatabase : RoomDatabase(), ShoppingWarfareDatabase

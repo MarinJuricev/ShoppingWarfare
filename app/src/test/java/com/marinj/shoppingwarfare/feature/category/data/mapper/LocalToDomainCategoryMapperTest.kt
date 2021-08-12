@@ -12,6 +12,7 @@ import org.junit.Before
 import org.junit.Test
 
 private const val TITLE = "title"
+private const val BACKGROUND_COLOR = 1
 
 @ExperimentalCoroutinesApi
 class LocalToDomainCategoryMapperTest {
@@ -27,10 +28,12 @@ class LocalToDomainCategoryMapperTest {
     fun `map should return a valid Category instance`() = runBlockingTest {
         val localCategory = mockk<LocalCategory>()
         every { localCategory.title } answers { TITLE }
+        every { localCategory.backgroundColor } answers { BACKGROUND_COLOR }
 
         val actualResult = sut.map(localCategory)
         val expectedResult = Category(
             TITLE,
+            BACKGROUND_COLOR,
         )
 
         assertThat(actualResult).isEqualTo(expectedResult)
