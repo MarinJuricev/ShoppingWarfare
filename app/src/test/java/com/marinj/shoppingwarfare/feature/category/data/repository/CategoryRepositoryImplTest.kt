@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.data.repository
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Failure
@@ -12,10 +13,13 @@ import com.marinj.shoppingwarfare.feature.category.domain.repository.CategoryRep
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @ExperimentalCoroutinesApi
 class CategoryRepositoryImplTest {
 
@@ -34,6 +38,26 @@ class CategoryRepositoryImplTest {
             domainToLocalCategoryMapper,
         )
     }
+
+    @Test
+    fun `observeCategories should return categories`() = runBlockingTest {
+        val category = mockk<Category>()
+        val categoryList = listOf(category)
+        val localCategory = mockk<LocalCategory>()
+        val localCategoryList = listOf(localCategory)
+        coEvery {
+            localToDomainCategoryMapper.map(localCategory)
+        } coAnswers { category }
+        coEvery {
+            categoryDao.getCategories()
+        } coAnswers { flow { emit(localCategoryList) } }
+
+        sut.observeCategories().test {
+            assertThat(awaitItem()).isEqualTo(categoryList)
+            awaitComplete()
+        }
+    }
+
 
     @Test
     fun `upsertCategory should return LeftFailure when categoryDao returns 0L`() = runBlockingTest {
