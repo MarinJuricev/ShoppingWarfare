@@ -19,7 +19,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.*
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnColorChanged
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.viewmodel.CreateCategoryViewModel
 
 const val CREATE_CATEGORY_ROUTE = "createCategory"

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class LocalCategory(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val title: String = "",
+    val title: String,
     val backgroundColor: Int,
 ) {
 }
