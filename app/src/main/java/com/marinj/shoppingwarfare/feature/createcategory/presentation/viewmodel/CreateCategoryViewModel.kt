@@ -8,26 +8,30 @@ import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.feature.category.domain.model.Category
-import com.marinj.shoppingwarfare.feature.createcategory.domain.repository.CreateCategoryRepository
-import com.marinj.shoppingwarfare.feature.createcategory.domain.validator.CategoryValidator
+import com.marinj.shoppingwarfare.feature.createcategory.domain.usecase.CreateCategory
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateCategoryViewModel @Inject constructor(
-    private val categoryValidator: CategoryValidator,
-    private val createCategoryRepository: CreateCategoryRepository,
+    private val createCategory: CreateCategory,
     private val failureToStringMapper: Mapper<String, Failure>,
 ) : BaseViewModel<CreateCategoryEvent>() {
 
     private val _createCategoryViewState = MutableStateFlow(CreateCategoryViewState())
     val createCategoryViewState: StateFlow<CreateCategoryViewState> = _createCategoryViewState
+
+    private val _createCategoryEffect = Channel<CreateCategoryEffect>()
+    val createCategoryEffect = _createCategoryEffect.receiveAsFlow()
 
     override fun onEvent(event: CreateCategoryEvent) {
         when (event) {
@@ -55,14 +59,10 @@ class CreateCategoryViewModel @Inject constructor(
 
     private fun handleCategoryClicked() = viewModelScope.launch {
         val categoryName = _createCategoryViewState.value.categoryName
-        when (val result = categoryValidator.validate(categoryName)) {
+        val categoryColor = _createCategoryViewState.value.selectedColor
+        when (val result = createCategory(categoryName, categoryColor?.toArgb())) {
             is Either.Left -> updateError(result.error)
-            is Either.Right -> createCategoryRepository.createCategory(
-                Category(
-                    _createCategoryViewState.value.categoryName,
-                    _createCategoryViewState.value.selectedColor?.toArgb() ?: 0,
-                )
-            )
+            is Either.Right -> _createCategoryEffect.send(CreateCategorySuccess)
         }
     }
 

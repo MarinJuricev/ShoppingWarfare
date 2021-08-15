@@ -18,7 +18,7 @@ class CategoryValidatorTest {
 
     @Test
     fun `validate should return FailureErrorMessage when title is null`() {
-        val actualResult = sut.validate(title = null)
+        val actualResult = sut.validate(title = null, categoryColor = 1)
         val expectedResult = ErrorMessage("Title can't be empty").buildLeft()
 
         assertThat(actualResult).isEqualTo(expectedResult)
@@ -26,15 +26,23 @@ class CategoryValidatorTest {
 
     @Test
     fun `validate should return FailureErrorMessage when title is empty`() {
-        val actualResult = sut.validate(title = "")
+        val actualResult = sut.validate(title = "", categoryColor = 1)
         val expectedResult = ErrorMessage("Title can't be empty").buildLeft()
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }
 
     @Test
-    fun `validate should return RightUnit when title is valid`() {
-        val actualResult = sut.validate(title = "title")
+    fun `validate should return FailureErrorMessage when categoryColor is null`() {
+        val actualResult = sut.validate(title = "title", categoryColor = null)
+        val expectedResult = ErrorMessage("Category color can't be empty").buildLeft()
+
+        assertThat(actualResult).isEqualTo(expectedResult)
+    }
+
+    @Test
+    fun `validate should return RightUnit when validation is a success`() {
+        val actualResult = sut.validate(title = "title", categoryColor = 1)
         val expectedResult = Unit.buildRight()
 
         assertThat(actualResult).isEqualTo(expectedResult)
