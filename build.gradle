@@ -19,6 +19,7 @@ buildscript {
         accompanist_navigation_animation_version = '0.16.0'
         moshi_version = '1.12.0'
         turbine_version = '0.6.0'
+        core_splash_version = '1.0.0-alpha01'
     }
     repositories {
         google()
