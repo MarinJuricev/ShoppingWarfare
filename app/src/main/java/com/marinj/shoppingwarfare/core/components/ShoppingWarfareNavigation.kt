@@ -78,7 +78,7 @@ fun ShoppingWarfareNavigation() {
                 )
             }
             composable(CREATE_CATEGORY_ROUTE) {
-                CreateCategoryPage()
+                CreateCategoryPage(navigateBack = { navController.popBackStack() })
             }
             composable(BottomNavigationItem.Cart.route) {
                 CartPage()

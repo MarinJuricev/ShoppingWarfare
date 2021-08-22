@@ -24,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateCategoryViewModel @Inject constructor(
     private val createCategory: CreateCategory,
-    private val failureToStringMapper: Mapper<String, Failure>,
+    private val failureToCreateCategoryEffectMapper: Mapper<CreateCategoryEffect, Failure>,
 ) : BaseViewModel<CreateCategoryEvent>() {
 
     private val _createCategoryViewState = MutableStateFlow(CreateCategoryViewState())
@@ -61,16 +61,10 @@ class CreateCategoryViewModel @Inject constructor(
         val categoryName = _createCategoryViewState.value.categoryName
         val categoryColor = _createCategoryViewState.value.selectedColor
         when (val result = createCategory(categoryName, categoryColor?.toArgb())) {
-            is Either.Left -> updateError(result.error)
+            is Either.Left -> _createCategoryEffect.send(
+                failureToCreateCategoryEffectMapper.map(result.error)
+            )
             is Either.Right -> _createCategoryEffect.send(CreateCategorySuccess)
         }
-    }
-
-    private suspend fun updateError(error: Failure) {
-        _createCategoryViewState.safeUpdate(
-            _createCategoryViewState.value.copy(
-                errorMessage = failureToStringMapper.map(error)
-            )
-        )
     }
 }
