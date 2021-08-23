@@ -10,7 +10,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarResult.ActionPerformed
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -49,8 +48,8 @@ fun CreateCategoryPage(
                     viewEffect.errorMessage,
                     actionLabel = "Dismiss"
                 )
-            }.also { snackBarResult ->
-                if (snackBarResult == ActionPerformed && viewEffect is CreateCategorySuccess) {
+            }.also {
+                if (viewEffect is CreateCategorySuccess) {
                     navigateBack()
                 }
             }
