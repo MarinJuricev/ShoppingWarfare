@@ -7,6 +7,8 @@ import com.marinj.shoppingwarfare.feature.category.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.data.repository.CategoryRepositoryImpl
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.repository.CategoryRepository
+import com.marinj.shoppingwarfare.feature.category.presentation.mapper.CategoryToUiCategoryMapper
+import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +27,11 @@ object CategoryModule {
     fun provideDomainToLocalCategoryMapper(
         mapper: DomainToLocalCategoryMapper
     ): Mapper<LocalCategory, Category> = mapper
+
+    @Provides
+    fun provideCategoryToUiCategoryMapper(
+        mapper: CategoryToUiCategoryMapper
+    ): Mapper<UiCategory, Category> = mapper
 
     @Provides
     fun provideCategoryRepository(
