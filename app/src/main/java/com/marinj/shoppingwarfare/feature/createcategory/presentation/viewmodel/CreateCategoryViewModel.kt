@@ -12,6 +12,9 @@ import com.marinj.shoppingwarfare.feature.createcategory.domain.usecase.CreateCa
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnColorChanged
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -35,9 +38,9 @@ class CreateCategoryViewModel @Inject constructor(
 
     override fun onEvent(event: CreateCategoryEvent) {
         when (event) {
-            is CreateCategoryEvent.OnCategoryNameChanged -> handleCategoryNameChanged(event.categoryText)
-            is CreateCategoryEvent.OnColorChanged -> handleColorChanged(event.selectedColor)
-            CreateCategoryEvent.OnCreateCategoryClicked -> handleCategoryClicked()
+            is OnCategoryNameChanged -> handleCategoryNameChanged(event.categoryText)
+            is OnColorChanged -> handleColorChanged(event.selectedColor)
+            OnCreateCategoryClicked -> handleCategoryClicked()
         }
     }
 
