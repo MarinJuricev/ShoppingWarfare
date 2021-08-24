@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareNavigation
 import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTheme
 import dagger.hilt.android.AndroidEntryPoint

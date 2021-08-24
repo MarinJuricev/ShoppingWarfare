@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.domain.usecase
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.*
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.repository.CategoryRepository

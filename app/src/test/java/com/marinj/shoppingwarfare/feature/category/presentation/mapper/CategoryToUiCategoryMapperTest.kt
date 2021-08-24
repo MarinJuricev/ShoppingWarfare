@@ -60,5 +60,4 @@ class CategoryToUiCategoryMapperTest {
 
         assertThat(actualResult.titleColor).isEqualTo(expectedColor)
     }
-
 }

@@ -29,7 +29,6 @@ class CategoryRepositoryImplTest {
 
     private lateinit var sut: CategoryRepository
 
-
     @Before
     fun setUp() {
         sut = CategoryRepositoryImpl(
@@ -57,7 +56,6 @@ class CategoryRepositoryImplTest {
             awaitComplete()
         }
     }
-
 
     @Test
     fun `upsertCategory should return LeftFailure when categoryDao returns 0L`() = runBlockingTest {

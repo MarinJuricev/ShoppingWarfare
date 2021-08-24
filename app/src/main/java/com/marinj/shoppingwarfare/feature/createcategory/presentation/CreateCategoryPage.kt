@@ -24,8 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.viewmodel.CreateCategoryViewModel
 import kotlinx.coroutines.flow.collect
@@ -75,7 +75,7 @@ fun CreateCategoryPage(
                     label = { Text(stringResource(R.string.category_name)) },
                     onValueChange = { createCategoryViewModel.onEvent(OnCategoryNameChanged(it)) }
                 )
-                //TODO  Later down the line allow the user to select a picture for the category
+                // TODO  Later down the line allow the user to select a picture for the category
                 ColorPicker(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
@@ -89,7 +89,8 @@ fun CreateCategoryPage(
                 )
                 Button(
                     modifier = Modifier.padding(top = 24.dp),
-                    onClick = { createCategoryViewModel.onEvent(OnCreateCategoryClicked) }) {
+                    onClick = { createCategoryViewModel.onEvent(OnCreateCategoryClicked) }
+                ) {
                     Text(stringResource(R.string.create_category))
                 }
             }

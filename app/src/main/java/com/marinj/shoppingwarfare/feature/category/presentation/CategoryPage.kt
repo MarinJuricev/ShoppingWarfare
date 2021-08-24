@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.feature.category.presentation.components.GroceryCard
-import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.*
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
@@ -37,9 +36,12 @@ fun CategoryPage(
 ) {
     val viewState by categoryViewModel.categoryViewState.collectAsState()
 
-    LaunchedEffect(key1 = Unit, block = {
-        categoryViewModel.onEvent(GetCategories)
-    })
+    LaunchedEffect(
+        key1 = Unit,
+        block = {
+            categoryViewModel.onEvent(GetCategories)
+        }
+    )
 
     Scaffold(
         topBar = {
