@@ -10,4 +10,6 @@
     <string name="expanded">Expanded</string>
     <string name="category_name">Category name</string>
     <string name="dismiss">Dismiss</string>
+    <string name="category_background_color">Category background color</string>
+    <string name="category_title_color">Category title color</string>
 </resources>

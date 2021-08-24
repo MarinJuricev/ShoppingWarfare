@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +28,7 @@ import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.Crea
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnTitleColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.viewmodel.CreateCategoryViewModel
 import kotlinx.coroutines.flow.collect
 
@@ -39,6 +41,7 @@ fun CreateCategoryPage(
 ) {
     val viewState by createCategoryViewModel.createCategoryViewState.collectAsState()
     val scaffoldState = rememberScaffoldState()
+    val currentContext = LocalContext.current
 
     LaunchedEffect(key1 = createCategoryViewModel.createCategoryEffect) {
         createCategoryViewModel.createCategoryEffect.collect { viewEffect ->
@@ -46,7 +49,7 @@ fun CreateCategoryPage(
                 CreateCategorySuccess -> scaffoldState.snackbarHostState.showSnackbar("Success", actionLabel = "Navigate back")
                 is CreateCategoryEffect.CreateCategoryFailure -> scaffoldState.snackbarHostState.showSnackbar(
                     viewEffect.errorMessage,
-                    actionLabel = "Dismiss"
+                    actionLabel = currentContext.getString(R.string.dismiss)
                 )
             }.also {
                 if (viewEffect is CreateCategorySuccess) {
@@ -81,10 +84,23 @@ fun CreateCategoryPage(
                         .fillMaxWidth(0.5f)
                         .align(Alignment.CenterHorizontally)
                         .padding(top = 24.dp),
+                    title = stringResource(R.string.category_background_color),
                     onColorChanged = {
                         createCategoryViewModel.onEvent(OnBackgroundColorChanged(it))
                     },
                     selectedColor = viewState.backgroundColor,
+                    colors = viewState.availableColors,
+                )
+                ColorPicker(
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 24.dp),
+                    title = stringResource(R.string.category_title_color),
+                    onColorChanged = {
+                        createCategoryViewModel.onEvent(OnTitleColorChanged(it))
+                    },
+                    selectedColor = viewState.titleColor,
                     colors = viewState.availableColors,
                 )
                 Button(

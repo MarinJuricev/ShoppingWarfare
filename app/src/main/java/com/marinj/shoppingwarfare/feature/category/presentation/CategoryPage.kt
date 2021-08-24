@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.feature.category.presentation.components.GroceryCard
-import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.*
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.GetCategories
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -46,7 +46,7 @@ fun CategoryPage(
     Scaffold(
         topBar = {
             TopAppBar {
-                Text("AppName")
+                Text(stringResource(id = R.string.app_name))
             }
         },
         floatingActionButton = {
@@ -71,7 +71,7 @@ fun CategoryPage(
                         .height(200.dp),
                     text = uiCategory.title,
                     backGroundColor = uiCategory.backgroundColor,
-                    imageId = R.drawable.category_icon,
+                    textColor = uiCategory.titleColor,
                 )
             }
         }
