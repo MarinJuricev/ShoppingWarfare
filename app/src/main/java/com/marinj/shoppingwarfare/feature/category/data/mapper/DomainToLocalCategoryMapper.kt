@@ -12,6 +12,7 @@ class DomainToLocalCategoryMapper @Inject constructor() : Mapper<LocalCategory, 
             LocalCategory(
                 title = title,
                 backgroundColor = backgroundColor,
+                titleColor = titleColor,
             )
         }
     }

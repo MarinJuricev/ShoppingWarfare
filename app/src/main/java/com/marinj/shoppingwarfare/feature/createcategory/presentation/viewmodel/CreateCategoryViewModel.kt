@@ -12,9 +12,10 @@ import com.marinj.shoppingwarfare.feature.createcategory.domain.usecase.CreateCa
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnTitleColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -39,7 +40,8 @@ class CreateCategoryViewModel @Inject constructor(
     override fun onEvent(event: CreateCategoryEvent) {
         when (event) {
             is OnCategoryNameChanged -> handleCategoryNameChanged(event.categoryText)
-            is OnColorChanged -> handleColorChanged(event.selectedColor)
+            is OnBackgroundColorChanged -> handleBackgroundColorChanged(event.selectedColor)
+            is OnTitleColorChanged -> handleTitleColorChanged(event.selectedColor)
             OnCreateCategoryClicked -> handleCategoryClicked()
         }
     }
@@ -52,18 +54,27 @@ class CreateCategoryViewModel @Inject constructor(
         )
     }
 
-    private fun handleColorChanged(selectedColor: Color) {
+    private fun handleBackgroundColorChanged(selectedColor: Color) {
         _createCategoryViewState.safeUpdate(
             _createCategoryViewState.value.copy(
-                selectedColor = selectedColor
+                backgroundColor = selectedColor
+            )
+        )
+    }
+
+    private fun handleTitleColorChanged(selectedColor: Color) {
+        _createCategoryViewState.safeUpdate(
+            _createCategoryViewState.value.copy(
+                titleColor = selectedColor
             )
         )
     }
 
     private fun handleCategoryClicked() = viewModelScope.launch {
         val categoryName = _createCategoryViewState.value.categoryName
-        val categoryColor = _createCategoryViewState.value.selectedColor
-        when (val result = createCategory(categoryName, categoryColor?.toArgb())) {
+        val categoryColor = _createCategoryViewState.value.backgroundColor
+        val titleColor = _createCategoryViewState.value.titleColor
+        when (val result = createCategory(categoryName, categoryColor?.toArgb(), titleColor?.toArgb())) {
             is Either.Left -> _createCategoryEffect.send(
                 failureToCreateCategoryEffectMapper.map(result.error)
             )

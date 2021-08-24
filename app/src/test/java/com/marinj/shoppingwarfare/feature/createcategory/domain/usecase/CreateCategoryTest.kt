@@ -35,12 +35,13 @@ class CreateCategoryTest {
         runBlockingTest {
             val title = "title"
             val categoryColor = 1
+            val titleColor = 2
             val failure = Failure.Unknown.buildLeft()
             coEvery {
-                categoryValidator.validate(title, categoryColor)
+                categoryValidator.validate(title, categoryColor, titleColor)
             } coAnswers { failure }
 
-            val actualResult = sut(title, categoryColor)
+            val actualResult = sut(title, categoryColor, titleColor)
 
             assertThat(actualResult).isEqualTo(failure)
         }
@@ -50,15 +51,16 @@ class CreateCategoryTest {
         runBlockingTest {
             val title = "title"
             val categoryColor = 1
+            val titleColor = 2
             val success = Unit.buildRight()
             coEvery {
-                categoryValidator.validate(title, categoryColor)
+                categoryValidator.validate(title, categoryColor, titleColor)
             } coAnswers { success }
             coEvery {
-                createCategoryRepository.createCategory(Category(title, categoryColor))
+                createCategoryRepository.createCategory(Category(title, categoryColor, titleColor))
             } coAnswers { success }
 
-            val actualResult = sut(title, categoryColor)
+            val actualResult = sut(title, categoryColor, titleColor)
 
             assertThat(actualResult).isEqualTo(success)
         }

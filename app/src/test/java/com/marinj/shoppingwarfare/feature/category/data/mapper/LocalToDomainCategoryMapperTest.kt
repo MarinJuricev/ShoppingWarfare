@@ -12,7 +12,8 @@ import org.junit.Before
 import org.junit.Test
 
 private const val TITLE = "title"
-private const val BACKGROUND_COLOR = 1
+private const val BACKGROUND_COLOR = 0
+private const val TITLE_COLOR = 1
 
 @ExperimentalCoroutinesApi
 class LocalToDomainCategoryMapperTest {
@@ -25,17 +26,35 @@ class LocalToDomainCategoryMapperTest {
     }
 
     @Test
-    fun `map should return a valid Category instance`() = runBlockingTest {
-        val localCategory = mockk<LocalCategory>()
-        every { localCategory.title } answers { TITLE }
-        every { localCategory.backgroundColor } answers { BACKGROUND_COLOR }
+    fun `map should map title`() = runBlockingTest {
+        val localCategory = mockk<LocalCategory>(relaxed = true).apply {
+            every { title } answers { TITLE }
+        }
 
         val actualResult = sut.map(localCategory)
-        val expectedResult = Category(
-            TITLE,
-            BACKGROUND_COLOR,
-        )
 
-        assertThat(actualResult).isEqualTo(expectedResult)
+        assertThat(actualResult.title).isEqualTo(TITLE)
+    }
+
+    @Test
+    fun `map should map backgroundColor`() = runBlockingTest {
+        val localCategory = mockk<LocalCategory>(relaxed = true).apply {
+            every { backgroundColor } answers { BACKGROUND_COLOR }
+        }
+
+        val actualResult = sut.map(localCategory)
+
+        assertThat(actualResult.backgroundColor).isEqualTo(BACKGROUND_COLOR)
+    }
+
+    @Test
+    fun `map should map titleColor`() = runBlockingTest {
+        val localCategory = mockk<LocalCategory>(relaxed = true).apply {
+            every { titleColor } answers { TITLE_COLOR }
+        }
+
+        val actualResult = sut.map(localCategory)
+
+        assertThat(actualResult.titleColor).isEqualTo(TITLE_COLOR)
     }
 }

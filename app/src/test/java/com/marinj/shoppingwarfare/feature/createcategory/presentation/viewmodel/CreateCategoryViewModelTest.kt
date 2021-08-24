@@ -12,8 +12,9 @@ import com.marinj.shoppingwarfare.feature.createcategory.domain.usecase.CreateCa
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategoryFailure
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -57,13 +58,24 @@ class CreateCategoryViewModelTest {
     }
 
     @Test
-    fun `should update selectedColor when OnColorChanged is provided`() = runBlockingTest {
+    fun `should update backgroundColor when OnBackgroundColorChanged is provided`() = runBlockingTest {
         val selectedColor = Color.Magenta
-        val event = OnColorChanged(selectedColor)
+        val event = OnBackgroundColorChanged(selectedColor)
         sut.onEvent(event)
 
         sut.createCategoryViewState.test {
-            assertThat(awaitItem().selectedColor).isEqualTo(selectedColor)
+            assertThat(awaitItem().backgroundColor).isEqualTo(selectedColor)
+        }
+    }
+
+    @Test
+    fun `should update titleColor when OnTitleColorChanged is provided`() = runBlockingTest {
+        val selectedColor = Color.Magenta
+        val event = CreateCategoryEvent.OnTitleColorChanged(selectedColor)
+        sut.onEvent(event)
+
+        sut.createCategoryViewState.test {
+            assertThat(awaitItem().titleColor).isEqualTo(selectedColor)
         }
     }
 
@@ -74,7 +86,7 @@ class CreateCategoryViewModelTest {
             val failure = Failure.Unknown
             val createCategoryEffect = CreateCategoryFailure("Error")
             coEvery {
-                createCategory("", null)
+                createCategory("", null, null)
             } coAnswers { failure.buildLeft() }
             coEvery {
                 failureToCreateCategoryEffectMapper.map(failure)
@@ -91,10 +103,9 @@ class CreateCategoryViewModelTest {
     fun `should emit CreateCategorySuccess when OnCreateCategoryClicked is provided and createCategory returns Right`() =
         runBlockingTest {
             val event = OnCreateCategoryClicked
-            val failure = Failure.Unknown
             val createCategoryEffect = CreateCategorySuccess
             coEvery {
-                createCategory("", null)
+                createCategory("", null, null)
             } coAnswers { Unit.buildRight() }
 
             sut.onEvent(event)

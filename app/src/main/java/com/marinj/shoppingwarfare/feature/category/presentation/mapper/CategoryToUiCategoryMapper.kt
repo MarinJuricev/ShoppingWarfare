@@ -12,7 +12,8 @@ class CategoryToUiCategoryMapper @Inject constructor() : Mapper<UiCategory, Cate
         return with(origin) {
             UiCategory(
                 title,
-                Color(backgroundColor)
+                Color(backgroundColor),
+                Color(titleColor),
             )
         }
     }

@@ -9,5 +9,5 @@ data class LocalCategory(
     val id: Int = 0,
     val title: String,
     val backgroundColor: Int,
-) {
-}
+    val titleColor: Int,
+)

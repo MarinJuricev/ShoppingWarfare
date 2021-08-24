@@ -5,4 +5,5 @@ import androidx.compose.ui.graphics.Color
 data class UiCategory(
     val title: String,
     val backgroundColor: Color,
+    val titleColor: Color,
 )

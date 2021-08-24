@@ -25,7 +25,7 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnColorChanged
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.viewmodel.CreateCategoryViewModel
 import kotlinx.coroutines.flow.collect
@@ -82,9 +82,9 @@ fun CreateCategoryPage(
                         .align(Alignment.CenterHorizontally)
                         .padding(top = 24.dp),
                     onColorChanged = {
-                        createCategoryViewModel.onEvent(OnColorChanged(it))
+                        createCategoryViewModel.onEvent(OnBackgroundColorChanged(it))
                     },
-                    selectedColor = viewState.selectedColor,
+                    selectedColor = viewState.backgroundColor,
                     colors = viewState.availableColors,
                 )
                 Button(

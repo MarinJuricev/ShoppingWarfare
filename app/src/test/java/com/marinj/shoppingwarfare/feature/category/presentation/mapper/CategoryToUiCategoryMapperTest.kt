@@ -1,9 +1,10 @@
-package com.marinj.shoppingwarfare.feature.category.data.mapper
+package com.marinj.shoppingwarfare.feature.category.presentation.mapper
 
+import androidx.compose.ui.graphics.Color
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.mapper.Mapper
-import com.marinj.shoppingwarfare.feature.category.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
+import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,13 +17,13 @@ private const val BACKGROUND_COLOR = 0
 private const val TITLE_COLOR = 1
 
 @ExperimentalCoroutinesApi
-class DomainToLocalCategoryMapperTest {
+class CategoryToUiCategoryMapperTest {
 
-    private lateinit var sut: Mapper<LocalCategory, Category>
+    private lateinit var sut: Mapper<UiCategory, Category>
 
     @Before
     fun setUp() {
-        sut = DomainToLocalCategoryMapper()
+        sut = CategoryToUiCategoryMapper()
     }
 
     @Test
@@ -43,8 +44,9 @@ class DomainToLocalCategoryMapperTest {
         }
 
         val actualResult = sut.map(category)
+        val expectedColor = Color(BACKGROUND_COLOR)
 
-        assertThat(actualResult.backgroundColor).isEqualTo(BACKGROUND_COLOR)
+        assertThat(actualResult.backgroundColor).isEqualTo(expectedColor)
     }
 
     @Test
@@ -54,7 +56,9 @@ class DomainToLocalCategoryMapperTest {
         }
 
         val actualResult = sut.map(category)
+        val expectedColor = Color(TITLE_COLOR)
 
-        assertThat(actualResult.titleColor).isEqualTo(TITLE_COLOR)
+        assertThat(actualResult.titleColor).isEqualTo(expectedColor)
     }
+
 }

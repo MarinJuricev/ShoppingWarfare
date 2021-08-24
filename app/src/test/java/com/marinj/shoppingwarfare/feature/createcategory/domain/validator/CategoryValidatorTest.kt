@@ -18,7 +18,7 @@ class CategoryValidatorTest {
 
     @Test
     fun `validate should return FailureErrorMessage when title is null`() {
-        val actualResult = sut.validate(title = null, categoryColor = 1)
+        val actualResult = sut.validate(title = null, categoryColor = 1, titleColor = 1)
         val expectedResult = ErrorMessage("Title can't be empty").buildLeft()
 
         assertThat(actualResult).isEqualTo(expectedResult)
@@ -26,7 +26,7 @@ class CategoryValidatorTest {
 
     @Test
     fun `validate should return FailureErrorMessage when title is empty`() {
-        val actualResult = sut.validate(title = "", categoryColor = 1)
+        val actualResult = sut.validate(title = "", categoryColor = 1, titleColor = 1)
         val expectedResult = ErrorMessage("Title can't be empty").buildLeft()
 
         assertThat(actualResult).isEqualTo(expectedResult)
@@ -34,15 +34,23 @@ class CategoryValidatorTest {
 
     @Test
     fun `validate should return FailureErrorMessage when categoryColor is null`() {
-        val actualResult = sut.validate(title = "title", categoryColor = null)
+        val actualResult = sut.validate(title = "title", categoryColor = null, titleColor = 1)
         val expectedResult = ErrorMessage("Category color can't be empty").buildLeft()
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }
 
     @Test
+    fun `validate should return FailureErrorMessage when titleColor is null`() {
+        val actualResult = sut.validate(title = "title", categoryColor = 1, titleColor = null)
+        val expectedResult = ErrorMessage("Title color can't be empty").buildLeft()
+
+        assertThat(actualResult).isEqualTo(expectedResult)
+    }
+
+    @Test
     fun `validate should return RightUnit when validation is a success`() {
-        val actualResult = sut.validate(title = "title", categoryColor = 1)
+        val actualResult = sut.validate(title = "title", categoryColor = 1, titleColor = 1)
         val expectedResult = Unit.buildRight()
 
         assertThat(actualResult).isEqualTo(expectedResult)

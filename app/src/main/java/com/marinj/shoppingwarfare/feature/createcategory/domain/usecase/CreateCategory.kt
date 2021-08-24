@@ -14,11 +14,18 @@ class CreateCategory @Inject constructor(
 
     suspend operator fun invoke(
         title: String?,
-        categoryColor: Int?
+        categoryColor: Int?,
+        titleColor: Int?,
     ): Either<Failure, Unit> {
-        return when (val result = categoryValidator.validate(title, categoryColor)) {
+        return when (val result = categoryValidator.validate(title, categoryColor, titleColor)) {
             is Either.Left -> result
-            is Either.Right -> createCategoryRepository.createCategory(Category(title!!, categoryColor!!))
+            is Either.Right -> createCategoryRepository.createCategory(
+                Category(
+                    title!!,
+                    categoryColor!!,
+                    titleColor!!,
+                )
+            )
         }
     }
 }

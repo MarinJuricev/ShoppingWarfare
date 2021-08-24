@@ -15,6 +15,7 @@ private val availableColorList = listOf(
 
 data class CreateCategoryViewState(
     val categoryName: String = "",
-    val selectedColor: Color? = null,
+    val backgroundColor: Color? = null,
+    val titleColor: Color? = null,
     val availableColors: List<Color> = availableColorList,
 )
