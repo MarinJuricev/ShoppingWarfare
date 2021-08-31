@@ -4,17 +4,14 @@ import androidx.compose.ui.graphics.Color
 import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
-import java.util.*
 import javax.inject.Inject
 
-class CategoryToUiCategoryMapper @Inject constructor(
-    private val uuidGenerator: () -> String,
-) : Mapper<UiCategory, Category> {
+class CategoryToUiCategoryMapper @Inject constructor() : Mapper<UiCategory, Category> {
 
     override suspend fun map(origin: Category): UiCategory {
         return with(origin) {
             UiCategory(
-                uuidGenerator(),
+                id,
                 title,
                 Color(backgroundColor),
                 Color(titleColor),

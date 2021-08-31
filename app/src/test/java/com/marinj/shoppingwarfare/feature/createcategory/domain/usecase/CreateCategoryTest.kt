@@ -14,11 +14,14 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
+private const val ID = "id"
+
 @ExperimentalCoroutinesApi
 class CreateCategoryTest {
 
     private val categoryValidator: CategoryValidator = mockk()
     private val createCategoryRepository: CreateCategoryRepository = mockk()
+    private val uuidGenerator = { ID }
 
     private lateinit var sut: CreateCategory
 
@@ -27,6 +30,7 @@ class CreateCategoryTest {
         sut = CreateCategory(
             categoryValidator,
             createCategoryRepository,
+            uuidGenerator,
         )
     }
 
@@ -57,7 +61,7 @@ class CreateCategoryTest {
                 categoryValidator.validate(title, categoryColor, titleColor)
             } coAnswers { success }
             coEvery {
-                createCategoryRepository.createCategory(Category(title, categoryColor, titleColor))
+                createCategoryRepository.createCategory(Category(ID, title, categoryColor, titleColor))
             } coAnswers { success }
 
             val actualResult = sut(title, categoryColor, titleColor)

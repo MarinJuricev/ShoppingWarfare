@@ -12,6 +12,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
+private const val ID = "id"
 private const val TITLE = "title"
 private const val BACKGROUND_COLOR = 0
 private const val TITLE_COLOR = 1
@@ -24,6 +25,17 @@ class CategoryToUiCategoryMapperTest {
     @Before
     fun setUp() {
         sut = CategoryToUiCategoryMapper()
+    }
+
+    @Test
+    fun `map should map id`() = runBlockingTest {
+        val category = mockk<Category>(relaxed = true).apply {
+            every { id } answers { ID }
+        }
+
+        val actualResult = sut.map(category)
+
+        assertThat(actualResult.id).isEqualTo(ID)
     }
 
     @Test

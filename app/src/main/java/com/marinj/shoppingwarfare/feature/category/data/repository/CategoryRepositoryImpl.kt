@@ -31,6 +31,6 @@ class CategoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteCategoryById(id: Int): Either<Failure, Unit> =
+    override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> =
         categoryDao.deleteCategoryById(id).buildRight()
 }

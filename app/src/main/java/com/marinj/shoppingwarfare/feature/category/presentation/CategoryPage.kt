@@ -22,7 +22,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -42,7 +41,6 @@ fun CategoryPage(
 ) {
     val viewState by categoryViewModel.categoryViewState.collectAsState()
     val scaffoldState = rememberScaffoldState()
-    val context = LocalContext.current
 
     LaunchedEffect(
         key1 = Unit,

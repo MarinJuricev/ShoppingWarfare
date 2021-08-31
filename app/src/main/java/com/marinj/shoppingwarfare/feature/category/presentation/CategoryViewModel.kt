@@ -50,7 +50,7 @@ class CategoryViewModel @Inject constructor(
     private fun handleGetGroceries() = viewModelScope.launch {
         updateIsLoading(isLoading = true)
         getCategories()
-            .catch { handleGetCategoriesError(it) }
+            .catch { handleGetCategoriesError() }
             .map { categoryList ->
                 categoryList.map { category ->
                     categoryToUiCategoryMapper.map(
@@ -68,7 +68,7 @@ class CategoryViewModel @Inject constructor(
             }
     }
 
-    private fun handleGetCategoriesError(it: Throwable) = viewModelScope.launch {
+    private fun handleGetCategoriesError() = viewModelScope.launch {
         _categoryEffect.send(CategoryEffect.Error("Failed to fetch Categories, try again later."))
     }
 

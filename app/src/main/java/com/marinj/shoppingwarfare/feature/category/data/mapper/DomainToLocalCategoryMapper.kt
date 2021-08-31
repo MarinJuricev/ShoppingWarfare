@@ -10,6 +10,7 @@ class DomainToLocalCategoryMapper @Inject constructor() : Mapper<LocalCategory, 
     override suspend fun map(origin: Category): LocalCategory {
         return with(origin) {
             LocalCategory(
+                id = id,
                 title = title,
                 backgroundColor = backgroundColor,
                 titleColor = titleColor,

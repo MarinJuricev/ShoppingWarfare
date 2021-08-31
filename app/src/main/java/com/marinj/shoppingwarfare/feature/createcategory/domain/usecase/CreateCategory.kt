@@ -10,6 +10,7 @@ import javax.inject.Inject
 class CreateCategory @Inject constructor(
     private val categoryValidator: CategoryValidator,
     private val createCategoryRepository: CreateCategoryRepository,
+    private val uuidGenerator: () -> String,
 ) {
 
     suspend operator fun invoke(
@@ -21,6 +22,7 @@ class CreateCategory @Inject constructor(
             is Either.Left -> result
             is Either.Right -> createCategoryRepository.createCategory(
                 Category(
+                    uuidGenerator(),
                     title!!,
                     categoryColor!!,
                     titleColor!!,

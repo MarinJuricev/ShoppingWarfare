@@ -97,7 +97,7 @@ class CategoryRepositoryImplTest {
     @Test
     fun `deleteCategoryById should return RightUnit`() =
         runBlockingTest {
-            val categoryId = 1
+            val categoryId = "1"
             coEvery {
                 categoryDao.deleteCategoryById(categoryId)
             } coAnswers { Unit }
