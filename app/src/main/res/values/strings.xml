@@ -12,4 +12,6 @@
     <string name="dismiss">Dismiss</string>
     <string name="category_background_color">Category background color</string>
     <string name="category_title_color">Category title color</string>
+    <string name="success">Success</string>
+    <string name="navigate_back">Navigate back</string>
 </resources>

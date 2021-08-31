@@ -17,5 +17,5 @@ interface CategoryDao {
     suspend fun upsertCategory(entity: LocalCategory): Long
 
     @Query("DELETE FROM localCategory WHERE id == :id")
-    suspend fun deleteCategoryById(id: Int)
+    suspend fun deleteCategoryById(id: String)
 }

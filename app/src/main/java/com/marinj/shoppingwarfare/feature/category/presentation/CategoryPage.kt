@@ -15,18 +15,24 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.feature.category.presentation.components.GroceryCard
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.DeleteCategory
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.Error
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.NavigateToCategoryDetail
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.GetCategories
+import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -35,6 +41,8 @@ fun CategoryPage(
     navigateToCreateCategory: () -> Unit,
 ) {
     val viewState by categoryViewModel.categoryViewState.collectAsState()
+    val scaffoldState = rememberScaffoldState()
+    val context = LocalContext.current
 
     LaunchedEffect(
         key1 = Unit,
@@ -43,7 +51,18 @@ fun CategoryPage(
         }
     )
 
+    LaunchedEffect(key1 = categoryViewModel.categoryEffect) {
+        categoryViewModel.categoryEffect.collect { categoryEffect ->
+            when (categoryEffect) {
+                is DeleteCategory -> TODO()
+                is Error -> TODO()
+                is NavigateToCategoryDetail -> TODO()
+            }
+        }
+    }
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar {
                 Text(stringResource(id = R.string.app_name))
@@ -72,6 +91,7 @@ fun CategoryPage(
                     text = uiCategory.title,
                     backGroundColor = uiCategory.backgroundColor,
                     textColor = uiCategory.titleColor,
+                    onCategoryEvent = categoryViewModel::onEvent,
                 )
             }
         }

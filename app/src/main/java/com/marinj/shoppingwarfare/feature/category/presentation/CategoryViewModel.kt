@@ -4,7 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.mapper.Mapper
+import com.marinj.shoppingwarfare.core.result.Either.Left
+import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
+import com.marinj.shoppingwarfare.feature.category.domain.usecase.DeleteCategoryUseCase
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.GetCategories
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
@@ -13,13 +16,20 @@ import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryVi
 import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val getCategories: GetCategories,
+    private val deleteCategory: DeleteCategoryUseCase,
     private val categoryToUiCategoryMapper: Mapper<UiCategory, Category>,
 ) : BaseViewModel<CategoryEvent>() {
 
@@ -40,7 +50,7 @@ class CategoryViewModel @Inject constructor(
     private fun handleGetGroceries() = viewModelScope.launch {
         updateIsLoading(isLoading = true)
         getCategories()
-            .catch { TODO("Add a simple oneshot SnackBar in the categoryEffect") }
+            .catch { handleGetCategoriesError(it) }
             .map { categoryList ->
                 categoryList.map { category ->
                     categoryToUiCategoryMapper.map(
@@ -58,6 +68,10 @@ class CategoryViewModel @Inject constructor(
             }
     }
 
+    private fun handleGetCategoriesError(it: Throwable) = viewModelScope.launch {
+        _categoryEffect.send(CategoryEffect.Error("Failed to fetch Categories, try again later."))
+    }
+
     private fun updateIsLoading(isLoading: Boolean) {
         _categoryViewState.safeUpdate(
             _categoryViewState.value.copy(
@@ -67,10 +81,13 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun handleDeleteCategory(categoryName: String) = viewModelScope.launch {
-        _categoryEffect.send(CategoryEffect.DeleteCategory(categoryName))
+        when (deleteCategory(categoryName)) {
+            is Right -> _categoryEffect.send(CategoryEffect.DeleteCategory(categoryName))
+            is Left -> _categoryEffect.send(CategoryEffect.Error("Error while deleting category."))
+        }
     }
 
     private fun handleNavigateToCategoryDetail(categoryName: String) = viewModelScope.launch {
-        _categoryEffect.send(CategoryEffect.(categoryName))
+        _categoryEffect.send(CategoryEffect.NavigateToCategoryDetail(categoryName))
     }
 }

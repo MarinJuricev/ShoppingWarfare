@@ -46,9 +46,12 @@ fun CreateCategoryPage(
     LaunchedEffect(key1 = createCategoryViewModel.createCategoryEffect) {
         createCategoryViewModel.createCategoryEffect.collect { viewEffect ->
             when (viewEffect) {
-                CreateCategorySuccess -> scaffoldState.snackbarHostState.showSnackbar("Success", actionLabel = "Navigate back")
+                CreateCategorySuccess -> scaffoldState.snackbarHostState.showSnackbar(
+                    message = currentContext.getString(R.string.success),
+                    actionLabel = currentContext.getString(R.string.navigate_back),
+                )
                 is CreateCategoryEffect.CreateCategoryFailure -> scaffoldState.snackbarHostState.showSnackbar(
-                    viewEffect.errorMessage,
+                    message = viewEffect.errorMessage,
                     actionLabel = currentContext.getString(R.string.dismiss)
                 )
             }.also {

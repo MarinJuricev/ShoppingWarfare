@@ -13,6 +13,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import java.util.*
 
 @InstallIn(ViewModelComponent::class)
 @Module
@@ -37,4 +38,7 @@ object CategoryModule {
     fun provideCategoryRepository(
         repository: CategoryRepositoryImpl
     ): CategoryRepository = repository
+
+    @Provides
+    fun provideUuidGenerator(): () -> String = { UUID.randomUUID().toString() }
 }
