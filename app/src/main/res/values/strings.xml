@@ -14,4 +14,6 @@
     <string name="category_title_color">Category title color</string>
     <string name="success">Success</string>
     <string name="navigate_back">Navigate back</string>
+    <string name="category_deleted">Category %s was deleted</string>
+    <string name="undo">Undo</string>
 </resources>

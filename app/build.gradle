@@ -74,6 +74,8 @@ dependencies {
 
     implementation "androidx.core:core-splashscreen:$core_splash_version"
 
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
     testImplementation "junit:junit:$junit_version"
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "com.google.truth:truth:$truth_version"

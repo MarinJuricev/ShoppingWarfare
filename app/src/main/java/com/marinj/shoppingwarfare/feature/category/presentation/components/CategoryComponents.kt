@@ -16,12 +16,13 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.NavigateToCategoryDetail
+import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GroceryCard(
     modifier: Modifier = Modifier,
-    text: String,
+    uiCategory: UiCategory,
     textColor: Color = MaterialTheme.typography.body1.color,
     backGroundColor: Color = MaterialTheme.colors.primary,
     onCategoryEvent: (CategoryEvent) -> Unit,
@@ -29,8 +30,8 @@ fun GroceryCard(
     Card(
         modifier = modifier
             .combinedClickable(
-                onLongClick = { onCategoryEvent(DeleteCategory(text)) },
-                onClick = { onCategoryEvent(NavigateToCategoryDetail(text)) },
+                onLongClick = { onCategoryEvent(DeleteCategory(uiCategory)) },
+                onClick = { onCategoryEvent(NavigateToCategoryDetail(uiCategory.title)) },
             ),
         shape = RoundedCornerShape(16.dp),
         backgroundColor = backGroundColor,
@@ -39,7 +40,7 @@ fun GroceryCard(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = text,
+                text = uiCategory.title,
                 color = textColor,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.h4,

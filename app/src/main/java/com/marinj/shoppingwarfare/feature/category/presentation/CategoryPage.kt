@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -22,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,6 +33,7 @@ import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEf
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.Error
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.NavigateToCategoryDetail
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.GetCategories
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.UndoCategoryDeletion
 import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
@@ -38,9 +41,11 @@ import kotlinx.coroutines.flow.collect
 fun CategoryPage(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
     navigateToCreateCategory: () -> Unit,
+    navigateToCategoryDetail: (String) -> Unit,
 ) {
     val viewState by categoryViewModel.categoryViewState.collectAsState()
     val scaffoldState = rememberScaffoldState()
+    val context = LocalContext.current
 
     LaunchedEffect(
         key1 = Unit,
@@ -52,9 +57,19 @@ fun CategoryPage(
     LaunchedEffect(key1 = categoryViewModel.categoryEffect) {
         categoryViewModel.categoryEffect.collect { categoryEffect ->
             when (categoryEffect) {
-                is DeleteCategory -> TODO()
-                is Error -> TODO()
-                is NavigateToCategoryDetail -> TODO()
+                is DeleteCategory -> scaffoldState.snackbarHostState.showSnackbar(
+                    context.getString(
+                        R.string.category_deleted,
+                        categoryEffect.uiCategory.title
+                    ),
+                    actionLabel = context.getString(R.string.undo),
+                ).also { snackBarResult ->
+                    if (snackBarResult == SnackbarResult.ActionPerformed) {
+                        categoryViewModel.onEvent(UndoCategoryDeletion(categoryEffect.uiCategory))
+                    }
+                }
+                is Error -> scaffoldState.snackbarHostState.showSnackbar(categoryEffect.errorMessage)
+                is NavigateToCategoryDetail -> navigateToCategoryDetail(categoryEffect.categoryId)
             }
         }
     }
@@ -86,7 +101,7 @@ fun CategoryPage(
                     modifier = Modifier
                         .padding(16.dp)
                         .height(200.dp),
-                    text = uiCategory.title,
+                    uiCategory = uiCategory,
                     backGroundColor = uiCategory.backgroundColor,
                     textColor = uiCategory.titleColor,
                     onCategoryEvent = categoryViewModel::onEvent,

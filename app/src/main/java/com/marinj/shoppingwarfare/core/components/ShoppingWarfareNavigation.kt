@@ -74,7 +74,8 @@ fun ShoppingWarfareNavigation() {
         ) {
             composable(BottomNavigationItem.Category.route) {
                 CategoryPage(
-                    navigateToCreateCategory = { navController.navigate(CREATE_CATEGORY_ROUTE) }
+                    navigateToCreateCategory = { navController.navigate(CREATE_CATEGORY_ROUTE) },
+                    navigateToCategoryDetail = { TODO() }
                 )
             }
             composable(CREATE_CATEGORY_ROUTE) {

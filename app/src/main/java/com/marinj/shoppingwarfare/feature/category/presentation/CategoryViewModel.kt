@@ -9,6 +9,7 @@ import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.DeleteCategoryUseCase
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.GetCategories
+import com.marinj.shoppingwarfare.feature.category.domain.usecase.UndoCategoryDeletionUseCase
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.*
@@ -24,13 +25,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val getCategories: GetCategories,
     private val deleteCategory: DeleteCategoryUseCase,
+    private val undoCategoryDeletion: UndoCategoryDeletionUseCase,
     private val categoryToUiCategoryMapper: Mapper<UiCategory, Category>,
+    private val uiCategoryToCategoryMapper: Mapper<Category, UiCategory>,
 ) : BaseViewModel<CategoryEvent>() {
 
     private val _categoryViewState = MutableStateFlow(CategoryViewState())
@@ -42,8 +46,9 @@ class CategoryViewModel @Inject constructor(
     override fun onEvent(event: CategoryEvent) {
         when (event) {
             GetCategories -> handleGetGroceries()
-            is DeleteCategory -> handleDeleteCategory(event.categoryName)
+            is DeleteCategory -> handleDeleteCategory(event.uiCategory)
             is NavigateToCategoryDetail -> handleNavigateToCategoryDetail(event.categoryName)
+            is UndoCategoryDeletion -> handleUndoCategoryDeletion(event.uiCategory)
         }
     }
 
@@ -80,14 +85,21 @@ class CategoryViewModel @Inject constructor(
         )
     }
 
-    private fun handleDeleteCategory(categoryName: String) = viewModelScope.launch {
-        when (deleteCategory(categoryName)) {
-            is Right -> _categoryEffect.send(CategoryEffect.DeleteCategory(categoryName))
+    private fun handleDeleteCategory(uiCategory: UiCategory) = viewModelScope.launch {
+        when (deleteCategory(uiCategory.id)) {
+            is Right -> _categoryEffect.send(CategoryEffect.DeleteCategory(uiCategory))
             is Left -> _categoryEffect.send(CategoryEffect.Error("Error while deleting category."))
         }
     }
 
     private fun handleNavigateToCategoryDetail(categoryName: String) = viewModelScope.launch {
         _categoryEffect.send(CategoryEffect.NavigateToCategoryDetail(categoryName))
+    }
+
+    private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {
+        when (undoCategoryDeletion(uiCategoryToCategoryMapper.map(uiCategory))) {
+            is Right -> Timber.d("${uiCategory.title} successfully restored")
+            is Left -> _categoryEffect.send(CategoryEffect.Error("Couldn't undo category deletion."))
+        }
     }
 }

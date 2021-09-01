@@ -8,6 +8,7 @@ import com.marinj.shoppingwarfare.feature.category.data.repository.CategoryRepos
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.repository.CategoryRepository
 import com.marinj.shoppingwarfare.feature.category.presentation.mapper.CategoryToUiCategoryMapper
+import com.marinj.shoppingwarfare.feature.category.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
 import dagger.Module
 import dagger.Provides
@@ -41,4 +42,9 @@ object CategoryModule {
 
     @Provides
     fun provideUuidGenerator(): () -> String = { UUID.randomUUID().toString() }
+
+    @Provides
+    fun provideUiCategoryToCategoryMapper(
+        mapper: UiCategoryToCategoryMapper
+    ): Mapper<Category, UiCategory> = mapper
 }
