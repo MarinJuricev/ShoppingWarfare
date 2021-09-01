@@ -4,7 +4,7 @@ import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.repository.CategoryRepository
 import javax.inject.Inject
 
-class UndoCategoryDeletionUseCase @Inject constructor(
+class UndoCategoryDeletion @Inject constructor(
     private val categoryRepository: CategoryRepository,
 ) {
 

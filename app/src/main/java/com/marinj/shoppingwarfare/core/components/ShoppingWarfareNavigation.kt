@@ -20,6 +20,8 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.marinj.shoppingwarfare.feature.cart.CartPage
 import com.marinj.shoppingwarfare.feature.category.presentation.CategoryPage
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_DETAIL_ROUTE
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CategoryDetailPage
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.CREATE_CATEGORY_ROUTE
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.CreateCategoryPage
 import com.marinj.shoppingwarfare.feature.history.HistoryPage
@@ -80,6 +82,9 @@ fun ShoppingWarfareNavigation() {
             }
             composable(CREATE_CATEGORY_ROUTE) {
                 CreateCategoryPage(navigateBack = { navController.popBackStack() })
+            }
+            composable(CATEGORY_DETAIL_ROUTE) {
+                CategoryDetailPage()
             }
             composable(BottomNavigationItem.Cart.route) {
                 CartPage()

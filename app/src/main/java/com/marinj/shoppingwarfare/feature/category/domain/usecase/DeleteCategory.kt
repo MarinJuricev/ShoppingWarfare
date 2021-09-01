@@ -5,7 +5,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.category.domain.repository.CategoryRepository
 import javax.inject.Inject
 
-class DeleteCategoryUseCase @Inject constructor(
+class DeleteCategory @Inject constructor(
     private val categoryRepository: CategoryRepository,
 ) {
 

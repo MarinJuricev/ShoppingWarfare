@@ -7,18 +7,17 @@ import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
-import com.marinj.shoppingwarfare.feature.category.domain.usecase.DeleteCategoryUseCase
+import com.marinj.shoppingwarfare.feature.category.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.GetCategories
-import com.marinj.shoppingwarfare.feature.category.domain.usecase.UndoCategoryDeletionUseCase
+import com.marinj.shoppingwarfare.feature.category.domain.usecase.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
-import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.*
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryViewState
 import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -31,24 +30,24 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val getCategories: GetCategories,
-    private val deleteCategory: DeleteCategoryUseCase,
-    private val undoCategoryDeletion: UndoCategoryDeletionUseCase,
+    private val deleteCategory: DeleteCategory,
+    private val undoCategoryDeletion: UndoCategoryDeletion,
     private val categoryToUiCategoryMapper: Mapper<UiCategory, Category>,
     private val uiCategoryToCategoryMapper: Mapper<Category, UiCategory>,
 ) : BaseViewModel<CategoryEvent>() {
 
     private val _categoryViewState = MutableStateFlow(CategoryViewState())
-    val categoryViewState: StateFlow<CategoryViewState> = _categoryViewState
+    val categoryViewState = _categoryViewState.asStateFlow()
 
     private val _categoryEffect = Channel<CategoryEffect>()
     val categoryEffect = _categoryEffect.receiveAsFlow()
 
     override fun onEvent(event: CategoryEvent) {
         when (event) {
-            GetCategories -> handleGetGroceries()
-            is DeleteCategory -> handleDeleteCategory(event.uiCategory)
-            is NavigateToCategoryDetail -> handleNavigateToCategoryDetail(event.categoryName)
-            is UndoCategoryDeletion -> handleUndoCategoryDeletion(event.uiCategory)
+            CategoryEvent.GetCategories -> handleGetGroceries()
+            is CategoryEvent.DeleteCategory -> handleDeleteCategory(event.uiCategory)
+            is CategoryEvent.NavigateToCategoryDetail -> handleNavigateToCategoryDetail(event.categoryName)
+            is CategoryEvent.UndoCategoryDeletion -> handleUndoCategoryDeletion(event.uiCategory)
         }
     }
 

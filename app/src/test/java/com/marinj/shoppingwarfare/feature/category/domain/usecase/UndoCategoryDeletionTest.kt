@@ -12,14 +12,14 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class UndoCategoryDeletionUseCaseTest {
+class UndoCategoryDeletionTest {
 
     private val categoryRepository: CategoryRepository = mockk()
-    private lateinit var sut: UndoCategoryDeletionUseCase
+    private lateinit var sut: UndoCategoryDeletion
 
     @Before
     fun setUp() {
-        sut = UndoCategoryDeletionUseCase(
+        sut = UndoCategoryDeletion(
             categoryRepository,
         )
     }

@@ -12,15 +12,15 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class DeleteCategoryUseCaseTest {
+class DeleteCategoryTest {
 
     private val categoryRepository: CategoryRepository = mockk()
 
-    private lateinit var sut: DeleteCategoryUseCase
+    private lateinit var sut: DeleteCategory
 
     @Before
     fun setUp() {
-        sut = DeleteCategoryUseCase((categoryRepository))
+        sut = DeleteCategory((categoryRepository))
     }
 
     @Test

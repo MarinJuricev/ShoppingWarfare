@@ -95,6 +95,7 @@ fun CategoryPage(
             }
         }
     ) {
+        // TODO: Implement empty screen
         LazyVerticalGrid(cells = GridCells.Fixed(2)) {
             items(viewState.categories) { uiCategory ->
                 GroceryCard(

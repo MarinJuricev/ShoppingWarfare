@@ -20,7 +20,7 @@ import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.Crea
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class CreateCategoryViewModel @Inject constructor(
 ) : BaseViewModel<CreateCategoryEvent>() {
 
     private val _createCategoryViewState = MutableStateFlow(CreateCategoryViewState())
-    val createCategoryViewState: StateFlow<CreateCategoryViewState> = _createCategoryViewState
+    val createCategoryViewState = _createCategoryViewState.asStateFlow()
 
     private val _createCategoryEffect = Channel<CreateCategoryEffect>()
     val createCategoryEffect = _createCategoryEffect.receiveAsFlow()
