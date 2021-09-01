@@ -31,7 +31,7 @@ fun GroceryCard(
         modifier = modifier
             .combinedClickable(
                 onLongClick = { onCategoryEvent(DeleteCategory(uiCategory)) },
-                onClick = { onCategoryEvent(NavigateToCategoryDetail(uiCategory.title)) },
+                onClick = { onCategoryEvent(NavigateToCategoryDetail(uiCategory.id)) },
             ),
         shape = RoundedCornerShape(16.dp),
         backgroundColor = backGroundColor,
