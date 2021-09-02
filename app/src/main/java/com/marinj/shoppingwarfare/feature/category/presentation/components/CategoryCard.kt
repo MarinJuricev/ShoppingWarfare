@@ -20,7 +20,7 @@ import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GroceryCard(
+fun CategoryCard(
     modifier: Modifier = Modifier,
     uiCategory: UiCategory,
     textColor: Color = MaterialTheme.typography.body1.color,

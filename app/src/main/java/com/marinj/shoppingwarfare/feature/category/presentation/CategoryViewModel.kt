@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -62,11 +61,11 @@ class CategoryViewModel @Inject constructor(
                     )
                 }
             }
-            .onCompletion { updateIsLoading(false) }
             .collect { uiCategoryList ->
                 _categoryViewState.safeUpdate(
                     _categoryViewState.value.copy(
-                        categories = uiCategoryList
+                        categories = uiCategoryList,
+                        isLoading = false,
                     )
                 )
             }

@@ -7,7 +7,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.marinj.shoppingwarfare.R.string
+import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.GetCategoryItems
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel.CategoryDetailViewModel
@@ -29,8 +32,9 @@ fun CategoryDetailPage(
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) {
-        if (viewState.isLoading) {
-            ShoppingWarfareLoadingIndicator()
+        when {
+            viewState.isLoading -> ShoppingWarfareLoadingIndicator()
+            viewState.categoryItems.isEmpty() -> ShoppingWarfareEmptyScreen(message = stringResource(string.empty_category_detail_message))
         }
     }
 }
