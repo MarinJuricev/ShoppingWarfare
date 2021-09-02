@@ -16,4 +16,7 @@
     <string name="navigate_back">Navigate back</string>
     <string name="category_deleted">Category %s was deleted</string>
     <string name="undo">Undo</string>
+    <string name="empty_category_detail_message">No category items, click the + icon and add category items</string>
+    <string name="shrug_emoji">¯\\_(ツ)_/¯</string>
+    <string name="empty_category_message">No categories created, click + to create a category.</string>
 </resources>

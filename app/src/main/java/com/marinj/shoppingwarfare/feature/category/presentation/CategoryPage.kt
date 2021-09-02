@@ -3,11 +3,7 @@ package com.marinj.shoppingwarfare.feature.category.presentation
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -28,7 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.feature.category.presentation.components.GroceryCard
+import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
+import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
+import com.marinj.shoppingwarfare.feature.category.presentation.components.CategoryGrid
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.Error
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.NavigateToCategoryDetail
@@ -95,19 +93,13 @@ fun CategoryPage(
             }
         }
     ) {
-        // TODO: Implement empty screen
-        LazyVerticalGrid(cells = GridCells.Fixed(2)) {
-            items(viewState.categories) { uiCategory ->
-                GroceryCard(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .height(200.dp),
-                    uiCategory = uiCategory,
-                    backGroundColor = uiCategory.backgroundColor,
-                    textColor = uiCategory.titleColor,
-                    onCategoryEvent = categoryViewModel::onEvent,
-                )
-            }
+        when {
+            viewState.isLoading -> ShoppingWarfareLoadingIndicator()
+            viewState.categories.isEmpty() -> ShoppingWarfareEmptyScreen(message = stringResource(R.string.empty_category_message))
+            viewState.categories.isNotEmpty() -> CategoryGrid(
+                categoryList = viewState.categories,
+                onCategoryEvent = categoryViewModel::onEvent,
+            )
         }
     }
 }

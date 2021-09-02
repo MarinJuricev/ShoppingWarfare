@@ -1,13 +1,24 @@
 package com.marinj.shoppingwarfare.feature.categorydetail.presentation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.marinj.shoppingwarfare.R.string
+import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.GetCategoryItems
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel.CategoryDetailViewModel
@@ -29,8 +40,9 @@ fun CategoryDetailPage(
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) {
-        if (viewState.isLoading) {
-            ShoppingWarfareLoadingIndicator()
+        when {
+            viewState.isLoading -> ShoppingWarfareLoadingIndicator()
+            viewState.categoryItems.isEmpty() -> ShoppingWarfareEmptyScreen(message = stringResource(string.empty_category_detail_message))
         }
     }
 }
