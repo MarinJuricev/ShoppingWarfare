@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoryDetailViewModel @Inject constructor() : BaseViewModel<CategoryDetailEvent>() {
+class CategoryDetailViewModel @Inject constructor(
+
+) : BaseViewModel<CategoryDetailEvent>() {
 
     private val _viewState = MutableStateFlow(CategoryDetailViewState())
     val viewState = _viewState.asStateFlow()
