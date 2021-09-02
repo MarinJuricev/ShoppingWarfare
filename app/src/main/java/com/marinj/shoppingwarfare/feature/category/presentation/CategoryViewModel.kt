@@ -45,7 +45,7 @@ class CategoryViewModel @Inject constructor(
         when (event) {
             CategoryEvent.GetCategories -> handleGetGroceries()
             is CategoryEvent.DeleteCategory -> handleDeleteCategory(event.uiCategory)
-            is CategoryEvent.NavigateToCategoryDetail -> handleNavigateToCategoryDetail(event.categoryName)
+            is CategoryEvent.NavigateToCategoryDetail -> handleNavigateToCategoryDetail(event.categoryId)
             is CategoryEvent.UndoCategoryDeletion -> handleUndoCategoryDeletion(event.uiCategory)
         }
     }
@@ -55,11 +55,7 @@ class CategoryViewModel @Inject constructor(
         getCategories()
             .catch { handleGetCategoriesError() }
             .map { categoryList ->
-                categoryList.map { category ->
-                    categoryToUiCategoryMapper.map(
-                        category
-                    )
-                }
+                categoryList.map { category -> categoryToUiCategoryMapper.map(category) }
             }
             .collect { uiCategoryList ->
                 _categoryViewState.safeUpdate(
@@ -72,6 +68,7 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun handleGetCategoriesError() = viewModelScope.launch {
+        updateIsLoading(isLoading = false)
         _categoryEffect.send(CategoryEffect.Error("Failed to fetch Categories, try again later."))
     }
 
@@ -90,8 +87,8 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    private fun handleNavigateToCategoryDetail(categoryName: String) = viewModelScope.launch {
-        _categoryEffect.send(CategoryEffect.NavigateToCategoryDetail(categoryName))
+    private fun handleNavigateToCategoryDetail(categoryId: String) = viewModelScope.launch {
+        _categoryEffect.send(CategoryEffect.NavigateToCategoryDetail(categoryId))
     }
 
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {
