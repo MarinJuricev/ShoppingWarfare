@@ -7,6 +7,7 @@
     <string name="user">User</string>
     <string name="category">Category</string>
     <string name="create_category">Create category</string>
+    <string name="create_category_item">Create category item</string>
     <string name="expanded">Expanded</string>
     <string name="category_name">Category name</string>
     <string name="dismiss">Dismiss</string>
