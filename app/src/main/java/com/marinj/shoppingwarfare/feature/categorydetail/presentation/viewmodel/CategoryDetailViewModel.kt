@@ -24,10 +24,8 @@ class CategoryDetailViewModel @Inject constructor() : BaseViewModel<CategoryDeta
     }
 
     private fun handleGetCategoryItems(categoryId: String) {
-
     }
 
     private fun handleCreateCategoryItem(categoryItemName: String) {
-
     }
 }

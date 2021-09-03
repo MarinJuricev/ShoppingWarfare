@@ -11,5 +11,4 @@ class GetCategoryItems @Inject constructor(
 
     operator fun invoke(categoryId: String): Flow<List<CategoryItem>> =
         categoryDetailRepository.observeCategoryItems(categoryId)
-
 }
