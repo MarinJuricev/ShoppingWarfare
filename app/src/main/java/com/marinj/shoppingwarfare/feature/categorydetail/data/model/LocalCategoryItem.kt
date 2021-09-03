@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "localCategoryItem")
 data class LocalCategoryItem(
     @PrimaryKey
-    val id: String,
+    val categoryItemId: String,
     val name: String,
 )

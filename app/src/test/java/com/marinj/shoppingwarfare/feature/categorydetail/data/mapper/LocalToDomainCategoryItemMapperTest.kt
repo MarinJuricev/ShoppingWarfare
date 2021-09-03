@@ -27,7 +27,7 @@ class LocalToDomainCategoryItemMapperTest {
     @Test
     fun `map should map id`() = runBlockingTest {
         val localCategoryItem = mockk<LocalCategoryItem>(relaxed = true).apply {
-            every { id } answers { ID }
+            every { categoryItemId } answers { ID }
         }
 
         val actualResult = sut.map(localCategoryItem)

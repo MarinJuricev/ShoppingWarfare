@@ -11,11 +11,11 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryDao {
 
     @Query("SELECT * FROM localCategory")
-    fun getCategories(): Flow<List<LocalCategory>>
+    fun observeCategories(): Flow<List<LocalCategory>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertCategory(entity: LocalCategory): Long
 
-    @Query("DELETE FROM localCategory WHERE id == :id")
+    @Query("DELETE FROM localCategory WHERE categoryId == :id")
     suspend fun deleteCategoryById(id: String)
 }

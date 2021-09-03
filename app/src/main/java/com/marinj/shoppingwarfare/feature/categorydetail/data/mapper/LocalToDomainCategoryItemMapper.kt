@@ -9,7 +9,7 @@ class LocalToDomainCategoryItemMapper : Mapper<CategoryItem, LocalCategoryItem> 
     override suspend fun map(origin: LocalCategoryItem): CategoryItem {
         return with(origin) {
             CategoryItem(
-                id,
+                categoryItemId,
                 name
             )
         }

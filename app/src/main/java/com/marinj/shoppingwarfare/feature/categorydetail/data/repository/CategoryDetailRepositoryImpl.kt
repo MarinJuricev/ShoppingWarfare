@@ -16,9 +16,11 @@ class CategoryDetailRepositoryImpl @Inject constructor(
     private val localToDomainCategoryItemMapper: Mapper<CategoryItem, LocalCategoryItem>,
 ) : CategoryDetailRepository {
 
-    override fun observeCategoryItems(categoryId: String): Flow<List<CategoryItem>> {
-        TODO("Not yet implemented")
-    }
+    override fun observeCategoryItems(categoryId: String): Flow<List<CategoryItem>> =
+        TODO()
+//        categoryDetailDao.observeCategoryItemsForGivenCategoryId().map { localCategoryItems ->
+//            localCategoryItems.map { localToDomainCategoryItemMapper.map(it) }
+//        }
 
     override suspend fun upsertCategoryItem(categoryItem: CategoryItem): Either<Failure, Unit> {
         TODO("Not yet implemented")

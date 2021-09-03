@@ -32,7 +32,7 @@ class DomainToLocalCategoryItemMapperTest {
 
         val actualResult = sut.map(categoryItem)
 
-        assertThat(actualResult.id).isEqualTo(ID)
+        assertThat(actualResult.categoryItemId).isEqualTo(ID)
     }
 
     @Test

@@ -19,7 +19,7 @@ class CategoryRepositoryImpl @Inject constructor(
     private val domainToLocalCategoryMapper: Mapper<LocalCategory, Category>,
 ) : CategoryRepository {
     override fun observeCategories(): Flow<List<Category>> =
-        categoryDao.getCategories().map { localCategoryList ->
+        categoryDao.observeCategories().map { localCategoryList ->
             localCategoryList.map { localToDomainCategoryMapper.map(it) }
         }
 

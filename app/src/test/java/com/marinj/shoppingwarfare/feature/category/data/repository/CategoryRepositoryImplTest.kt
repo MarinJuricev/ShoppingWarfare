@@ -48,7 +48,7 @@ class CategoryRepositoryImplTest {
             localToDomainCategoryMapper.map(localCategory)
         } coAnswers { category }
         coEvery {
-            categoryDao.getCategories()
+            categoryDao.observeCategories()
         } coAnswers { flow { emit(localCategoryList) } }
 
         sut.observeCategories().test {

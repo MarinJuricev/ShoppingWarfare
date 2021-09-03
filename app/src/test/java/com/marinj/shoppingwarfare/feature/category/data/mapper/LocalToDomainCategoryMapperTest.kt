@@ -29,7 +29,7 @@ class LocalToDomainCategoryMapperTest {
     @Test
     fun `map should map id`() = runBlockingTest {
         val localCategory = mockk<LocalCategory>(relaxed = true).apply {
-            every { id } answers { ID }
+            every { categoryId } answers { ID }
         }
 
         val actualResult = sut.map(localCategory)
