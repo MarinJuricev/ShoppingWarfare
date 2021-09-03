@@ -7,7 +7,6 @@ import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
@@ -26,7 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.GetCategoryItems
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.CreateCategoryItem
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryItems
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel.CategoryDetailViewModel
 import kotlinx.coroutines.launch
 
@@ -44,14 +44,26 @@ fun CategoryDetailPage(
     val viewState by categoryDetailViewModel.viewState.collectAsState()
 
     LaunchedEffect(key1 = categoryId) {
-        categoryDetailViewModel.onEvent(GetCategoryItems(categoryId))
+        categoryDetailViewModel.onEvent(OnGetCategoryItems(categoryId))
     }
 
     BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
-            Text("Hello Bottom Sheet state")
+            CreateCategoryItem(
+                onCategoryDetailEvent = { categoryDetailEvent ->
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+
+                        categoryDetailViewModel.onEvent(categoryDetailEvent)
+                    }
+                },
+            )
         },
         topBar = {
             TopAppBar {
