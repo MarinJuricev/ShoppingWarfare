@@ -5,7 +5,7 @@ import com.marinj.shoppingwarfare.feature.categorydetail.domain.repository.Categ
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetCategoryItems @Inject constructor(
+class ObserveCategoryItems @Inject constructor(
     private val categoryDetailRepository: CategoryDetailRepository,
 ) {
 

@@ -17,15 +17,15 @@ private const val CATEGORY_ID = "id"
 
 @ExperimentalTime
 @ExperimentalCoroutinesApi
-class GetCategoryItemsTest {
+class ObserveCategoryItemsTest {
 
     private val categoryDetailRepository: CategoryDetailRepository = mockk()
 
-    private lateinit var sut: GetCategoryItems
+    private lateinit var sut: ObserveCategoryItems
 
     @Before
     fun setUp() {
-        sut = GetCategoryItems(
+        sut = ObserveCategoryItems(
             categoryDetailRepository,
         )
     }

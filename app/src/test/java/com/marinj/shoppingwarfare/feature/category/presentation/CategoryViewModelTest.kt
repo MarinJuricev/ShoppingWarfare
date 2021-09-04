@@ -9,7 +9,7 @@ import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.DeleteCategory
-import com.marinj.shoppingwarfare.feature.category.domain.usecase.GetCategories
+import com.marinj.shoppingwarfare.feature.category.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
@@ -34,7 +34,7 @@ class CategoryViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val getCategories: GetCategories = mockk()
+    private val observeCategories: ObserveCategories = mockk()
     private val deleteCategory: DeleteCategory = mockk()
     private val undoCategoryDeletion: UndoCategoryDeletion = mockk()
     private val categoryToUiCategoryMapper: Mapper<UiCategory, Category> = mockk()
@@ -45,7 +45,7 @@ class CategoryViewModelTest {
     @Before
     fun setUp() {
         sut = CategoryViewModel(
-            getCategories,
+            observeCategories,
             deleteCategory,
             undoCategoryDeletion,
             categoryToUiCategoryMapper,
@@ -63,7 +63,7 @@ class CategoryViewModelTest {
             emit(listOfCategory)
         }
         coEvery {
-            getCategories()
+            observeCategories()
         } coAnswers { categoriesFlow }
         coEvery {
             categoryToUiCategoryMapper.map(category)
@@ -88,7 +88,7 @@ class CategoryViewModelTest {
             throw Exception()
         }
         coEvery {
-            getCategories()
+            observeCategories()
         } coAnswers { categoriesFlow }
 
         sut.categoryViewState.test {

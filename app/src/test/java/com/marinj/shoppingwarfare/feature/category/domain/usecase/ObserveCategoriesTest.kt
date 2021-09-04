@@ -15,15 +15,15 @@ import kotlin.time.ExperimentalTime
 
 @ExperimentalCoroutinesApi
 @ExperimentalTime
-class GetCategoriesTest {
+class ObserveCategoriesTest {
 
     private val categoryRepository: CategoryRepository = mockk()
 
-    private lateinit var sut: GetCategories
+    private lateinit var sut: ObserveCategories
 
     @Before
     fun setUp() {
-        sut = GetCategories(
+        sut = ObserveCategories(
             categoryRepository,
         )
     }

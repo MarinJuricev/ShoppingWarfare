@@ -8,7 +8,7 @@ import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.DeleteCategory
-import com.marinj.shoppingwarfare.feature.category.domain.usecase.GetCategories
+import com.marinj.shoppingwarfare.feature.category.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val getCategories: GetCategories,
+    private val observeCategories: ObserveCategories,
     private val deleteCategory: DeleteCategory,
     private val undoCategoryDeletion: UndoCategoryDeletion,
     private val categoryToUiCategoryMapper: Mapper<UiCategory, Category>,
@@ -52,7 +52,7 @@ class CategoryViewModel @Inject constructor(
 
     private fun handleGetGroceries() = viewModelScope.launch {
         updateIsLoading(isLoading = true)
-        getCategories()
+        observeCategories()
             .catch { handleGetCategoriesError() }
             .map { categoryList ->
                 categoryList.map { category -> categoryToUiCategoryMapper.map(category) }
@@ -67,7 +67,7 @@ class CategoryViewModel @Inject constructor(
             }
     }
 
-    private fun handleGetCategoriesError() = viewModelScope.launch {
+    private suspend fun handleGetCategoriesError() {
         updateIsLoading(isLoading = false)
         _categoryEffect.send(CategoryEffect.Error("Failed to fetch Categories, try again later."))
     }
