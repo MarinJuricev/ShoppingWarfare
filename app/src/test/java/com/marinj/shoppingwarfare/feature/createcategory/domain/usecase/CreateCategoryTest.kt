@@ -6,7 +6,6 @@ import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.createcategory.domain.repository.CreateCategoryRepository
-import com.marinj.shoppingwarfare.feature.createcategory.domain.validator.CategoryValidator
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +18,7 @@ private const val ID = "id"
 @ExperimentalCoroutinesApi
 class CreateCategoryTest {
 
-    private val categoryValidator: CategoryValidator = mockk()
+    private val validateCategory: ValidateCategory = mockk()
     private val createCategoryRepository: CreateCategoryRepository = mockk()
     private val uuidGenerator = { ID }
 
@@ -28,7 +27,7 @@ class CreateCategoryTest {
     @Before
     fun setUp() {
         sut = CreateCategory(
-            categoryValidator,
+            validateCategory,
             createCategoryRepository,
             uuidGenerator,
         )
@@ -42,7 +41,7 @@ class CreateCategoryTest {
             val titleColor = 2
             val failure = Failure.Unknown.buildLeft()
             coEvery {
-                categoryValidator.validate(title, categoryColor, titleColor)
+                validateCategory(title, categoryColor, titleColor)
             } coAnswers { failure }
 
             val actualResult = sut(title, categoryColor, titleColor)
@@ -58,7 +57,7 @@ class CreateCategoryTest {
             val titleColor = 2
             val success = Unit.buildRight()
             coEvery {
-                categoryValidator.validate(title, categoryColor, titleColor)
+                validateCategory(title, categoryColor, titleColor)
             } coAnswers { success }
             coEvery {
                 createCategoryRepository.createCategory(Category(ID, title, categoryColor, titleColor))

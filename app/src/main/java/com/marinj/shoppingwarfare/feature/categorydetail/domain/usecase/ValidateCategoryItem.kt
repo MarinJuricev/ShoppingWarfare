@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.createcategory.domain.validator
+package com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase
 
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
@@ -7,17 +7,13 @@ import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import javax.inject.Inject
 
-class CategoryValidator @Inject constructor() {
+class ValidateCategoryItem @Inject constructor() {
 
-    fun validate(
-        title: String?,
-        categoryColor: Int?,
-        titleColor: Int?,
+    operator fun invoke(
+        title: String?
     ): Either<Failure, Unit> {
         return when {
             title.isNullOrEmpty() -> ErrorMessage("Title can't be empty").buildLeft()
-            categoryColor == null -> ErrorMessage("Category color can't be empty").buildLeft()
-            titleColor == null -> ErrorMessage("Title color can't be empty").buildLeft()
             else -> Unit.buildRight()
         }
     }
