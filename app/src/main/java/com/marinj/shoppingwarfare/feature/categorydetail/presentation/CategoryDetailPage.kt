@@ -3,19 +3,10 @@ package com.marinj.shoppingwarfare.feature.categorydetail.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -96,7 +87,11 @@ fun CategoryDetailPage(
     ) {
         when {
             viewState.isLoading -> ShoppingWarfareLoadingIndicator()
-            viewState.categoryItems.isEmpty() -> ShoppingWarfareEmptyScreen(message = stringResource(string.empty_category_detail_message))
+            viewState.categoryItems.isEmpty() -> ShoppingWarfareEmptyScreen(
+                message = stringResource(
+                    string.empty_category_detail_message
+                )
+            )
         }
     }
 }
