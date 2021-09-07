@@ -7,7 +7,7 @@ import com.marinj.shoppingwarfare.core.result.buildRight
 import org.junit.Before
 import org.junit.Test
 
-class ValidateCategoryProductTest {
+class ValidateProductTest {
 
     private lateinit var sut: ValidateCategoryItem
 

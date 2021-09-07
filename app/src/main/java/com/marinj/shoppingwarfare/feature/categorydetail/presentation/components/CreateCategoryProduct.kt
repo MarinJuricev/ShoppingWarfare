@@ -20,6 +20,7 @@ import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.Cate
 
 @Composable
 fun CreateCategoryProduct(
+    categoryId: String,
     onCategoryDetailEvent: (CategoryDetailEvent) -> Unit,
 ) {
     var categoryItemName by remember { mutableStateOf("") }
@@ -41,7 +42,7 @@ fun CreateCategoryProduct(
         OutlinedButton(
             modifier = Modifier.padding(8.dp),
             onClick = {
-                onCategoryDetailEvent(OnCreateCategoryProduct(categoryItemName))
+                onCategoryDetailEvent(OnCreateCategoryProduct(categoryId, categoryItemName))
             },
         ) {
             Icon(
@@ -56,5 +57,5 @@ fun CreateCategoryProduct(
 @Preview
 @Composable
 fun CreateCategoryItemPreview() {
-    CreateCategoryProduct({})
+    CreateCategoryProduct("", {})
 }

@@ -5,20 +5,20 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProducts
+import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalProduct
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface CategoryDetailDao {
+interface ProductDao {
 
     @Transaction
     @Query("SELECT * FROM localCategory")
-    fun observeCategoryItemsForGivenCategoryId(): Flow<List<LocalCategoryProducts>>
+    fun observeProductsForGivenCategoryId(): Flow<List<LocalCategoryProducts>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertCategoryItem(entity: LocalCategoryProduct): Long
+    suspend fun upsertProduct(entity: LocalProduct): Long
 
-    @Query("DELETE FROM localCategoryItem WHERE categoryProductId == :id")
-    suspend fun deleteCategoryItemById(id: String)
+    @Query("DELETE FROM localProduct WHERE productId == :productId")
+    suspend fun deleteProductById(productId: String)
 }

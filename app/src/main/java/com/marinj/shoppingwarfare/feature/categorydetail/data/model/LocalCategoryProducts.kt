@@ -11,5 +11,5 @@ data class LocalCategoryProducts(
         parentColumn = "categoryId",
         entityColumn = "categoryProductId"
     )
-    val categoryProductList: List<LocalCategoryProduct>
+    val productList: List<LocalProduct>
 )

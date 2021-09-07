@@ -1,15 +1,16 @@
 package com.marinj.shoppingwarfare.feature.categorydetail.data.mapper
 
 import com.marinj.shoppingwarfare.core.mapper.Mapper
-import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProduct
-import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.CategoryProduct
+import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalProduct
+import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import javax.inject.Inject
 
-class LocalToDomainCategoryItemMapper @Inject constructor() : Mapper<CategoryProduct, LocalCategoryProduct> {
+class LocalToDomainCategoryItemMapper @Inject constructor() : Mapper<Product, LocalProduct> {
 
-    override suspend fun map(origin: LocalCategoryProduct): CategoryProduct {
+    override suspend fun map(origin: LocalProduct): Product {
         return with(origin) {
-            CategoryProduct(
+            Product(
+                productId,
                 categoryProductId,
                 name
             )

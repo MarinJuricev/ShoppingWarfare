@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.categorydetail.di
 
 import com.marinj.shoppingwarfare.core.data.ShoppingWarfareDatabase
-import com.marinj.shoppingwarfare.feature.categorydetail.data.datasource.CategoryDetailDao
+import com.marinj.shoppingwarfare.feature.categorydetail.data.datasource.ProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,5 +16,5 @@ object CategoryDetailSingletonDao {
     @Singleton
     fun provideCategoryDetailDao(
         database: ShoppingWarfareDatabase
-    ): CategoryDetailDao = database.categoryDetailDao()
+    ): ProductDao = database.productDao()
 }

@@ -3,9 +3,10 @@ package com.marinj.shoppingwarfare.feature.categorydetail.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "localCategoryItem")
-data class LocalCategoryProduct(
+@Entity(tableName = "localProduct")
+data class LocalProduct(
     @PrimaryKey
+    val productId: String,
     val categoryProductId: String,
     val name: String,
 )

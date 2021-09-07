@@ -16,11 +16,7 @@ import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.Cate
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,7 +35,10 @@ class CategoryDetailViewModel @Inject constructor(
     override fun onEvent(event: CategoryDetailEvent) {
         when (event) {
             is OnGetCategoryProducts -> handleGetCategoryProducts(event.categoryId)
-            is OnCreateCategoryProduct -> handleCreateCategoryProduct(event.categoryItemName)
+            is OnCreateCategoryProduct -> handleCreateCategoryProduct(
+                event.categoryId,
+                event.categoryItemName,
+            )
         }
     }
 
@@ -50,7 +49,7 @@ class CategoryDetailViewModel @Inject constructor(
             .collect { categoryListItems ->
                 _viewState.safeUpdate(
                     _viewState.value.copy(
-                        categoryProducts = categoryListItems,
+                        products = categoryListItems,
                         isLoading = false,
                     )
                 )
@@ -62,8 +61,11 @@ class CategoryDetailViewModel @Inject constructor(
         _viewEffect.send(Error("Failed to fetch category items, try again later."))
     }
 
-    private fun handleCreateCategoryProduct(categoryItemName: String) = viewModelScope.launch {
-        when (createProduct(categoryItemName)) {
+    private fun handleCreateCategoryProduct(
+        categoryId: String,
+        categoryItemName: String,
+    ) = viewModelScope.launch {
+        when (createProduct(categoryId, categoryItemName)) {
             is Right -> _viewEffect.send(CategoryItemCreated)
             is Left -> _viewEffect.send(Error("Could not create $categoryItemName, try again later."))
         }

@@ -16,7 +16,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
+import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.CreateCategoryProduct
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.ProductList
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel.CategoryDetailViewModel
 import kotlinx.coroutines.launch
@@ -43,14 +45,10 @@ fun CategoryDetailPage(
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
             CreateCategoryProduct(
+                categoryId = categoryId,
                 onCategoryDetailEvent = { categoryDetailEvent ->
                     coroutineScope.launch {
-                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                            bottomSheetScaffoldState.bottomSheetState.expand()
-                        } else {
-                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                        }
-
+                        bottomSheetScaffoldState.expandOrCollapse()
                         categoryDetailViewModel.onEvent(categoryDetailEvent)
                     }
                 },
@@ -66,11 +64,7 @@ fun CategoryDetailPage(
                     IconButton(
                         onClick = {
                             coroutineScope.launch {
-                                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                    bottomSheetScaffoldState.bottomSheetState.expand()
-                                } else {
-                                    bottomSheetScaffoldState.bottomSheetState.collapse()
-                                }
+                                bottomSheetScaffoldState.expandOrCollapse()
                             }
                         }
                     ) {
@@ -87,11 +81,16 @@ fun CategoryDetailPage(
     ) {
         when {
             viewState.isLoading -> ShoppingWarfareLoadingIndicator()
-            viewState.categoryProducts.isEmpty() -> ShoppingWarfareEmptyScreen(
+            viewState.products.isEmpty() -> ShoppingWarfareEmptyScreen(
                 message = stringResource(
                     string.empty_category_detail_message
                 )
             )
+            viewState.products.isNotEmpty() -> ProductList(
+                viewState.products,
+                categoryDetailViewModel::onEvent,
+            )
         }
     }
 }
+

@@ -2,7 +2,7 @@ package com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.CategoryProduct
+import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.repository.CategoryDetailRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -17,7 +17,7 @@ private const val CATEGORY_ID = "id"
 
 @ExperimentalTime
 @ExperimentalCoroutinesApi
-class ObserveCategoryProductsTest {
+class ObserveProductsTest {
 
     private val categoryDetailRepository: CategoryDetailRepository = mockk()
 
@@ -32,7 +32,7 @@ class ObserveCategoryProductsTest {
 
     @Test
     fun `invoke should return result from categoryDetailRepository observeCategoryItems`() = runBlockingTest {
-        val categoryItem = mockk<CategoryProduct>()
+        val categoryItem = mockk<Product>()
         val listOfCategoryItems = listOf(categoryItem)
         val categoryItemFlow = flow {
             emit(listOfCategoryItems)
