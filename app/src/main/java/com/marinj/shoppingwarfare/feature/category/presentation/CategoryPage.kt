@@ -2,14 +2,9 @@ package com.marinj.shoppingwarfare.feature.category.presentation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarResult
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberScaffoldState
@@ -17,19 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
+import com.marinj.shoppingwarfare.core.components.ShoppingWarfareTopBar
 import com.marinj.shoppingwarfare.feature.category.presentation.components.CategoryGrid
-import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.DeleteCategory
-import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.Error
-import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.NavigateToCategoryDetail
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.*
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.GetCategories
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.UndoCategoryDeletion
 import kotlinx.coroutines.flow.collect
@@ -75,23 +67,17 @@ fun CategoryPage(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar {
-                Text(stringResource(id = R.string.app_name))
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToCreateCategory,
-            ) {
-                Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+            ShoppingWarfareTopBar(
+                onActionClick = navigateToCreateCategory,
+                iconContent = {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = stringResource(id = R.string.create_category),
                         tint = Color.White,
                     )
                 }
-            }
-        }
+            )
+        },
     ) {
         when {
             viewState.isLoading -> ShoppingWarfareLoadingIndicator()
