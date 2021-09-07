@@ -3,12 +3,12 @@ package com.marinj.shoppingwarfare.core.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.marinj.shoppingwarfare.feature.category.data.model.LocalCategory
-import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryItem
+import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProduct
 
 @Database(
     entities = [
         LocalCategory::class,
-        LocalCategoryItem::class,
+        LocalCategoryProduct::class,
     ],
     version = 1,
     exportSchema = false,

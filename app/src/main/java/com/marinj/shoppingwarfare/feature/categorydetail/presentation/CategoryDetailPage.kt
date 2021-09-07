@@ -16,8 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.CreateCategoryItem
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryItems
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.CreateCategoryProduct
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel.CategoryDetailViewModel
 import kotlinx.coroutines.launch
 
@@ -35,14 +35,14 @@ fun CategoryDetailPage(
     val viewState by categoryDetailViewModel.viewState.collectAsState()
 
     LaunchedEffect(key1 = categoryId) {
-        categoryDetailViewModel.onEvent(OnGetCategoryItems(categoryId))
+        categoryDetailViewModel.onEvent(OnGetCategoryProducts(categoryId))
     }
 
     BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
-            CreateCategoryItem(
+            CreateCategoryProduct(
                 onCategoryDetailEvent = { categoryDetailEvent ->
                     coroutineScope.launch {
                         if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
@@ -87,7 +87,7 @@ fun CategoryDetailPage(
     ) {
         when {
             viewState.isLoading -> ShoppingWarfareLoadingIndicator()
-            viewState.categoryItems.isEmpty() -> ShoppingWarfareEmptyScreen(
+            viewState.categoryProducts.isEmpty() -> ShoppingWarfareEmptyScreen(
                 message = stringResource(
                     string.empty_category_detail_message
                 )

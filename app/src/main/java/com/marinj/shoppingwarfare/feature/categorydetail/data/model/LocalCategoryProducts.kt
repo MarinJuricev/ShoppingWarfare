@@ -4,12 +4,12 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.marinj.shoppingwarfare.feature.category.data.model.LocalCategory
 
-data class LocalCategoryItems(
+data class LocalCategoryProducts(
     @Embedded
     val category: LocalCategory,
     @Relation(
         parentColumn = "categoryId",
-        entityColumn = "categoryItemId"
+        entityColumn = "categoryProductId"
     )
-    val categoryItemList: List<LocalCategoryItem>
+    val categoryProductList: List<LocalCategoryProduct>
 )

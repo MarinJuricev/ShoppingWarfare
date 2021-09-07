@@ -2,8 +2,8 @@ package com.marinj.shoppingwarfare.feature.categorydetail.data.mapper
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.mapper.Mapper
-import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryItem
-import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.CategoryItem
+import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProduct
+import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.CategoryProduct
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,33 +15,33 @@ private const val ID = "id"
 private const val NAME = "name"
 
 @ExperimentalCoroutinesApi
-class DomainToLocalCategoryItemMapperTest {
+class LocalToDomainCategoryProductMapperTest {
 
-    private lateinit var sut: Mapper<LocalCategoryItem, CategoryItem>
+    private lateinit var sut: Mapper<CategoryProduct, LocalCategoryProduct>
 
     @Before
     fun setUp() {
-        sut = DomainToLocalCategoryItemMapper()
+        sut = LocalToDomainCategoryItemMapper()
     }
 
     @Test
     fun `map should map id`() = runBlockingTest {
-        val categoryItem = mockk<CategoryItem>(relaxed = true).apply {
-            every { id } answers { ID }
+        val localCategoryItem = mockk<LocalCategoryProduct>(relaxed = true).apply {
+            every { categoryProductId } answers { ID }
         }
 
-        val actualResult = sut.map(categoryItem)
+        val actualResult = sut.map(localCategoryItem)
 
-        assertThat(actualResult.categoryItemId).isEqualTo(ID)
+        assertThat(actualResult.id).isEqualTo(ID)
     }
 
     @Test
     fun `map should map name`() = runBlockingTest {
-        val categoryItem = mockk<CategoryItem>(relaxed = true).apply {
+        val localCategoryItem = mockk<LocalCategoryProduct>(relaxed = true).apply {
             every { name } answers { NAME }
         }
 
-        val actualResult = sut.map(categoryItem)
+        val actualResult = sut.map(localCategoryItem)
 
         assertThat(actualResult.name).isEqualTo(NAME)
     }

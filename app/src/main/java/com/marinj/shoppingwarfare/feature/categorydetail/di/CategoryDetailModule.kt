@@ -3,9 +3,9 @@ package com.marinj.shoppingwarfare.feature.categorydetail.di
 import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.feature.categorydetail.data.mapper.DomainToLocalCategoryItemMapper
 import com.marinj.shoppingwarfare.feature.categorydetail.data.mapper.LocalToDomainCategoryItemMapper
-import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryItem
+import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.data.repository.CategoryDetailRepositoryImpl
-import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.CategoryItem
+import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.CategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.repository.CategoryDetailRepository
 import dagger.Binds
 import dagger.Module
@@ -24,10 +24,10 @@ interface CategoryDetailModule {
     @Binds
     fun bindDomainToLocalCategoryItemMapper(
         mapper: DomainToLocalCategoryItemMapper,
-    ): Mapper<LocalCategoryItem, CategoryItem>
+    ): Mapper<LocalCategoryProduct, CategoryProduct>
 
     @Binds
     fun bindLocalToDomainCategoryItemMapper(
         mapper: LocalToDomainCategoryItemMapper,
-    ): Mapper<CategoryItem, LocalCategoryItem>
+    ): Mapper<CategoryProduct, LocalCategoryProduct>
 }

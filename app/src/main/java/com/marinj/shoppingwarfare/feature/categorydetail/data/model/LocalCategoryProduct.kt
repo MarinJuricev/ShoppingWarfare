@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "localCategoryItem")
-data class LocalCategoryItem(
+data class LocalCategoryProduct(
     @PrimaryKey
-    val categoryItemId: String,
+    val categoryProductId: String,
     val name: String,
 )

@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnCreateCategoryItem
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnCreateCategoryProduct
 
 @Composable
-fun CreateCategoryItem(
+fun CreateCategoryProduct(
     onCategoryDetailEvent: (CategoryDetailEvent) -> Unit,
 ) {
     var categoryItemName by remember { mutableStateOf("") }
@@ -41,7 +41,7 @@ fun CreateCategoryItem(
         OutlinedButton(
             modifier = Modifier.padding(8.dp),
             onClick = {
-                onCategoryDetailEvent(OnCreateCategoryItem(categoryItemName))
+                onCategoryDetailEvent(OnCreateCategoryProduct(categoryItemName))
             },
         ) {
             Icon(
@@ -56,5 +56,5 @@ fun CreateCategoryItem(
 @Preview
 @Composable
 fun CreateCategoryItemPreview() {
-    CreateCategoryItem({})
+    CreateCategoryProduct({})
 }

@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.CategoryItem
+import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.CategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.repository.CategoryDetailRepository
 import io.mockk.coEvery
 import io.mockk.every
@@ -18,19 +18,19 @@ private const val UUID = "id"
 private const val CATEGORY_ITEM_TITLE = "title"
 
 @ExperimentalCoroutinesApi
-class CreateCategoryItemTest {
+class CreateCategoryProductTest {
 
     private val validateCategoryItem: ValidateCategoryItem = mockk()
     private val uuidGenerator: () -> String = mockk()
     private val categoryDetailRepository: CategoryDetailRepository = mockk()
 
-    private lateinit var sut: CreateCategoryItem
+    private lateinit var sut: CreateProduct
 
     @Before
     fun setUp() {
         every { uuidGenerator() } answers { UUID }
 
-        sut = CreateCategoryItem(
+        sut = CreateProduct(
             validateCategoryItem,
             uuidGenerator,
             categoryDetailRepository,
@@ -54,12 +54,12 @@ class CreateCategoryItemTest {
         runBlockingTest {
             val repositoryLeft = Failure.Unknown.buildLeft()
             val validatorRight = Unit.buildRight()
-            val categoryItem = CategoryItem(UUID, CATEGORY_ITEM_TITLE)
+            val categoryItem = CategoryProduct(UUID, CATEGORY_ITEM_TITLE)
             coEvery {
                 validateCategoryItem(CATEGORY_ITEM_TITLE)
             } coAnswers { validatorRight }
             coEvery {
-                categoryDetailRepository.upsertCategoryItem(categoryItem)
+                categoryDetailRepository.upsertCategoryProduct(categoryItem)
             } coAnswers { repositoryLeft }
 
             val actualResult = sut(CATEGORY_ITEM_TITLE)
@@ -72,12 +72,12 @@ class CreateCategoryItemTest {
         runBlockingTest {
             val repositoryRight = Unit.buildRight()
             val validatorRight = Unit.buildRight()
-            val categoryItem = CategoryItem(UUID, CATEGORY_ITEM_TITLE)
+            val categoryItem = CategoryProduct(UUID, CATEGORY_ITEM_TITLE)
             coEvery {
                 validateCategoryItem(CATEGORY_ITEM_TITLE)
             } coAnswers { validatorRight }
             coEvery {
-                categoryDetailRepository.upsertCategoryItem(categoryItem)
+                categoryDetailRepository.upsertCategoryProduct(categoryItem)
             } coAnswers { repositoryRight }
 
             val actualResult = sut(CATEGORY_ITEM_TITLE)
