@@ -39,6 +39,7 @@ class CategoryDetailViewModel @Inject constructor(
                 event.categoryId,
                 event.categoryItemName,
             )
+            is CategoryDetailEvent.OnProductClicked -> TODO()
         }
     }
 
