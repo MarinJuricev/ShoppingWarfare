@@ -21,7 +21,9 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareTopBar
 import com.marinj.shoppingwarfare.feature.category.presentation.components.CategoryGrid
-import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.*
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.DeleteCategory
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.Error
+import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.NavigateToCategoryDetail
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.GetCategories
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent.UndoCategoryDeletion
 import kotlinx.coroutines.flow.collect

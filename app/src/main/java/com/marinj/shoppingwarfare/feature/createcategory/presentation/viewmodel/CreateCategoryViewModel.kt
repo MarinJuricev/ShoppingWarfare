@@ -13,7 +13,10 @@ import com.marinj.shoppingwarfare.feature.createcategory.domain.usecase.CreateCa
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.*
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnTitleColorChanged
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -72,7 +75,10 @@ class CreateCategoryViewModel @Inject constructor(
         val categoryName = _createCategoryViewState.value.categoryName
         val categoryColor = _createCategoryViewState.value.backgroundColor
         val titleColor = _createCategoryViewState.value.titleColor
-        when (val result = createCategory(categoryName, categoryColor?.toArgb(), titleColor?.toArgb())) {
+        when (
+            val result =
+                createCategory(categoryName, categoryColor?.toArgb(), titleColor?.toArgb())
+        ) {
             is Left -> _createCategoryEffect.send(
                 failureToCreateCategoryEffectMapper.map(result.error)
             )
