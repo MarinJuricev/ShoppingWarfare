@@ -20,7 +20,7 @@ class CategoryDetailRepositoryImpl @Inject constructor(
 ) : CategoryDetailRepository {
 
     override fun observeCategoryProducts(categoryId: String): Flow<List<Product>> =
-        productDao.observeProductsForGivenCategoryId()
+        productDao.observeProductsForGivenCategoryId(categoryId)
             .map { localCategoryItems ->
                 localCategoryItems.flatMap {
                     it.productList.map {

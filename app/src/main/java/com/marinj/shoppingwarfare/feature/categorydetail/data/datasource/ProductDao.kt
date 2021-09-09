@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.Flow
 interface ProductDao {
 
     @Transaction
-    @Query("SELECT * FROM localCategory")
-    fun observeProductsForGivenCategoryId(): Flow<List<LocalCategoryProducts>>
+    @Query("SELECT * FROM localCategory WHERE categoryId == :categoryId")
+    fun observeProductsForGivenCategoryId(categoryId: String): Flow<List<LocalCategoryProducts>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertProduct(entity: LocalProduct): Long
