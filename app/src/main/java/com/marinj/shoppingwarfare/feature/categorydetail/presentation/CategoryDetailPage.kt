@@ -62,7 +62,7 @@ fun CategoryDetailPage(
                 )
                 is ProductDeleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
-                        string.product_deleted,
+                        string.deleted_item,
                         viewEffect.product.name,
                     ),
                     actionLabel = currentContext.getString(string.undo)

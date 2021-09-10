@@ -8,7 +8,6 @@ private val availableColorList = listOf(
     Color.DarkGray,
     Color.Gray,
     Color.Green,
-    Color.LightGray,
     Color.Magenta,
     Color.Red,
 )

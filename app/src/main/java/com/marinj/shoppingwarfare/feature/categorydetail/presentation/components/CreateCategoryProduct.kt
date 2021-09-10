@@ -45,7 +45,7 @@ fun CreateCategoryProduct(
             onValueChange = { updatedCategoryItemName ->
                 categoryItemName = updatedCategoryItemName
             },
-            label = { Text(stringResource(R.string.category_item_name)) },
+            label = { Text(stringResource(R.string.product_name)) },
         )
         OutlinedButton(
             modifier = Modifier.padding(8.dp),

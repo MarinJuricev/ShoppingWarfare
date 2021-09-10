@@ -65,7 +65,7 @@ fun ProductList(
                             painter = painterResource(id = R.drawable.delete_icon),
                             tint = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White,
                             contentDescription = stringResource(
-                                R.string.product_deleted,
+                                R.string.deleted_item,
                                 product.name
                             )
                         )
