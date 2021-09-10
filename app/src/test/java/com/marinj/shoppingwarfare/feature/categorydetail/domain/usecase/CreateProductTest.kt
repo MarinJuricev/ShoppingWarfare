@@ -21,7 +21,7 @@ private const val CATEGORY_ITEM_TITLE = "title"
 @ExperimentalCoroutinesApi
 class CreateProductTest {
 
-    private val validateCategoryItem: ValidateCategoryItem = mockk()
+    private val validateProduct: ValidateProduct = mockk()
     private val uuidGenerator: () -> String = mockk()
     private val categoryDetailRepository: CategoryDetailRepository = mockk()
 
@@ -32,7 +32,7 @@ class CreateProductTest {
         every { uuidGenerator() } answers { UUID }
 
         sut = CreateProduct(
-            validateCategoryItem,
+            validateProduct,
             uuidGenerator,
             categoryDetailRepository,
         )
@@ -42,7 +42,7 @@ class CreateProductTest {
     fun `invoke should return Left when validateCategoryItem returns Left`() = runBlockingTest {
         val left = Failure.Unknown.buildLeft()
         coEvery {
-            validateCategoryItem(CATEGORY_ITEM_TITLE)
+            validateProduct(CATEGORY_ITEM_TITLE)
         } coAnswers { left }
 
         val actualResult = sut(CATEGORY_ID, CATEGORY_ITEM_TITLE)
@@ -57,7 +57,7 @@ class CreateProductTest {
             val validatorRight = Unit.buildRight()
             val categoryItem = Product(UUID, CATEGORY_ID, CATEGORY_ITEM_TITLE)
             coEvery {
-                validateCategoryItem(CATEGORY_ITEM_TITLE)
+                validateProduct(CATEGORY_ITEM_TITLE)
             } coAnswers { validatorRight }
             coEvery {
                 categoryDetailRepository.upsertCategoryProduct(categoryItem)
@@ -75,7 +75,7 @@ class CreateProductTest {
             val validatorRight = Unit.buildRight()
             val categoryItem = Product(UUID, CATEGORY_ID, CATEGORY_ITEM_TITLE)
             coEvery {
-                validateCategoryItem(CATEGORY_ITEM_TITLE)
+                validateProduct(CATEGORY_ITEM_TITLE)
             } coAnswers { validatorRight }
             coEvery {
                 categoryDetailRepository.upsertCategoryProduct(categoryItem)

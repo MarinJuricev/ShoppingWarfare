@@ -9,11 +9,11 @@ import org.junit.Test
 
 class ValidateProductTest {
 
-    private lateinit var sut: ValidateCategoryItem
+    private lateinit var sut: ValidateProduct
 
     @Before
     fun setUp() {
-        sut = ValidateCategoryItem()
+        sut = ValidateProduct()
     }
 
     @Test

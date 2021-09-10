@@ -8,4 +8,5 @@ sealed class CategoryDetailEvent {
         CategoryDetailEvent()
 
     data class OnProductClicked(val product: Product) : CategoryDetailEvent()
+    data class OnProductDelete(val product: Product) : CategoryDetailEvent()
 }

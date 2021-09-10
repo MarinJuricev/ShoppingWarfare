@@ -7,7 +7,7 @@ import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import javax.inject.Inject
 
-class ValidateCategoryItem @Inject constructor() {
+class ValidateProduct @Inject constructor() {
 
     operator fun invoke(
         title: String?

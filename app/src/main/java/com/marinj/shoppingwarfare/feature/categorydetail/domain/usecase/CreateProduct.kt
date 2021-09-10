@@ -9,22 +9,22 @@ import com.marinj.shoppingwarfare.feature.categorydetail.domain.repository.Categ
 import javax.inject.Inject
 
 class CreateProduct @Inject constructor(
-    private val validateCategoryItem: ValidateCategoryItem,
+    private val validateProduct: ValidateProduct,
     private val uuidGenerator: () -> String,
     private val categoryDetailRepository: CategoryDetailRepository,
 ) {
 
     suspend operator fun invoke(
         categoryId: String,
-        categoryItemTitle: String?,
+        productName: String?,
     ): Either<Failure, Unit> {
-        return when (val result = validateCategoryItem(categoryItemTitle)) {
+        return when (val result = validateProduct(productName)) {
             is Left -> result
             is Right -> categoryDetailRepository.upsertCategoryProduct(
                 Product(
                     id = uuidGenerator(),
                     categoryId = categoryId,
-                    name = categoryItemTitle!!
+                    name = productName!!
                 )
             )
         }
