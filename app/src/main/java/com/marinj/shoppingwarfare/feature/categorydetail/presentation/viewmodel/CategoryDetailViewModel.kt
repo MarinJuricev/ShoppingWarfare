@@ -11,12 +11,12 @@ import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.DeletePr
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.ObserveCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.Error
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.ProductCreated
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnCreateCategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnProductClicked
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnProductDelete
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.RestoreProductDeletion
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,7 +40,7 @@ class CategoryDetailViewModel @Inject constructor(
     val viewState = _viewState.asStateFlow()
 
     private val _viewEffect = Channel<CategoryDetailEffect>()
-    private val viewEffect = _viewEffect.consumeAsFlow()
+    val viewEffect = _viewEffect.consumeAsFlow()
 
     override fun onEvent(event: CategoryDetailEvent) {
         when (event) {
@@ -48,7 +49,8 @@ class CategoryDetailViewModel @Inject constructor(
                 event.categoryId,
                 event.categoryItemName,
             )
-            is OnProductDelete -> handleProductDelete(event.product)
+            is OnProductDelete -> handleConfirmProductDeletion(event.product)
+            is RestoreProductDeletion -> handleRestoreProductDeletion(event.product)
             is OnProductClicked -> TODO()
         }
     }
@@ -77,14 +79,18 @@ class CategoryDetailViewModel @Inject constructor(
         productName: String,
     ) = viewModelScope.launch {
         when (createProduct(categoryId, productName)) {
-            is Right -> _viewEffect.send(ProductCreated(productName))
+            is Right -> Timber.d("Product created with: $categoryId and $productName")
             is Left -> _viewEffect.send(Error("Could not create $productName, try again later."))
         }
     }
 
-    private fun handleProductDelete(product: Product) = viewModelScope.launch {
+    private fun handleRestoreProductDeletion(product: Product) = viewModelScope.launch {
+        handleCreateCategoryProduct(categoryId = product.categoryId, productName = product.name)
+    }
+
+    private fun handleConfirmProductDeletion(product: Product) = viewModelScope.launch {
         when (deleteProduct(product.id)) {
-            is Right -> _viewEffect.send(CategoryDetailEffect.ProductDeleted(product.name))
+            is Right -> _viewEffect.send(CategoryDetailEffect.ProductDeleted(product))
             is Left -> _viewEffect.send(Error("Could not delete ${product.name}, try again later."))
         }
     }

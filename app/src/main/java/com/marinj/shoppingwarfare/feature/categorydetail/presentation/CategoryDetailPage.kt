@@ -5,6 +5,7 @@ import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberBottomSheetScaffoldState
@@ -15,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,8 +27,12 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareTopBar
 import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.CreateCategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.ProductList
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.Error
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.RestoreProductDeletion
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel.CategoryDetailViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 const val CATEGORY_ID = "categoryId"
@@ -40,10 +46,33 @@ fun CategoryDetailPage(
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val currentContext = LocalContext.current
     val viewState by categoryDetailViewModel.viewState.collectAsState()
 
     LaunchedEffect(key1 = categoryId) {
         categoryDetailViewModel.onEvent(OnGetCategoryProducts(categoryId))
+    }
+
+    LaunchedEffect(key1 = categoryDetailViewModel.viewEffect) {
+        categoryDetailViewModel.viewEffect.collect { viewEffect ->
+            when (viewEffect) {
+                is Error -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                    message = viewEffect.errorMessage,
+                    actionLabel = currentContext.getString(string.dismiss)
+                )
+                is ProductDeleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                    message = currentContext.getString(
+                        string.product_deleted,
+                        viewEffect.product.name,
+                    ),
+                    actionLabel = currentContext.getString(string.undo)
+                )
+            }.also { snackBarResult ->
+                if (viewEffect is ProductDeleted && snackBarResult == SnackbarResult.ActionPerformed) {
+                    categoryDetailViewModel.onEvent(RestoreProductDeletion(viewEffect.product))
+                }
+            }
+        }
     }
 
     BottomSheetScaffold(

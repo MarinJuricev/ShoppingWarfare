@@ -22,4 +22,8 @@
     <string name="empty_category_message">No categories created, click + to create a category.</string>
     <string name="category_item_name">Category Item Name</string>
     <string name="product_name">Product name:</string>
+    <string name="product_created">Product created %s</string>
+    <string name="product_deleted">Deleted %s</string>
+    <string name="ok">OK</string>
+    <string name="delete_confirm">Are you sure you want to delete this product?</string>
 </resources>

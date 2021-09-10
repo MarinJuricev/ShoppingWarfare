@@ -10,6 +10,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -38,9 +39,9 @@ const val CREATE_CATEGORY_ROUTE = "createCategory"
 fun CreateCategoryPage(
     createCategoryViewModel: CreateCategoryViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val viewState by createCategoryViewModel.createCategoryViewState.collectAsState()
-    val scaffoldState = rememberScaffoldState()
     val currentContext = LocalContext.current
 
     LaunchedEffect(key1 = createCategoryViewModel.createCategoryEffect) {
