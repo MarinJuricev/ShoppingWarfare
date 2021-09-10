@@ -22,7 +22,8 @@ fun ShoppingWarfareEmptyScreen(message: String) {
     Card(
         modifier = Modifier
             .fillMaxSize()
-            .wrapContentSize(),
+            .wrapContentSize()
+            .padding(horizontal = 16.dp),
         elevation = 4.dp,
         backgroundColor = MaterialTheme.colors.primary,
     ) {

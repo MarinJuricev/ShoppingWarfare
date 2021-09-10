@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryDetailRepository {
     fun observeCategoryProducts(categoryId: String): Flow<List<Product>>
     suspend fun upsertCategoryProduct(product: Product): Either<Failure, Unit>
-    suspend fun deleteCategoryProductById(categoryProductId: String): Either<Failure, Unit>
+    suspend fun deleteCategoryProductById(productId: String): Either<Failure, Unit>
 }

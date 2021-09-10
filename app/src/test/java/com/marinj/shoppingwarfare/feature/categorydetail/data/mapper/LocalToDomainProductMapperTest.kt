@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.categorydetail.data.mapper
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.mapper.Mapper
+import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import io.mockk.every
@@ -18,43 +19,58 @@ private const val NAME = "name"
 @ExperimentalCoroutinesApi
 class LocalToDomainProductMapperTest {
 
-    private lateinit var sut: Mapper<Product, LocalProduct>
+    private lateinit var sut: Mapper<List<Product>, List<LocalCategoryProducts>>
 
     @Before
     fun setUp() {
-        sut = LocalToDomainCategoryItemMapper()
+        sut = LocalCategoryProductsListToDomainProductMapper()
     }
 
     @Test
     fun `map should map productId`() = runBlockingTest {
-        val localCategoryItem = mockk<LocalProduct>(relaxed = true).apply {
+        val localProduct = mockk<LocalProduct>(relaxed = true).apply {
             every { productId } answers { ID }
         }
+        val listOfLocalProducts = listOf(localProduct)
+        val localCategoryProducts = mockk<LocalCategoryProducts>(relaxed = true).apply {
+            every { productList } answers { listOfLocalProducts }
+        }
+        val listOfLocalCategoryProducts = listOf(localCategoryProducts)
 
-        val actualResult = sut.map(localCategoryItem)
+        val actualResult = sut.map(listOfLocalCategoryProducts)
 
-        assertThat(actualResult.id).isEqualTo(ID)
+        assertThat(actualResult.first().id).isEqualTo(ID)
     }
 
     @Test
     fun `map should map categoryProductId`() = runBlockingTest {
-        val localCategoryItem = mockk<LocalProduct>(relaxed = true).apply {
+        val localProduct = mockk<LocalProduct>(relaxed = true).apply {
             every { categoryProductId } answers { CATEGORY_ID }
         }
+        val listOfLocalProducts = listOf(localProduct)
+        val localCategoryProducts = mockk<LocalCategoryProducts>(relaxed = true).apply {
+            every { productList } answers { listOfLocalProducts }
+        }
+        val listOfLocalCategoryProducts = listOf(localCategoryProducts)
 
-        val actualResult = sut.map(localCategoryItem)
+        val actualResult = sut.map(listOfLocalCategoryProducts)
 
-        assertThat(actualResult.categoryId).isEqualTo(CATEGORY_ID)
+        assertThat(actualResult.first().categoryId).isEqualTo(CATEGORY_ID)
     }
 
     @Test
     fun `map should map name`() = runBlockingTest {
-        val localCategoryItem = mockk<LocalProduct>(relaxed = true).apply {
+        val localProduct = mockk<LocalProduct>(relaxed = true).apply {
             every { name } answers { NAME }
         }
+        val listOfLocalProducts = listOf(localProduct)
+        val localCategoryProducts = mockk<LocalCategoryProducts>(relaxed = true).apply {
+            every { productList } answers { listOfLocalProducts }
+        }
+        val listOfLocalCategoryProducts = listOf(localCategoryProducts)
 
-        val actualResult = sut.map(localCategoryItem)
+        val actualResult = sut.map(listOfLocalCategoryProducts)
 
-        assertThat(actualResult.name).isEqualTo(NAME)
+        assertThat(actualResult.first().name).isEqualTo(NAME)
     }
 }

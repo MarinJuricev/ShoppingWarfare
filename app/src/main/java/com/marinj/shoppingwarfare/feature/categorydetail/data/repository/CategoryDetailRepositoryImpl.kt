@@ -6,6 +6,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.categorydetail.data.datasource.ProductDao
+import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.repository.CategoryDetailRepository
@@ -16,32 +17,21 @@ import javax.inject.Inject
 class CategoryDetailRepositoryImpl @Inject constructor(
     private val productDao: ProductDao,
     private val domainToLocalProductMapper: Mapper<LocalProduct, Product>,
-    private val localToDomainProductMapper: Mapper<Product, LocalProduct>,
+    private val localCategoryProductsListToDomainProductMapper: Mapper<List<Product>, List<LocalCategoryProducts>>,
 ) : CategoryDetailRepository {
 
     override fun observeCategoryProducts(categoryId: String): Flow<List<Product>> =
         productDao.observeProductsForGivenCategoryId(categoryId)
-            .map { localCategoryItems ->
-                localCategoryItems.flatMap {
-                    it.productList.map {
-                        Product(
-                            it.productId,
-                            it.categoryProductId,
-                            it.name,
-                        )
-                    }
-                }
-            }
+            .map { localCategoryProductsListToDomainProductMapper.map(it) }
 
     override suspend fun upsertCategoryProduct(product: Product): Either<Failure, Unit> {
-        val localCategoryItem = domainToLocalProductMapper.map(product)
-        return when (productDao.upsertProduct(localCategoryItem)) {
+        val localProduct = domainToLocalProductMapper.map(product)
+        return when (productDao.upsertProduct(localProduct)) {
             0L -> Failure.ErrorMessage("Error while adding new category product").buildLeft()
             else -> Unit.buildRight()
         }
     }
 
-    override suspend fun deleteCategoryProductById(categoryProductId: String): Either<Failure, Unit> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun deleteCategoryProductById(productId: String): Either<Failure, Unit> =
+        productDao.deleteProductById(productId).buildRight()
 }

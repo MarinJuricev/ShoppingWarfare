@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.categorydetail.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons.Filled
@@ -36,8 +37,8 @@ const val CATEGORY_DETAIL_ROUTE = "categoryDetail/{$CATEGORY_ID}"
 fun CategoryDetailPage(
     categoryId: String,
     categoryDetailViewModel: CategoryDetailViewModel = hiltViewModel(),
+    bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
 ) {
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     val viewState by categoryDetailViewModel.viewState.collectAsState()
 
