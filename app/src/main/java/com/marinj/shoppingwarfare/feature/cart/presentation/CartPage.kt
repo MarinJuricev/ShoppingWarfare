@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.cart
+package com.marinj.shoppingwarfare.feature.cart.presentation
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

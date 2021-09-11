@@ -27,6 +27,7 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareTopBar
 import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.CreateCategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.ProductList
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.Error
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
@@ -66,6 +67,12 @@ fun CategoryDetailPage(
                         viewEffect.product.name,
                     ),
                     actionLabel = currentContext.getString(string.undo)
+                )
+                is CategoryDetailEffect.AddedToCart -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                    message = currentContext.getString(
+                        string.cart_item_added,
+                        viewEffect.product.name,
+                    ),
                 )
             }.also { snackBarResult ->
                 if (viewEffect is ProductDeleted && snackBarResult == SnackbarResult.ActionPerformed) {

@@ -18,7 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.marinj.shoppingwarfare.feature.cart.CartPage
+import com.marinj.shoppingwarfare.feature.cart.presentation.CartPage
 import com.marinj.shoppingwarfare.feature.category.presentation.CategoryPage
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_DETAIL_ROUTE
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_ID

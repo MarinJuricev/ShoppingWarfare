@@ -1,28 +1,38 @@
 <resources>
     <string name="app_name">ShoppingWarfare</string>
 
+    <string name="expanded">Expanded</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="success">Success</string>
+    <string name="navigate_back">Navigate back</string>
+    <string name="undo">Undo</string>
+    <string name="shrug_emoji">¯\\_(ツ)_/¯</string>
+    <string name="deleted_item">Deleted %s</string>
+    <string name="ok">OK</string>
+
+    <!-- Category -->
+    <!-- TODO Do we need this or is this just category ? -->
     <string name="grocery">Grocery</string>
-    <string name="cart">Cart</string>
-    <string name="history">History</string>
-    <string name="user">User</string>
     <string name="category">Category</string>
     <string name="create_category">Create category</string>
     <string name="create_category_item">Create category item</string>
-    <string name="expanded">Expanded</string>
     <string name="category_name">Category name</string>
-    <string name="dismiss">Dismiss</string>
     <string name="category_background_color">Category background color</string>
     <string name="category_title_color">Category title color</string>
-    <string name="success">Success</string>
-    <string name="navigate_back">Navigate back</string>
     <string name="category_deleted">Category %s was deleted</string>
-    <string name="undo">Undo</string>
     <string name="empty_category_detail_message">No category items, click the + icon and add category items</string>
-    <string name="shrug_emoji">¯\\_(ツ)_/¯</string>
     <string name="empty_category_message">No categories created, click + to create a category.</string>
     <string name="product_name">Product name:</string>
     <string name="product_created">Product created %s</string>
-    <string name="deleted_item">Deleted %s</string>
-    <string name="ok">OK</string>
     <string name="delete_confirm">Are you sure you want to delete this product?</string>
+    <string name="cart_item_added">%s successfully added to cart</string>
+
+    <!-- Cart -->
+    <string name="cart">Cart</string>
+
+    <!-- History-->
+    <string name="history">History</string>
+
+    <!-- User -->
+    <string name="user">User</string>
 </resources>

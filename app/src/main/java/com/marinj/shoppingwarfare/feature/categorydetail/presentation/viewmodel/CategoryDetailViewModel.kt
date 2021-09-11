@@ -3,14 +3,19 @@ package com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
+import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
+import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.CreateProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.ObserveCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.AddedToCart
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.Error
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnCreateCategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
@@ -34,6 +39,8 @@ class CategoryDetailViewModel @Inject constructor(
     private val observeCategoryProducts: ObserveCategoryProducts,
     private val createProduct: CreateProduct,
     private val deleteProduct: DeleteProduct,
+    private val productToCartItemMapper: Mapper<CartItem, Product>,
+    private val addToCart: AddToCart,
 ) : BaseViewModel<CategoryDetailEvent>() {
 
     private val _viewState = MutableStateFlow(CategoryDetailViewState())
@@ -51,7 +58,7 @@ class CategoryDetailViewModel @Inject constructor(
             )
             is OnProductDelete -> handleConfirmProductDeletion(event.product)
             is RestoreProductDeletion -> handleRestoreProductDeletion(event.product)
-            is OnProductClicked -> TODO()
+            is OnProductClicked -> handleProductClicked(event.product)
         }
     }
 
@@ -59,10 +66,10 @@ class CategoryDetailViewModel @Inject constructor(
         updateIsLoading(isLoading = true)
         observeCategoryProducts(categoryId)
             .catch { handleGetCategoriesError() }
-            .collect { categoryListItems ->
+            .collect { products ->
                 _viewState.safeUpdate(
                     _viewState.value.copy(
-                        products = categoryListItems,
+                        products = products,
                         isLoading = false,
                     )
                 )
@@ -90,8 +97,16 @@ class CategoryDetailViewModel @Inject constructor(
 
     private fun handleConfirmProductDeletion(product: Product) = viewModelScope.launch {
         when (deleteProduct(product.id)) {
-            is Right -> _viewEffect.send(CategoryDetailEffect.ProductDeleted(product))
+            is Right -> _viewEffect.send(ProductDeleted(product))
             is Left -> _viewEffect.send(Error("Could not delete ${product.name}, try again later."))
+        }
+    }
+
+    private fun handleProductClicked(product: Product) = viewModelScope.launch {
+        val categoryItem = productToCartItemMapper.map(product)
+        when (addToCart(categoryItem)) {
+            is Right -> _viewEffect.send(AddedToCart(product))
+            is Left -> _viewEffect.send(Error("Could not add ${product.name} to Cart, try again later."))
         }
     }
 
