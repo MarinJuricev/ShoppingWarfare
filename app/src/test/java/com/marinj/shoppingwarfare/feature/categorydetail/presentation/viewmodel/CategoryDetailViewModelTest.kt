@@ -10,6 +10,7 @@ import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.CreateProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.ObserveCategoryProducts
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -69,6 +70,29 @@ class CategoryDetailViewModelTest {
                 val viewState = awaitItem()
                 assertThat(viewState.products).isEqualTo(productList)
                 assertThat(viewState.isLoading).isFalse()
+            }
+        }
+
+    @Test
+    fun `should update viewEffect with Error when OnGetCategoryProducts is provided and emits an exception`() =
+        runBlockingTest {
+            coEvery {
+                observeCategoryProducts(CATEGORY_ID)
+            } coAnswers { flow { throw Exception() } }
+
+            sut.viewState.test {
+                val initialViewState = awaitItem()
+                assertThat(initialViewState.products).isEmpty()
+                assertThat(initialViewState.isLoading).isTrue()
+
+                sut.onEvent(OnGetCategoryProducts(CATEGORY_ID))
+
+                val viewState = awaitItem()
+
+                assertThat(viewState.isLoading).isFalse()
+                sut.viewEffect.test {
+                    assertThat(awaitItem()).isEqualTo(CategoryDetailEffect.Error("Failed to fetch category items, try again later."))
+                }
             }
         }
 }
