@@ -54,9 +54,9 @@ class CategoryDetailViewModel @Inject constructor(
             is OnGetCategoryProducts -> handleGetCategoryProducts(event.categoryId)
             is OnCreateCategoryProduct -> handleCreateCategoryProduct(
                 event.categoryId,
-                event.categoryItemName,
+                event.productName,
             )
-            is OnProductDelete -> handleConfirmProductDeletion(event.product)
+            is OnProductDelete -> handleProductDeletion(event.product)
             is RestoreProductDeletion -> handleRestoreProductDeletion(event.product)
             is OnProductClicked -> handleProductClicked(event.product)
         }
@@ -95,7 +95,7 @@ class CategoryDetailViewModel @Inject constructor(
         handleCreateCategoryProduct(categoryId = product.categoryId, productName = product.name)
     }
 
-    private fun handleConfirmProductDeletion(product: Product) = viewModelScope.launch {
+    private fun handleProductDeletion(product: Product) = viewModelScope.launch {
         when (deleteProduct(product.id)) {
             is Right -> _viewEffect.send(ProductDeleted(product))
             is Left -> _viewEffect.send(Error("Could not delete ${product.name}, try again later."))
@@ -103,8 +103,8 @@ class CategoryDetailViewModel @Inject constructor(
     }
 
     private fun handleProductClicked(product: Product) = viewModelScope.launch {
-        val categoryItem = productToCartItemMapper.map(product)
-        when (addToCart(categoryItem)) {
+        val cartItem = productToCartItemMapper.map(product)
+        when (addToCart(cartItem)) {
             is Right -> _viewEffect.send(AddedToCart(product))
             is Left -> _viewEffect.send(Error("Could not add ${product.name} to Cart, try again later."))
         }
