@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun ShoppingWarfareTopBar(
-    onActionClick: () -> Unit,
-    iconContent: @Composable () -> Unit,
+    onActionClick: () -> Unit = {},
+    iconContent: @Composable () -> Unit = {},
 ) {
     TopAppBar {
         Column(
