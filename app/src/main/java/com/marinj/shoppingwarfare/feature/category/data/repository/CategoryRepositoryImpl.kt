@@ -26,6 +26,7 @@ class CategoryRepositoryImpl @Inject constructor(
     override suspend fun upsertCategory(category: Category): Either<Failure, Unit> {
         val localCategory = domainToLocalCategoryMapper.map(category)
         return when (categoryDao.upsertCategory(localCategory)) {
+            // TODO Insert the category name instead of default new category category.name
             0L -> Failure.ErrorMessage("Error while adding new category").buildLeft()
             else -> Unit.buildRight()
         }
