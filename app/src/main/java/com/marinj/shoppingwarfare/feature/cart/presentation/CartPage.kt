@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,6 +20,8 @@ import com.marinj.shoppingwarfare.core.components.DottedLine
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareTopBar
+import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 
 @Composable
 fun CartPage(
@@ -26,6 +29,13 @@ fun CartPage(
 ) {
 
     val viewState by cartViewModel.viewState.collectAsState()
+
+    LaunchedEffect(
+        key1 = Unit,
+        block = {
+            cartViewModel.onEvent(OnGetCartItems)
+        }
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -45,6 +55,10 @@ fun CartPage(
                         message = stringResource(
                             R.string.empty_cart_message
                         )
+                    )
+                    viewState.cartItems.isNotEmpty() -> CartItemList(
+                        cartItems = viewState.cartItems,
+                        onCartEvent = cartViewModel::onEvent,
                     )
                 }
             }
