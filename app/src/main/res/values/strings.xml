@@ -36,4 +36,6 @@
 
     <!-- User -->
     <string name="user">User</string>
+    <string name="decrease_quantity">Decrease quantity</string>
+    <string name="increase_quantity">Increase quantity</string>
 </resources>
