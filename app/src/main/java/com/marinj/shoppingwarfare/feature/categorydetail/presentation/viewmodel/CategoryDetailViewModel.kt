@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,7 +47,7 @@ class CategoryDetailViewModel @Inject constructor(
     val viewState = _viewState.asStateFlow()
 
     private val _viewEffect = Channel<CategoryDetailEffect>()
-    val viewEffect = _viewEffect.consumeAsFlow()
+    val viewEffect = _viewEffect.receiveAsFlow()
 
     override fun onEvent(event: CategoryDetailEvent) {
         when (event) {
