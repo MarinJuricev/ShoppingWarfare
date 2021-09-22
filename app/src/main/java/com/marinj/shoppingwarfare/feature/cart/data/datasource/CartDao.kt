@@ -18,4 +18,7 @@ interface CartDao {
 
     @Query("DELETE FROM localCartItem WHERE cartItemId == :id")
     suspend fun deleteCartItemById(id: String)
+
+    @Query("SELECT * FROM localCartItem WHERE cartItemId == :id")
+    suspend fun getCartItemById(id: String): LocalCartItem?
 }

@@ -9,4 +9,5 @@ interface CartRepository {
     fun observeCartItems(): Flow<List<CartItem>>
     suspend fun upsertCartItem(cartItem: CartItem): Either<Failure, Unit>
     suspend fun deleteCartItemById(id: String): Either<Failure, Unit>
+    suspend fun getCartItemById(id: String): Either<Failure, CartItem>
 }

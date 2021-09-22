@@ -26,7 +26,7 @@ fun CartItemCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp)
+            .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

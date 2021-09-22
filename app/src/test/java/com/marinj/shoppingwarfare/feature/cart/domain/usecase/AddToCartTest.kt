@@ -1,15 +1,23 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
 import com.google.common.truth.Truth.assertThat
+import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
+
+private const val ID = "id"
+private const val NAME = "cartName"
+private const val QUANTITY = 1
+private const val UPDATED_QUANTITY = 2
 
 @ExperimentalCoroutinesApi
 class AddToCartTest {
@@ -26,15 +34,39 @@ class AddToCartTest {
     }
 
     @Test
-    fun `invoke should return result from repository`() = runBlockingTest {
-        val cartItem = mockk<CartItem>()
-        val repositoryResult = Unit.buildRight()
-        coEvery {
-            cartRepository.upsertCartItem(cartItem)
-        } coAnswers { repositoryResult }
+    fun `invoke should return result from repository when getCartItemById returns Left`() =
+        runBlockingTest {
+            val cartItem = mockk<CartItem>().apply {
+                every { id } returns ID
+            }
+            val repositoryResult = Unit.buildRight()
+            coEvery {
+                cartRepository.getCartItemById(ID)
+            } coAnswers { Failure.Unknown.buildLeft() }
+            coEvery {
+                cartRepository.upsertCartItem(cartItem)
+            } coAnswers { repositoryResult }
 
-        val actualResult = sut(cartItem)
+            val actualResult = sut(cartItem)
 
-        assertThat(actualResult).isEqualTo(repositoryResult)
-    }
+            assertThat(actualResult).isEqualTo(repositoryResult)
+        }
+
+    @Test
+    fun `invoke should update the existing cartItem quantity by 1 when getCartItemById returns Right and return the repository result`() =
+        runBlockingTest {
+            val existingCartItem = CartItem(ID, NAME, QUANTITY)
+            val updatedCartItem = existingCartItem.copy(quantity = UPDATED_QUANTITY)
+            val repositoryResult = Unit.buildRight()
+            coEvery {
+                cartRepository.getCartItemById(ID)
+            } coAnswers { existingCartItem.buildRight() }
+            coEvery {
+                cartRepository.upsertCartItem(updatedCartItem)
+            } coAnswers { repositoryResult }
+
+            val actualResult = sut(existingCartItem)
+
+            assertThat(actualResult).isEqualTo(repositoryResult)
+        }
 }

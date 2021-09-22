@@ -31,7 +31,7 @@
     <!-- Cart -->
     <string name="cart">Cart</string>
     <string name="empty_cart_message">No items in the cart, add items from the category screen</string>
-    <string name="cart_name">Cart name:</string>
+    <string name="cart_name">Cart product name:</string>
     <string name="decrease_quantity">Decrease quantity</string>
     <string name="increase_quantity">Increase quantity</string>
 

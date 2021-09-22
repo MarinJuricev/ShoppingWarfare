@@ -3,7 +3,7 @@ package com.marinj.shoppingwarfare.feature.cart.data.repository
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.mapper.Mapper
-import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
@@ -75,7 +75,7 @@ class CartRepositoryImplTest {
         } coAnswers { daoResult }
 
         val actualResult = sut.upsertCartItem(cartItem)
-        val expectedResult = Failure.ErrorMessage("Error while adding $CART_ITEM_NAME").buildLeft()
+        val expectedResult = ErrorMessage("Error while adding $CART_ITEM_NAME").buildLeft()
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }
@@ -109,6 +109,39 @@ class CartRepositoryImplTest {
 
             val actualResult = sut.deleteCartItemById(cartItemId)
             val expectedResult = Unit.buildRight()
+
+            assertThat(actualResult).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun `getCartItemById should return LeftFailure when cartDao returns null`() =
+        runBlockingTest {
+            val cartItemId = "1"
+            coEvery {
+                cartDao.getCartItemById(cartItemId)
+            } coAnswers { null }
+
+            val actualResult = sut.getCartItemById(cartItemId)
+            val expectedResult = ErrorMessage("No cartItem present with the id: $cartItemId").buildLeft()
+
+            assertThat(actualResult).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun `getCartItemById should return RightCartItem when cartDao returns LocalCartItem`() =
+        runBlockingTest {
+            val cartItemId = "1"
+            val localCartItem = mockk<LocalCartItem>()
+            val cartItem = mockk<CartItem>()
+            coEvery {
+                cartDao.getCartItemById(cartItemId)
+            } coAnswers { localCartItem }
+            coEvery {
+                localToDomainCartItemMapper.map(localCartItem)
+            } coAnswers { cartItem }
+
+            val actualResult = sut.getCartItemById(cartItemId)
+            val expectedResult = cartItem.buildRight()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }

@@ -10,6 +10,18 @@ class AddToCart @Inject constructor(
     private val cartRepository: CartRepository
 ) {
 
-    suspend operator fun invoke(cartItem: CartItem): Either<Failure, Unit> =
-        cartRepository.upsertCartItem(cartItem)
+    suspend operator fun invoke(cartItem: CartItem): Either<Failure, Unit> {
+        return when (val result = cartRepository.getCartItemById(cartItem.id)) {
+            is Either.Right -> increaseQuantityByOneForExistingCartItem(result.value)
+            is Either.Left -> cartRepository.upsertCartItem(cartItem)
+        }
+    }
+
+    private suspend fun increaseQuantityByOneForExistingCartItem(
+        existingCartItem: CartItem,
+    ): Either<Failure, Unit> {
+        val updatedCartItem = existingCartItem.copy(quantity = existingCartItem.quantity.inc())
+
+        return cartRepository.upsertCartItem(updatedCartItem)
+    }
 }

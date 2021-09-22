@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.cart.data.repository
 import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
@@ -27,11 +28,18 @@ class CartRepositoryImpl @Inject constructor(
     override suspend fun upsertCartItem(cartItem: CartItem): Either<Failure, Unit> {
         val localCartItem = domainToLocalCartItemMapper.map(cartItem)
         return when (cartDao.upsertCartItem(localCartItem)) {
-            0L -> Failure.ErrorMessage("Error while adding ${localCartItem.name}").buildLeft()
+            0L -> ErrorMessage("Error while adding ${localCartItem.name}").buildLeft()
             else -> Unit.buildRight()
         }
     }
 
     override suspend fun deleteCartItemById(id: String): Either<Failure, Unit> =
         cartDao.deleteCartItemById(id).buildRight()
+
+    override suspend fun getCartItemById(id: String): Either<Failure, CartItem> {
+        return when (val result = cartDao.getCartItemById(id)) {
+            null -> ErrorMessage("No cartItem present with the id: $id").buildLeft()
+            else -> localToDomainCartItemMapper.map(result).buildRight()
+        }
+    }
 }
