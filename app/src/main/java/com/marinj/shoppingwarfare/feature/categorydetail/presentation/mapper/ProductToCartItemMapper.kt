@@ -6,14 +6,12 @@ import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.D
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import javax.inject.Inject
 
-class ProductToCartItemMapper @Inject constructor(
-    private val uuidGenerator: () -> String,
-) : Mapper<CartItem, Product> {
+class ProductToCartItemMapper @Inject constructor() : Mapper<CartItem, Product> {
 
     override suspend fun map(origin: Product): CartItem {
         return with(origin) {
             CartItem(
-                id = uuidGenerator(),
+                id = id,
                 name = name,
                 quantity = DEFAULT_QUANTITY
             )

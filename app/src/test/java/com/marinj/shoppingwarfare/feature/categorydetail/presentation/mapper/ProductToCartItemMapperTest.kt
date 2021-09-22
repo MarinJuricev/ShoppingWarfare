@@ -17,20 +17,18 @@ private const val NAME = "name"
 @ExperimentalCoroutinesApi
 class ProductToCartItemMapperTest {
 
-    private val uuidGenerator = { ID }
-
     private lateinit var sut: Mapper<CartItem, Product>
 
     @Before
     fun setUp() {
-        sut = ProductToCartItemMapper(
-            uuidGenerator,
-        )
+        sut = ProductToCartItemMapper()
     }
 
     @Test
     fun `map should map id`() = runBlockingTest {
-        val product = mockk<Product>(relaxed = true)
+        val product = mockk<Product>(relaxed = true).apply {
+            every { id } returns ID
+        }
 
         val actualResult = sut.map(product)
 
@@ -40,7 +38,7 @@ class ProductToCartItemMapperTest {
     @Test
     fun `map should map name`() = runBlockingTest {
         val product = mockk<Product>(relaxed = true).apply {
-            every { name } answers { NAME }
+            every { name } returns NAME
         }
 
         val actualResult = sut.map(product)

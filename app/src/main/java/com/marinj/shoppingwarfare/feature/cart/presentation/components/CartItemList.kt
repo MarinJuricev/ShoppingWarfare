@@ -85,7 +85,8 @@ fun QuantityPicker(
             buttonSize = 24.dp,
             onClick = {
                 onCartEvent(CartItemQuantityChanged(cartItem, cartItem.quantity.dec()))
-            }) {
+            }
+        ) {
             Icon(
                 modifier = Modifier
                     .size(16.dp),
@@ -96,7 +97,7 @@ fun QuantityPicker(
         }
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = cartItem.quantity.toString(), //TODO Introduce a UI model so that we don't have to do toString in the UI
+            text = cartItem.quantity.toString(), // TODO Introduce a UI model so that we don't have to do toString in the UI
             style = MaterialTheme.typography.body1
         )
         Spacer(modifier = Modifier.width(8.dp))
@@ -104,7 +105,8 @@ fun QuantityPicker(
             buttonSize = 24.dp,
             onClick = {
                 onCartEvent(CartItemQuantityChanged(cartItem, cartItem.quantity.inc()))
-            }) {
+            }
+        ) {
             Icon(
                 modifier = Modifier
                     .size(16.dp),
