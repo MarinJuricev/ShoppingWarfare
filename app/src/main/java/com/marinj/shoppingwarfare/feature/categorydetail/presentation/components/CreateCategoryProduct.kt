@@ -24,7 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTheme
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent
@@ -58,7 +57,7 @@ fun CreateCategoryProduct(
                 onValueChange = { updatedCategoryItemName ->
                     categoryItemName = updatedCategoryItemName
                 },
-                label = { Text(stringResource(R.string.product_name)) },
+                label = { Text(stringResource(string.product_name)) },
             )
             OutlinedButton(
                 modifier = Modifier.padding(8.dp),
