@@ -18,9 +18,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -51,12 +48,6 @@ fun ShoppingWarfareTopBar(
 @ExperimentalAnimationApi
 @Composable
 fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
-    val localCopyOfIcon by remember(key1 = topBarViewState.icon?.invoke()) {
-        mutableStateOf(
-            topBarViewState.icon
-        )
-    }
-
     TopAppBar {
         Box(
             modifier = Modifier.fillMaxSize(),
