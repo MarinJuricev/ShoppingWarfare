@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -33,10 +34,10 @@ import com.marinj.shoppingwarfare.feature.user.UserPage
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ShoppingWarfareNavigation() {
-    val navController = rememberAnimatedNavController()
-    val topBarViewModel: TopBarViewModel = hiltViewModel()
-
+fun ShoppingWarfareNavigation(
+    navController: NavHostController = rememberAnimatedNavController(),
+    topBarViewModel: TopBarViewModel = hiltViewModel(),
+) {
     Scaffold(
         topBar = {
             ShoppingWarfareTopBar(topBarViewModel.viewState.collectAsState().value)
