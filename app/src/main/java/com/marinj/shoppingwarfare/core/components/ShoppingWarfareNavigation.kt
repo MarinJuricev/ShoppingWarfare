@@ -8,16 +8,19 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarViewModel
 import com.marinj.shoppingwarfare.feature.cart.presentation.CartPage
 import com.marinj.shoppingwarfare.feature.category.presentation.CategoryPage
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_DETAIL_ROUTE
@@ -32,8 +35,12 @@ import com.marinj.shoppingwarfare.feature.user.UserPage
 @Composable
 fun ShoppingWarfareNavigation() {
     val navController = rememberAnimatedNavController()
+    val topBarViewModel: TopBarViewModel = hiltViewModel()
 
     Scaffold(
+        topBar = {
+            ShoppingWarfareTopBar(topBarViewModel.viewState.collectAsState().value)
+        },
         bottomBar = {
             BottomNavigation {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -78,11 +85,15 @@ fun ShoppingWarfareNavigation() {
             composable(BottomNavigationItem.Category.route) {
                 CategoryPage(
                     navigateToCreateCategory = { navController.navigate(CREATE_CATEGORY_ROUTE) },
-                    navigateToCategoryDetail = { categoryId -> navController.navigate("categoryDetail/$categoryId") }
+                    navigateToCategoryDetail = { categoryId -> navController.navigate("categoryDetail/$categoryId") },
+                    setupTopBar = topBarViewModel::onEvent,
                 )
             }
             composable(CREATE_CATEGORY_ROUTE) {
-                CreateCategoryPage(navigateBack = { navController.popBackStack() })
+                CreateCategoryPage(
+                    navigateBack = { navController.popBackStack() },
+                    setupTopBar = topBarViewModel::onEvent,
+                )
             }
             composable(CATEGORY_DETAIL_ROUTE) { backStackEntry ->
                 val categoryId = backStackEntry.arguments?.getString(CATEGORY_ID)

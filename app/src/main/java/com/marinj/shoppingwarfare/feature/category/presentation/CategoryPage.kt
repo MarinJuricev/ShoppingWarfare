@@ -19,7 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
-import com.marinj.shoppingwarfare.core.components.ShoppingWarfareTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.feature.category.presentation.components.CategoryGrid
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.Error
@@ -34,6 +35,7 @@ fun CategoryPage(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
     navigateToCreateCategory: () -> Unit,
     navigateToCategoryDetail: (String) -> Unit,
+    setupTopBar: (TopBarEvent) -> Unit,
 ) {
     val viewState by categoryViewModel.categoryViewState.collectAsState()
     val scaffoldState = rememberScaffoldState()
@@ -43,6 +45,19 @@ fun CategoryPage(
         key1 = Unit,
         block = {
             categoryViewModel.onEvent(GetCategories)
+            setupTopBar(
+                CategoryTopBar(
+                    title = R.string.category,
+                    onActionClick = navigateToCreateCategory,
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Filled.Add,
+                            contentDescription = stringResource(id = R.string.create_category),
+                            tint = Color.White,
+                        )
+                    }
+                )
+            )
         }
     )
 
@@ -68,18 +83,6 @@ fun CategoryPage(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = {
-            ShoppingWarfareTopBar(
-                onActionClick = navigateToCreateCategory,
-                iconContent = {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = stringResource(id = R.string.create_category),
-                        tint = Color.White,
-                    )
-                }
-            )
-        },
     ) {
         when {
             viewState.isLoading -> ShoppingWarfareLoadingIndicator()

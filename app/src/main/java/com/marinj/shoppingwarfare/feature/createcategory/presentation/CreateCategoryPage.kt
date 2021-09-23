@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
@@ -37,12 +39,22 @@ const val CREATE_CATEGORY_ROUTE = "createCategory"
 
 @Composable
 fun CreateCategoryPage(
-    createCategoryViewModel: CreateCategoryViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
+    setupTopBar: (TopBarEvent) -> Unit,
+    createCategoryViewModel: CreateCategoryViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val viewState by createCategoryViewModel.createCategoryViewState.collectAsState()
     val currentContext = LocalContext.current
+
+    LaunchedEffect(key1 = Unit) {
+        setupTopBar(
+            CreateCategoryTopBar(
+                title = R.string.category,
+                subTitle = R.string.create_category,
+            )
+        )
+    }
 
     LaunchedEffect(key1 = createCategoryViewModel.createCategoryEffect) {
         createCategoryViewModel.createCategoryEffect.collect { viewEffect ->
