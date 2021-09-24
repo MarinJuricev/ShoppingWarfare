@@ -105,7 +105,9 @@ fun ShoppingWarfareNavigation(
                 )
             }
             composable(BottomNavigationItem.Cart.route) {
-                CartPage()
+                CartPage(
+                    setupTopBar = topBarViewModel::onEvent,
+                )
             }
             composable(BottomNavigationItem.History.route) {
                 HistoryPage(

@@ -19,13 +19,15 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.DottedLine
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
-import com.marinj.shoppingwarfare.core.components.ShoppingWarfareTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 
 @Composable
 fun CartPage(
     cartViewModel: CartViewModel = hiltViewModel(),
+    setupTopBar: (TopBarEvent) -> Unit,
 ) {
 
     val viewState by cartViewModel.viewState.collectAsState()
@@ -34,14 +36,12 @@ fun CartPage(
         key1 = Unit,
         block = {
             cartViewModel.onEvent(OnGetCartItems)
+            setupTopBar(CartTopBar())
         }
     )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            ShoppingWarfareTopBar()
-        }
     ) {
         Column {
             Box(

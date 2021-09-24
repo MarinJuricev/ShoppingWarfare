@@ -16,6 +16,10 @@ sealed class TopBarEvent {
         @StringRes val subTitle: Int = R.string.create_category,
     ) : TopBarEvent()
 
+    data class CartTopBar(
+        val isVisible: Boolean = false
+    ) : TopBarEvent()
+
     data class HistoryTopBar(
         val isVisible: Boolean = false
     ) : TopBarEvent()

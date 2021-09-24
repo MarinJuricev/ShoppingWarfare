@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.core.viewmodel
 
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.HistoryTopBar
@@ -20,6 +21,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         when (event) {
             is CategoryTopBar -> handleCategoryTopBar(event)
             is CreateCategoryTopBar -> handleCreateCategoryTopBar(event)
+            is CartTopBar -> handleCartTopBar(event)
             is HistoryTopBar -> handleHistoryTopBar(event)
         }
     }
@@ -39,6 +41,14 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
             TopBarViewState(
                 title = event.title,
                 subTitle = event.subTitle,
+            )
+        )
+    }
+
+    private fun handleCartTopBar(event: CartTopBar) {
+        _viewState.safeUpdate(
+            TopBarViewState(
+                isVisible = event.isVisible,
             )
         )
     }
