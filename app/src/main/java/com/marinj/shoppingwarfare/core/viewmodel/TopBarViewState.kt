@@ -8,4 +8,5 @@ data class TopBarViewState(
     @StringRes val subTitle: Int? = null,
     val icon: (@Composable () -> Unit)? = null,
     val onActionClick: (() -> Unit)? = null,
+    val isVisible: Boolean = true,
 )

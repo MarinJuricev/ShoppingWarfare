@@ -4,6 +4,7 @@ import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CreateCategoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.HistoryTopBar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +20,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         when (event) {
             is CategoryTopBar -> handleCategoryTopBar(event)
             is CreateCategoryTopBar -> handleCreateCategoryTopBar(event)
+            is HistoryTopBar -> handleHistoryTopBar(event)
         }
     }
 
@@ -26,7 +28,6 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         _viewState.safeUpdate(
             TopBarViewState(
                 title = event.title,
-                subTitle = null,
                 icon = event.icon,
                 onActionClick = event.onActionClick,
             )
@@ -38,8 +39,14 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
             TopBarViewState(
                 title = event.title,
                 subTitle = event.subTitle,
-                icon = null,
-                onActionClick = null,
+            )
+        )
+    }
+
+    private fun handleHistoryTopBar(event: HistoryTopBar) {
+        _viewState.safeUpdate(
+            TopBarViewState(
+                isVisible = event.isVisible,
             )
         )
     }

@@ -48,12 +48,7 @@ fun CreateCategoryPage(
     val currentContext = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
-        setupTopBar(
-            CreateCategoryTopBar(
-                title = R.string.category,
-                subTitle = R.string.create_category,
-            )
-        )
+        setupTopBar(CreateCategoryTopBar())
     }
 
     LaunchedEffect(key1 = createCategoryViewModel.createCategoryEffect) {

@@ -46,17 +46,13 @@ fun CategoryPage(
         block = {
             categoryViewModel.onEvent(GetCategories)
             setupTopBar(
-                CategoryTopBar(
-                    title = R.string.category,
-                    onActionClick = navigateToCreateCategory,
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Filled.Add,
-                            contentDescription = stringResource(id = R.string.create_category),
-                            tint = Color.White,
-                        )
-                    }
-                )
+                CategoryTopBar(onActionClick = navigateToCreateCategory) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = stringResource(id = R.string.create_category),
+                        tint = Color.White,
+                    )
+                }
             )
         }
     )
