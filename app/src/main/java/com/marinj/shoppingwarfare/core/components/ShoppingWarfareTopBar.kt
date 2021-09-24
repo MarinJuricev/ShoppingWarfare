@@ -50,7 +50,6 @@ fun ShoppingWarfareTopBar(
     }
 }
 
-
 @ExperimentalAnimationApi
 @Composable
 fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
