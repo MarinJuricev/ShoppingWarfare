@@ -3,9 +3,11 @@ package com.marinj.shoppingwarfare.core.viewmodel
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CartTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryDetailTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.HistoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.UserTopBar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,8 +23,10 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         when (event) {
             is CategoryTopBar -> handleCategoryTopBar(event)
             is CreateCategoryTopBar -> handleCreateCategoryTopBar(event)
+            is CategoryDetailTopBar -> handleCategoryDetailTopBar(event)
             is CartTopBar -> handleCartTopBar(event)
             is HistoryTopBar -> handleHistoryTopBar(event)
+            is UserTopBar -> handleUserTopBar(event)
         }
     }
 
@@ -45,6 +49,17 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         )
     }
 
+    private fun handleCategoryDetailTopBar(event: CategoryDetailTopBar) {
+        _viewState.safeUpdate(
+            TopBarViewState(
+                title = event.title,
+                subTitle = event.subTitle,
+                icon = event.icon,
+                onActionClick = event.onActionClick,
+            )
+        )
+    }
+
     private fun handleCartTopBar(event: CartTopBar) {
         _viewState.safeUpdate(
             TopBarViewState(
@@ -57,6 +72,14 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         _viewState.safeUpdate(
             TopBarViewState(
                 isVisible = event.isVisible,
+            )
+        )
+    }
+
+    private fun handleUserTopBar(event: TopBarEvent.UserTopBar) {
+        _viewState.safeUpdate(
+            TopBarViewState(
+                isVisible = event.isVisible
             )
         )
     }

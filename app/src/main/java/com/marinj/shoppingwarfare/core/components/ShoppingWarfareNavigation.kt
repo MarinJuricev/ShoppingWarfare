@@ -102,6 +102,7 @@ fun ShoppingWarfareNavigation(
 
                 CategoryDetailPage(
                     categoryId = categoryId,
+                    setupTopBar = topBarViewModel::onEvent,
                 )
             }
             composable(BottomNavigationItem.Cart.route) {
@@ -115,7 +116,9 @@ fun ShoppingWarfareNavigation(
                 )
             }
             composable(BottomNavigationItem.User.route) {
-                UserPage()
+                UserPage(
+                    setupTopBar = topBarViewModel::onEvent,
+                )
             }
         }
     }
