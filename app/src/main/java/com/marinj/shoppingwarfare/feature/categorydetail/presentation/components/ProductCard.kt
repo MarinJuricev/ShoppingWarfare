@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnProductClicked
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnProductDelete
 
 @Composable
 fun ProductCard(
@@ -36,7 +38,7 @@ fun ProductCard(
     ) {
         Column(
             modifier = Modifier
-                .clickable { onCategoryDetailEvent(CategoryDetailEvent.OnProductClicked(product)) }
+                .clickable { onCategoryDetailEvent(OnProductClicked(product)) }
                 .padding(12.dp)
         ) {
             Row(
@@ -51,18 +53,14 @@ fun ProductCard(
                 Icon(
                     modifier = Modifier
                         .clickable {
-                            onCategoryDetailEvent(
-                                CategoryDetailEvent.OnProductDelete(
-                                    product
-                                )
-                            )
+                            onCategoryDetailEvent(OnProductDelete(product))
                         }
                         .size(16.dp)
                         .align(Alignment.CenterVertically),
                     painter = painterResource(id = R.drawable.delete_icon),
                     tint = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White,
                     contentDescription = stringResource(
-                        R.string.deleted_item,
+                        R.string.delete_item,
                         product.name
                     )
                 )

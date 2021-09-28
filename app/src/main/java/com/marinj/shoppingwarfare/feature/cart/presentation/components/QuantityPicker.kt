@@ -19,6 +19,7 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
 
 @Composable
 fun QuantityPicker(
@@ -32,39 +33,36 @@ fun QuantityPicker(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ShoppingWarfareIconButton(
-            buttonSize = 24.dp,
+            buttonSize = 32.dp,
             onClick = {
-                onCartEvent(CartEvent.CartItemQuantityChanged(cartItem, cartItem.quantity.dec()))
+                onCartEvent(CartItemQuantityChanged(cartItem, cartItem.quantity.dec()))
             }
         ) {
             Icon(
-                modifier = Modifier
-                    .size(16.dp),
+                modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.minus_icon),
                 tint = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White,
                 contentDescription = stringResource(R.string.decrease_quantity)
             )
         }
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(12.dp))
         Text(
             text = cartItem.quantity.toString(), // TODO Introduce a UI model so that we don't have to do toString in the UI
             style = MaterialTheme.typography.body1
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(12.dp))
         ShoppingWarfareIconButton(
-            buttonSize = 24.dp,
+            buttonSize = 32.dp,
             onClick = {
-                onCartEvent(CartEvent.CartItemQuantityChanged(cartItem, cartItem.quantity.inc()))
+                onCartEvent(CartItemQuantityChanged(cartItem, cartItem.quantity.inc()))
             }
         ) {
             Icon(
-                modifier = Modifier
-                    .size(16.dp),
+                modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.add_icon),
                 tint = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White,
                 contentDescription = stringResource(R.string.increase_quantity)
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
     }
 }

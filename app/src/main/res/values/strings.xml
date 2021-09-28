@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ShoppingWarfare</string>
 
+
     <string name="expanded">Expanded</string>
     <string name="dismiss">Dismiss</string>
     <string name="success">Success</string>
@@ -8,6 +9,7 @@
     <string name="undo">Undo</string>
     <string name="shrug_emoji">¯\\_(ツ)_/¯</string>
     <string name="deleted_item">Deleted %s</string>
+    <string name="delete_item">Delete %s</string>
     <string name="ok">OK</string>
 
     <!-- Category -->

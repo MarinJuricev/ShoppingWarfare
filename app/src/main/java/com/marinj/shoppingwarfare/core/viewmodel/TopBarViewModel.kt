@@ -76,7 +76,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         )
     }
 
-    private fun handleUserTopBar(event: TopBarEvent.UserTopBar) {
+    private fun handleUserTopBar(event: UserTopBar) {
         _viewState.safeUpdate(
             TopBarViewState(
                 isVisible = event.isVisible
