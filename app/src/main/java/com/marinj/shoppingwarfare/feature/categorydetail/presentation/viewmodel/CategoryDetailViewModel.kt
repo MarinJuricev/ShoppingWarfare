@@ -54,6 +54,7 @@ class CategoryDetailViewModel @Inject constructor(
             is OnGetCategoryProducts -> handleGetCategoryProducts(event.categoryId)
             is OnCreateCategoryProduct -> handleCreateCategoryProduct(
                 event.categoryId,
+                event.categoryName,
                 event.productName,
             )
             is OnProductDelete -> handleProductDeletion(event.product)
@@ -83,16 +84,21 @@ class CategoryDetailViewModel @Inject constructor(
 
     private fun handleCreateCategoryProduct(
         categoryId: String,
+        categoryName: String,
         productName: String,
     ) = viewModelScope.launch {
-        when (createProduct(categoryId, productName)) {
+        when (createProduct(categoryId, categoryName, productName)) {
             is Right -> Timber.d("Product created with: $categoryId and $productName")
             is Left -> _viewEffect.send(Error("Could not create $productName, try again later."))
         }
     }
 
     private fun handleRestoreProductDeletion(product: Product) = viewModelScope.launch {
-        handleCreateCategoryProduct(categoryId = product.categoryId, productName = product.name)
+        handleCreateCategoryProduct(
+            categoryId = product.categoryId,
+            categoryName = product.categoryName,
+            productName = product.name
+        )
     }
 
     private fun handleProductDeletion(product: Product) = viewModelScope.launch {
@@ -111,10 +117,6 @@ class CategoryDetailViewModel @Inject constructor(
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
-        _viewState.safeUpdate(
-            _viewState.value.copy(
-                isLoading = isLoading
-            )
-        )
+        _viewState.safeUpdate(_viewState.value.copy(isLoading = isLoading))
     }
 }

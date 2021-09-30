@@ -12,9 +12,10 @@ class LocalCategoryProductsListToDomainProductMapper @Inject constructor() :
         return origin.flatMap { localCategoryProducts ->
             localCategoryProducts.productList.map { localProduct ->
                 Product(
-                    localProduct.productId,
-                    localProduct.categoryProductId,
-                    localProduct.name
+                    id = localProduct.productId,
+                    categoryId = localProduct.categoryProductId,
+                    categoryName = localProduct.categoryName,
+                    name = localProduct.name,
                 )
             }
         }

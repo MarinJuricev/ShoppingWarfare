@@ -35,7 +35,7 @@ fun CategoryCard(
     Card(
         modifier = modifier
             .clickable {
-                onCategoryEvent(NavigateToCategoryDetail(uiCategory.id))
+                onCategoryEvent(NavigateToCategoryDetail(uiCategory.id, uiCategory.title))
             },
         shape = RoundedCornerShape(16.dp),
         backgroundColor = backGroundColor,

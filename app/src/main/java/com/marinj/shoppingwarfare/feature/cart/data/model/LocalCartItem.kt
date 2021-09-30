@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class LocalCartItem(
     @PrimaryKey
     val cartItemId: String,
+    val categoryName: String,
     val name: String,
     val quantity: Int,
 )

@@ -16,6 +16,7 @@ import org.junit.Test
 
 private const val UUID = "id"
 private const val CATEGORY_ID = "categoryId"
+private const val CATEGORY_NAME = "fruits"
 private const val CATEGORY_ITEM_TITLE = "title"
 
 @ExperimentalCoroutinesApi
@@ -45,7 +46,7 @@ class CreateProductTest {
             validateProduct(CATEGORY_ITEM_TITLE)
         } coAnswers { left }
 
-        val actualResult = sut(CATEGORY_ID, CATEGORY_ITEM_TITLE)
+        val actualResult = sut(CATEGORY_ID, CATEGORY_NAME, CATEGORY_ITEM_TITLE)
 
         assertThat(actualResult).isEqualTo(left)
     }
@@ -55,7 +56,12 @@ class CreateProductTest {
         runBlockingTest {
             val repositoryLeft = Failure.Unknown.buildLeft()
             val validatorRight = Unit.buildRight()
-            val categoryItem = Product(UUID, CATEGORY_ID, CATEGORY_ITEM_TITLE)
+            val categoryItem = Product(
+                id = UUID,
+                categoryId = CATEGORY_ID,
+                categoryName = CATEGORY_NAME,
+                name = CATEGORY_ITEM_TITLE,
+            )
             coEvery {
                 validateProduct(CATEGORY_ITEM_TITLE)
             } coAnswers { validatorRight }
@@ -63,7 +69,11 @@ class CreateProductTest {
                 categoryDetailRepository.upsertCategoryProduct(categoryItem)
             } coAnswers { repositoryLeft }
 
-            val actualResult = sut(CATEGORY_ID, CATEGORY_ITEM_TITLE)
+            val actualResult = sut(
+                categoryId = CATEGORY_ID,
+                categoryName = CATEGORY_NAME,
+                productName = CATEGORY_ITEM_TITLE,
+            )
 
             assertThat(actualResult).isEqualTo(repositoryLeft)
         }
@@ -73,7 +83,12 @@ class CreateProductTest {
         runBlockingTest {
             val repositoryRight = Unit.buildRight()
             val validatorRight = Unit.buildRight()
-            val categoryItem = Product(UUID, CATEGORY_ID, CATEGORY_ITEM_TITLE)
+            val categoryItem = Product(
+                id = UUID,
+                categoryId = CATEGORY_ID,
+                categoryName = CATEGORY_NAME,
+                name = CATEGORY_ITEM_TITLE
+            )
             coEvery {
                 validateProduct(CATEGORY_ITEM_TITLE)
             } coAnswers { validatorRight }
@@ -81,7 +96,11 @@ class CreateProductTest {
                 categoryDetailRepository.upsertCategoryProduct(categoryItem)
             } coAnswers { repositoryRight }
 
-            val actualResult = sut(CATEGORY_ID, CATEGORY_ITEM_TITLE)
+            val actualResult = sut(
+                categoryId = CATEGORY_ID,
+                categoryName = CATEGORY_NAME,
+                productName = CATEGORY_ITEM_TITLE,
+            )
 
             assertThat(actualResult).isEqualTo(repositoryRight)
         }

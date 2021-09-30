@@ -13,6 +13,7 @@ import org.junit.Test
 
 private const val ID = "id"
 private const val NAME = "name"
+private const val CATEGORY_NAME = "fruits"
 
 @ExperimentalCoroutinesApi
 class ProductToCartItemMapperTest {
@@ -44,6 +45,17 @@ class ProductToCartItemMapperTest {
         val actualResult = sut.map(product)
 
         assertThat(actualResult.name).isEqualTo(NAME)
+    }
+
+    @Test
+    fun `map should map categoryName`() = runBlockingTest {
+        val product = mockk<Product>(relaxed = true).apply {
+            every { categoryName } returns CATEGORY_NAME
+        }
+
+        val actualResult = sut.map(product)
+
+        assertThat(actualResult.categoryName).isEqualTo(CATEGORY_NAME)
     }
 
     @Test

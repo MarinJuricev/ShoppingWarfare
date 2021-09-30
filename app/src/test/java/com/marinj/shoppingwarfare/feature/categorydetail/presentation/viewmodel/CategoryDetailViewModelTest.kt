@@ -33,6 +33,7 @@ import org.junit.Test
 import kotlin.time.ExperimentalTime
 
 private const val CATEGORY_ID = "categoryId"
+private const val CATEGORY_NAME = "fruits"
 private const val PRODUCT_NAME = "product"
 private const val PRODUCT_ID = "productId"
 
@@ -113,10 +114,15 @@ class CategoryDetailViewModelTest {
         runBlockingTest {
             val event = OnCreateCategoryProduct(
                 categoryId = CATEGORY_ID,
-                productName = PRODUCT_NAME
+                productName = PRODUCT_NAME,
+                categoryName = CATEGORY_NAME,
             )
             coEvery {
-                createProduct(CATEGORY_ID, PRODUCT_NAME)
+                createProduct(
+                    categoryId = CATEGORY_ID,
+                    categoryName = CATEGORY_NAME,
+                    productName = PRODUCT_NAME,
+                )
             } coAnswers { Unit.buildRight() }
 
             sut.onEvent(event)
@@ -131,10 +137,15 @@ class CategoryDetailViewModelTest {
         runBlockingTest {
             val event = OnCreateCategoryProduct(
                 categoryId = CATEGORY_ID,
-                productName = PRODUCT_NAME
+                productName = PRODUCT_NAME,
+                categoryName = CATEGORY_NAME,
             )
             coEvery {
-                createProduct(CATEGORY_ID, PRODUCT_NAME)
+                createProduct(
+                    categoryId = CATEGORY_ID,
+                    categoryName = CATEGORY_NAME,
+                    productName = PRODUCT_NAME,
+                )
             } coAnswers { Unknown.buildLeft() }
 
             sut.onEvent(event)
@@ -187,11 +198,16 @@ class CategoryDetailViewModelTest {
             val product = mockk<Product>().apply {
                 every { id } answers { PRODUCT_ID }
                 every { categoryId } answers { CATEGORY_ID }
+                every { categoryName } answers { CATEGORY_NAME }
                 every { name } answers { PRODUCT_NAME }
             }
             val event = RestoreProductDeletion(product)
             coEvery {
-                createProduct(CATEGORY_ID, PRODUCT_NAME)
+                createProduct(
+                    categoryId = CATEGORY_ID,
+                    categoryName = CATEGORY_NAME,
+                    productName = PRODUCT_NAME,
+                )
             } coAnswers { Unit.buildRight() }
 
             sut.onEvent(event)
@@ -207,11 +223,16 @@ class CategoryDetailViewModelTest {
             val product = mockk<Product>().apply {
                 every { id } answers { PRODUCT_ID }
                 every { categoryId } answers { CATEGORY_ID }
+                every { categoryName } answers { CATEGORY_NAME }
                 every { name } answers { PRODUCT_NAME }
             }
             val event = RestoreProductDeletion(product)
             coEvery {
-                createProduct(CATEGORY_ID, PRODUCT_NAME)
+                createProduct(
+                    categoryId = CATEGORY_ID,
+                    categoryName = CATEGORY_NAME,
+                    productName = PRODUCT_NAME,
+                )
             } coAnswers { Unknown.buildLeft() }
 
             sut.onEvent(event)

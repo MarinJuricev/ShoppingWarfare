@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.collect
 fun CategoryPage(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
     navigateToCreateCategory: () -> Unit,
-    navigateToCategoryDetail: (String) -> Unit,
+    navigateToCategoryDetail: (String, String) -> Unit,
     setupTopBar: (TopBarEvent) -> Unit,
 ) {
     val viewState by categoryViewModel.categoryViewState.collectAsState()
@@ -72,7 +72,10 @@ fun CategoryPage(
                     }
                 }
                 is Error -> scaffoldState.snackbarHostState.showSnackbar(categoryEffect.errorMessage)
-                is NavigateToCategoryDetail -> navigateToCategoryDetail(categoryEffect.categoryId)
+                is NavigateToCategoryDetail -> navigateToCategoryDetail(
+                    categoryEffect.categoryId,
+                    categoryEffect.categoryName,
+                )
             }
         }
     }

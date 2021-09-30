@@ -13,6 +13,7 @@ import org.junit.Test
 
 private const val ID = "id"
 private const val CATEGORY_ID = "categoryId"
+private const val CATEGORY_NAME = "fruits"
 private const val NAME = "name"
 
 @ExperimentalCoroutinesApi
@@ -45,6 +46,17 @@ class DomainToLocalProductMapperTest {
         val actualResult = sut.map(categoryItem)
 
         assertThat(actualResult.categoryProductId).isEqualTo(CATEGORY_ID)
+    }
+
+    @Test
+    fun `map should map categoryName`() = runBlockingTest {
+        val categoryItem = mockk<Product>(relaxed = true).apply {
+            every { categoryName } answers { CATEGORY_NAME }
+        }
+
+        val actualResult = sut.map(categoryItem)
+
+        assertThat(actualResult.categoryName).isEqualTo(CATEGORY_NAME)
     }
 
     @Test

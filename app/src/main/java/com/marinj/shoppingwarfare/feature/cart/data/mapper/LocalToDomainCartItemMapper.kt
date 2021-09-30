@@ -10,9 +10,10 @@ class LocalToDomainCartItemMapper @Inject constructor() : Mapper<CartItem, Local
     override suspend fun map(origin: LocalCartItem): CartItem {
         return with(origin) {
             CartItem(
-                cartItemId,
-                name,
-                quantity
+                id = cartItemId,
+                categoryName = categoryName,
+                name = name,
+                quantity = quantity,
             )
         }
     }

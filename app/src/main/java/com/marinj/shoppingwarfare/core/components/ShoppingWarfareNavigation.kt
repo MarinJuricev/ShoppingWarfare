@@ -86,7 +86,9 @@ fun ShoppingWarfareNavigation(
             composable(BottomNavigationItem.Category.route) {
                 CategoryPage(
                     navigateToCreateCategory = { navController.navigate(CREATE_CATEGORY_ROUTE) },
-                    navigateToCategoryDetail = { categoryId -> navController.navigate("categoryDetail/$categoryId") },
+                    navigateToCategoryDetail = { categoryId, categoryName ->
+                        navController.navigate("categoryDetail/$categoryId/$categoryName")
+                    },
                     setupTopBar = topBarViewModel::onEvent,
                 )
             }
@@ -99,9 +101,12 @@ fun ShoppingWarfareNavigation(
             composable(CATEGORY_DETAIL_ROUTE) { backStackEntry ->
                 val categoryId = backStackEntry.arguments?.getString(CATEGORY_ID)
                     ?: throw Exception("$CATEGORY_ID was not provided to categoryDetailRoute")
+                val categoryName = backStackEntry.arguments?.getString(CATEGORY_ID)
+                    ?: throw Exception("$CATEGORY_ID was not provided to categoryDetailRoute")
 
                 CategoryDetailPage(
                     categoryId = categoryId,
+                    categoryName = categoryName,
                     setupTopBar = topBarViewModel::onEvent,
                 )
             }

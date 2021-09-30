@@ -8,5 +8,6 @@ data class LocalProduct(
     @PrimaryKey
     val productId: String,
     val categoryProductId: String,
+    val categoryName: String,
     val name: String,
 )

@@ -45,7 +45,10 @@ class CategoryViewModel @Inject constructor(
         when (event) {
             CategoryEvent.GetCategories -> handleGetGroceries()
             is CategoryEvent.DeleteCategory -> handleDeleteCategory(event.uiCategory)
-            is CategoryEvent.NavigateToCategoryDetail -> handleNavigateToCategoryDetail(event.categoryId)
+            is CategoryEvent.NavigateToCategoryDetail -> handleNavigateToCategoryDetail(
+                event.categoryId,
+                event.categoryName,
+            )
             is CategoryEvent.UndoCategoryDeletion -> handleUndoCategoryDeletion(event.uiCategory)
         }
     }
@@ -87,8 +90,11 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    private fun handleNavigateToCategoryDetail(categoryId: String) = viewModelScope.launch {
-        _categoryEffect.send(CategoryEffect.NavigateToCategoryDetail(categoryId))
+    private fun handleNavigateToCategoryDetail(
+        categoryId: String,
+        categoryName: String,
+    ) = viewModelScope.launch {
+        _categoryEffect.send(CategoryEffect.NavigateToCategoryDetail(categoryId, categoryName))
     }
 
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {

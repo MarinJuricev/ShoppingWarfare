@@ -13,6 +13,7 @@ class ProductToCartItemMapper @Inject constructor() : Mapper<CartItem, Product> 
             CartItem(
                 id = id,
                 name = name,
+                categoryName = categoryName,
                 quantity = DEFAULT_QUANTITY
             )
         }

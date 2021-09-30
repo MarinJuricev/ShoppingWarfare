@@ -22,16 +22,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R.string
-import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTheme
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnCreateCategoryProduct
 
 @Composable
 fun CreateCategoryProduct(
     categoryId: String,
+    categoryName: String,
     onCategoryDetailEvent: (CategoryDetailEvent) -> Unit,
 ) {
     var categoryItemName by remember { mutableStateOf("") }
@@ -62,7 +61,7 @@ fun CreateCategoryProduct(
             OutlinedButton(
                 modifier = Modifier.padding(8.dp),
                 onClick = {
-                    onCategoryDetailEvent(OnCreateCategoryProduct(categoryId, categoryItemName))
+                    onCategoryDetailEvent(OnCreateCategoryProduct(categoryId, categoryName, categoryItemName))
                 },
             ) {
                 Icon(
@@ -72,13 +71,5 @@ fun CreateCategoryProduct(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun CreateCategoryItemPreview() {
-    ShoppingWarfareTheme {
-        CreateCategoryProduct("", {})
     }
 }

@@ -11,9 +11,10 @@ class DomainToLocalCategoryItemMapper @Inject constructor() :
     override suspend fun map(origin: Product): LocalProduct {
         return with(origin) {
             LocalProduct(
-                id,
-                categoryId,
-                name,
+                productId = id,
+                categoryProductId = categoryId,
+                categoryName = categoryName,
+                name = name,
             )
         }
     }

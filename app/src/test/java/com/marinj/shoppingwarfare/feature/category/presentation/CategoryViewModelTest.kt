@@ -26,6 +26,7 @@ import org.junit.Test
 import kotlin.time.ExperimentalTime
 
 private const val ID = "id"
+private const val CATEGORY_NAME = "fruits"
 
 @ExperimentalTime
 @ExperimentalCoroutinesApi
@@ -54,58 +55,60 @@ class CategoryViewModelTest {
     }
 
     @Test
-    fun `should update categories in categoryViewState when GetCategories is provided and emits categories`() = runBlockingTest {
-        val category = mockk<Category>()
-        val uiCategory = mockk<UiCategory>()
-        val listOfCategory = listOf(category)
-        val listOfUiCategory = listOf(uiCategory)
-        val categoriesFlow = flow {
-            emit(listOfCategory)
+    fun `should update categories in categoryViewState when GetCategories is provided and emits categories`() =
+        runBlockingTest {
+            val category = mockk<Category>()
+            val uiCategory = mockk<UiCategory>()
+            val listOfCategory = listOf(category)
+            val listOfUiCategory = listOf(uiCategory)
+            val categoriesFlow = flow {
+                emit(listOfCategory)
+            }
+            coEvery {
+                observeCategories()
+            } coAnswers { categoriesFlow }
+            coEvery {
+                categoryToUiCategoryMapper.map(category)
+            } coAnswers { uiCategory }
+
+            sut.categoryViewState.test {
+                val initialViewState = awaitItem()
+                assertThat(initialViewState.categories).isEmpty()
+                assertThat(initialViewState.isLoading).isTrue()
+
+                sut.onEvent(CategoryEvent.GetCategories)
+
+                val updatedViewState = awaitItem()
+                assertThat(updatedViewState.categories).isEqualTo(listOfUiCategory)
+                assertThat(updatedViewState.isLoading).isFalse()
+            }
         }
-        coEvery {
-            observeCategories()
-        } coAnswers { categoriesFlow }
-        coEvery {
-            categoryToUiCategoryMapper.map(category)
-        } coAnswers { uiCategory }
-
-        sut.categoryViewState.test {
-            val initialViewState = awaitItem()
-            assertThat(initialViewState.categories).isEmpty()
-            assertThat(initialViewState.isLoading).isTrue()
-
-            sut.onEvent(CategoryEvent.GetCategories)
-
-            val updatedViewState = awaitItem()
-            assertThat(updatedViewState.categories).isEqualTo(listOfUiCategory)
-            assertThat(updatedViewState.isLoading).isFalse()
-        }
-    }
 
     @Test
-    fun `should update categoryViewEffect with Error when GetCategories is provided and emits an exception`() = runBlockingTest {
-        val categoriesFlow = flow<List<Category>> {
-            throw Exception()
+    fun `should update categoryViewEffect with Error when GetCategories is provided and emits an exception`() =
+        runBlockingTest {
+            val categoriesFlow = flow<List<Category>> {
+                throw Exception()
+            }
+            coEvery {
+                observeCategories()
+            } coAnswers { categoriesFlow }
+
+            sut.categoryViewState.test {
+                val initialViewState = awaitItem()
+                assertThat(initialViewState.categories).isEmpty()
+                assertThat(initialViewState.isLoading).isTrue()
+
+                sut.onEvent(CategoryEvent.GetCategories)
+
+                val updatedViewState = awaitItem()
+                assertThat(updatedViewState.isLoading).isFalse()
+            }
+
+            sut.categoryEffect.test {
+                assertThat(awaitItem()).isEqualTo(Error("Failed to fetch Categories, try again later."))
+            }
         }
-        coEvery {
-            observeCategories()
-        } coAnswers { categoriesFlow }
-
-        sut.categoryViewState.test {
-            val initialViewState = awaitItem()
-            assertThat(initialViewState.categories).isEmpty()
-            assertThat(initialViewState.isLoading).isTrue()
-
-            sut.onEvent(CategoryEvent.GetCategories)
-
-            val updatedViewState = awaitItem()
-            assertThat(updatedViewState.isLoading).isFalse()
-        }
-
-        sut.categoryEffect.test {
-            assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Failed to fetch Categories, try again later."))
-        }
-    }
 
     @Test
     fun `should update categoryViewEffect with DeleteCategory when DeleteCategory is provided and deleteCategory returns Right`() =
@@ -137,17 +140,19 @@ class CategoryViewModelTest {
             sut.onEvent(CategoryEvent.DeleteCategory(uiCategory))
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Error while deleting category."))
+                assertThat(awaitItem()).isEqualTo(Error("Error while deleting category."))
             }
         }
 
     @Test
     fun `should update categoryViewEffect with NavigateToCategoryDetail when NavigateToCategoryDetail is provided`() =
         runBlockingTest {
-            sut.onEvent(CategoryEvent.NavigateToCategoryDetail(ID))
+            sut.onEvent(CategoryEvent.NavigateToCategoryDetail(ID, CATEGORY_NAME))
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(CategoryEffect.NavigateToCategoryDetail(ID))
+                assertThat(awaitItem()).isEqualTo(
+                    CategoryEffect.NavigateToCategoryDetail(ID, CATEGORY_NAME)
+                )
             }
         }
 
@@ -166,7 +171,7 @@ class CategoryViewModelTest {
             sut.onEvent(CategoryEvent.UndoCategoryDeletion(uiCategory))
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Couldn't undo category deletion."))
+                assertThat(awaitItem()).isEqualTo(Error("Couldn't undo category deletion."))
             }
         }
 

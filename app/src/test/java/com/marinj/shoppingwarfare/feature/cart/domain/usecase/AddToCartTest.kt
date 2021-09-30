@@ -16,6 +16,7 @@ import org.junit.Test
 
 private const val ID = "id"
 private const val NAME = "cartName"
+private const val CATEGORY_NAME = "fruits"
 private const val QUANTITY = 1
 private const val UPDATED_QUANTITY = 2
 
@@ -55,7 +56,12 @@ class AddToCartTest {
     @Test
     fun `invoke should update the existing cartItem quantity by 1 when getCartItemById returns Right and return the repository result`() =
         runBlockingTest {
-            val existingCartItem = CartItem(ID, NAME, QUANTITY)
+            val existingCartItem = CartItem(
+                id = ID,
+                categoryName = NAME,
+                name = CATEGORY_NAME,
+                quantity = QUANTITY
+            )
             val updatedCartItem = existingCartItem.copy(quantity = UPDATED_QUANTITY)
             val repositoryResult = Unit.buildRight()
             coEvery {

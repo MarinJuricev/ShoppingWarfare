@@ -16,6 +16,7 @@ class CreateProduct @Inject constructor(
 
     suspend operator fun invoke(
         categoryId: String,
+        categoryName: String,
         productName: String?,
     ): Either<Failure, Unit> {
         return when (val result = validateProduct(productName)) {
@@ -24,6 +25,7 @@ class CreateProduct @Inject constructor(
                 Product(
                     id = uuidGenerator(),
                     categoryId = categoryId,
+                    categoryName = categoryName,
                     name = productName!!
                 )
             )

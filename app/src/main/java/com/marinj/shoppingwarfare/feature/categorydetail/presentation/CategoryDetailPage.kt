@@ -38,12 +38,14 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 const val CATEGORY_ID = "categoryId"
-const val CATEGORY_DETAIL_ROUTE = "categoryDetail/{$CATEGORY_ID}"
+const val CATEGORY_NAME = "categoryName"
+const val CATEGORY_DETAIL_ROUTE = "categoryDetail/{$CATEGORY_ID/{$CATEGORY_NAME}"
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CategoryDetailPage(
     categoryId: String,
+    categoryName: String,
     setupTopBar: (TopBarEvent) -> Unit,
     categoryDetailViewModel: CategoryDetailViewModel = hiltViewModel(),
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
@@ -106,6 +108,7 @@ fun CategoryDetailPage(
         sheetContent = {
             CreateCategoryProduct(
                 categoryId = categoryId,
+                categoryName = categoryName,
                 onCategoryDetailEvent = { categoryDetailEvent ->
                     coroutineScope.launch {
                         bottomSheetScaffoldState.expandOrCollapse()
