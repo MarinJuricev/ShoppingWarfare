@@ -51,13 +51,13 @@ fun CartPage(
             ) {
                 when {
                     viewState.isLoading -> ShoppingWarfareLoadingIndicator()
-                    viewState.cartItems.isEmpty() -> ShoppingWarfareEmptyScreen(
+                    viewState.cartData.isEmpty() -> ShoppingWarfareEmptyScreen(
                         message = stringResource(
                             R.string.empty_cart_message
                         )
                     )
-                    viewState.cartItems.isNotEmpty() -> CartItemList(
-                        cartItems = viewState.cartItems,
+                    viewState.cartData.isNotEmpty() -> CartItemList(
+                        cartData = viewState.cartData,
                         onCartEvent = cartViewModel::onEvent,
                     )
                 }

@@ -12,14 +12,12 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CartItemList(
-    cartItems: List<CartItem>,
+    cartData: Map<String, List<CartItem>>,
     onCartEvent: (CartEvent) -> Unit,
 ) {
-    // TODO expose the viewState as a map, don't do it in the composable
-    val categoryNames: Map<String, List<CartItem>> = cartItems.groupBy { it.categoryName }
 
     LazyColumn {
-        categoryNames.forEach { (categoryNames, cartGroupedItems) ->
+        cartData.forEach { (categoryNames, cartGroupedItems) ->
             stickyHeader {
                 Text(categoryNames)
             }

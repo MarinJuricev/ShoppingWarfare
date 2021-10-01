@@ -3,6 +3,8 @@ package com.marinj.shoppingwarfare.feature.cart.presentation
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
+import com.marinj.shoppingwarfare.core.mapper.Mapper
+import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
@@ -19,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val observeCartItems: ObserveCartItems
+    private val observeCartItems: ObserveCartItems,
+    private val cartItemsToCartDataMapper: Mapper<Map<String, List<CartItem>>, List<CartItem>>,
 ) : BaseViewModel<CartEvent>() {
 
     private val _viewState = MutableStateFlow(CartViewState())
@@ -41,7 +44,7 @@ class CartViewModel @Inject constructor(
             .collect { cartItems ->
                 _viewState.safeUpdate(
                     _viewState.value.copy(
-                        cartItems = cartItems,
+                        cartData = cartItemsToCartDataMapper.map(cartItems),
                         isLoading = false,
                     )
                 )
