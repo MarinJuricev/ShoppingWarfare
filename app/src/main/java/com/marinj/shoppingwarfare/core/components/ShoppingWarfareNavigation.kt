@@ -26,6 +26,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.CartPage
 import com.marinj.shoppingwarfare.feature.category.presentation.CategoryPage
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_DETAIL_ROUTE
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_ID
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_NAME
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CategoryDetailPage
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.CREATE_CATEGORY_ROUTE
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.CreateCategoryPage
@@ -101,8 +102,8 @@ fun ShoppingWarfareNavigation(
             composable(CATEGORY_DETAIL_ROUTE) { backStackEntry ->
                 val categoryId = backStackEntry.arguments?.getString(CATEGORY_ID)
                     ?: throw Exception("$CATEGORY_ID was not provided to categoryDetailRoute")
-                val categoryName = backStackEntry.arguments?.getString(CATEGORY_ID)
-                    ?: throw Exception("$CATEGORY_ID was not provided to categoryDetailRoute")
+                val categoryName = backStackEntry.arguments?.getString(CATEGORY_NAME)
+                    ?: throw Exception("$CATEGORY_NAME was not provided to categoryDetailRoute")
 
                 CategoryDetailPage(
                     categoryId = categoryId,

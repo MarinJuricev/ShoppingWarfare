@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 
 const val CATEGORY_ID = "categoryId"
 const val CATEGORY_NAME = "categoryName"
-const val CATEGORY_DETAIL_ROUTE = "categoryDetail/{$CATEGORY_ID/{$CATEGORY_NAME}"
+const val CATEGORY_DETAIL_ROUTE = "categoryDetail/{$CATEGORY_ID}/{$CATEGORY_NAME}"
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
