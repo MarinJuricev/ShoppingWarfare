@@ -7,7 +7,9 @@ import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -33,7 +35,7 @@ class CartViewModel @Inject constructor(
 
     override fun onEvent(event: CartEvent) {
         when (event) {
-            CartEvent.OnGetCartItems -> handleGetCartItems()
+            OnGetCartItems -> handleGetCartItems()
         }
     }
 
@@ -53,7 +55,7 @@ class CartViewModel @Inject constructor(
 
     private suspend fun handleGetCartItemsError() {
         updateIsLoading(false)
-        _viewEffect.send(CartEffect.Error("Failed to fetch cart items, please try again later."))
+        _viewEffect.send(Error("Failed to fetch cart items, please try again later."))
     }
 
     private fun updateIsLoading(isLoading: Boolean) {

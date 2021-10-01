@@ -37,6 +37,8 @@
     <string name="cart_name">Cart product name:</string>
     <string name="decrease_quantity">Decrease quantity</string>
     <string name="increase_quantity">Increase quantity</string>
+    <string name="cart_category_name">Category name: %s</string>
+
 
     <!-- History-->
     <string name="history">History</string>
