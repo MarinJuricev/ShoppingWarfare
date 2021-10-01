@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -47,8 +46,8 @@ fun ShoppingWarfareSwipeToDismiss(
         state = dismissState,
         modifier = Modifier.padding(vertical = 4.dp),
         directions = setOf(DismissDirection.EndToStart),
-        dismissThresholds = { direction ->
-            FractionalThreshold(if (direction == DismissDirection.StartToEnd) 0.25f else 0.5f)
+        dismissThresholds = {
+            FractionalThreshold(0.25f)
         },
         background = {
             val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
