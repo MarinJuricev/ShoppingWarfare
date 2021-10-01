@@ -106,7 +106,7 @@ class CategoryViewModelTest {
             }
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Failed to fetch Categories, try again later."))
+                assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Failed to fetch Categories, try again later."))
             }
         }
 
@@ -140,7 +140,7 @@ class CategoryViewModelTest {
             sut.onEvent(CategoryEvent.DeleteCategory(uiCategory))
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Error while deleting category."))
+                assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Error while deleting category."))
             }
         }
 
@@ -171,7 +171,7 @@ class CategoryViewModelTest {
             sut.onEvent(CategoryEvent.UndoCategoryDeletion(uiCategory))
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Couldn't undo category deletion."))
+                assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Couldn't undo category deletion."))
             }
         }
 
