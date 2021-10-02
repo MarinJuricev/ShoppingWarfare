@@ -1,13 +1,13 @@
-package com.marinj.shoppingwarfare.core.viewmodel
+package com.marinj.shoppingwarfare.core.viewmodel.topbar
 
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CartTopBar
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryDetailTopBar
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryTopBar
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CreateCategoryTopBar
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.HistoryTopBar
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.UserTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

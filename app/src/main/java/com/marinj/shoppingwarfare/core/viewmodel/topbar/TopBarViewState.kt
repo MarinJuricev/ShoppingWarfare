@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.core.viewmodel
+package com.marinj.shoppingwarfare.core.viewmodel.topbar
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable

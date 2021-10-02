@@ -24,8 +24,8 @@ import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryDetailTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.CreateCategoryProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.components.ProductList
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect

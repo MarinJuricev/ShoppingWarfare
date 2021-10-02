@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarViewState
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewState
 
 @Composable
 fun ShoppingWarfareTopBar(

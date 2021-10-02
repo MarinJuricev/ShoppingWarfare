@@ -19,8 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CategoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.feature.category.presentation.components.CategoryGrid
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect.Error

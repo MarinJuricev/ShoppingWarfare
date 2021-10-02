@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.UserTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 
 @Composable
 fun UserPage(

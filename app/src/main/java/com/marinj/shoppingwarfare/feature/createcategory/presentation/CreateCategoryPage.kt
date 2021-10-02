@@ -24,8 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CreateCategoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged

@@ -19,8 +19,8 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.DottedLine
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent
-import com.marinj.shoppingwarfare.core.viewmodel.TopBarEvent.CartTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 
