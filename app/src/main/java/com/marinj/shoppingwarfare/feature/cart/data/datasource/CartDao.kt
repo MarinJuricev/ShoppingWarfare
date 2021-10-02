@@ -13,6 +13,9 @@ interface CartDao {
     @Query("SELECT * FROM localCartItem")
     fun observeCartItems(): Flow<List<LocalCartItem>>
 
+    @Query("SELECT COUNT(*) FROM localCartItem")
+    fun observeCartItemsCount(): Flow<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertCartItem(entity: LocalCartItem): Long
 

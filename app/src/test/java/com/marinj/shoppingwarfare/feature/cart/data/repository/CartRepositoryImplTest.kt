@@ -61,6 +61,19 @@ class CartRepositoryImplTest {
     }
 
     @Test
+    fun `observeCartItemsCount should return number of cartItems`() = runBlockingTest {
+        val numberOfCartItems = 5
+        coEvery {
+            cartDao.observeCartItemsCount()
+        } coAnswers { flow { emit(numberOfCartItems) } }
+
+        sut.observeCartItemsCount().test {
+            assertThat(awaitItem()).isEqualTo(numberOfCartItems)
+            awaitComplete()
+        }
+    }
+
+    @Test
     fun `upsertCartItem should return LeftFailure when cartDao returns 0L`() = runBlockingTest {
         val cartItem = mockk<CartItem>()
         val localCartItem = mockk<LocalCartItem>().apply {
@@ -122,7 +135,8 @@ class CartRepositoryImplTest {
             } coAnswers { null }
 
             val actualResult = sut.getCartItemById(cartItemId)
-            val expectedResult = ErrorMessage("No cartItem present with the id: $cartItemId").buildLeft()
+            val expectedResult =
+                ErrorMessage("No cartItem present with the id: $cartItemId").buildLeft()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
