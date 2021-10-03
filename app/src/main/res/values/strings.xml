@@ -30,6 +30,7 @@
     <string name="product_created">Product created %s</string>
     <string name="delete_confirm">Are you sure you want to delete this product?</string>
     <string name="cart_item_added">%s successfully added to cart</string>
+    <string name="cart_item_deleted">%s successfully deleted from cart</string>
     <string name="create_product">Create Product</string>
 
     <!-- Cart -->

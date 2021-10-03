@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -36,9 +37,9 @@ fun CategoryPage(
     navigateToCreateCategory: () -> Unit,
     navigateToCategoryDetail: (String, String) -> Unit,
     setupTopBar: (TopBarEvent) -> Unit,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val viewState by categoryViewModel.categoryViewState.collectAsState()
-    val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
 
     LaunchedEffect(
