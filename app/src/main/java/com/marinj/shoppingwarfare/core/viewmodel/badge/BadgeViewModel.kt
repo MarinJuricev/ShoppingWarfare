@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BadgeViewModel @Inject constructor(
-    private val observeCartItemsCount: ObserveCartItemsCount
+    private val observeCartItemsCount: ObserveCartItemsCount,
 ) : BaseViewModel<BadgeEvent>() {
 
     private val _viewState = MutableStateFlow(BadgeViewState())
