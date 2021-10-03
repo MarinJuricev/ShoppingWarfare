@@ -1,4 +1,3 @@
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,7 +28,7 @@ fun CartItemCard(
 ) {
     ShoppingWarfareSwipeToDismiss(
         modifier = Modifier.fillMaxWidth(),
-        onDismiss = {},
+        onDismiss = { onCartEvent(DeleteCartItem(cartItem)) },
     ) {
         ConstraintLayout(
             modifier = Modifier.padding(16.dp),
@@ -60,14 +59,11 @@ fun CartItemCard(
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                     }
-                    .clickable {
-                        onCartEvent(DeleteCartItem(cartItem.id))
-                    }
                     .size(24.dp),
                 imageVector = Icons.Default.KeyboardArrowLeft,
                 tint = if (MaterialTheme.colors.isLight) Color.DarkGray else Color.White,
                 contentDescription = stringResource(
-                    R.string.delete_item,
+                    R.string.swipe_to_delete_item,
                     cartItem.name
                 )
             )

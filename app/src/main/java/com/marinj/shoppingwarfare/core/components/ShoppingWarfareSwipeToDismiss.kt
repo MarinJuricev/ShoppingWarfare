@@ -24,9 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.marinj.shoppingwarfare.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -69,12 +67,6 @@ fun ShoppingWarfareSwipeToDismiss(
             val scale by animateFloatAsState(
                 if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
             )
-            val contentDescription = if (icon == Icons.Default.Delete) {
-                stringResource(id = R.string.delete_item)
-            } else {
-                null
-            }
-
             Box(
                 Modifier
                     .fillMaxSize()
@@ -84,7 +76,7 @@ fun ShoppingWarfareSwipeToDismiss(
             ) {
                 Icon(
                     icon,
-                    contentDescription = contentDescription,
+                    contentDescription = null,
                     modifier = Modifier.scale(scale)
                 )
             }

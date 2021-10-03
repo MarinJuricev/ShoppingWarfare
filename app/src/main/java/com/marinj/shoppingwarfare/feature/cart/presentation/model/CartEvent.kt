@@ -8,5 +8,6 @@ sealed class CartEvent {
         val cartItemToUpdate: CartItem,
         val newQuantity: Int,
     ) : CartEvent()
-    data class DeleteCartItem(val cartItemId: String) : CartEvent()
+
+    data class DeleteCartItem(val cartItem: CartItem) : CartEvent()
 }

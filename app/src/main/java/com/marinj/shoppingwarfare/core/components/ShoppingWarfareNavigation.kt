@@ -93,9 +93,9 @@ fun ShoppingWarfareNavigation(
             }
             composable(CATEGORY_DETAIL_ROUTE) { backStackEntry ->
                 val categoryId = backStackEntry.arguments?.getString(CATEGORY_ID)
-                    ?: throw Exception("$CATEGORY_ID was not provided to categoryDetailRoute")
+                    ?: error("$CATEGORY_ID was not provided to categoryDetailRoute")
                 val categoryName = backStackEntry.arguments?.getString(CATEGORY_NAME)
-                    ?: throw Exception("$CATEGORY_NAME was not provided to categoryDetailRoute")
+                    ?: error("$CATEGORY_NAME was not provided to categoryDetailRoute")
 
                 CategoryDetailPage(
                     categoryId = categoryId,
