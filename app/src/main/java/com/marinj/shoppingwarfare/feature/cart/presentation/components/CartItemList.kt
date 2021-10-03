@@ -14,13 +14,15 @@ fun CartItemList(
     cartData: Map<String, List<CartItem>>,
     onCartEvent: (CartEvent) -> Unit,
 ) {
-
     LazyColumn {
         cartData.forEach { (categoryName, cartItems) ->
             stickyHeader {
                 CartHeader(categoryName)
             }
-            items(cartItems) { cartItem ->
+            items(
+                items = cartItems,
+                key = { it.id },
+            ) { cartItem ->
                 CartItemCard(
                     cartItem,
                     onCartEvent,

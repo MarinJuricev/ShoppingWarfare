@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.util.fastForEach
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -44,7 +45,7 @@ fun ShoppingWarfareNavigation(
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                BottomNavigationItem.navigationItems.forEach { screen ->
+                BottomNavigationItem.navigationItems.fastForEach { screen ->
                     if (screen == BottomNavigationItem.Cart) {
                         val badgeViewModel: BadgeViewModel = hiltViewModel()
                         val viewState by badgeViewModel.viewState.collectAsState()
