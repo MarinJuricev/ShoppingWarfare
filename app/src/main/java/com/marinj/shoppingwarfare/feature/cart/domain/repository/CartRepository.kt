@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
     fun observeCartItems(): Flow<List<CartItem>>
-    fun observeCartItemsCount(): Flow<Int>
+    fun observeCartItemsCount(): Flow<Int?>
     suspend fun upsertCartItem(cartItem: CartItem): Either<Failure, Unit>
     suspend fun deleteCartItemById(id: String): Either<Failure, Unit>
     suspend fun getCartItemById(id: String): Either<Failure, CartItem>

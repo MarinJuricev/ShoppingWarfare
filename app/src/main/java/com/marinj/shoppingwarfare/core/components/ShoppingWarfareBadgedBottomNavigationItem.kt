@@ -21,17 +21,19 @@ import androidx.navigation.NavHostController
 fun RowScope.ShoppingWarfareBadgedBottomNavigationItem(
     screen: BottomNavigationItem,
     currentDestination: NavDestination?,
-    badgeCount: Int,
+    badgeCount: Int?,
     navController: NavHostController
 ) {
     BottomNavigationItem(
         icon = {
             BadgedBox(badge = {
-                Badge {
-                    Text(
-                        text = badgeCount.toString(),
-                        color = MaterialTheme.colors.surface,
-                    )
+                badgeCount?.let { count ->
+                    Badge {
+                        Text(
+                            text = count.toString(),
+                            color = MaterialTheme.colors.surface,
+                        )
+                    }
                 }
             }) {
                 Icon(

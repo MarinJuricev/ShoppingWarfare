@@ -8,6 +8,6 @@ class ObserveCartItemsCount @Inject constructor(
     private val cartRepository: CartRepository,
 ) {
 
-    operator fun invoke(): Flow<Int> =
+    operator fun invoke(): Flow<Int?> =
         cartRepository.observeCartItemsCount()
 }
