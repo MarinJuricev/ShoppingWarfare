@@ -20,6 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,8 +37,10 @@ import com.marinj.shoppingwarfare.core.components.DottedLine
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
+import com.marinj.shoppingwarfare.core.ext.openAppSystemSettings
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
+import com.marinj.shoppingwarfare.feature.cart.presentation.components.CameraPermissionFlow
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
@@ -50,6 +55,7 @@ fun CartPage(
 ) {
     val viewState by cartViewModel.viewState.collectAsState()
     val context = LocalContext.current
+    var showCameraPermission by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(
         key1 = Unit,
@@ -79,60 +85,68 @@ fun CartPage(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
     ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight(0.8f)
-                    .fillMaxWidth()
-            ) {
-                when {
-                    viewState.isLoading -> ShoppingWarfareLoadingIndicator()
-                    viewState.cartData.isEmpty() -> ShoppingWarfareEmptyScreen(
-                        message = stringResource(
-                            R.string.empty_cart_message
+        Box {
+            Column {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight(0.8f)
+                        .fillMaxWidth()
+                ) {
+                    when {
+                        viewState.isLoading -> ShoppingWarfareLoadingIndicator()
+                        viewState.cartData.isEmpty() -> ShoppingWarfareEmptyScreen(
+                            message = stringResource(
+                                R.string.empty_cart_message
+                            )
                         )
+                        viewState.cartData.isNotEmpty() -> CartItemList(
+                            cartData = viewState.cartData,
+                            onCartEvent = cartViewModel::onEvent,
+                        )
+                    }
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+
+                ) {
+                    DottedLine(
+                        modifier = Modifier
+                            .height(1.dp)
+                            .fillMaxWidth(),
+                        step = 10.dp,
                     )
-                    viewState.cartData.isNotEmpty() -> CartItemList(
-                        cartData = viewState.cartData,
-                        onCartEvent = cartViewModel::onEvent,
-                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row {
+                        Button(
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .fillMaxWidth(0.8f)
+                                .padding(16.dp),
+                            enabled = viewState.cartData.isNotEmpty(),
+                            onClick = { /*TODO*/ }
+                        ) {
+                            Text(text = stringResource(id = R.string.checkout))
+                        }
+                        ShoppingWarfareIconButton(
+                            modifier = Modifier.align(Alignment.CenterVertically),
+                            enabled = viewState.cartData.isNotEmpty(),
+                            onClick = { showCameraPermission = !showCameraPermission }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.camera_icon),
+                                tint = Color.White,
+                                contentDescription = stringResource(string.decrease_quantity)
+                            )
+                        }
+                    }
                 }
             }
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-
-            ) {
-                DottedLine(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth(),
-                    step = 10.dp,
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Row {
-                    Button(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .fillMaxWidth(0.8f)
-                            .padding(16.dp),
-                        enabled = viewState.cartData.isNotEmpty(),
-                        onClick = { /*TODO*/ }
-                    ) {
-                        Text(text = "Checkout")
-                    }
-                    ShoppingWarfareIconButton(
-                        modifier = Modifier.align(Alignment.CenterVertically),
-                        enabled = viewState.cartData.isNotEmpty(),
-                        onClick = { /*TODO*/ }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.camera_icon),
-                            tint = Color.White,
-                            contentDescription = stringResource(string.decrease_quantity)
-                        )
-                    }
+            // TODO: Remove the Box and put this either in a bottom-sheet or in a dialog
+            if (showCameraPermission) {
+                CameraPermissionFlow {
+                    context.openAppSystemSettings()
                 }
             }
         }

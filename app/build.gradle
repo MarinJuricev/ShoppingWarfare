@@ -62,6 +62,7 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
 
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_navigation_animation_version"
+    implementation "com.google.accompanist:accompanist-permissions:$accompanist_navigation_animation_version"
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
