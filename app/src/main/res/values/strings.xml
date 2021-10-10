@@ -48,4 +48,5 @@
 
     <!-- User -->
     <string name="user">User</string>
+    <string name="cart_camera_permission_reasoning">The app needs Camera permission to be able to take a picture of the receipt that matches the current cart, you can review the checked out cart and receipt in the History feature</string>
 </resources>

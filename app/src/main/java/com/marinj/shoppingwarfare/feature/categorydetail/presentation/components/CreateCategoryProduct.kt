@@ -36,8 +36,7 @@ fun CreateCategoryProduct(
     var categoryItemName by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier
-            .fillMaxHeight(0.25f),
+        modifier = Modifier.fillMaxHeight(0.25f),
         verticalArrangement = Arrangement.Center
     ) {
         Text(

@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.feature.categorydetail.presentation
 
+import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
@@ -34,6 +35,7 @@ import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.Cate
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEvent.RestoreProductDeletion
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel.CategoryDetailViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -49,9 +51,9 @@ fun CategoryDetailPage(
     setupTopBar: (TopBarEvent) -> Unit,
     categoryDetailViewModel: CategoryDetailViewModel = hiltViewModel(),
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    currentContext: Context = LocalContext.current,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val currentContext = LocalContext.current
     val viewState by categoryDetailViewModel.viewState.collectAsState()
 
     LaunchedEffect(key1 = categoryId) {

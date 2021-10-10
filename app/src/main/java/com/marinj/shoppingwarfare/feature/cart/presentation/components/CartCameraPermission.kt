@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.cart.presentation.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
@@ -13,13 +14,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
+import com.marinj.shoppingwarfare.R.string
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraPermissionFlow(
+fun CartCameraPermission(
     navigateToSettingsScreen: () -> Unit,
 ) {
     // Track if the user doesn't want to see the rationale any more.
@@ -31,20 +34,15 @@ fun CameraPermissionFlow(
     )
 
     when {
-        // If the camera permission is granted, then show screen with the feature enabled
         cameraPermissionState.hasPermission -> {
             Text("Camera permission Granted")
         }
-        // If the user denied the permission but a rationale should be shown, or the user sees
-        // the permission for the first time, explain why the feature is needed by the app and allow
-        // the user to be presented with the permission again or to not see the rationale any more.
-        cameraPermissionState.shouldShowRationale ||
-            !cameraPermissionState.permissionRequested -> {
+        cameraPermissionState.shouldShowRationale || !cameraPermissionState.permissionRequested -> {
             if (doNotShowRationale) {
                 Text("Feature not available")
             } else {
-                Column {
-                    Text("The camera is important for this app. Please grant the permission.")
+                Column(modifier = Modifier.fillMaxHeight(0.25f)) {
+                    Text(stringResource(string.cart_camera_permission_reasoning))
                     Spacer(modifier = Modifier.height(8.dp))
                     Row {
                         Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
