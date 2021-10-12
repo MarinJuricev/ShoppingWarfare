@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
-import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissDirection.EndToStart
+import androidx.compose.material.DismissDirection.StartToEnd
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
@@ -35,15 +36,17 @@ fun ShoppingWarfareSwipeToDismiss(
 ) {
     // https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#swipetodismiss
     val dismissState = rememberDismissState(
-        confirmStateChange = {
-            onDismiss()
-            it != DismissValue.DismissedToEnd
+        confirmStateChange = { dismissValue ->
+            if (dismissValue == DismissValue.DismissedToStart) {
+                onDismiss()
+            }
+            dismissValue != DismissValue.DismissedToEnd
         }
     )
     SwipeToDismiss(
         state = dismissState,
         modifier = Modifier.padding(vertical = 4.dp),
-        directions = setOf(DismissDirection.EndToStart),
+        directions = setOf(EndToStart),
         dismissThresholds = {
             FractionalThreshold(0.25f)
         },
@@ -57,12 +60,12 @@ fun ShoppingWarfareSwipeToDismiss(
                 }
             )
             val alignment = when (direction) {
-                DismissDirection.StartToEnd -> Alignment.CenterStart
-                DismissDirection.EndToStart -> Alignment.CenterEnd
+                StartToEnd -> Alignment.CenterStart
+                EndToStart -> Alignment.CenterEnd
             }
             val icon = when (direction) {
-                DismissDirection.StartToEnd -> Icons.Default.Done
-                DismissDirection.EndToStart -> Icons.Default.Delete
+                StartToEnd -> Icons.Default.Done
+                EndToStart -> Icons.Default.Delete
             }
             val scale by animateFloatAsState(
                 if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
