@@ -12,6 +12,9 @@
     <string name="delete_item">Delete %s</string>
     <string name="swipe_to_delete_item">Swipe to delete %s</string>
     <string name="ok">OK</string>
+    <string name="request_permission">Request permission</string>
+    <string name="do_not_show_rationale">Don\'t show rationale again</string>
+    <string name="open_settings">Open Settings</string>
 
     <!-- Category -->
     <!-- TODO Do we need this or is this just category ? -->
@@ -41,12 +44,13 @@
     <string name="decrease_quantity">Decrease quantity</string>
     <string name="increase_quantity">Increase quantity</string>
     <string name="cart_category_name">Category name: %s</string>
-
+    <string name="cart_camera_permission_reasoning">The app needs Camera permission to be able to take a picture of the receipt that matches the current cart, you can review the checked out cart and receipt in the History feature</string>
+    <string name="feature_not_available">Feature not available</string>
+    <string name="camera_permission_denied">Camera permission denied. You won\'t be able to take a picture of your receipt, consider granting us access on the Settings screen.</string>
 
     <!-- History-->
     <string name="history">History</string>
 
     <!-- User -->
     <string name="user">User</string>
-    <string name="cart_camera_permission_reasoning">The app needs Camera permission to be able to take a picture of the receipt that matches the current cart, you can review the checked out cart and receipt in the History feature</string>
 </resources>
