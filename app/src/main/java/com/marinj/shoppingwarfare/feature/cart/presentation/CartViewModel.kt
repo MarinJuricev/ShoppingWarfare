@@ -45,7 +45,10 @@ class CartViewModel @Inject constructor(
         when (event) {
             OnGetCartItems -> handleGetCartItems()
             is CartEvent.DeleteCartItem -> handleDeleteCartItem(event.cartItem)
-            is CartEvent.CartItemQuantityChanged -> handleCartItemQuantityChanged(event.cartItemToUpdate, event.newQuantity)
+            is CartEvent.CartItemQuantityChanged -> handleCartItemQuantityChanged(
+                event.cartItemToUpdate,
+                event.newQuantity
+            )
         }
     }
 

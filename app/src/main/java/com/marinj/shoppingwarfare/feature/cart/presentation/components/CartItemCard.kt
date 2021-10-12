@@ -27,7 +27,9 @@ fun CartItemCard(
     onCartEvent: (CartEvent) -> Unit,
 ) {
     ShoppingWarfareSwipeToDismiss(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         onDismiss = { onCartEvent(DeleteCartItem(cartItem)) },
     ) {
         ConstraintLayout(

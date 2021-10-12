@@ -45,7 +45,7 @@ fun ShoppingWarfareSwipeToDismiss(
     )
     SwipeToDismiss(
         state = dismissState,
-        modifier = Modifier.padding(vertical = 4.dp),
+        modifier = Modifier.padding(vertical = 8.dp),
         directions = setOf(EndToStart),
         dismissThresholds = {
             FractionalThreshold(0.25f)
@@ -88,7 +88,7 @@ fun ShoppingWarfareSwipeToDismiss(
             Card(
                 modifier = modifier,
                 elevation = animateDpAsState(
-                    if (dismissState.dismissDirection != null) 4.dp else 0.dp
+                    if (dismissState.dismissDirection != null) 4.dp else 2.dp
                 ).value
             ) {
                 foregroundContent()
