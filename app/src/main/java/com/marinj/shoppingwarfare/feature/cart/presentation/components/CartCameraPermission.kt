@@ -44,11 +44,7 @@ fun CartCameraPermission(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when {
-            cameraPermissionState.hasPermission -> {
-                Text(
-                    text = "Camera permission Granted, TODO actually indicate/open the Camera"
-                )
-            }
+            cameraPermissionState.hasPermission -> CameraPreview()
             cameraPermissionState.shouldShowRationale || !cameraPermissionState.permissionRequested -> {
                 if (doNotShowRationale) {
                     Text(text = stringResource(string.feature_not_available))

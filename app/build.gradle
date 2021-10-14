@@ -80,6 +80,10 @@ dependencies {
 
     implementation "com.jakewharton.timber:timber:$timber_version"
 
+    implementation "androidx.camera:camera-camera2:$camera_version"
+    implementation "androidx.camera:camera-lifecycle:$camera_version"
+    implementation "androidx.camera:camera-view:$camera_view_version"
+
     testImplementation "junit:junit:$junit_version"
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "com.google.truth:truth:$truth_version"
