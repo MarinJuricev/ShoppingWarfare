@@ -9,8 +9,14 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -34,42 +40,59 @@ fun CameraPreview(
     onImageError: () -> Unit = {},
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    AndroidView(
-        modifier = modifier,
-        factory = { context ->
-            val previewView = PreviewView(context).apply {
-                this.scaleType = scaleType
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                // Preview is incorrectly scaled in Compose on some devices without this
-                implementationMode = PreviewView.ImplementationMode.COMPATIBLE
-            }
-            val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+    val context = LocalContext.current
+    var imageCapture: ImageCapture? = null
 
-            setupCameraView(
-                cameraProviderFuture,
-                previewView,
-                lifecycleOwner,
-                cameraSelector,
+    Box {
+        AndroidView(
+            modifier = modifier,
+            factory = { context ->
+                val previewView = PreviewView(context).apply {
+                    this.scaleType = scaleType
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    // Preview is incorrectly scaled in Compose on some devices without this
+                    implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                }
+                val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+                ImageCapture.Builder().build().also { imageCapture = it }
+
+                setupCameraView(
+                    cameraProviderFuture,
+                    previewView,
+                    imageCapture,
+                    lifecycleOwner,
+                    cameraSelector,
+                    context,
+                )
+
+                previewView
+            }
+        )
+        IconButton(onClick = {
+            setupImageCaptureListener(
+                imageCapture,
+                context,
                 onImageSaved,
                 onImageError,
-                context
             )
-
-            previewView
+        }) {
+            Icon(
+                imageVector = Icons.Default.Phone,
+                contentDescription = null
+            )
         }
-    )
+    }
 }
 
 private fun setupCameraView(
     cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     previewView: PreviewView,
+    imageCapture: ImageCapture?,
     lifecycleOwner: LifecycleOwner,
     cameraSelector: CameraSelector,
-    onImageSaved: (String) -> Unit,
-    onImageError: () -> Unit,
     context: Context,
 ) {
     cameraProviderFuture.addListener({
@@ -82,15 +105,11 @@ private fun setupCameraView(
                 it.setSurfaceProvider(previewView.surfaceProvider)
             }
 
-        val imageCapture = ImageCapture.Builder().build()
         try {
             // Must unbind the use-cases before rebinding them.
             cameraProvider.unbindAll()
             cameraProvider.bindToLifecycle(
                 lifecycleOwner, cameraSelector, preview, imageCapture
-            )
-            setupImageCaptureListener(
-                imageCapture, context, onImageSaved, onImageError
             )
         } catch (exc: Exception) {
             Timber.e("Use case binding failed", exc)
@@ -99,14 +118,14 @@ private fun setupCameraView(
     }
 
     private fun setupImageCaptureListener(
-        imageCapture: ImageCapture,
+        imageCapture: ImageCapture?,
         context: Context,
         onImageSaved: (String) -> Unit,
         onImageError: () -> Unit
     ) {
         // Create time-stamped output file to hold the image
         val photoFile = File(
-            context.cacheDir,
+            context.filesDir,
             SimpleDateFormat(
                 DATE_FORMAT, Locale.US
             ).format(System.currentTimeMillis()) + JPG_EXTENSION
@@ -115,20 +134,9 @@ private fun setupCameraView(
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
-        imageCapture.takePicture(
+        imageCapture?.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(context),
-//        object : ImageCapture.OnImageCapturedCallback() {
-//            override fun onCaptureSuccess(imageProxy: ImageProxy) {
-// //                val image: Image = imageProxy.image // Do what you want with the image
-//
-//                imageProxy.close() // Make sure to close the image
-//            }
-//
-//            override fun onError(exception: ImageCaptureException) {
-//                // Handle exception
-//            }
-// )        })
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
