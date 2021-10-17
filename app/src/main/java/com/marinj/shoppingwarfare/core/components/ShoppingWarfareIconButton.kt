@@ -30,6 +30,7 @@ fun ShoppingWarfareIconButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     buttonSize: Dp = DefaultIconButtonSize,
+    backgroundAlpha: Float = 1.0f,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit
 ) {
@@ -49,7 +50,7 @@ fun ShoppingWarfareIconButton(
             )
             .size(buttonSize)
             .clip(CircleShape)
-            .background(contentColor),
+            .background(contentColor.copy(alpha = backgroundAlpha)),
         contentAlignment = Alignment.Center
     ) {
         val contentAlpha = if (enabled) LocalContentAlpha.current else ContentAlpha.disabled

@@ -10,18 +10,22 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
+import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -29,6 +33,7 @@ import java.util.Locale
 
 private const val DATE_FORMAT = "yyyy:MM:dd HH:mm:ss"
 private const val JPG_EXTENSION = ".jpg"
+private const val ICON_ALPHA = 0.5f
 
 // https://stackoverflow.com/questions/61795508/how-can-i-use-a-cameraview-with-jetpack-compose
 @Composable
@@ -65,22 +70,30 @@ fun CameraPreview(
                     imageCapture,
                     lifecycleOwner,
                     cameraSelector,
+                    onImageError,
                     context,
                 )
 
                 previewView
             }
         )
-        IconButton(onClick = {
-            setupImageCaptureListener(
-                imageCapture,
-                context,
-                onImageSaved,
-                onImageError,
-            )
-        }) {
+        ShoppingWarfareIconButton(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
+            backgroundAlpha = ICON_ALPHA,
+            onClick = {
+                setupImageCaptureListener(
+                    imageCapture,
+                    context,
+                    onImageSaved,
+                    onImageError,
+                )
+            },
+        ) {
             Icon(
-                imageVector = Icons.Default.Phone,
+                painter = painterResource(id = R.drawable.take_photo_icon),
+                tint = MaterialTheme.colors.surface.copy(alpha = ICON_ALPHA),
                 contentDescription = null
             )
         }
@@ -93,6 +106,7 @@ private fun setupCameraView(
     imageCapture: ImageCapture?,
     lifecycleOwner: LifecycleOwner,
     cameraSelector: CameraSelector,
+    onImageError: () -> Unit,
     context: Context,
 ) {
     cameraProviderFuture.addListener({
@@ -113,6 +127,7 @@ private fun setupCameraView(
             )
         } catch (exc: Exception) {
             Timber.e("Use case binding failed", exc)
+            onImageError()
         }
     }, ContextCompat.getMainExecutor(context))
     }
