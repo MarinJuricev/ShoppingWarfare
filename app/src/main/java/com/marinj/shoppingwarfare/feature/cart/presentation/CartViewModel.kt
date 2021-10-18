@@ -14,8 +14,12 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureError
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureSuccess
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,11 +48,13 @@ class CartViewModel @Inject constructor(
     override fun onEvent(event: CartEvent) {
         when (event) {
             OnGetCartItems -> handleGetCartItems()
+            ReceiptCaptureError -> handleReceiptCaptureError()
             is CartEvent.DeleteCartItem -> handleDeleteCartItem(event.cartItem)
-            is CartEvent.CartItemQuantityChanged -> handleCartItemQuantityChanged(
+            is CartItemQuantityChanged -> handleCartItemQuantityChanged(
                 event.cartItemToUpdate,
                 event.newQuantity
             )
+            is ReceiptCaptureSuccess -> handleReceiptCaptureSuccess(event.receiptPath)
         }
     }
 
@@ -64,6 +70,12 @@ class CartViewModel @Inject constructor(
                     )
                 )
             }
+    }
+
+    private fun handleReceiptCaptureError() {
+        _viewState.safeUpdate(
+            _viewState.value.copy(receiptStatus = ReceiptStatus.Error)
+        )
     }
 
     private suspend fun handleGetCartItemsError() {
@@ -86,6 +98,12 @@ class CartViewModel @Inject constructor(
             is Right -> Timber.d("${cartItemToUpdate.name} successfully updated with $newQuantity quantity")
             is Left -> _viewEffect.send(Error("Failed to update ${cartItemToUpdate.name}, please try again later"))
         }
+    }
+
+    private fun handleReceiptCaptureSuccess(receiptPath: String) {
+        _viewState.safeUpdate(
+            _viewState.value.copy(receiptStatus = ReceiptStatus.Taken(receiptPath))
+        )
     }
 
     private fun updateIsLoading(isLoading: Boolean) {

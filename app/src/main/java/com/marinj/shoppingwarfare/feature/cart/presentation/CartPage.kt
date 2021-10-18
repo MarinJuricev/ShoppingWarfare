@@ -86,7 +86,14 @@ fun CartPage(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
-            CartCameraPermission {
+            CartCameraPermission(
+                onCartEvent = { cartEvent ->
+                    coroutineScope.launch {
+                        bottomSheetScaffoldState.expandOrCollapse()
+                    }
+                    cartViewModel.onEvent(cartEvent)
+                },
+            ) {
                 context.openAppSystemSettings()
             }
         },

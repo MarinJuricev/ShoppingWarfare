@@ -22,10 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.marinj.shoppingwarfare.R.string
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CartCameraPermission(
+    onCartEvent: (CartEvent) -> Unit,
     navigateToSettingsScreen: () -> Unit,
 ) {
     // Track if the user doesn't want to see the rationale any more.
@@ -44,7 +46,7 @@ fun CartCameraPermission(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when {
-            cameraPermissionState.hasPermission -> CameraPreview()
+            cameraPermissionState.hasPermission -> CartCameraPreview(onCartEvent = onCartEvent)
             cameraPermissionState.shouldShowRationale || !cameraPermissionState.permissionRequested -> {
                 if (doNotShowRationale) {
                     Text(text = stringResource(string.feature_not_available))

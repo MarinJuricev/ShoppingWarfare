@@ -15,6 +15,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Car
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -39,7 +40,8 @@ class CartViewModelTest {
     private val observeCartItems: ObserveCartItems = mockk()
     private val deleteCartItem: DeleteCartItem = mockk()
     private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
-    private val cartItemsToCartDataMapper: Mapper<Map<String, List<CartItem>>, List<CartItem>> = mockk()
+    private val cartItemsToCartDataMapper: Mapper<Map<String, List<CartItem>>, List<CartItem>> =
+        mockk()
 
     private lateinit var sut: CartViewModel
 
@@ -158,7 +160,12 @@ class CartViewModelTest {
                 )
             } coAnswers { Unit.buildRight() }
 
-            sut.onEvent(CartEvent.CartItemQuantityChanged(cartItemToUpdate = cartItem, newQuantity = newQuantity))
+            sut.onEvent(
+                CartEvent.CartItemQuantityChanged(
+                    cartItemToUpdate = cartItem,
+                    newQuantity = newQuantity
+                )
+            )
 
             sut.viewEffect.test {
                 expectNoEvents()
@@ -179,10 +186,30 @@ class CartViewModelTest {
                 )
             } coAnswers { Failure.Unknown.buildLeft() }
 
-            sut.onEvent(CartEvent.CartItemQuantityChanged(cartItemToUpdate = cartItem, newQuantity = newQuantity))
+            sut.onEvent(
+                CartEvent.CartItemQuantityChanged(
+                    cartItemToUpdate = cartItem,
+                    newQuantity = newQuantity
+                )
+            )
 
             sut.viewEffect.test {
                 assertThat(awaitItem()).isEqualTo(Error("Failed to update $NAME, please try again later"))
             }
         }
+
+    @Test
+    fun `should update viewState receiptStatus to Error when ReceiptCaptureError is provided`() {
+        sut.onEvent(CartEvent.ReceiptCaptureError)
+
+        assertThat(sut.viewState.value.receiptStatus).isEqualTo(ReceiptStatus.Error)
+    }
+
+    @Test
+    fun `should update viewState receiptStatus to Taken when ReceiptCaptureSuccess is provided`() {
+        val receiptPath = "receiptPath"
+        sut.onEvent(CartEvent.ReceiptCaptureSuccess(receiptPath))
+
+        assertThat(sut.viewState.value.receiptStatus).isEqualTo(ReceiptStatus.Taken(receiptPath))
+    }
 }

@@ -36,6 +36,8 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureError
 import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.io.File
@@ -49,12 +51,11 @@ private const val CAMERA_FLASH_DURATION = 100L
 
 // https://stackoverflow.com/questions/61795508/how-can-i-use-a-cameraview-with-jetpack-compose
 @Composable
-fun CameraPreview(
+fun CartCameraPreview(
     modifier: Modifier = Modifier,
     cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
     scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER,
-    onImageSaved: (String) -> Unit = {},
-    onImageError: () -> Unit = {},
+    onCartEvent: (CartEvent) -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -98,7 +99,7 @@ fun CameraPreview(
                     imageCapture,
                     lifecycleOwner,
                     cameraSelector,
-                    onImageError,
+                    onCartEvent,
                     context,
                 )
 
@@ -115,8 +116,7 @@ fun CameraPreview(
                     imageCapture,
                     context,
                     { triggerFlash = true },
-                    onImageSaved,
-                    onImageError,
+                    onCartEvent,
                 )
             },
         ) {
@@ -140,7 +140,7 @@ private fun setupCameraView(
     imageCapture: ImageCapture?,
     lifecycleOwner: LifecycleOwner,
     cameraSelector: CameraSelector,
-    onImageError: () -> Unit,
+    onCartEvent: (CartEvent) -> Unit,
     context: Context,
 ) {
     cameraProviderFuture.addListener({
@@ -161,7 +161,7 @@ private fun setupCameraView(
             )
         } catch (exc: Exception) {
             Timber.e("Use case binding failed", exc)
-            onImageError()
+            onCartEvent(ReceiptCaptureError)
         }
     }, ContextCompat.getMainExecutor(context))
     }
@@ -170,8 +170,7 @@ private fun setupCameraView(
         imageCapture: ImageCapture?,
         context: Context,
         cameraTriggered: () -> Unit,
-        onImageSaved: (String) -> Unit,
-        onImageError: () -> Unit
+        onCartEvent: (CartEvent) -> Unit,
     ) {
         // Create time-stamped output file to hold the image
         val photoFile = File(
@@ -191,13 +190,13 @@ private fun setupCameraView(
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     cameraTriggered()
-                    onImageSaved(savedUri.toString())
+                    onCartEvent(CartEvent.ReceiptCaptureSuccess(savedUri.toString()))
                 }
 
                 override fun onError(exc: ImageCaptureException) {
                     Timber.d("Photo capture failed: ${exc.message}", exc)
                     cameraTriggered()
-                    onImageError()
+                    onCartEvent(ReceiptCaptureError)
                 }
             }
         )
