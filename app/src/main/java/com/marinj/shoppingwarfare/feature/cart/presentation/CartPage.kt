@@ -1,47 +1,34 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation
 
 import android.content.Context
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.marinj.shoppingwarfare.R.drawable
 import com.marinj.shoppingwarfare.R.string
-import com.marinj.shoppingwarfare.core.components.DottedLine
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
-import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
 import com.marinj.shoppingwarfare.core.ext.openAppSystemSettings
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCameraPermission
+import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCheckoutInfo
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
@@ -118,47 +105,11 @@ fun CartPage(
                     )
                 }
             }
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-
-            ) {
-                DottedLine(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth(),
-                    step = 10.dp,
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Row {
-                    Button(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .fillMaxWidth(0.8f)
-                            .padding(16.dp),
-                        enabled = viewState.cartData.isNotEmpty(),
-                        onClick = { /*TODO*/ }
-                    ) {
-                        Text(text = stringResource(id = string.checkout))
-                    }
-                    ShoppingWarfareIconButton(
-                        modifier = Modifier.align(Alignment.CenterVertically),
-                        enabled = viewState.cartData.isNotEmpty(),
-                        onClick = {
-                            coroutineScope.launch {
-                                bottomSheetScaffoldState.expandOrCollapse()
-                            }
-                        }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = drawable.camera_icon),
-                            tint = Color.White,
-                            contentDescription = stringResource(string.decrease_quantity)
-                        )
-                    }
-                }
-            }
+            CartCheckoutInfo(
+                viewState = viewState,
+                coroutineScope = coroutineScope,
+                bottomSheetScaffoldState = bottomSheetScaffoldState,
+            )
         }
     }
 }

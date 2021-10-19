@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.google.common.util.concurrent.ListenableFuture
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
@@ -76,6 +75,8 @@ fun CartCameraPreview(
         } else Color.Transparent
     }
     var imageCapture: ImageCapture? = null
+    var cameraProvider: ProcessCameraProvider? =
+        null // TODO Actually close the camera we don't want it to stay open!!!
 
     Box {
         AndroidView(
@@ -93,59 +94,58 @@ fun CartCameraPreview(
                 val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
                 ImageCapture.Builder().build().also { imageCapture = it }
 
-                setupCameraView(
-                    cameraProviderFuture,
-                    previewView,
-                    imageCapture,
-                    lifecycleOwner,
-                    cameraSelector,
-                    onCartEvent,
-                    context,
-                )
+                cameraProviderFuture.addListener({
+                    cameraProvider = cameraProviderFuture.get()
 
-                previewView
-            }
-        )
-        ShoppingWarfareIconButton(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 8.dp),
-            backgroundAlpha = ICON_ALPHA,
-            onClick = {
-                setupImageCaptureListener(
-                    imageCapture,
-                    context,
-                    { triggerFlash = true },
-                    onCartEvent,
+                    setupCameraView(
+                        cameraProvider = cameraProvider!!,
+                        previewView = previewView,
+                        imageCapture = imageCapture,
+                        lifecycleOwner = lifecycleOwner,
+                        cameraSelector = cameraSelector,
+                        onCartEvent = onCartEvent,
+                    )
+                }, ContextCompat.getMainExecutor(context))
+
+                    previewView
+                }
+            )
+            ShoppingWarfareIconButton(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 8.dp),
+                backgroundAlpha = ICON_ALPHA,
+                onClick = {
+                    setupImageCaptureListener(
+                        imageCapture,
+                        context,
+                        onCartEvent,
+                        { triggerFlash = true },
+                    )
+                },
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.take_photo_icon),
+                    tint = MaterialTheme.colors.surface.copy(alpha = ICON_ALPHA),
+                    contentDescription = null
                 )
-            },
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.take_photo_icon),
-                tint = MaterialTheme.colors.surface.copy(alpha = ICON_ALPHA),
-                contentDescription = null
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(flashBackground)
             )
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(flashBackground)
-        )
     }
-}
 
-private fun setupCameraView(
-    cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
-    previewView: PreviewView,
-    imageCapture: ImageCapture?,
-    lifecycleOwner: LifecycleOwner,
-    cameraSelector: CameraSelector,
-    onCartEvent: (CartEvent) -> Unit,
-    context: Context,
-) {
-    cameraProviderFuture.addListener({
-        val cameraProvider = cameraProviderFuture.get()
-
+    private fun setupCameraView(
+        cameraProvider: ProcessCameraProvider,
+        previewView: PreviewView,
+        imageCapture: ImageCapture?,
+        lifecycleOwner: LifecycleOwner,
+        cameraSelector: CameraSelector,
+        onCartEvent: (CartEvent) -> Unit,
+    ) {
         // Preview
         val preview = Preview.Builder()
             .build()
@@ -163,14 +163,13 @@ private fun setupCameraView(
             Timber.e("Use case binding failed", exc)
             onCartEvent(ReceiptCaptureError)
         }
-    }, ContextCompat.getMainExecutor(context))
     }
 
     private fun setupImageCaptureListener(
         imageCapture: ImageCapture?,
         context: Context,
-        cameraTriggered: () -> Unit,
         onCartEvent: (CartEvent) -> Unit,
+        cameraTriggered: () -> Unit,
     ) {
         // Create time-stamped output file to hold the image
         val photoFile = File(

@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,8 @@ fun ShoppingWarfareIconButton(
     val contentColor by ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.primary,
+        disabledBackgroundColor = Color.LightGray,
+        disabledContentColor = Color.LightGray
     ).contentColor(enabled)
 
     Box(
