@@ -7,6 +7,7 @@ import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
@@ -36,6 +37,7 @@ class CartViewModel @Inject constructor(
     private val observeCartItems: ObserveCartItems,
     private val deleteCartItem: DeleteCartItem,
     private val updateCartItemQuantity: UpdateCartItemQuantity,
+    private val checkoutCart: CheckoutCart,
     private val cartItemsToCartDataMapper: Mapper<Map<String, List<CartItem>>, List<CartItem>>,
 ) : BaseViewModel<CartEvent>() {
 
