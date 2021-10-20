@@ -9,23 +9,14 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
@@ -37,7 +28,6 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureError
-import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -46,7 +36,6 @@ import java.util.Locale
 private const val DATE_FORMAT = "yyyy:MM:dd HH:mm:ss"
 private const val JPG_EXTENSION = ".jpg"
 private const val ICON_ALPHA = 0.5f
-private const val CAMERA_FLASH_DURATION = 100L
 
 // https://stackoverflow.com/questions/61795508/how-can-i-use-a-cameraview-with-jetpack-compose
 @Composable
@@ -54,29 +43,12 @@ fun CartCameraPreview(
     modifier: Modifier = Modifier,
     cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
     scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    context: Context = LocalContext.current,
     onCartEvent: (CartEvent) -> Unit,
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val context = LocalContext.current
-    var triggerFlash by remember { mutableStateOf(false) }
-    val transition = updateTransition(
-        targetState = triggerFlash,
-        label = "flashAnimation"
-    )
-    val flashBackground by transition.animateColor(
-        label = "flashBackground"
-    ) { shouldFlash ->
-        if (shouldFlash) {
-            LaunchedEffect(key1 = shouldFlash) {
-                delay(CAMERA_FLASH_DURATION)
-                triggerFlash = false
-            }
-            Color.White
-        } else Color.Transparent
-    }
-    var imageCapture: ImageCapture? = null
-    var cameraProvider: ProcessCameraProvider? =
-        null // TODO Actually close the camera we don't want it to stay open!!!
+    val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
+    val imageCapture = remember { ImageCapture.Builder().build() }
 
     Box {
         AndroidView(
@@ -91,14 +63,12 @@ fun CartCameraPreview(
                     // Preview is incorrectly scaled in Compose on some devices without this
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                 }
-                val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-                ImageCapture.Builder().build().also { imageCapture = it }
 
                 cameraProviderFuture.addListener({
-                    cameraProvider = cameraProviderFuture.get()
+                    val cameraProvider = cameraProviderFuture.get()
 
                     setupCameraView(
-                        cameraProvider = cameraProvider!!,
+                        cameraProvider = cameraProvider,
                         previewView = previewView,
                         imageCapture = imageCapture,
                         lifecycleOwner = lifecycleOwner,
@@ -120,7 +90,6 @@ fun CartCameraPreview(
                         imageCapture,
                         context,
                         onCartEvent,
-                        { triggerFlash = true },
                     )
                 },
             ) {
@@ -130,11 +99,6 @@ fun CartCameraPreview(
                     contentDescription = null
                 )
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(flashBackground)
-            )
         }
     }
 
@@ -162,6 +126,7 @@ fun CartCameraPreview(
         } catch (exc: Exception) {
             Timber.e("Use case binding failed", exc)
             onCartEvent(ReceiptCaptureError)
+            cameraProvider.unbindAll()
         }
     }
 
@@ -169,7 +134,6 @@ fun CartCameraPreview(
         imageCapture: ImageCapture?,
         context: Context,
         onCartEvent: (CartEvent) -> Unit,
-        cameraTriggered: () -> Unit,
     ) {
         // Create time-stamped output file to hold the image
         val photoFile = File(
@@ -188,13 +152,11 @@ fun CartCameraPreview(
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    cameraTriggered()
                     onCartEvent(CartEvent.ReceiptCaptureSuccess(savedUri.toString()))
                 }
 
                 override fun onError(exc: ImageCaptureException) {
                     Timber.d("Photo capture failed: ${exc.message}", exc)
-                    cameraTriggered()
                     onCartEvent(ReceiptCaptureError)
                 }
             }

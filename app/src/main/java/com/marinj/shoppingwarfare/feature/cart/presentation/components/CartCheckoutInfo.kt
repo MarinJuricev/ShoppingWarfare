@@ -76,7 +76,7 @@ fun CartCheckoutInfo(
                 )
                 ShoppingWarfareIconButton(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    enabled = viewState.cartData.isNotEmpty() && viewState.receiptStatus == ReceiptStatus.Empty,
+                    enabled = viewState.cartData.isNotEmpty(),
                     onClick = {
                         coroutineScope.launch {
                             bottomSheetScaffoldState.expandOrCollapse()
