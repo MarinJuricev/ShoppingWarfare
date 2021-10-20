@@ -29,7 +29,7 @@ class CheckoutCart @Inject constructor(
 
         // We only care about the historyResult, but we want to await the cart result so that the
         // database gets dropped in a parallel manner
-        when (result.second) {
+        when (result.first) {
             is Either.Left -> TODO()
             is Either.Right -> TODO()
         }
