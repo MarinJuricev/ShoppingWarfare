@@ -5,14 +5,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.marinj.shoppingwarfare.core.components.BottomNavigationItem
-import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.feature.user.presentation.UserPage
 
 const val USER_ROOT = "userRoot"
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.buildUserGraph(
-    topBarViewModel: TopBarViewModel,
+    sendTopBar: (TopBarEvent) -> Unit,
 ) {
     navigation(
         startDestination = BottomNavigationItem.User.route,
@@ -20,7 +20,7 @@ fun NavGraphBuilder.buildUserGraph(
     ) {
         composable(BottomNavigationItem.User.route) {
             UserPage(
-                setupTopBar = topBarViewModel::onEvent,
+                setupTopBar = sendTopBar,
             )
         }
     }

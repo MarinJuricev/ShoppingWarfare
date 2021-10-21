@@ -24,8 +24,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.components.ColorPicker
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
@@ -95,7 +97,7 @@ fun CreateCategoryPage(
                         .fillMaxWidth(0.5f)
                         .align(Alignment.CenterHorizontally)
                         .padding(top = 24.dp),
-                    title = stringResource(R.string.category_background_color),
+                    title = stringResource(string.category_background_color),
                     onColorChanged = {
                         createCategoryViewModel.onEvent(OnBackgroundColorChanged(it))
                     },
@@ -107,7 +109,7 @@ fun CreateCategoryPage(
                         .fillMaxWidth(0.5f)
                         .align(Alignment.CenterHorizontally)
                         .padding(top = 24.dp),
-                    title = stringResource(R.string.category_title_color),
+                    title = stringResource(string.category_title_color),
                     onColorChanged = {
                         createCategoryViewModel.onEvent(OnTitleColorChanged(it))
                     },

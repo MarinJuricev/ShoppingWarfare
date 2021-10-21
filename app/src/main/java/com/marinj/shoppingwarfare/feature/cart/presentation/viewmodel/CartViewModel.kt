@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.cart.presentation
+package com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel

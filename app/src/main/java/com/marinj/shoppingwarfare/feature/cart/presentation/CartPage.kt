@@ -33,6 +33,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemL
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
+import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

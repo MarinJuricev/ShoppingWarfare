@@ -5,14 +5,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.marinj.shoppingwarfare.core.components.BottomNavigationItem
-import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.feature.history.HistoryPage
 
 const val HISTORY_ROOT = "historyRoot"
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.buildHistoryGraph(
-    topBarViewModel: TopBarViewModel,
+    sendTopBar: (TopBarEvent) -> Unit,
 ) {
     navigation(
         startDestination = BottomNavigationItem.History.route,
@@ -20,7 +20,7 @@ fun NavGraphBuilder.buildHistoryGraph(
     ) {
         composable(BottomNavigationItem.History.route) {
             HistoryPage(
-                setupTopBar = topBarViewModel::onEvent,
+                setupTopBar = sendTopBar,
             )
         }
     }

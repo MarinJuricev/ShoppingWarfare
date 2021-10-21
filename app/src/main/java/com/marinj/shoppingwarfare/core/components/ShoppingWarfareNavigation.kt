@@ -70,10 +70,10 @@ fun ShoppingWarfareNavigation(
             startDestination = CATEGORY_ROOT,
             Modifier.padding(innerPadding)
         ) {
-            buildCategoryGraph(navController, topBarViewModel)
-            buildCartGraph(topBarViewModel)
-            buildHistoryGraph(topBarViewModel)
-            buildUserGraph(topBarViewModel)
+            buildCategoryGraph(navController, topBarViewModel::onEvent)
+            buildCartGraph(topBarViewModel::onEvent)
+            buildHistoryGraph(topBarViewModel::onEvent)
+            buildUserGraph(topBarViewModel::onEvent)
         }
     }
 }

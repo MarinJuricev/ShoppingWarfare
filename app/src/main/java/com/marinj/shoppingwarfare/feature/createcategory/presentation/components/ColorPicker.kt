@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.createcategory.presentation
+package com.marinj.shoppingwarfare.feature.createcategory.presentation.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image

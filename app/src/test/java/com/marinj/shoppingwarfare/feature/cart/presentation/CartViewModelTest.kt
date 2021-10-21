@@ -16,6 +16,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Err
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
+import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

@@ -14,6 +14,7 @@ import com.marinj.shoppingwarfare.feature.category.domain.usecase.UndoCategoryDe
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
+import com.marinj.shoppingwarfare.feature.category.presentation.viewmodel.CategoryViewModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

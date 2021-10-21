@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.marinj.shoppingwarfare.core.components.BottomNavigationItem
-import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.feature.category.presentation.CategoryPage
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_DETAIL_ROUTE
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_ID
@@ -20,7 +20,7 @@ const val CATEGORY_ROOT = "categoryRoot"
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.buildCategoryGraph(
     navController: NavController,
-    topBarViewModel: TopBarViewModel,
+    sendTopBar: (TopBarEvent) -> Unit,
 ) {
     navigation(
         startDestination = BottomNavigationItem.Category.route,
@@ -32,13 +32,13 @@ fun NavGraphBuilder.buildCategoryGraph(
                 navigateToCategoryDetail = { categoryId, categoryName ->
                     navController.navigate("categoryDetail/$categoryId/$categoryName")
                 },
-                setupTopBar = topBarViewModel::onEvent,
+                setupTopBar = sendTopBar,
             )
         }
         composable(CREATE_CATEGORY_ROUTE) {
             CreateCategoryPage(
                 navigateBack = { navController.popBackStack() },
-                setupTopBar = topBarViewModel::onEvent,
+                setupTopBar = sendTopBar,
             )
         }
         composable(CATEGORY_DETAIL_ROUTE) { backStackEntry ->
@@ -50,7 +50,7 @@ fun NavGraphBuilder.buildCategoryGraph(
             CategoryDetailPage(
                 categoryId = categoryId,
                 categoryName = categoryName,
-                setupTopBar = topBarViewModel::onEvent,
+                setupTopBar = sendTopBar,
             )
         }
     }
