@@ -45,4 +45,8 @@ class CartRepositoryImpl @Inject constructor(
             else -> localToDomainCartItemMapper.map(result).buildRight()
         }
     }
+
+    override suspend fun dropCurrentCart(): Either<Failure, CartItem> {
+        TODO("Not yet implemented")
+    }
 }

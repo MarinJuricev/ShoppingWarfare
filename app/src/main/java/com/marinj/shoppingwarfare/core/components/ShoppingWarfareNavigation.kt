@@ -14,21 +14,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObservingBadgesCount
 import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeViewModel
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
-import com.marinj.shoppingwarfare.feature.cart.presentation.CartPage
-import com.marinj.shoppingwarfare.feature.category.presentation.CategoryPage
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_DETAIL_ROUTE
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_ID
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CATEGORY_NAME
-import com.marinj.shoppingwarfare.feature.categorydetail.presentation.CategoryDetailPage
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.CREATE_CATEGORY_ROUTE
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.CreateCategoryPage
-import com.marinj.shoppingwarfare.feature.history.HistoryPage
-import com.marinj.shoppingwarfare.feature.user.UserPage
+import com.marinj.shoppingwarfare.feature.cart.presentation.navigation.buildCartGraph
+import com.marinj.shoppingwarfare.feature.category.presentation.navigation.CATEGORY_ROOT
+import com.marinj.shoppingwarfare.feature.category.presentation.navigation.buildCategoryGraph
+import com.marinj.shoppingwarfare.feature.history.presentation.navigation.buildHistoryGraph
+import com.marinj.shoppingwarfare.feature.user.presentation.navigation.buildUserGraph
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -73,51 +67,13 @@ fun ShoppingWarfareNavigation(
     ) { innerPadding ->
         AnimatedNavHost(
             navController = navController,
-            startDestination = BottomNavigationItem.Category.route,
+            startDestination = CATEGORY_ROOT,
             Modifier.padding(innerPadding)
         ) {
-            composable(BottomNavigationItem.Category.route) {
-                CategoryPage(
-                    navigateToCreateCategory = { navController.navigate(CREATE_CATEGORY_ROUTE) },
-                    navigateToCategoryDetail = { categoryId, categoryName ->
-                        navController.navigate("categoryDetail/$categoryId/$categoryName")
-                    },
-                    setupTopBar = topBarViewModel::onEvent,
-                )
-            }
-            composable(CREATE_CATEGORY_ROUTE) {
-                CreateCategoryPage(
-                    navigateBack = { navController.popBackStack() },
-                    setupTopBar = topBarViewModel::onEvent,
-                )
-            }
-            composable(CATEGORY_DETAIL_ROUTE) { backStackEntry ->
-                val categoryId = backStackEntry.arguments?.getString(CATEGORY_ID)
-                    ?: error("$CATEGORY_ID was not provided to categoryDetailRoute")
-                val categoryName = backStackEntry.arguments?.getString(CATEGORY_NAME)
-                    ?: error("$CATEGORY_NAME was not provided to categoryDetailRoute")
-
-                CategoryDetailPage(
-                    categoryId = categoryId,
-                    categoryName = categoryName,
-                    setupTopBar = topBarViewModel::onEvent,
-                )
-            }
-            composable(BottomNavigationItem.Cart.route) {
-                CartPage(
-                    setupTopBar = topBarViewModel::onEvent,
-                )
-            }
-            composable(BottomNavigationItem.History.route) {
-                HistoryPage(
-                    setupTopBar = topBarViewModel::onEvent,
-                )
-            }
-            composable(BottomNavigationItem.User.route) {
-                UserPage(
-                    setupTopBar = topBarViewModel::onEvent,
-                )
-            }
+            buildCategoryGraph(navController, topBarViewModel)
+            buildCartGraph(topBarViewModel)
+            buildHistoryGraph(topBarViewModel)
+            buildUserGraph(topBarViewModel)
         }
     }
 }

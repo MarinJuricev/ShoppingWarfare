@@ -5,9 +5,11 @@ import com.marinj.shoppingwarfare.feature.cart.data.mapper.DomainToLocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.data.mapper.LocalToDomainCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.data.repository.CartRepositoryImpl
+import com.marinj.shoppingwarfare.feature.cart.domain.mapper.CartItemsToHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
+import com.marinj.shoppingwarfare.feature.history.domain.model.HistoryItem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,4 +38,9 @@ object CartModule {
     fun provideCartItemsToCartDataMapper(
         mapper: CartItemsToCartDataMapper
     ): Mapper<Map<String, List<CartItem>>, List<CartItem>> = mapper
+
+    @Provides
+    fun provideCartItemsToHistoryItemMapper(
+        mapper: CartItemsToHistoryItemMapper
+    ): Mapper<HistoryItem, List<CartItem>> = mapper
 }
