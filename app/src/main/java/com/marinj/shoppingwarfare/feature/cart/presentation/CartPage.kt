@@ -30,6 +30,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCameraPermission
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCheckoutInfo
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
@@ -65,6 +66,9 @@ fun CartPage(
                 )
                 is Error -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = cartEffect.errorMessage
+                )
+                CartEffect.CartCheckoutCompleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                    context.getString(string.cart_success_message)
                 )
             }
         }

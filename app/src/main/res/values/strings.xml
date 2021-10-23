@@ -57,4 +57,5 @@
 
     <!-- User -->
     <string name="user">User</string>
+    <string name="cart_success_message">Cart successfully checked out</string>
 </resources>

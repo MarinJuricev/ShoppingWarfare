@@ -46,7 +46,6 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun dropCurrentCart(): Either<Failure, CartItem> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun dropCurrentCart(): Either<Failure, Unit> =
+        cartDao.deleteCart().buildRight()
 }

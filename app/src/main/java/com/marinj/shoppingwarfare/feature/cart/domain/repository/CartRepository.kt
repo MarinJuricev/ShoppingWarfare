@@ -11,5 +11,5 @@ interface CartRepository {
     suspend fun upsertCartItem(cartItem: CartItem): Either<Failure, Unit>
     suspend fun deleteCartItemById(id: String): Either<Failure, Unit>
     suspend fun getCartItemById(id: String): Either<Failure, CartItem>
-    suspend fun dropCurrentCart(): Either<Failure, CartItem>
+    suspend fun dropCurrentCart(): Either<Failure, Unit>
 }

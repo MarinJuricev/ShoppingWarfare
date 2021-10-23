@@ -159,4 +159,18 @@ class CartRepositoryImplTest {
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
+
+    @Test
+    fun `dropCurrentCart should return RightUnit when cartDao returns LocalCartItem`() =
+        runBlockingTest {
+            val daoResult = Unit
+            coEvery {
+                cartDao.deleteCart()
+            } coAnswers { daoResult }
+
+            val actualResult = sut.dropCurrentCart()
+            val expectedResult = daoResult.buildRight()
+
+            assertThat(actualResult).isEqualTo(expectedResult)
+        }
 }

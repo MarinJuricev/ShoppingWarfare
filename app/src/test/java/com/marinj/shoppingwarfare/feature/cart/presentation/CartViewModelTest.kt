@@ -8,9 +8,11 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartCheckoutCompleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
@@ -41,6 +43,7 @@ class CartViewModelTest {
     private val observeCartItems: ObserveCartItems = mockk()
     private val deleteCartItem: DeleteCartItem = mockk()
     private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
+    private val checkoutCart: CheckoutCart = mockk()
     private val cartItemsToCartDataMapper: Mapper<Map<String, List<CartItem>>, List<CartItem>> =
         mockk()
 
@@ -49,10 +52,11 @@ class CartViewModelTest {
     @Before
     fun setUp() {
         sut = CartViewModel(
-            observeCartItems,
-            deleteCartItem,
-            updateCartItemQuantity,
-            cartItemsToCartDataMapper,
+            observeCartItems = observeCartItems,
+            deleteCartItem = deleteCartItem,
+            updateCartItemQuantity = updateCartItemQuantity,
+            checkoutCart = checkoutCart,
+            cartItemsToCartDataMapper = cartItemsToCartDataMapper,
         )
     }
 
@@ -213,4 +217,36 @@ class CartViewModelTest {
 
         assertThat(sut.viewState.value.receiptStatus).isEqualTo(ReceiptStatus.Taken(receiptPath))
     }
+
+    @Test
+    fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Right`() =
+        runBlockingTest {
+            coEvery {
+                checkoutCart(
+                    sut.viewState.value.cartData,
+                )
+            } coAnswers { Unit.buildRight() }
+
+            sut.onEvent(CartEvent.CheckoutClicked)
+
+            sut.viewEffect.test {
+                assertThat(awaitItem()).isEqualTo(CartCheckoutCompleted)
+            }
+        }
+
+    @Test
+    fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Left`() =
+        runBlockingTest {
+            coEvery {
+                checkoutCart(
+                    sut.viewState.value.cartData,
+                )
+            } coAnswers { Failure.Unknown.buildLeft() }
+
+            sut.onEvent(CartEvent.CheckoutClicked)
+
+            sut.viewEffect.test {
+                assertThat(awaitItem()).isEqualTo(Error("Checkout failed, please try again later."))
+            }
+        }
 }

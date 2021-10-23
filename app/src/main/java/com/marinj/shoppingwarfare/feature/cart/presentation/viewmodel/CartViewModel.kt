@@ -12,10 +12,12 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartCheckoutCompleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CheckoutClicked
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureError
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureSuccess
@@ -51,6 +53,7 @@ class CartViewModel @Inject constructor(
         when (event) {
             OnGetCartItems -> handleGetCartItems()
             ReceiptCaptureError -> handleReceiptCaptureError()
+            CheckoutClicked -> handleCheckoutClicked()
             is CartEvent.DeleteCartItem -> handleDeleteCartItem(event.cartItem)
             is CartItemQuantityChanged -> handleCartItemQuantityChanged(
                 event.cartItemToUpdate,
@@ -78,6 +81,13 @@ class CartViewModel @Inject constructor(
         _viewState.safeUpdate(
             _viewState.value.copy(receiptStatus = ReceiptStatus.Error)
         )
+    }
+
+    private fun handleCheckoutClicked() = viewModelScope.launch {
+        when (checkoutCart(viewState.value.cartData)) {
+            is Right -> _viewEffect.send(CartCheckoutCompleted)
+            is Left -> _viewEffect.send(Error("Checkout failed, please try again later."))
+        }
     }
 
     private suspend fun handleGetCartItemsError() {
