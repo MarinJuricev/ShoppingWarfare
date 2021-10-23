@@ -41,9 +41,6 @@ object CategoryModule {
     ): CategoryRepository = repository
 
     @Provides
-    fun provideUuidGenerator(): () -> String = { UUID.randomUUID().toString() }
-
-    @Provides
     fun provideUiCategoryToCategoryMapper(
         mapper: UiCategoryToCategoryMapper
     ): Mapper<Category, UiCategory> = mapper

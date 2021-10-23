@@ -84,7 +84,8 @@ class CartViewModel @Inject constructor(
     }
 
     private fun handleCheckoutClicked() = viewModelScope.launch {
-        when (checkoutCart(viewState.value.cartData)) {
+        val viewState = viewState.value
+        when (checkoutCart(viewState.cartData, viewState.receiptStatus.receiptPath)) {
             is Right -> _viewEffect.send(CartCheckoutCompleted)
             is Left -> _viewEffect.send(Error("Checkout failed, please try again later."))
         }
