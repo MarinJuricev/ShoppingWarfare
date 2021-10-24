@@ -223,7 +223,8 @@ class CartViewModelTest {
         runBlockingTest {
             coEvery {
                 checkoutCart(
-                    sut.viewState.value.cartData,
+                    cartData = sut.viewState.value.cartData,
+                    receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                 )
             } coAnswers { Unit.buildRight() }
 
@@ -239,7 +240,8 @@ class CartViewModelTest {
         runBlockingTest {
             coEvery {
                 checkoutCart(
-                    sut.viewState.value.cartData,
+                    cartData = sut.viewState.value.cartData,
+                    receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                 )
             } coAnswers { Failure.Unknown.buildLeft() }
 

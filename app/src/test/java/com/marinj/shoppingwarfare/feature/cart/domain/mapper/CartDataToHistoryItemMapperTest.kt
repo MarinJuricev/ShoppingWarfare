@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.cart.domain.mapper
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
+import com.marinj.shoppingwarfare.feature.history.domain.model.HistoryCartItem
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -72,7 +73,15 @@ class CartDataToHistoryItemMapperTest {
         val cartData = mapOf(CART_KEY to listOf(cartItems))
 
         val result = sut.map(cartData, RECEIPT_PATH)
+        val expectedResult = listOf(
+            HistoryCartItem(
+                id = ID,
+                categoryName = CATEGORY_NAME,
+                name = NAME,
+                quantity = QUANTITY,
+            )
+        )
 
-        assertThat(result.timestamp).isEqualTo(TIMESTAMP)
+        assertThat(result.historyCartItems).isEqualTo(expectedResult)
     }
 }

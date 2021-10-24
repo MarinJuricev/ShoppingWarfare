@@ -14,7 +14,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import java.util.UUID
 
 @InstallIn(ViewModelComponent::class)
 @Module
