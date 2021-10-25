@@ -2,11 +2,12 @@ package com.marinj.shoppingwarfare.feature.categorydetail.data.repository
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.categorydetail.data.datasource.ProductDao
+import com.marinj.shoppingwarfare.feature.categorydetail.data.mapper.DomainToLocalCategoryItemMapper
+import com.marinj.shoppingwarfare.feature.categorydetail.data.mapper.LocalCategoryProductsListToDomainProductMapper
 import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
@@ -28,8 +29,8 @@ private const val PRODUCT_ID = "productId"
 class CategoryDetailRepositoryImplTest {
 
     private val productDao: ProductDao = mockk()
-    private val domainToLocalProductMapper: Mapper<LocalProduct, Product> = mockk()
-    private val localCategoryProductsListToDomainProductMapper: Mapper<List<Product>, List<LocalCategoryProducts>> =
+    private val domainToLocalProductMapper: DomainToLocalCategoryItemMapper = mockk()
+    private val localCategoryProductsListToDomainProductMapper: LocalCategoryProductsListToDomainProductMapper =
         mockk()
 
     private lateinit var sut: CategoryDetailRepository

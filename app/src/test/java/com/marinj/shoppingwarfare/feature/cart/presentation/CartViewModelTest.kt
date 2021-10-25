@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.cart.presentation
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
@@ -12,6 +11,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
+import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartCheckoutCompleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
@@ -44,8 +44,7 @@ class CartViewModelTest {
     private val deleteCartItem: DeleteCartItem = mockk()
     private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
     private val checkoutCart: CheckoutCart = mockk()
-    private val cartItemsToCartDataMapper: Mapper<Map<String, List<CartItem>>, List<CartItem>> =
-        mockk()
+    private val cartItemsToCartDataMapper: CartItemsToCartDataMapper = mockk()
 
     private lateinit var sut: CartViewModel
 

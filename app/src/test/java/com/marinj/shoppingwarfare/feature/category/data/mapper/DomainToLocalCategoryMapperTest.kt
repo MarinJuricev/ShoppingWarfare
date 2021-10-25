@@ -1,13 +1,9 @@
 package com.marinj.shoppingwarfare.feature.category.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.mapper.Mapper
-import com.marinj.shoppingwarfare.feature.category.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -16,10 +12,9 @@ private const val TITLE = "title"
 private const val BACKGROUND_COLOR = 0
 private const val TITLE_COLOR = 1
 
-@ExperimentalCoroutinesApi
 class DomainToLocalCategoryMapperTest {
 
-    private lateinit var sut: Mapper<LocalCategory, Category>
+    private lateinit var sut: DomainToLocalCategoryMapper
 
     @Before
     fun setUp() {
@@ -27,7 +22,7 @@ class DomainToLocalCategoryMapperTest {
     }
 
     @Test
-    fun `map should map id`() = runBlockingTest {
+    fun `map should map id`() {
         val category = mockk<Category>(relaxed = true).apply {
             every { id } answers { ID }
         }
@@ -38,7 +33,7 @@ class DomainToLocalCategoryMapperTest {
     }
 
     @Test
-    fun `map should map title`() = runBlockingTest {
+    fun `map should map title`() {
         val category = mockk<Category>(relaxed = true).apply {
             every { title } answers { TITLE }
         }
@@ -49,7 +44,7 @@ class DomainToLocalCategoryMapperTest {
     }
 
     @Test
-    fun `map should map backgroundColor`() = runBlockingTest {
+    fun `map should map backgroundColor`() {
         val category = mockk<Category>(relaxed = true).apply {
             every { backgroundColor } answers { BACKGROUND_COLOR }
         }
@@ -60,7 +55,7 @@ class DomainToLocalCategoryMapperTest {
     }
 
     @Test
-    fun `map should map titleColor`() = runBlockingTest {
+    fun `map should map titleColor`() {
         val category = mockk<Category>(relaxed = true).apply {
             every { titleColor } answers { TITLE_COLOR }
         }

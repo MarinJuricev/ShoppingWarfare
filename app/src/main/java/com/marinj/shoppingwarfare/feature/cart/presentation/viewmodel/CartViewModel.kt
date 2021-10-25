@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
@@ -11,6 +10,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
+import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartCheckoutCompleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
@@ -40,7 +40,7 @@ class CartViewModel @Inject constructor(
     private val deleteCartItem: DeleteCartItem,
     private val updateCartItemQuantity: UpdateCartItemQuantity,
     private val checkoutCart: CheckoutCart,
-    private val cartItemsToCartDataMapper: Mapper<Map<String, List<CartItem>>, List<CartItem>>,
+    private val cartItemsToCartDataMapper: CartItemsToCartDataMapper,
 ) : BaseViewModel<CartEvent>() {
 
     private val _viewState = MutableStateFlow(CartViewState())

@@ -1,12 +1,12 @@
 package com.marinj.shoppingwarfare.feature.category.data.repository
 
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.data.datasource.CategoryDao
-import com.marinj.shoppingwarfare.feature.category.data.model.LocalCategory
+import com.marinj.shoppingwarfare.feature.category.data.mapper.DomainToLocalCategoryMapper
+import com.marinj.shoppingwarfare.feature.category.data.mapper.LocalToDomainCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.repository.CategoryRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
     private val categoryDao: CategoryDao,
-    private val localToDomainCategoryMapper: Mapper<Category, LocalCategory>,
-    private val domainToLocalCategoryMapper: Mapper<LocalCategory, Category>,
+    private val localToDomainCategoryMapper: LocalToDomainCategoryMapper,
+    private val domainToLocalCategoryMapper: DomainToLocalCategoryMapper,
 ) : CategoryRepository {
     override fun observeCategories(): Flow<List<Category>> =
         categoryDao.observeCategories().map { localCategoryList ->

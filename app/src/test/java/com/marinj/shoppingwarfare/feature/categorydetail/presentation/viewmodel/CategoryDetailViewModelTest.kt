@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
@@ -13,6 +12,7 @@ import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.CreateProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.ObserveCategoryProducts
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.mapper.ProductToCartItemMapper
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.AddedToCart
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.Error
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.ProductDeleted
@@ -47,7 +47,7 @@ class CategoryDetailViewModelTest {
     private val observeCategoryProducts: ObserveCategoryProducts = mockk()
     private val createProduct: CreateProduct = mockk()
     private val deleteProduct: DeleteProduct = mockk()
-    private val productToCartItemMapper: Mapper<CartItem, Product> = mockk()
+    private val productToCartItemMapper: ProductToCartItemMapper = mockk()
     private val addToCart: AddToCart = mockk()
 
     private lateinit var sut: CategoryDetailViewModel

@@ -3,13 +3,13 @@ package com.marinj.shoppingwarfare.feature.category.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
-import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.UndoCategoryDeletion
+import com.marinj.shoppingwarfare.feature.category.presentation.mapper.CategoryToUiCategoryMapper
+import com.marinj.shoppingwarfare.feature.category.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryViewState
@@ -31,8 +31,8 @@ class CategoryViewModel @Inject constructor(
     private val observeCategories: ObserveCategories,
     private val deleteCategory: DeleteCategory,
     private val undoCategoryDeletion: UndoCategoryDeletion,
-    private val categoryToUiCategoryMapper: Mapper<UiCategory, Category>,
-    private val uiCategoryToCategoryMapper: Mapper<Category, UiCategory>,
+    private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper,
+    private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper,
 ) : BaseViewModel<CategoryEvent>() {
 
     private val _categoryViewState = MutableStateFlow(CategoryViewState())

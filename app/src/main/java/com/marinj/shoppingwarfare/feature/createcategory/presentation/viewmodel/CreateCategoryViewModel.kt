@@ -5,11 +5,10 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
-import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.createcategory.domain.usecase.CreateCategory
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.mapper.FailureToCreateCategoryEffectMapper
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent
@@ -29,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateCategoryViewModel @Inject constructor(
     private val createCategory: CreateCategory,
-    private val failureToCreateCategoryEffectMapper: Mapper<CreateCategoryEffect, Failure>,
+    private val failureToCreateCategoryEffectMapper: FailureToCreateCategoryEffectMapper,
 ) : BaseViewModel<CreateCategoryEvent>() {
 
     private val _createCategoryViewState = MutableStateFlow(CreateCategoryViewState())

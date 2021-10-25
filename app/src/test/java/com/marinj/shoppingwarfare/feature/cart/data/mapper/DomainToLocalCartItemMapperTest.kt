@@ -1,13 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.mapper.Mapper
-import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -16,10 +12,9 @@ private const val NAME = "name"
 private const val CATEGORY_NAME = "fruits"
 private const val QUANTITY = 1
 
-@ExperimentalCoroutinesApi
 class DomainToLocalCartItemMapperTest {
 
-    private lateinit var sut: Mapper<LocalCartItem, CartItem>
+    private lateinit var sut: DomainToLocalCartItemMapper
 
     @Before
     fun setUp() {
@@ -27,7 +22,7 @@ class DomainToLocalCartItemMapperTest {
     }
 
     @Test
-    fun `map should map cartItemId`() = runBlockingTest {
+    fun `map should map cartItemId`() {
         val cartItem = mockk<CartItem>(relaxed = true).apply {
             every { id } returns ID
         }
@@ -38,7 +33,7 @@ class DomainToLocalCartItemMapperTest {
     }
 
     @Test
-    fun `map should map name`() = runBlockingTest {
+    fun `map should map name`() {
         val cartItem = mockk<CartItem>(relaxed = true).apply {
             every { name } returns NAME
         }
@@ -49,7 +44,7 @@ class DomainToLocalCartItemMapperTest {
     }
 
     @Test
-    fun `map should map categoryName`() = runBlockingTest {
+    fun `map should map categoryName`() {
         val cartItem = mockk<CartItem>(relaxed = true).apply {
             every { categoryName } returns CATEGORY_NAME
         }
@@ -60,7 +55,7 @@ class DomainToLocalCartItemMapperTest {
     }
 
     @Test
-    fun `map should map quantity`() = runBlockingTest {
+    fun `map should map quantity`() {
         val cartItem = mockk<CartItem>(relaxed = true).apply {
             every { quantity } returns QUANTITY
         }

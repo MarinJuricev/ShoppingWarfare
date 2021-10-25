@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.category.presentation
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
@@ -11,6 +10,8 @@ import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.domain.usecase.UndoCategoryDeletion
+import com.marinj.shoppingwarfare.feature.category.presentation.mapper.CategoryToUiCategoryMapper
+import com.marinj.shoppingwarfare.feature.category.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.presentation.model.UiCategory
@@ -39,8 +40,8 @@ class CategoryViewModelTest {
     private val observeCategories: ObserveCategories = mockk()
     private val deleteCategory: DeleteCategory = mockk()
     private val undoCategoryDeletion: UndoCategoryDeletion = mockk()
-    private val categoryToUiCategoryMapper: Mapper<UiCategory, Category> = mockk()
-    private val uiCategoryToCategoryMapper: Mapper<Category, UiCategory> = mockk()
+    private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper = mockk()
+    private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper = mockk()
 
     private lateinit var sut: CategoryViewModel
 

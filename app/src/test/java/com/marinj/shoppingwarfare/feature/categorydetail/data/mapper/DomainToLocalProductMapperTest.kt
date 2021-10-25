@@ -1,13 +1,9 @@
 package com.marinj.shoppingwarfare.feature.categorydetail.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.mapper.Mapper
-import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -16,10 +12,9 @@ private const val CATEGORY_ID = "categoryId"
 private const val CATEGORY_NAME = "fruits"
 private const val NAME = "name"
 
-@ExperimentalCoroutinesApi
 class DomainToLocalProductMapperTest {
 
-    private lateinit var sut: Mapper<LocalProduct, Product>
+    private lateinit var sut: DomainToLocalCategoryItemMapper
 
     @Before
     fun setUp() {
@@ -27,7 +22,7 @@ class DomainToLocalProductMapperTest {
     }
 
     @Test
-    fun `map should map id`() = runBlockingTest {
+    fun `map should map id`() {
         val categoryItem = mockk<Product>(relaxed = true).apply {
             every { id } answers { ID }
         }
@@ -38,7 +33,7 @@ class DomainToLocalProductMapperTest {
     }
 
     @Test
-    fun `map should map categoryId`() = runBlockingTest {
+    fun `map should map categoryId`() {
         val categoryItem = mockk<Product>(relaxed = true).apply {
             every { categoryId } answers { CATEGORY_ID }
         }
@@ -49,7 +44,7 @@ class DomainToLocalProductMapperTest {
     }
 
     @Test
-    fun `map should map categoryName`() = runBlockingTest {
+    fun `map should map categoryName`() {
         val categoryItem = mockk<Product>(relaxed = true).apply {
             every { categoryName } answers { CATEGORY_NAME }
         }
@@ -60,7 +55,7 @@ class DomainToLocalProductMapperTest {
     }
 
     @Test
-    fun `map should map name`() = runBlockingTest {
+    fun `map should map name`() {
         val categoryItem = mockk<Product>(relaxed = true).apply {
             every { name } answers { NAME }
         }

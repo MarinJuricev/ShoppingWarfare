@@ -1,13 +1,13 @@
 package com.marinj.shoppingwarfare.feature.cart.data.repository
 
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
-import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
+import com.marinj.shoppingwarfare.feature.cart.data.mapper.DomainToLocalCartItemMapper
+import com.marinj.shoppingwarfare.feature.cart.data.mapper.LocalToDomainCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(
     private val cartDao: CartDao,
-    private val localToDomainCartItemMapper: Mapper<CartItem, LocalCartItem>,
-    private val domainToLocalCartItemMapper: Mapper<LocalCartItem, CartItem>,
+    private val localToDomainCartItemMapper: LocalToDomainCartItemMapper,
+    private val domainToLocalCartItemMapper: DomainToLocalCartItemMapper,
 ) : CartRepository {
 
     override fun observeCartItems(): Flow<List<CartItem>> =

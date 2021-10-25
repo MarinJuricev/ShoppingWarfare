@@ -3,15 +3,14 @@ package com.marinj.shoppingwarfare.feature.categorydetail.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.CreateProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.categorydetail.domain.usecase.ObserveCategoryProducts
+import com.marinj.shoppingwarfare.feature.categorydetail.presentation.mapper.ProductToCartItemMapper
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.AddedToCart
 import com.marinj.shoppingwarfare.feature.categorydetail.presentation.model.CategoryDetailEffect.Error
@@ -39,7 +38,7 @@ class CategoryDetailViewModel @Inject constructor(
     private val observeCategoryProducts: ObserveCategoryProducts,
     private val createProduct: CreateProduct,
     private val deleteProduct: DeleteProduct,
-    private val productToCartItemMapper: Mapper<CartItem, Product>,
+    private val productToCartItemMapper: ProductToCartItemMapper,
     private val addToCart: AddToCart,
 ) : BaseViewModel<CategoryDetailEvent>() {
 

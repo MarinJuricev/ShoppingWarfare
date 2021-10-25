@@ -4,12 +4,11 @@ import androidx.compose.ui.graphics.Color
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.createcategory.domain.usecase.CreateCategory
-import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect
+import com.marinj.shoppingwarfare.feature.createcategory.presentation.mapper.FailureToCreateCategoryEffectMapper
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategoryFailure
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
 import com.marinj.shoppingwarfare.feature.createcategory.presentation.model.CreateCategoryEvent
@@ -33,7 +32,7 @@ class CreateCategoryViewModelTest {
     val coroutineRule = MainCoroutineRule()
 
     private val createCategory: CreateCategory = mockk()
-    private val failureToCreateCategoryEffectMapper: Mapper<CreateCategoryEffect, Failure> = mockk()
+    private val failureToCreateCategoryEffectMapper: FailureToCreateCategoryEffectMapper = mockk()
 
     private lateinit var sut: CreateCategoryViewModel
 
@@ -58,15 +57,16 @@ class CreateCategoryViewModelTest {
     }
 
     @Test
-    fun `should update backgroundColor when OnBackgroundColorChanged is provided`() = runBlockingTest {
-        val selectedColor = Color.Magenta
-        val event = OnBackgroundColorChanged(selectedColor)
-        sut.onEvent(event)
+    fun `should update backgroundColor when OnBackgroundColorChanged is provided`() =
+        runBlockingTest {
+            val selectedColor = Color.Magenta
+            val event = OnBackgroundColorChanged(selectedColor)
+            sut.onEvent(event)
 
-        sut.createCategoryViewState.test {
-            assertThat(awaitItem().backgroundColor).isEqualTo(selectedColor)
+            sut.createCategoryViewState.test {
+                assertThat(awaitItem().backgroundColor).isEqualTo(selectedColor)
+            }
         }
-    }
 
     @Test
     fun `should update titleColor when OnTitleColorChanged is provided`() = runBlockingTest {

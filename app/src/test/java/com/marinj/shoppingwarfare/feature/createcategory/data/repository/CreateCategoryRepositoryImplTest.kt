@@ -1,11 +1,11 @@
 package com.marinj.shoppingwarfare.feature.createcategory.data.repository
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.data.datasource.CategoryDao
+import com.marinj.shoppingwarfare.feature.category.data.mapper.DomainToLocalCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.domain.model.Category
 import com.marinj.shoppingwarfare.feature.createcategory.domain.repository.CreateCategoryRepository
@@ -20,7 +20,7 @@ import org.junit.Test
 class CreateCategoryRepositoryImplTest {
 
     private val categoryDao: CategoryDao = mockk()
-    private val domainToLocalCategoryMapper: Mapper<LocalCategory, Category> = mockk()
+    private val domainToLocalCategoryMapper: DomainToLocalCategoryMapper = mockk()
 
     private lateinit var sut: CreateCategoryRepository
 

@@ -1,14 +1,10 @@
 package com.marinj.shoppingwarfare.feature.categorydetail.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalCategoryProducts
 import com.marinj.shoppingwarfare.feature.categorydetail.data.model.LocalProduct
-import com.marinj.shoppingwarfare.feature.categorydetail.domain.model.Product
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -17,10 +13,9 @@ private const val CATEGORY_ID = "categoryId"
 private const val CATEGORY_NAME = "fruits"
 private const val NAME = "name"
 
-@ExperimentalCoroutinesApi
 class LocalToDomainProductMapperTest {
 
-    private lateinit var sut: Mapper<List<Product>, List<LocalCategoryProducts>>
+    private lateinit var sut: LocalCategoryProductsListToDomainProductMapper
 
     @Before
     fun setUp() {
@@ -28,7 +23,7 @@ class LocalToDomainProductMapperTest {
     }
 
     @Test
-    fun `map should map productId`() = runBlockingTest {
+    fun `map should map productId`() {
         val localProduct = mockk<LocalProduct>(relaxed = true).apply {
             every { productId } answers { ID }
         }
@@ -44,7 +39,7 @@ class LocalToDomainProductMapperTest {
     }
 
     @Test
-    fun `map should map categoryProductId`() = runBlockingTest {
+    fun `map should map categoryProductId`() {
         val localProduct = mockk<LocalProduct>(relaxed = true).apply {
             every { categoryProductId } answers { CATEGORY_ID }
         }
@@ -60,7 +55,7 @@ class LocalToDomainProductMapperTest {
     }
 
     @Test
-    fun `map should map categoryName`() = runBlockingTest {
+    fun `map should map categoryName`() {
         val localProduct = mockk<LocalProduct>(relaxed = true).apply {
             every { categoryName } answers { CATEGORY_NAME }
         }
@@ -76,7 +71,7 @@ class LocalToDomainProductMapperTest {
     }
 
     @Test
-    fun `map should map name`() = runBlockingTest {
+    fun `map should map name`() {
         val localProduct = mockk<LocalProduct>(relaxed = true).apply {
             every { name } answers { NAME }
         }

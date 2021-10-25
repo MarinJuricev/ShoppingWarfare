@@ -2,11 +2,12 @@ package com.marinj.shoppingwarfare.feature.cart.data.repository
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.mapper.Mapper
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
+import com.marinj.shoppingwarfare.feature.cart.data.mapper.DomainToLocalCartItemMapper
+import com.marinj.shoppingwarfare.feature.cart.data.mapper.LocalToDomainCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
@@ -27,8 +28,8 @@ private const val CART_ITEM_NAME = "cartItemName"
 class CartRepositoryImplTest {
 
     private val cartDao: CartDao = mockk()
-    private val localToDomainCartItemMapper: Mapper<CartItem, LocalCartItem> = mockk()
-    private val domainToLocalCartItemMapper: Mapper<LocalCartItem, CartItem> = mockk()
+    private val localToDomainCartItemMapper: LocalToDomainCartItemMapper = mockk()
+    private val domainToLocalCartItemMapper: DomainToLocalCartItemMapper = mockk()
 
     private lateinit var sut: CartRepository
 
