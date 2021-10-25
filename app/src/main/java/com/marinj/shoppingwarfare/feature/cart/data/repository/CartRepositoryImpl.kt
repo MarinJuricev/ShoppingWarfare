@@ -21,8 +21,10 @@ class CartRepositoryImpl @Inject constructor(
 ) : CartRepository {
 
     override fun observeCartItems(): Flow<List<CartItem>> =
-        cartDao.observeCartItems().map { localCartItem ->
-            localCartItem.map { localToDomainCartItemMapper.map(it) }
+        cartDao.observeCartItems().map { localCartItems ->
+            localCartItems.map { localCartItem ->
+                localToDomainCartItemMapper.map(localCartItem)
+            }
         }
 
     override fun observeCartItemsCount(): Flow<Int?> =
