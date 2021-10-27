@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObservingBadgesCount
 import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeViewModel
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
@@ -23,13 +24,22 @@ import com.marinj.shoppingwarfare.feature.category.presentation.navigation.CATEG
 import com.marinj.shoppingwarfare.feature.category.presentation.navigation.buildCategoryGraph
 import com.marinj.shoppingwarfare.feature.history.presentation.navigation.buildHistoryGraph
 import com.marinj.shoppingwarfare.feature.user.presentation.navigation.buildUserGraph
+import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ShoppingWarfareNavigation(
+    navigator: Navigator,
     navController: NavHostController = rememberAnimatedNavController(),
     topBarViewModel: TopBarViewModel = hiltViewModel(),
 ) {
+
+    LaunchedEffect(key1 = Unit) {
+        navigator.navigationAction.collect { navigationAction ->
+            navController.navigate(navigationAction.destination)
+        }
+    }
+
     Scaffold(
         topBar = {
             ShoppingWarfareTopBar(topBarViewModel.viewState.collectAsState().value)
