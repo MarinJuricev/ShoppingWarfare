@@ -36,7 +36,7 @@ fun ShoppingWarfareNavigation(
 
     LaunchedEffect(key1 = Unit) {
         navigator.navigationAction.collect { navigationAction ->
-            navController.navigate(navigationAction.destination)
+            navController.navigate(navigationAction.generateDestination())
         }
     }
 

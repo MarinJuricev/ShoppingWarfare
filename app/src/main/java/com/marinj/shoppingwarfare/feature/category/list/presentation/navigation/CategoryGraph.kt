@@ -7,11 +7,11 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.marinj.shoppingwarfare.core.components.BottomNavigationItem
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
-import com.marinj.shoppingwarfare.feature.category.common.CategoryNavigationAction.Category
-import com.marinj.shoppingwarfare.feature.category.common.CategoryNavigationAction.CategoryDetail
-import com.marinj.shoppingwarfare.feature.category.common.CategoryNavigationAction.CategoryDetail.extractCategoryId
-import com.marinj.shoppingwarfare.feature.category.common.CategoryNavigationAction.CategoryDetail.extractCategoryName
-import com.marinj.shoppingwarfare.feature.category.common.CategoryNavigationAction.CreateCategory
+import com.marinj.shoppingwarfare.feature.category.common.Category
+import com.marinj.shoppingwarfare.feature.category.common.CategoryDetail
+import com.marinj.shoppingwarfare.feature.category.common.CategoryDetail.extractCategoryId
+import com.marinj.shoppingwarfare.feature.category.common.CategoryDetail.extractCategoryName
+import com.marinj.shoppingwarfare.feature.category.common.CreateCategory
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.CREATE_CATEGORY_ROUTE
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.CreateCategoryPage
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.CategoryDetailPage

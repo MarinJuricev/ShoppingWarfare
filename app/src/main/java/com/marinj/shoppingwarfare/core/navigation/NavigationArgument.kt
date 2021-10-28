@@ -1,0 +1,3 @@
+package com.marinj.shoppingwarfare.core.navigation
+
+interface NavigationArgument
