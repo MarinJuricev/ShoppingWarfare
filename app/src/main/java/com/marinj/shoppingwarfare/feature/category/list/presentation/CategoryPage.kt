@@ -25,8 +25,8 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopB
 import com.marinj.shoppingwarfare.feature.category.list.presentation.components.CategoryGrid
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEffect.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEffect.Error
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEffect.NavigateToCategoryDetail
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
 import kotlinx.coroutines.flow.collect
@@ -35,8 +35,6 @@ import kotlinx.coroutines.flow.collect
 @Composable
 fun CategoryPage(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
-    navigateToCreateCategory: () -> Unit,
-    navigateToCategoryDetail: (String, String) -> Unit,
     setupTopBar: (TopBarEvent) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
@@ -48,7 +46,9 @@ fun CategoryPage(
         block = {
             categoryViewModel.onEvent(GetCategories)
             setupTopBar(
-                CategoryTopBar(onActionClick = navigateToCreateCategory) {
+                CategoryTopBar(onActionClick = {
+                    categoryViewModel.onEvent(NavigateToCreateCategory)
+                }) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = stringResource(id = R.string.create_category),
@@ -74,10 +74,6 @@ fun CategoryPage(
                     }
                 }
                 is Error -> scaffoldState.snackbarHostState.showSnackbar(categoryEffect.errorMessage)
-                is NavigateToCategoryDetail -> navigateToCategoryDetail(
-                    categoryEffect.categoryId,
-                    categoryEffect.categoryName,
-                )
             }
         }
     }

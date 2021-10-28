@@ -7,13 +7,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
     @Singleton
     fun provideNavigator(
-        navigator: Navigator
-    ): Navigator = navigator
+    ): Navigator = Navigator()
 }

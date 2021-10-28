@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.model
 
 sealed class CategoryEvent {
     object GetCategories : CategoryEvent()
+    object NavigateToCreateCategory : CategoryEvent()
     data class DeleteCategory(val uiCategory: UiCategory) : CategoryEvent()
     data class NavigateToCategoryDetail(
         val categoryId: String,

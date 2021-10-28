@@ -13,7 +13,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    private lateinit var navigator: Navigator
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             ShoppingWarfareTheme {
                 ShoppingWarfareNavigation(
-                    navigator = navigator
+                    navigator = Navigator()
                 )
             }
         }

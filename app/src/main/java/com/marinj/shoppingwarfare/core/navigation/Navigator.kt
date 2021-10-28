@@ -2,9 +2,8 @@ package com.marinj.shoppingwarfare.core.navigation
 
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
-import javax.inject.Inject
 
-class Navigator @Inject constructor() {
+class Navigator {
 
     private val _navigationAction = Channel<NavigationAction>()
     val navigationAction = _navigationAction.consumeAsFlow()

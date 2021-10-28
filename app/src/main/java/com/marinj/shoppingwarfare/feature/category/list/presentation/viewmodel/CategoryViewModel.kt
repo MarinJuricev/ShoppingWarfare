@@ -3,8 +3,11 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
+import com.marinj.shoppingwarfare.feature.category.common.CategoryDetail
+import com.marinj.shoppingwarfare.feature.category.common.CreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
@@ -33,6 +36,7 @@ class CategoryViewModel @Inject constructor(
     private val undoCategoryDeletion: UndoCategoryDeletion,
     private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper,
     private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper,
+    private val navigator: Navigator,
 ) : BaseViewModel<CategoryEvent>() {
 
     private val _categoryViewState = MutableStateFlow(CategoryViewState())
@@ -44,6 +48,7 @@ class CategoryViewModel @Inject constructor(
     override fun onEvent(event: CategoryEvent) {
         when (event) {
             CategoryEvent.GetCategories -> handleGetGroceries()
+            CategoryEvent.NavigateToCreateCategory -> handleNavigateToCreateCategory()
             is CategoryEvent.DeleteCategory -> handleDeleteCategory(event.uiCategory)
             is CategoryEvent.NavigateToCategoryDetail -> handleNavigateToCategoryDetail(
                 event.categoryId,
@@ -70,6 +75,10 @@ class CategoryViewModel @Inject constructor(
             }
     }
 
+    private fun handleNavigateToCreateCategory() {
+        navigator.emitAction(CreateCategory)
+    }
+
     private suspend fun handleGetCategoriesError() {
         updateIsLoading(isLoading = false)
         _categoryEffect.send(CategoryEffect.Error("Failed to fetch Categories, try again later."))
@@ -94,7 +103,7 @@ class CategoryViewModel @Inject constructor(
         categoryId: String,
         categoryName: String,
     ) = viewModelScope.launch {
-        _categoryEffect.send(CategoryEffect.NavigateToCategoryDetail(categoryId, categoryName))
+        navigator.emitAction(CategoryDetail(categoryId, categoryName))
     }
 
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {
