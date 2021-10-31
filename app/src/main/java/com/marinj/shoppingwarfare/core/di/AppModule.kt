@@ -13,6 +13,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNavigator(
-    ): Navigator = Navigator()
+    fun provideNavigator(): Navigator = Navigator()
 }

@@ -3,9 +3,12 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
+import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailAction
+import com.marinj.shoppingwarfare.feature.category.common.CreateCategoryAction
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
@@ -14,11 +17,13 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.Cate
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEffect
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
@@ -42,6 +47,7 @@ class CategoryViewModelTest {
     private val undoCategoryDeletion: UndoCategoryDeletion = mockk()
     private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper = mockk()
     private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper = mockk()
+    private val navigator: Navigator = mockk()
 
     private lateinit var sut: CategoryViewModel
 
@@ -53,6 +59,7 @@ class CategoryViewModelTest {
             undoCategoryDeletion,
             categoryToUiCategoryMapper,
             uiCategoryToCategoryMapper,
+            navigator,
         )
     }
 
@@ -78,7 +85,7 @@ class CategoryViewModelTest {
                 assertThat(initialViewState.categories).isEmpty()
                 assertThat(initialViewState.isLoading).isTrue()
 
-                sut.onEvent(CategoryEvent.GetCategories)
+                sut.onEvent(GetCategories)
 
                 val updatedViewState = awaitItem()
                 assertThat(updatedViewState.categories).isEqualTo(listOfUiCategory)
@@ -101,7 +108,7 @@ class CategoryViewModelTest {
                 assertThat(initialViewState.categories).isEmpty()
                 assertThat(initialViewState.isLoading).isTrue()
 
-                sut.onEvent(CategoryEvent.GetCategories)
+                sut.onEvent(GetCategories)
 
                 val updatedViewState = awaitItem()
                 assertThat(updatedViewState.isLoading).isFalse()
@@ -122,7 +129,7 @@ class CategoryViewModelTest {
                 deleteCategory(ID)
             } coAnswers { Unit.buildRight() }
 
-            sut.onEvent(CategoryEvent.DeleteCategory(uiCategory))
+            sut.onEvent(DeleteCategory(uiCategory))
 
             sut.categoryEffect.test {
                 assertThat(awaitItem()).isEqualTo(CategoryEffect.DeleteCategory(uiCategory))
@@ -139,7 +146,7 @@ class CategoryViewModelTest {
                 deleteCategory(ID)
             } coAnswers { Failure.Unknown.buildLeft() }
 
-            sut.onEvent(CategoryEvent.DeleteCategory(uiCategory))
+            sut.onEvent(DeleteCategory(uiCategory))
 
             sut.categoryEffect.test {
                 assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Error while deleting category."))
@@ -147,14 +154,22 @@ class CategoryViewModelTest {
         }
 
     @Test
-    fun `should update categoryViewEffect with NavigateToCategoryDetail when NavigateToCategoryDetail is provided`() =
+    fun `should trigger Navigator emitAction with CategoryDetailAction when NavigateToCategoryDetail is provided`() =
         runBlockingTest {
-            sut.onEvent(CategoryEvent.NavigateToCategoryDetail(ID, CATEGORY_NAME))
+            sut.onEvent(NavigateToCategoryDetail(ID, CATEGORY_NAME))
 
-            sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(
-                    CategoryEffect.NavigateToCategoryDetail(ID, CATEGORY_NAME)
-                )
+            verify {
+                navigator.emitAction(CategoryDetailAction(ID, CATEGORY_NAME))
+            }
+        }
+
+    @Test
+    fun `should trigger Navigator emitAction with CreateCategoryAction when NavigateToCreateCategory is provided`() =
+        runBlockingTest {
+            sut.onEvent(NavigateToCreateCategory)
+
+            verify {
+                navigator.emitAction(CreateCategoryAction)
             }
         }
 
@@ -170,7 +185,7 @@ class CategoryViewModelTest {
                 undoCategoryDeletion(category)
             } coAnswers { Failure.Unknown.buildLeft() }
 
-            sut.onEvent(CategoryEvent.UndoCategoryDeletion(uiCategory))
+            sut.onEvent(UndoCategoryDeletion(uiCategory))
 
             sut.categoryEffect.test {
                 assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Couldn't undo category deletion."))
@@ -189,7 +204,7 @@ class CategoryViewModelTest {
                 undoCategoryDeletion(category)
             } coAnswers { Unit.buildRight() }
 
-            sut.onEvent(CategoryEvent.UndoCategoryDeletion(uiCategory))
+            sut.onEvent(UndoCategoryDeletion(uiCategory))
 
             sut.categoryEffect.test {
                 expectNoEvents()

@@ -6,8 +6,8 @@ import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
-import com.marinj.shoppingwarfare.feature.category.common.CategoryDetail
-import com.marinj.shoppingwarfare.feature.category.common.CreateCategory
+import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailAction
+import com.marinj.shoppingwarfare.feature.category.common.CreateCategoryAction
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
@@ -76,7 +76,7 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun handleNavigateToCreateCategory() {
-        navigator.emitAction(CreateCategory)
+        navigator.emitAction(CreateCategoryAction)
     }
 
     private suspend fun handleGetCategoriesError() {
@@ -103,7 +103,7 @@ class CategoryViewModel @Inject constructor(
         categoryId: String,
         categoryName: String,
     ) = viewModelScope.launch {
-        navigator.emitAction(CategoryDetail(categoryId, categoryName))
+        navigator.emitAction(CategoryDetailAction(categoryId, categoryName))
     }
 
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {

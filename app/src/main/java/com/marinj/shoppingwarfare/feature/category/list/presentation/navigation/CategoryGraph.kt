@@ -7,8 +7,8 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.marinj.shoppingwarfare.core.components.BottomNavigationItem
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
+import com.marinj.shoppingwarfare.feature.category.common.CATEGORY_DETAIL_ROUTE
 import com.marinj.shoppingwarfare.feature.category.common.CategoryAction
-import com.marinj.shoppingwarfare.feature.category.common.CategoryDetail
 import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailAction.Companion.extractCategoryId
 import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailAction.Companion.extractCategoryName
 import com.marinj.shoppingwarfare.feature.category.common.CreateCategoryAction
@@ -38,7 +38,7 @@ fun NavGraphBuilder.buildCategoryGraph(
                 setupTopBar = sendTopBar,
             )
         }
-        composable(CategoryDetail) { backStackEntry ->
+        composable(CATEGORY_DETAIL_ROUTE) { backStackEntry ->
             val categoryId = backStackEntry.extractCategoryId()
             val categoryName = backStackEntry.extractCategoryName()
 

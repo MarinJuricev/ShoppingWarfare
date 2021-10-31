@@ -11,7 +11,7 @@ const val CATEGORY_ID = "categoryId"
 const val CATEGORY_NAME = "categoryName"
 const val CATEGORY_DETAIL_ROUTE = "categoryDetail/{$CATEGORY_ID}/{$CATEGORY_NAME}"
 
-//TODO Introduce CategoryNavigationAction to separate actions and navigators ?
+// TODO Introduce CategoryNavigationAction to separate actions and navigators ?
 
 object CategoryAction : NavigationAction() {
     override val route: String = CATEGORY_ROUTE
@@ -42,4 +42,3 @@ data class CategoryDetailAction(
                 ?: error("$CATEGORY_NAME was not provided to categoryDetailRoute")
     }
 }
-
