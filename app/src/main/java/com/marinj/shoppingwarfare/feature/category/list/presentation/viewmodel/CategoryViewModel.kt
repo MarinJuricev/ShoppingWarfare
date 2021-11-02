@@ -3,11 +3,13 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.*
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
-import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailAction
-import com.marinj.shoppingwarfare.feature.category.common.CreateCategoryAction
+import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailEvent
+import com.marinj.shoppingwarfare.feature.category.createcategory.navigation.CreateCategoryDestination
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
@@ -75,8 +77,8 @@ class CategoryViewModel @Inject constructor(
             }
     }
 
-    private fun handleNavigateToCreateCategory() {
-        navigator.emitAction(CreateCategoryAction)
+    private fun handleNavigateToCreateCategory() = viewModelScope.launch {
+        navigator.emitDestination(Directions(CreateCategoryDestination.route()))
     }
 
     private suspend fun handleGetCategoriesError() {
@@ -103,7 +105,7 @@ class CategoryViewModel @Inject constructor(
         categoryId: String,
         categoryName: String,
     ) = viewModelScope.launch {
-        navigator.emitAction(CategoryDetailAction(categoryId, categoryName))
+        navigator.emitDestination(CategoryDetailEvent(categoryId, categoryName))
     }
 
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {

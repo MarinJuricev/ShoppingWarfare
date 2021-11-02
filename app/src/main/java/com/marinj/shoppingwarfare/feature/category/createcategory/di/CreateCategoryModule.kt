@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.createcategory.di
 
 import com.marinj.shoppingwarfare.feature.category.createcategory.domain.repository.CreateCategoryRepository
-import com.marinj.shoppingwarfare.feature.category.createcategory.repository.CreateCategoryRepositoryImpl
+import com.marinj.shoppingwarfare.feature.category.createcategory.data.repository.CreateCategoryRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

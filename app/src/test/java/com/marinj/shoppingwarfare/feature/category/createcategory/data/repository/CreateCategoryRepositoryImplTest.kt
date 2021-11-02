@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.category.createcategory.repository
+package com.marinj.shoppingwarfare.feature.category.createcategory.data.repository
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure

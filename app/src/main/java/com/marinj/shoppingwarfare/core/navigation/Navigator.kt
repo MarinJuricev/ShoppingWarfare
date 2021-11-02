@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.consumeAsFlow
 
 class Navigator {
 
-    private val _navigationAction = Channel<NavigationAction>()
-    val navigationAction = _navigationAction.consumeAsFlow()
+    private val _navigationEvent = Channel<NavigationEvent>()
+    val navigationEvent = _navigationEvent.consumeAsFlow()
 
-    fun emitAction(navigationAction: NavigationAction) {
-        _navigationAction.trySend(navigationAction)
+    suspend fun emitDestination(navigationEvent: NavigationEvent) {
+        _navigationEvent.send(navigationEvent)
     }
 }

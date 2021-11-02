@@ -7,8 +7,8 @@ import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailAction
-import com.marinj.shoppingwarfare.feature.category.common.CreateCategoryAction
+import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailEvent
+import com.marinj.shoppingwarfare.feature.category.common.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
@@ -16,7 +16,6 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCateg
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.CategoryToUiCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEffect
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
@@ -159,7 +158,7 @@ class CategoryViewModelTest {
             sut.onEvent(NavigateToCategoryDetail(ID, CATEGORY_NAME))
 
             verify {
-                navigator.emitAction(CategoryDetailAction(ID, CATEGORY_NAME))
+                navigator.emitDestination(CategoryDetailEvent(ID, CATEGORY_NAME))
             }
         }
 
@@ -169,7 +168,7 @@ class CategoryViewModelTest {
             sut.onEvent(NavigateToCreateCategory)
 
             verify {
-                navigator.emitAction(CreateCategoryAction)
+                navigator.emitDestination(CreateCategoryEvent)
             }
         }
 
