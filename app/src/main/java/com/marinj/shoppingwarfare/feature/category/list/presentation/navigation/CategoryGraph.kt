@@ -9,6 +9,8 @@ import com.marinj.shoppingwarfare.core.components.BottomNavigationItem
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.navigation.CreateCategoryDestination
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.CreateCategoryPage
+import com.marinj.shoppingwarfare.feature.category.detail.navigation.CATEGORY_ID_PARAM
+import com.marinj.shoppingwarfare.feature.category.detail.navigation.CATEGORY_NAME_PARAM
 import com.marinj.shoppingwarfare.feature.category.detail.navigation.CategoryDetailDestination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.CategoryDetailPage
 import com.marinj.shoppingwarfare.feature.category.list.navigation.CategoryDestination
@@ -25,22 +27,25 @@ fun NavGraphBuilder.buildCategoryGraph(
         startDestination = BottomNavigationItem.Category.route,
         route = CATEGORY_ROOT,
     ) {
-        composable(CategoryDestination.route()) {
+        composable(route = CategoryDestination.route()) {
             CategoryPage(
                 setupTopBar = sendTopBar,
             )
         }
-        composable(CreateCategoryDestination.route()) {
+        composable(route = CreateCategoryDestination.route()) {
             CreateCategoryPage(
                 navigateBack = { navController.popBackStack() },
                 setupTopBar = sendTopBar,
             )
         }
-        composable(CategoryDetailDestination.route()) { backStackEntry ->
-//            val categoryId = backStackEntry.extractCategoryId()
-//            val categoryName = backStackEntry.extractCategoryName()
-            val categoryId = ""
-            val categoryName = ""
+        composable(
+            route = CategoryDetailDestination.route(),
+            arguments = CategoryDetailDestination.arguments,
+        ) { backStackEntry ->
+            val categoryId = backStackEntry.arguments?.getString(CATEGORY_ID_PARAM)
+                ?: error("$CATEGORY_ID_PARAM was not provided to categoryDetailRoute")
+            val categoryName = backStackEntry.arguments?.getString(CATEGORY_NAME_PARAM)
+                ?: error("$CATEGORY_NAME_PARAM was not provided to categoryDetailRoute")
 
             CategoryDetailPage(
                 categoryId = categoryId,

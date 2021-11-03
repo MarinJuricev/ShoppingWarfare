@@ -43,7 +43,7 @@ fun ShoppingWarfareNavigation(
                 NavigateUp -> navController.navigateUp()
                 NavigateBack -> navController.popBackStack()
                 is Destination -> navController.navigate(
-                    route = navigationEvent.destinations,
+                    route = navigationEvent.destination,
                     builder = navigationEvent.builder
                 )
             }

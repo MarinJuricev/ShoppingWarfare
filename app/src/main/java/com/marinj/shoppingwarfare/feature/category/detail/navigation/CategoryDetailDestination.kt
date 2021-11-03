@@ -9,14 +9,18 @@ const val CATEGORY_ID_PARAM = "categoryId"
 const val CATEGORY_NAME_PARAM = "categoryName"
 
 private const val CATEGORY_DETAIL_ROOT = "categoryDetail"
-private const val CATEGORY_DETAIL_ROUTE = "$CATEGORY_DETAIL_ROOT/$CATEGORY_ID_PARAM/$CATEGORY_NAME_PARAM"
+private const val CATEGORY_DETAIL_ROUTE =
+    "$CATEGORY_DETAIL_ROOT/{$CATEGORY_ID_PARAM}/{$CATEGORY_NAME_PARAM}"
 
 object CategoryDetailDestination : NavigationDestination {
 
     override fun route(): String = CATEGORY_DETAIL_ROUTE
 
     override val arguments: List<NamedNavArgument>
-        get() = listOf(navArgument(CATEGORY_ID_PARAM) { type = NavType.StringType })
+        get() = listOf(
+            navArgument(CATEGORY_ID_PARAM) { type = NavType.StringType },
+            navArgument(CATEGORY_NAME_PARAM) { type = NavType.StringType },
+        )
 
     fun createCategoryDetailRoute(
         categoryId: String,
