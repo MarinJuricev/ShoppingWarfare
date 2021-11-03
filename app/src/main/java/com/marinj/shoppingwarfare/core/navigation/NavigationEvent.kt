@@ -5,8 +5,8 @@ import androidx.navigation.NavOptionsBuilder
 sealed class NavigationEvent {
     object NavigateUp : NavigationEvent()
     object NavigateBack : NavigationEvent()
-    class Directions(
+    class Destination(
         val destinations: String,
-        val builder: NavOptionsBuilder.() -> Unit
+        val builder: NavOptionsBuilder.() -> Unit = {}
     ) : NavigationEvent()
 }

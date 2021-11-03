@@ -18,10 +18,8 @@ object CategoryDetailDestination : NavigationDestination {
     override val arguments: List<NamedNavArgument>
         get() = listOf(navArgument(CATEGORY_ID_PARAM) { type = NavType.StringType })
 
-
     fun createCategoryDetailRoute(
         categoryId: String,
         categoryName: String,
     ) = "$CATEGORY_DETAIL_ROOT/$categoryId/$categoryName"
-
 }

@@ -3,13 +3,12 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
-import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
-import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.*
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
-import com.marinj.shoppingwarfare.feature.category.common.CategoryDetailEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.navigation.CreateCategoryDestination
+import com.marinj.shoppingwarfare.feature.category.detail.navigation.CategoryDetailDestination
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
@@ -78,7 +77,7 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun handleNavigateToCreateCategory() = viewModelScope.launch {
-        navigator.emitDestination(Directions(CreateCategoryDestination.route()))
+        navigator.emitDestination(Destination(CreateCategoryDestination.route()))
     }
 
     private suspend fun handleGetCategoriesError() {
@@ -105,7 +104,9 @@ class CategoryViewModel @Inject constructor(
         categoryId: String,
         categoryName: String,
     ) = viewModelScope.launch {
-        navigator.emitDestination(CategoryDetailEvent(categoryId, categoryName))
+        navigator.emitDestination(
+            Destination(CategoryDetailDestination.createCategoryDetailRoute(categoryId, categoryName))
+        )
     }
 
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {

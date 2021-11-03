@@ -15,7 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Directions
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.NavigateBack
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.NavigateUp
 import com.marinj.shoppingwarfare.core.navigation.Navigator
@@ -42,7 +42,7 @@ fun ShoppingWarfareNavigation(
             when (navigationEvent) {
                 NavigateUp -> navController.navigateUp()
                 NavigateBack -> navController.popBackStack()
-                is Directions -> navController.navigate(
+                is Destination -> navController.navigate(
                     route = navigationEvent.destinations,
                     builder = navigationEvent.builder
                 )
