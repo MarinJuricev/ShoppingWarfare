@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.history
+package com.marinj.shoppingwarfare.feature.history.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
