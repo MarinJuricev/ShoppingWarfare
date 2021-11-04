@@ -15,10 +15,10 @@ fun NavGraphBuilder.buildCartGraph(
     sendTopBar: (TopBarEvent) -> Unit,
 ) {
     navigation(
-        startDestination = BottomNavigationItem.Cart.route,
+        startDestination = CartDestination.route(),
         route = CART_ROOT,
     ) {
-        composable(BottomNavigationItem.Cart.route) {
+        composable(CartDestination.route()) {
             CartPage(
                 setupTopBar = sendTopBar,
             )

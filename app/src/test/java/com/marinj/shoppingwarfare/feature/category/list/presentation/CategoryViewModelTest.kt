@@ -8,8 +8,8 @@ import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.feature.category.createcategory.navigation.CreateCategoryDestination
-import com.marinj.shoppingwarfare.feature.category.detail.navigation.CategoryDetailDestination
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.navigation.CreateCategoryDestination
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories

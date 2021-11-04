@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.category.list.navigation
+package com.marinj.shoppingwarfare.feature.category.list.presentation.navigation
 
 import com.marinj.shoppingwarfare.core.navigation.NavigationDestination
 

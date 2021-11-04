@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.category.detail.navigation
+package com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
