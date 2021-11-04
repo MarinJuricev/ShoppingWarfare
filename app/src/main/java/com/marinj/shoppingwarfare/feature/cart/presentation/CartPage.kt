@@ -114,6 +114,7 @@ fun CartPage(
                 viewState = viewState,
                 coroutineScope = coroutineScope,
                 bottomSheetScaffoldState = bottomSheetScaffoldState,
+                onCartEvent = cartViewModel::onEvent,
             )
         }
     }

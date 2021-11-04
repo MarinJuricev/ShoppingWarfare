@@ -29,17 +29,20 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.DottedLine
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.reflect.KFunction1
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CartCheckoutInfo(
     viewState: CartViewState,
     coroutineScope: CoroutineScope,
-    bottomSheetScaffoldState: BottomSheetScaffoldState
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    onCartEvent: KFunction1<CartEvent, Unit>
 ) {
     Column(
         modifier = Modifier
@@ -60,7 +63,7 @@ fun CartCheckoutInfo(
                     .fillMaxWidth(0.8f)
                     .padding(16.dp),
                 enabled = viewState.cartData.isNotEmpty(),
-                onClick = { /*TODO*/ }
+                onClick = { onCartEvent(CartEvent.CheckoutClicked) }
             ) {
                 Text(text = stringResource(id = R.string.checkout))
             }
