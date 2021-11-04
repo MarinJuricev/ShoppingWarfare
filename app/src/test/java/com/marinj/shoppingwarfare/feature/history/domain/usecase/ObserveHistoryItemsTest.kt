@@ -1,8 +1,7 @@
 package com.marinj.shoppingwarfare.feature.history.domain.usecase
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth
-import com.google.common.truth.Truth.*
+import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.history.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.domain.repository.HistoryRepository
 import io.mockk.coEvery
@@ -10,7 +9,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import kotlin.time.ExperimentalTime

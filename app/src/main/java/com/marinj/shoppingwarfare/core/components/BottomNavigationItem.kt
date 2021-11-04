@@ -9,7 +9,7 @@ sealed class BottomNavigationItem(
     @StringRes val resourceId: Int,
     @DrawableRes val iconId: Int,
 ) {
-    //TODO: Rethink this so that it uses the new NavigationDestination implementation
+    // TODO: Rethink this so that it uses the new NavigationDestination implementation
     object Category : BottomNavigationItem("category", R.string.category, R.drawable.category_icon)
     object Cart : BottomNavigationItem("cart", R.string.cart, R.drawable.cart_icon)
     object History : BottomNavigationItem("history", R.string.history, R.drawable.history_icon)
