@@ -4,34 +4,34 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import com.marinj.shoppingwarfare.R
 
-sealed class TopBarEvent {
+sealed interface TopBarEvent {
     data class CategoryTopBar(
         @StringRes val title: Int = R.string.category,
         val onActionClick: () -> Unit,
         val icon: @Composable () -> Unit,
-    ) : TopBarEvent()
+    ) : TopBarEvent
 
     data class CreateCategoryTopBar(
         @StringRes val title: Int = R.string.category,
         @StringRes val subTitle: Int = R.string.create_category,
-    ) : TopBarEvent()
+    ) : TopBarEvent
 
     data class CategoryDetailTopBar(
         @StringRes val title: Int = R.string.category,
         @StringRes val subTitle: Int = R.string.category_detail,
         val onActionClick: () -> Unit,
         val icon: @Composable () -> Unit,
-    ) : TopBarEvent()
+    ) : TopBarEvent
 
     data class CartTopBar(
         val isVisible: Boolean = false
-    ) : TopBarEvent()
+    ) : TopBarEvent
 
     data class HistoryTopBar(
         val isVisible: Boolean = false
-    ) : TopBarEvent()
+    ) : TopBarEvent
 
     data class UserTopBar(
         val isVisible: Boolean = false
-    ) : TopBarEvent()
+    ) : TopBarEvent
 }
