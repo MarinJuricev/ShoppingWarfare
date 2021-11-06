@@ -2,7 +2,7 @@ package com.marinj.shoppingwarfare.feature.category.createcategory.presentation.
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEffect.CreateCategoryFailure
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewFailure
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
@@ -10,7 +10,7 @@ import org.junit.Test
 
 private const val ERROR_MESSAGE = "errorMessage"
 
-class FailureToCreateCategoryEffectMapperTest {
+class FailureToCreateCategoryViewEffectMapperTest {
 
     private lateinit var sut: FailureToCreateCategoryEffectMapper
 
@@ -25,7 +25,7 @@ class FailureToCreateCategoryEffectMapperTest {
         every { origin.errorMessage } answers { ERROR_MESSAGE }
 
         val actualResult = sut.map(origin)
-        val expectedResult = CreateCategoryFailure(ERROR_MESSAGE)
+        val expectedResult = CreateCategoryViewFailure(ERROR_MESSAGE)
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }
@@ -37,7 +37,7 @@ class FailureToCreateCategoryEffectMapperTest {
         every { origin.errorMessage } answers { mapperErrorMessage }
 
         val actualResult = sut.map(origin)
-        val expectedResult = CreateCategoryFailure(mapperErrorMessage)
+        val expectedResult = CreateCategoryViewFailure(mapperErrorMessage)
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }

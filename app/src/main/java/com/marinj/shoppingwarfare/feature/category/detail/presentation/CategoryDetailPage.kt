@@ -29,9 +29,9 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.components.CreateCategoryProduct
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.components.ProductList
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect.Error
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect.ProductDeleted
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.Error
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.RestoreProductDeletion
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmodel.CategoryDetailViewModel
@@ -90,7 +90,7 @@ fun CategoryDetailPage(
                     ),
                     actionLabel = currentContext.getString(string.undo)
                 )
-                is CategoryDetailEffect.AddedToCart -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                is CategoryDetailViewEffect.AddedToCart -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
                         string.cart_item_added,
                         viewEffect.product.name,

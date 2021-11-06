@@ -16,7 +16,7 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCa
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.CategoryToUiCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.UiCategoryToCategoryMapper
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEffect
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
@@ -116,7 +116,7 @@ class CategoryViewModelTest {
             }
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Failed to fetch Categories, try again later."))
+                assertThat(awaitItem()).isEqualTo(CategoryViewEffect.Error("Failed to fetch Categories, try again later."))
             }
         }
 
@@ -133,7 +133,7 @@ class CategoryViewModelTest {
             sut.onEvent(CategoryEvent.DeleteCategory(uiCategory))
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(CategoryEffect.DeleteCategory(uiCategory))
+                assertThat(awaitItem()).isEqualTo(CategoryViewEffect.DeleteCategoryView(uiCategory))
             }
         }
 
@@ -150,7 +150,7 @@ class CategoryViewModelTest {
             sut.onEvent(CategoryEvent.DeleteCategory(uiCategory))
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Error while deleting category."))
+                assertThat(awaitItem()).isEqualTo(CategoryViewEffect.Error("Error while deleting category."))
             }
         }
 
@@ -194,7 +194,7 @@ class CategoryViewModelTest {
             sut.onEvent(CategoryEvent.UndoCategoryDeletion(uiCategory))
 
             sut.categoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(CategoryEffect.Error("Couldn't undo category deletion."))
+                assertThat(awaitItem()).isEqualTo(CategoryViewEffect.Error("Couldn't undo category deletion."))
             }
         }
 

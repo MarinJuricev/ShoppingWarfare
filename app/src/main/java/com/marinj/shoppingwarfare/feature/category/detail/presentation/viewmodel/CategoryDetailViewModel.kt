@@ -11,16 +11,16 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateP
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveCategoryProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper.ProductToCartItemMapper
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect.AddedToCart
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect.Error
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnCreateCategoryProduct
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductClicked
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductDelete
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.RestoreProductDeletion
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.AddedToCart
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.Error
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -45,7 +46,7 @@ class CategoryDetailViewModel @Inject constructor(
     private val _viewState = MutableStateFlow(CategoryDetailViewState())
     val viewState = _viewState.asStateFlow()
 
-    private val _viewEffect = Channel<CategoryDetailEffect>()
+    private val _viewEffect = Channel<CategoryDetailViewEffect>()
     val viewEffect = _viewEffect.receiveAsFlow()
 
     override fun onEvent(event: CategoryDetailEvent) {
@@ -63,8 +64,8 @@ class CategoryDetailViewModel @Inject constructor(
     }
 
     private fun handleGetCategoryProducts(categoryId: String) = viewModelScope.launch {
-        updateIsLoading(isLoading = true)
         observeCategoryProducts(categoryId)
+            .onStart { updateIsLoading(isLoading = true) }
             .catch { handleGetCategoriesError() }
             .collect { products ->
                 _viewState.safeUpdate(

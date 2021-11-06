@@ -12,9 +12,9 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartCheckoutCompleted
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewCheckoutCompleted
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
@@ -127,7 +127,7 @@ class CartViewModelTest {
             sut.onEvent(CartEvent.DeleteCartItem(cartItem))
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(CartItemDeleted(NAME))
+                assertThat(awaitItem()).isEqualTo(CartViewItemDeleted(NAME))
             }
         }
 
@@ -230,7 +230,7 @@ class CartViewModelTest {
             sut.onEvent(CartEvent.CheckoutClicked)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(CartCheckoutCompleted)
+                assertThat(awaitItem()).isEqualTo(CartViewCheckoutCompleted)
             }
         }
 

@@ -11,10 +11,10 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartCheckoutCompleted
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewCheckoutCompleted
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CheckoutClicked
@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -46,7 +47,7 @@ class CartViewModel @Inject constructor(
     private val _viewState = MutableStateFlow(CartViewState())
     val viewState = _viewState.asStateFlow()
 
-    private val _viewEffect = Channel<CartEffect>()
+    private val _viewEffect = Channel<CartViewEffect>()
     val viewEffect = _viewEffect.receiveAsFlow()
 
     override fun onEvent(event: CartEvent) {
@@ -64,8 +65,8 @@ class CartViewModel @Inject constructor(
     }
 
     private fun handleGetCartItems() = viewModelScope.launch {
-        updateIsLoading(isLoading = true)
         observeCartItems()
+            .onStart { updateIsLoading(isLoading = true) }
             .catch { handleGetCartItemsError() }
             .collect { cartItems ->
                 _viewState.safeUpdate(
@@ -86,7 +87,7 @@ class CartViewModel @Inject constructor(
     private fun handleCheckoutClicked() = viewModelScope.launch {
         val viewState = viewState.value
         when (checkoutCart(viewState.cartData, viewState.receiptStatus.receiptPath)) {
-            is Right -> _viewEffect.send(CartCheckoutCompleted)
+            is Right -> _viewEffect.send(CartViewCheckoutCompleted)
             is Left -> _viewEffect.send(Error("Checkout failed, please try again later."))
         }
     }
@@ -98,7 +99,7 @@ class CartViewModel @Inject constructor(
 
     private fun handleDeleteCartItem(cartItem: CartItem) = viewModelScope.launch {
         when (deleteCartItem(cartItem.id)) {
-            is Right -> _viewEffect.send(CartItemDeleted(cartItem.name))
+            is Right -> _viewEffect.send(CartViewItemDeleted(cartItem.name))
             is Left -> _viewEffect.send(Error("Failed to delete ${cartItem.name}, please try again later."))
         }
     }

@@ -28,8 +28,8 @@ import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.components.ColorPicker
-import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEffect
-import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
@@ -56,16 +56,16 @@ fun CreateCategoryPage(
     LaunchedEffect(key1 = createCategoryViewModel.createCategoryEffect) {
         createCategoryViewModel.createCategoryEffect.collect { viewEffect ->
             when (viewEffect) {
-                CreateCategorySuccess -> scaffoldState.snackbarHostState.showSnackbar(
+                CreateCategoryViewSuccess -> scaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(R.string.success),
                     actionLabel = currentContext.getString(R.string.navigate_back),
                 )
-                is CreateCategoryEffect.CreateCategoryFailure -> scaffoldState.snackbarHostState.showSnackbar(
+                is CreateCategoryViewEffect.CreateCategoryViewFailure -> scaffoldState.snackbarHostState.showSnackbar(
                     message = viewEffect.errorMessage,
                     actionLabel = currentContext.getString(R.string.dismiss)
                 )
             }.also {
-                if (viewEffect is CreateCategorySuccess) {
+                if (viewEffect is CreateCategoryViewSuccess) {
                     navigateBack()
                 }
             }

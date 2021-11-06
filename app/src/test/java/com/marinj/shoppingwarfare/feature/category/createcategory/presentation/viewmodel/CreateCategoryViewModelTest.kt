@@ -9,8 +9,8 @@ import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.createcategory.domain.usecase.CreateCategory
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.mapper.FailureToCreateCategoryEffectMapper
-import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEffect.CreateCategoryFailure
-import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewFailure
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
@@ -84,7 +84,7 @@ class CreateCategoryViewModelTest {
         runBlockingTest {
             val event = OnCreateCategoryClicked
             val failure = Failure.Unknown
-            val createCategoryEffect = CreateCategoryFailure("Error")
+            val createCategoryEffect = CreateCategoryViewFailure("Error")
             coEvery {
                 createCategory("", null, null)
             } coAnswers { failure.buildLeft() }
@@ -103,7 +103,7 @@ class CreateCategoryViewModelTest {
     fun `should emit CreateCategorySuccess when OnCreateCategoryClicked is provided and createCategory returns Right`() =
         runBlockingTest {
             val event = OnCreateCategoryClicked
-            val createCategoryEffect = CreateCategorySuccess
+            val createCategoryEffect = CreateCategoryViewSuccess
             coEvery {
                 createCategory("", null, null)
             } coAnswers { Unit.buildRight() }

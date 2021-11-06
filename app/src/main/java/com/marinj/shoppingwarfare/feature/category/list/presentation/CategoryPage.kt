@@ -23,8 +23,8 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicato
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.feature.category.list.presentation.components.CategoryGrid
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEffect.DeleteCategory
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEffect.Error
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.UndoCategoryDeletion
@@ -62,7 +62,7 @@ fun CategoryPage(
     LaunchedEffect(key1 = categoryViewModel.categoryEffect) {
         categoryViewModel.categoryEffect.collect { categoryEffect ->
             when (categoryEffect) {
-                is DeleteCategory -> scaffoldState.snackbarHostState.showSnackbar(
+                is DeleteCategoryView -> scaffoldState.snackbarHostState.showSnackbar(
                     context.getString(
                         R.string.category_deleted,
                         categoryEffect.uiCategory.title

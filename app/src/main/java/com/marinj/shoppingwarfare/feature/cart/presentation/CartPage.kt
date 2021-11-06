@@ -30,9 +30,9 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCameraPermission
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCheckoutInfo
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.CartItemDeleted
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEffect.Error
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -58,7 +58,7 @@ fun CartPage(
     LaunchedEffect(key1 = cartViewModel.viewEffect) {
         cartViewModel.viewEffect.collect { cartEffect ->
             when (cartEffect) {
-                is CartItemDeleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                is CartViewItemDeleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     context.getString(
                         string.cart_item_deleted,
                         cartEffect.cartItemName,
@@ -67,7 +67,7 @@ fun CartPage(
                 is Error -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = cartEffect.errorMessage
                 )
-                CartEffect.CartCheckoutCompleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                CartViewEffect.CartViewCheckoutCompleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     context.getString(string.cart_success_message)
                 )
             }

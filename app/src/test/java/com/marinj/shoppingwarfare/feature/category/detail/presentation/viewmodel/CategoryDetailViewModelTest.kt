@@ -13,9 +13,9 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateP
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveCategoryProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper.ProductToCartItemMapper
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect.AddedToCart
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect.Error
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEffect.ProductDeleted
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.AddedToCart
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.Error
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnCreateCategoryProduct
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductClicked

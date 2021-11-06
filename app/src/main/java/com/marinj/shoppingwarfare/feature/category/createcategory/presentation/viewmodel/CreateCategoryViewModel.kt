@@ -9,8 +9,8 @@ import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.createcategory.domain.usecase.CreateCategory
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.mapper.FailureToCreateCategoryEffectMapper
-import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEffect
-import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEffect.CreateCategorySuccess
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
@@ -34,7 +34,7 @@ class CreateCategoryViewModel @Inject constructor(
     private val _createCategoryViewState = MutableStateFlow(CreateCategoryViewState())
     val createCategoryViewState = _createCategoryViewState.asStateFlow()
 
-    private val _createCategoryEffect = Channel<CreateCategoryEffect>()
+    private val _createCategoryEffect = Channel<CreateCategoryViewEffect>()
     val createCategoryEffect = _createCategoryEffect.receiveAsFlow()
 
     override fun onEvent(event: CreateCategoryEvent) {
@@ -81,7 +81,7 @@ class CreateCategoryViewModel @Inject constructor(
             is Left -> _createCategoryEffect.send(
                 failureToCreateCategoryEffectMapper.map(result.error)
             )
-            is Right -> _createCategoryEffect.send(CreateCategorySuccess)
+            is Right -> _createCategoryEffect.send(CreateCategoryViewSuccess)
         }
     }
 }
