@@ -12,7 +12,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,26 +28,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewState
-
-@Composable
-fun ShoppingWarfareTopBar(
-    onActionClick: () -> Unit = {},
-    iconContent: @Composable () -> Unit = {},
-) {
-    TopAppBar {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.End,
-        ) {
-            IconButton(
-                onClick = onActionClick
-            ) {
-                iconContent()
-            }
-        }
-    }
-}
 
 @ExperimentalAnimationApi
 @Composable

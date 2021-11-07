@@ -58,4 +58,5 @@
     <!-- User -->
     <string name="user">User</string>
     <string name="cart_success_message">Cart successfully checked out</string>
+    <string name="empty_history_message">No items in history, make a checkout to add items to history</string>
 </resources>
