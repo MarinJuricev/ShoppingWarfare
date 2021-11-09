@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.core.viewmodel
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.R
@@ -12,6 +13,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBa
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewState
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -108,11 +110,22 @@ class TopBarViewModelTest {
     @Test
     fun `onEvent should update viewState to match historyTopBar when HistoryTopBar is provided`() =
         runBlockingTest {
-            val event = HistoryTopBar()
+            val searchText = mockk<State<String>>(relaxed = true)
+            val onTextChange: (String) -> Unit = {}
+            val onActionClick: () -> Unit = {}
+            val event = HistoryTopBar(
+                searchText = searchText,
+                onTextChange = onTextChange,
+                onActionClick = onActionClick
+            )
 
             sut.onEvent(event)
             val expectedResult = TopBarViewState(
-                isVisible = false
+                isVisible = true,
+                searchText = searchText,
+                isSearchEnabled = true,
+                onTextChange = onTextChange,
+                onActionClick = onActionClick,
             )
 
             sut.viewState.test {

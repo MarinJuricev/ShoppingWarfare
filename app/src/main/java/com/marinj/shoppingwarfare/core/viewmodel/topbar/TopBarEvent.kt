@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.core.viewmodel.topbar
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import com.marinj.shoppingwarfare.R
 
 sealed interface TopBarEvent {
@@ -28,7 +29,10 @@ sealed interface TopBarEvent {
     ) : TopBarEvent
 
     data class HistoryTopBar(
-        val isVisible: Boolean = false
+        val isSearchEnabled: Boolean = true,
+        val searchText: State<String>,
+        val onTextChange: (String) -> Unit,
+        val onActionClick: () -> Unit,
     ) : TopBarEvent
 
     data class UserTopBar(

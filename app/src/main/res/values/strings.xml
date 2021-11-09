@@ -51,12 +51,14 @@
     <string name="no_receipt_added">no receipt added</string>
     <string name="receipt_error">error while adding receipt</string>
     <string name="receipt_taken">receipt taken</string>
+    <string name="cart_success_message">Cart successfully checked out</string>
 
     <!-- History-->
     <string name="history">History</string>
+    <string name="empty_history_message">No items in history, make a checkout to add items to history</string>
+    <string name="search_history">Search history</string>
 
     <!-- User -->
     <string name="user">User</string>
-    <string name="cart_success_message">Cart successfully checked out</string>
-    <string name="empty_history_message">No items in history, make a checkout to add items to history</string>
+
 </resources>
