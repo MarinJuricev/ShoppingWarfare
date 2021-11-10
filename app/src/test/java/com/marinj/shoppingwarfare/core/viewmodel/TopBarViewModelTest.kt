@@ -5,6 +5,8 @@ import androidx.compose.runtime.State
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.NoSearchBarTopBarViewState
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.SearchTopBarViewState
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
@@ -12,7 +14,6 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCatego
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
-import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewState
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -42,7 +43,7 @@ class TopBarViewModelTest {
             )
 
             sut.onEvent(event)
-            val expectedResult = TopBarViewState(
+            val expectedResult = NoSearchBarTopBarViewState(
                 title = R.string.category,
                 icon = icon,
                 onActionClick = onActionClicked
@@ -59,7 +60,7 @@ class TopBarViewModelTest {
             val event = CreateCategoryTopBar()
 
             sut.onEvent(event)
-            val expectedResult = TopBarViewState(
+            val expectedResult = NoSearchBarTopBarViewState(
                 title = R.string.category,
                 subTitle = R.string.create_category
             )
@@ -80,7 +81,7 @@ class TopBarViewModelTest {
             )
 
             sut.onEvent(event)
-            val expectedResult = TopBarViewState(
+            val expectedResult = NoSearchBarTopBarViewState(
                 title = R.string.category,
                 subTitle = R.string.category_detail,
                 icon = icon,
@@ -98,8 +99,8 @@ class TopBarViewModelTest {
             val event = CartTopBar()
 
             sut.onEvent(event)
-            val expectedResult = TopBarViewState(
-                isVisible = false
+            val expectedResult = NoSearchBarTopBarViewState(
+                isTopBarVisible = false
             )
 
             sut.viewState.test {
@@ -120,8 +121,8 @@ class TopBarViewModelTest {
             )
 
             sut.onEvent(event)
-            val expectedResult = TopBarViewState(
-                isVisible = true,
+            val expectedResult = SearchTopBarViewState(
+                isTopBarVisible = true,
                 searchText = searchText,
                 isSearchEnabled = true,
                 onTextChange = onTextChange,
@@ -139,8 +140,8 @@ class TopBarViewModelTest {
             val event = UserTopBar()
 
             sut.onEvent(event)
-            val expectedResult = TopBarViewState(
-                isVisible = false
+            val expectedResult = NoSearchBarTopBarViewState(
+                isTopBarVisible = false
             )
 
             sut.viewState.test {

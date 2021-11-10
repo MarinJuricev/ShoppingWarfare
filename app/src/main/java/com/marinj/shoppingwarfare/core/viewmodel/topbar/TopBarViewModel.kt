@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
 
-    private val _viewState = MutableStateFlow(TopBarViewState())
+    private val _viewState = MutableStateFlow<TopBarViewState>(NoSearchBarTopBarViewState())
     val viewState = _viewState.asStateFlow()
 
     override fun onEvent(event: TopBarEvent) {
@@ -32,7 +32,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
 
     private fun handleCategoryTopBar(event: CategoryTopBar) {
         _viewState.safeUpdate(
-            TopBarViewState(
+            NoSearchBarTopBarViewState(
                 title = event.title,
                 icon = event.icon,
                 onActionClick = event.onActionClick,
@@ -42,7 +42,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
 
     private fun handleCreateCategoryTopBar(event: CreateCategoryTopBar) {
         _viewState.safeUpdate(
-            TopBarViewState(
+            NoSearchBarTopBarViewState(
                 title = event.title,
                 subTitle = event.subTitle,
             )
@@ -51,7 +51,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
 
     private fun handleCategoryDetailTopBar(event: CategoryDetailTopBar) {
         _viewState.safeUpdate(
-            TopBarViewState(
+            NoSearchBarTopBarViewState(
                 title = event.title,
                 subTitle = event.subTitle,
                 icon = event.icon,
@@ -62,15 +62,15 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
 
     private fun handleCartTopBar(event: CartTopBar) {
         _viewState.safeUpdate(
-            TopBarViewState(
-                isVisible = event.isVisible,
+            NoSearchBarTopBarViewState(
+                isTopBarVisible = event.isVisible,
             )
         )
     }
 
     private fun handleHistoryTopBar(event: HistoryTopBar) {
         _viewState.safeUpdate(
-            TopBarViewState(
+            SearchTopBarViewState(
                 searchText = event.searchText,
                 isSearchEnabled = event.isSearchEnabled,
                 onTextChange = event.onTextChange,
@@ -81,8 +81,8 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
 
     private fun handleUserTopBar(event: UserTopBar) {
         _viewState.safeUpdate(
-            TopBarViewState(
-                isVisible = event.isVisible
+            NoSearchBarTopBarViewState(
+                isTopBarVisible = event.isVisible
             )
         )
     }

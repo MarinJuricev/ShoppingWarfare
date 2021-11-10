@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.NoSearchBarTopBarViewState
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.SearchTopBarViewState
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewState
 
 @ExperimentalAnimationApi
@@ -64,7 +66,7 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
             ) {
                 androidx.compose.animation.AnimatedVisibility(
                     modifier = Modifier.align(Alignment.CenterEnd),
-                    visible = topBarViewState.isSearchEnabled,
+                    visible = topBarViewState is SearchTopBarViewState,
                     enter = fadeIn() + slideInHorizontally(
                         animationSpec = spring(
                             dampingRatio = Spring.DampingRatioLowBouncy,
@@ -74,12 +76,14 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
                     ),
                     exit = fadeOut(),
                 ) {
-                    ShoppingWarfareSearchTopBar(
-                        topBarViewState = topBarViewState,
-                    )
+                    if (topBarViewState is SearchTopBarViewState) {
+                        ShoppingWarfareSearchTopBar(
+                            topBarViewState = topBarViewState,
+                        )
+                    }
                 }
                 androidx.compose.animation.AnimatedVisibility(
-                    visible = topBarViewState.isSearchEnabled.not(),
+                    visible = topBarViewState is NoSearchBarTopBarViewState,
                     enter = fadeIn() + slideInHorizontally(
                         initialOffsetX = { it / 2 },
                         animationSpec = spring(
@@ -90,10 +94,12 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
                     ),
                     exit = fadeOut(),
                 ) {
-                    ShoppingWarfareNonSearchTopBar(
-                        topBarSpring = topBarSpring,
-                        topBarViewState = topBarViewState
-                    )
+                    if (topBarViewState is NoSearchBarTopBarViewState) {
+                        ShoppingWarfareNonSearchTopBar(
+                            topBarSpring = topBarSpring,
+                            topBarViewState = topBarViewState
+                        )
+                    }
                 }
             }
         }
@@ -102,7 +108,7 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
 
 @Composable
 fun ShoppingWarfareSearchTopBar(
-    topBarViewState: TopBarViewState
+    topBarViewState: SearchTopBarViewState
 ) {
     Row(
         modifier = Modifier.fillMaxSize(),
@@ -149,7 +155,7 @@ fun ShoppingWarfareSearchTopBar(
 @Composable
 private fun ShoppingWarfareNonSearchTopBar(
     topBarSpring: FiniteAnimationSpec<IntSize>,
-    topBarViewState: TopBarViewState
+    topBarViewState: NoSearchBarTopBarViewState
 ) {
     Row(
         modifier = Modifier.fillMaxSize(),
