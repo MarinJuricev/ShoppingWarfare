@@ -41,7 +41,7 @@ fun QuantityPicker(
             Icon(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.minus_icon),
-                tint = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White,
+                tint = Color.White,
                 contentDescription = stringResource(R.string.decrease_quantity)
             )
         }
@@ -60,7 +60,7 @@ fun QuantityPicker(
             Icon(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.add_icon),
-                tint = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White,
+                tint = Color.White,
                 contentDescription = stringResource(R.string.increase_quantity)
             )
         }
