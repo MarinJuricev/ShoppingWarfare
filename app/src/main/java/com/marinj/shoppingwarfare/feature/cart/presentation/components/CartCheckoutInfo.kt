@@ -34,7 +34,6 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlin.reflect.KFunction1
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -42,7 +41,7 @@ fun CartCheckoutInfo(
     viewState: CartViewState,
     coroutineScope: CoroutineScope,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    onCartEvent: KFunction1<CartEvent, Unit>
+    onCartEvent: (CartEvent) -> Unit,
 ) {
     Column(
         modifier = Modifier
