@@ -41,11 +41,11 @@ class CategoryViewModel @Inject constructor(
     private val navigator: Navigator,
 ) : BaseViewModel<CategoryEvent>() {
 
-    private val _categoryViewState = MutableStateFlow(CategoryViewState())
-    val categoryViewState = _categoryViewState.asStateFlow()
+    private val _viewState = MutableStateFlow(CategoryViewState())
+    val viewState = _viewState.asStateFlow()
 
-    private val _categoryEffect = Channel<CategoryViewEffect>()
-    val categoryEffect = _categoryEffect.receiveAsFlow()
+    private val _viewEffect = Channel<CategoryViewEffect>()
+    val viewEffect = _viewEffect.receiveAsFlow()
 
     override fun onEvent(event: CategoryEvent) {
         when (event) {
@@ -68,8 +68,8 @@ class CategoryViewModel @Inject constructor(
                 categoryList.map { category -> categoryToUiCategoryMapper.map(category) }
             }
             .collect { uiCategoryList ->
-                _categoryViewState.safeUpdate(
-                    _categoryViewState.value.copy(
+                _viewState.safeUpdate(
+                    _viewState.value.copy(
                         categories = uiCategoryList,
                         isLoading = false,
                     )
@@ -83,12 +83,12 @@ class CategoryViewModel @Inject constructor(
 
     private suspend fun handleGetCategoriesError() {
         updateIsLoading(isLoading = false)
-        _categoryEffect.send(CategoryViewEffect.Error("Failed to fetch Categories, try again later."))
+        _viewEffect.send(CategoryViewEffect.Error("Failed to fetch Categories, try again later."))
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
-        _categoryViewState.safeUpdate(
-            _categoryViewState.value.copy(
+        _viewState.safeUpdate(
+            _viewState.value.copy(
                 isLoading = isLoading
             )
         )
@@ -96,8 +96,8 @@ class CategoryViewModel @Inject constructor(
 
     private fun handleDeleteCategory(uiCategory: UiCategory) = viewModelScope.launch {
         when (deleteCategory(uiCategory.id)) {
-            is Right -> _categoryEffect.send(CategoryViewEffect.DeleteCategoryView(uiCategory))
-            is Left -> _categoryEffect.send(CategoryViewEffect.Error("Error while deleting category."))
+            is Right -> _viewEffect.send(CategoryViewEffect.DeleteCategoryView(uiCategory))
+            is Left -> _viewEffect.send(CategoryViewEffect.Error("Error while deleting category."))
         }
     }
 
@@ -118,7 +118,7 @@ class CategoryViewModel @Inject constructor(
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {
         when (undoCategoryDeletion(uiCategoryToCategoryMapper.map(uiCategory))) {
             is Right -> Timber.d("${uiCategory.title} successfully restored")
-            is Left -> _categoryEffect.send(CategoryViewEffect.Error("Couldn't undo category deletion."))
+            is Left -> _viewEffect.send(CategoryViewEffect.Error("Couldn't undo category deletion."))
         }
     }
 }

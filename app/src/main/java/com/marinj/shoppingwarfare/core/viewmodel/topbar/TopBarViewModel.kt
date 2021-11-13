@@ -71,7 +71,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
     private fun handleHistoryTopBar(event: HistoryTopBar) {
         _viewState.safeUpdate(
             SearchTopBarViewState(
-                searchText = event.searchText,
+                searchText = event.searchTextUpdated,
                 isSearchEnabled = event.isSearchEnabled,
                 onTextChange = event.onTextChange,
                 onActionClick = event.onActionClick,

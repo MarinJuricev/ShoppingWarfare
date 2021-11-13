@@ -38,7 +38,7 @@ fun CategoryPage(
     setupTopBar: (TopBarEvent) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
-    val viewState by categoryViewModel.categoryViewState.collectAsState()
+    val viewState by categoryViewModel.viewState.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(
@@ -59,8 +59,8 @@ fun CategoryPage(
         }
     )
 
-    LaunchedEffect(key1 = categoryViewModel.categoryEffect) {
-        categoryViewModel.categoryEffect.collect { categoryEffect ->
+    LaunchedEffect(key1 = categoryViewModel.viewEffect) {
+        categoryViewModel.viewEffect.collect { categoryEffect ->
             when (categoryEffect) {
                 is DeleteCategoryView -> scaffoldState.snackbarHostState.showSnackbar(
                     context.getString(

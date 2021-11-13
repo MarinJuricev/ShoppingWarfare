@@ -9,8 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,6 +19,7 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicato
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBar
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
+import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchUpdated
 import com.marinj.shoppingwarfare.feature.history.presentation.viewmodel.HistoryViewModel
 
 @Composable
@@ -29,15 +28,16 @@ fun HistoryPage(
     historyViewModel: HistoryViewModel = hiltViewModel()
 ) {
     val viewState by historyViewModel.viewState.collectAsState()
-    var historyText = remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
         historyViewModel.onEvent(OnGetHistoryItems)
 
         setupTopBar(
             HistoryTopBar(
-                onTextChange = { newHistoryText -> historyText.value = newHistoryText },
-                searchText = historyText,
+                onTextChange = { newHistoryText ->
+                    historyViewModel.onEvent(OnSearchUpdated(newHistoryText))
+                },
+                searchTextUpdated = { viewState.searchText },
             ) {
             }
         )

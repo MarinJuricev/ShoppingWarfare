@@ -6,6 +6,7 @@ import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.feature.history.domain.usecase.ObserveHistoryItems
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
+import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchUpdated
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewState
@@ -34,6 +35,7 @@ class HistoryViewModel @Inject constructor(
     override fun onEvent(event: HistoryEvent) {
         when (event) {
             OnGetHistoryItems -> handleGetHistoryItems()
+            is OnSearchUpdated -> handleSearchUpdated(event.newSearch)
         }
     }
 
@@ -49,6 +51,12 @@ class HistoryViewModel @Inject constructor(
                     )
                 )
             }
+    }
+
+    private fun handleSearchUpdated(newSearch: String) {
+        _viewState.safeUpdate(
+            _viewState.value.copy(searchText = newSearch)
+        )
     }
 
     private suspend fun handleGetHistoryItemsError() {

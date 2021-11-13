@@ -141,7 +141,7 @@ fun ShoppingWarfareSearchTopBar(
         topBarViewState.searchText?.let { searchText ->
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = searchText.value,
+                value = searchText(),
                 onValueChange = topBarViewState.onTextChange,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     backgroundColor = Color.White,
