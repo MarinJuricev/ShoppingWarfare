@@ -13,4 +13,5 @@ sealed interface CartEvent {
     ) : CartEvent
 
     data class DeleteCartItem(val cartItem: CartItem) : CartEvent
+    data class CartNameUpdated(val updatedCartName: String) : CartEvent
 }

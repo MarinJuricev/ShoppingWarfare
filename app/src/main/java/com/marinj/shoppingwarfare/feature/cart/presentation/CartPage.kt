@@ -112,8 +112,11 @@ fun CartPage(
             }
             CartCheckoutInfo(
                 viewState = viewState,
-                coroutineScope = coroutineScope,
-                bottomSheetScaffoldState = bottomSheetScaffoldState,
+                onReceiptClick = {
+                    coroutineScope.launch {
+                        bottomSheetScaffoldState.expandOrCollapse()
+                    }
+                },
                 onCartEvent = cartViewModel::onEvent,
             )
         }

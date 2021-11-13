@@ -13,6 +13,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuan
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartNameUpdated
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CheckoutClicked
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureError
@@ -61,6 +62,7 @@ class CartViewModel @Inject constructor(
                 event.newQuantity
             )
             is ReceiptCaptureSuccess -> handleReceiptCaptureSuccess(event.receiptPath)
+            is CartNameUpdated -> handleCartNameUpdated(event.updatedCartName)
         }
     }
 
@@ -117,6 +119,12 @@ class CartViewModel @Inject constructor(
     private fun handleReceiptCaptureSuccess(receiptPath: String) {
         _viewState.safeUpdate(
             _viewState.value.copy(receiptStatus = ReceiptStatus.Taken(receiptPath))
+        )
+    }
+
+    private fun handleCartNameUpdated(updatedCartName: String) {
+        _viewState.safeUpdate(
+            _viewState.value.copy(cartName = updatedCartName)
         )
     }
 

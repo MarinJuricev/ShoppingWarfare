@@ -250,4 +250,15 @@ class CartViewModelTest {
                 assertThat(awaitItem()).isEqualTo(Error("Checkout failed, please try again later."))
             }
         }
+
+    @Test
+    fun `should update viewState when CartNameUpdated is provided`() = runBlockingTest {
+        val newCartName = "newCartName"
+
+        sut.onEvent(CartEvent.CartNameUpdated(newCartName))
+
+        sut.viewState.test() {
+            assertThat(awaitItem().cartName).isEqualTo(newCartName)
+        }
+    }
 }

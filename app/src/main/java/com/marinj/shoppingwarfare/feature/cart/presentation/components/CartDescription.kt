@@ -21,7 +21,7 @@ fun CartDescription(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = stringResource(R.string.cart_name),
+            text = stringResource(R.string.cart_product_name),
             style = MaterialTheme.typography.body2,
             color = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White
         )

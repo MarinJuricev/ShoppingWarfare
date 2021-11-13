@@ -115,7 +115,7 @@ class TopBarViewModelTest {
             val onActionClick: () -> Unit = {}
             val searchTextUpdated = { SEARCH_TEXT }
             val event = HistoryTopBar(
-                searchTextUpdated =searchTextUpdated ,
+                searchTextUpdated = searchTextUpdated,
                 onTextChange = onTextChange,
                 onActionClick = onActionClick
             )
