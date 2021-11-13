@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.history.presentation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,6 +17,7 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBar
+import com.marinj.shoppingwarfare.feature.history.presentation.components.HistoryList
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchUpdated
 import com.marinj.shoppingwarfare.feature.history.presentation.viewmodel.HistoryViewModel
@@ -55,9 +55,7 @@ fun HistoryPage(
                 viewState.historyItems.isEmpty() -> ShoppingWarfareEmptyScreen(
                     message = stringResource(R.string.empty_history_message)
                 )
-            }
-            LazyColumn {
-                viewState.historyItems
+                viewState.historyItems.isNotEmpty() -> HistoryList(viewState.historyItems)
             }
         }
     }
