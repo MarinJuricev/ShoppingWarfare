@@ -12,6 +12,7 @@ class LocalToDomainHistoryItemMapper @Inject constructor() {
                 id = historyItemId,
                 receiptPath = receiptPath,
                 timestamp = timestamp,
+                cartName = cartName,
                 historyCartItems = historyCartItems,
             )
         }

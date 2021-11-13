@@ -15,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 
 private const val RECEIPT_PATH = "receiptPath"
+private const val CART_NAME = "cartName"
 
 @ExperimentalCoroutinesApi
 class CheckoutCartTest {
@@ -40,7 +41,7 @@ class CheckoutCartTest {
         val historyItem = mockk<HistoryItem>()
         val historyRepositoryResult = Unit.buildRight()
         coEvery {
-            cartItemsToHistoryItemMapper.map(cartData, RECEIPT_PATH)
+            cartItemsToHistoryItemMapper.map(cartData, CART_NAME, RECEIPT_PATH)
         } coAnswers { historyItem }
         coEvery {
             historyRepository.upsertHistoryItem(historyItem)
@@ -49,7 +50,7 @@ class CheckoutCartTest {
             cartRepository.dropCurrentCart()
         } coAnswers { Unit.buildRight() }
 
-        val result = sut(cartData, RECEIPT_PATH)
+        val result = sut(cartData, CART_NAME, RECEIPT_PATH)
 
         assertThat(result).isEqualTo(historyRepositoryResult)
     }

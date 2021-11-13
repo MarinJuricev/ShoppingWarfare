@@ -84,6 +84,7 @@ class CartViewModelTest {
 
                 val updatedViewState = awaitItem()
                 assertThat(updatedViewState.cartData).isEqualTo(cartData)
+                assertThat(updatedViewState.cartItems).isEqualTo(cartItems)
                 assertThat(updatedViewState.isLoading).isFalse()
             }
         }
@@ -224,6 +225,7 @@ class CartViewModelTest {
                 checkoutCart(
                     cartData = sut.viewState.value.cartData,
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
+                    cartName = sut.viewState.value.cartName,
                 )
             } coAnswers { Unit.buildRight() }
 
@@ -241,6 +243,7 @@ class CartViewModelTest {
                 checkoutCart(
                     cartData = sut.viewState.value.cartData,
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
+                    cartName = sut.viewState.value.cartName,
                 )
             } coAnswers { Failure.Unknown.buildLeft() }
 

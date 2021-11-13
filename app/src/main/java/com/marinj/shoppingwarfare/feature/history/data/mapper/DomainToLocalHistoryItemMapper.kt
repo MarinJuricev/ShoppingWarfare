@@ -11,6 +11,7 @@ class DomainToLocalHistoryItemMapper @Inject constructor() {
             LocalHistoryItem(
                 historyItemId = id,
                 receiptPath = receiptPath,
+                cartName = cartName,
                 timestamp = timestamp,
                 historyCartItems = historyCartItems,
             )

@@ -12,11 +12,13 @@ class CartDataToHistoryItemMapper @Inject constructor(
 
     fun map(
         cartData: Map<String, List<CartItem>>,
+        cartName: String,
         receiptPath: String?,
     ): HistoryItem {
         return HistoryItem(
             id = uuidGenerator(),
-            receiptPath,
+            receiptPath = receiptPath,
+            cartName = cartName,
             timestamp = timeStampGenerator(),
             historyCartItems = cartData.values.flatMap { cartItems ->
                 cartItems.map {

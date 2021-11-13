@@ -74,6 +74,7 @@ class CartViewModel @Inject constructor(
                 _viewState.safeUpdate(
                     _viewState.value.copy(
                         cartData = cartItemsToCartDataMapper.map(cartItems),
+                        cartItems = cartItems,
                         isLoading = false,
                     )
                 )
@@ -88,7 +89,13 @@ class CartViewModel @Inject constructor(
 
     private fun handleCheckoutClicked() = viewModelScope.launch {
         val viewState = viewState.value
-        when (checkoutCart(viewState.cartData, viewState.receiptStatus.receiptPath)) {
+        when (
+            checkoutCart(
+                cartData = viewState.cartData,
+                cartName = viewState.cartName,
+                receiptPath = viewState.receiptStatus.receiptPath
+            )
+        ) {
             is Right -> _viewEffect.send(CartViewCheckoutCompleted)
             is Left -> _viewEffect.send(Error("Checkout failed, please try again later."))
         }

@@ -7,5 +7,6 @@ data class CartViewState(
     val receiptStatus: ReceiptStatus = ReceiptStatus.Empty,
     val cartName: String = "",
     val isPremiumUser: Boolean = false,
-    val cartData: Map<String, List<CartItem>> = emptyMap()
+    val cartData: Map<String, List<CartItem>> = emptyMap(),
+    val cartItems: List<CartItem> = emptyList(),
 )

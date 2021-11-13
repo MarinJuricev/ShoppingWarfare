@@ -10,6 +10,7 @@ import org.junit.Test
 
 private const val ID = "id"
 private const val RECEIPT_PATH = "receiptPath"
+private const val CART_NAME = "cartName"
 private const val TIME_STAMP = 0L
 
 class DomainToLocalHistoryItemMapperTest {
@@ -41,6 +42,17 @@ class DomainToLocalHistoryItemMapperTest {
         val result = sut.map(origin)
 
         assertThat(result.receiptPath).isEqualTo(RECEIPT_PATH)
+    }
+
+    @Test
+    fun `map should map cartName`() {
+        val origin = mockk<HistoryItem>(relaxed = true).apply {
+            every { cartName } returns CART_NAME
+        }
+
+        val result = sut.map(origin)
+
+        assertThat(result.cartName).isEqualTo(CART_NAME)
     }
 
     @Test

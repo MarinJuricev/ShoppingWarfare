@@ -18,6 +18,7 @@ private const val CATEGORY_NAME = "categoryName"
 private const val NAME = "name"
 private const val QUANTITY = 5
 private const val RECEIPT_PATH = "receiptPath"
+private const val CART_NAME = "cartName"
 
 private val uuidGenerator = { UUID }
 private val timeStampGenerator = { TIMESTAMP }
@@ -39,7 +40,7 @@ class CartDataToHistoryItemMapperTest {
     fun `map should map id`() = runBlockingTest {
         val cartData = emptyMap<String, List<CartItem>>()
 
-        val result = sut.map(cartData, RECEIPT_PATH)
+        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
 
         assertThat(result.id).isEqualTo(UUID)
     }
@@ -48,16 +49,25 @@ class CartDataToHistoryItemMapperTest {
     fun `map should map receiptPath`() = runBlockingTest {
         val cartData = emptyMap<String, List<CartItem>>()
 
-        val result = sut.map(cartData, RECEIPT_PATH)
+        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
 
         assertThat(result.receiptPath).isEqualTo(RECEIPT_PATH)
+    }
+
+    @Test
+    fun `map should map cartName`() = runBlockingTest {
+        val cartData = emptyMap<String, List<CartItem>>()
+
+        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
+
+        assertThat(result.cartName).isEqualTo(CART_NAME)
     }
 
     @Test
     fun `map should map timeStamp`() = runBlockingTest {
         val cartData = emptyMap<String, List<CartItem>>()
 
-        val result = sut.map(cartData, RECEIPT_PATH)
+        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
 
         assertThat(result.timestamp).isEqualTo(TIMESTAMP)
     }
@@ -72,7 +82,7 @@ class CartDataToHistoryItemMapperTest {
         }
         val cartData = mapOf(CART_KEY to listOf(cartItems))
 
-        val result = sut.map(cartData, RECEIPT_PATH)
+        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
         val expectedResult = listOf(
             HistoryCartItem(
                 id = ID,
