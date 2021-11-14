@@ -93,9 +93,9 @@ class CartViewModel @Inject constructor(
         val viewState = viewState.value
         when (
             val result = checkoutCart(
-                cartData = viewState.cartData,
+                cartItems = viewState.cartItems,
                 cartName = viewState.cartName,
-                receiptPath = viewState.receiptStatus.receiptPath
+                receiptPath = viewState.receiptStatus.receiptPath,
             )
         ) {
             is Right -> _viewEffect.send(CartViewCheckoutCompleted)

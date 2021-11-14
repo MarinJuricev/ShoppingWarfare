@@ -42,13 +42,13 @@ class CheckoutCartTest {
     @Test
     fun `invoke should return result validateCartName when validateCartName returns Left`() =
         runBlockingTest {
-            val cartData = mockk<Map<String, List<CartItem>>>()
+            val cartItems = mockk<List<CartItem>>()
             val validateResult = Failure.Unknown.buildLeft()
             coEvery {
                 validateCartName(CART_NAME)
             } coAnswers { validateResult }
 
-            val result = sut(cartData, CART_NAME, RECEIPT_PATH)
+            val result = sut(cartItems, CART_NAME, RECEIPT_PATH)
 
             assertThat(result).isEqualTo(validateResult)
         }
@@ -56,11 +56,11 @@ class CheckoutCartTest {
     @Test
     fun `invoke should return result from historyRepository updateHistoryItem when validateCartName returns Right`() =
         runBlockingTest {
-            val cartData = mockk<Map<String, List<CartItem>>>()
+            val cartItems = mockk<List<CartItem>>()
             val historyItem = mockk<HistoryItem>()
             val historyRepositoryResult = Unit.buildRight()
             coEvery {
-                cartItemsToHistoryItemMapper.map(cartData, CART_NAME, RECEIPT_PATH)
+                cartItemsToHistoryItemMapper.map(cartItems, CART_NAME, RECEIPT_PATH)
             } coAnswers { historyItem }
             coEvery {
                 historyRepository.upsertHistoryItem(historyItem)
@@ -72,7 +72,7 @@ class CheckoutCartTest {
                 validateCartName(CART_NAME)
             } coAnswers { Unit.buildRight() }
 
-            val result = sut(cartData, CART_NAME, RECEIPT_PATH)
+            val result = sut(cartItems, CART_NAME, RECEIPT_PATH)
 
             assertThat(result).isEqualTo(historyRepositoryResult)
         }

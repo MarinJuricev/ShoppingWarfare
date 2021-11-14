@@ -11,7 +11,7 @@ class CartDataToHistoryItemMapper @Inject constructor(
 ) {
 
     fun map(
-        cartData: Map<String, List<CartItem>>,
+        cartItems: List<CartItem>,
         cartName: String,
         receiptPath: String?,
     ): HistoryItem {
@@ -20,13 +20,13 @@ class CartDataToHistoryItemMapper @Inject constructor(
             receiptPath = receiptPath,
             cartName = cartName,
             timestamp = timeStampGenerator(),
-            historyCartItems = cartData.values.flatMap { cartItems ->
-                cartItems.map {
+            historyCartItems = cartItems.map { cartItem ->
+                with(cartItem) {
                     HistoryCartItem(
-                        id = it.id,
-                        categoryName = it.categoryName,
-                        name = it.name,
-                        quantity = it.quantity
+                        id = id,
+                        categoryName = categoryName,
+                        name = name,
+                        quantity = quantity
                     )
                 }
             }

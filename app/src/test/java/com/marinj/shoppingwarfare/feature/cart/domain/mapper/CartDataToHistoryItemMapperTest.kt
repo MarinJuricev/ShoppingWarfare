@@ -10,7 +10,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
-private const val CART_KEY = "cartKey"
 private const val UUID = "42"
 private const val TIMESTAMP = 100L
 private const val ID = "id"
@@ -38,51 +37,51 @@ class CartDataToHistoryItemMapperTest {
 
     @Test
     fun `map should map id`() = runBlockingTest {
-        val cartData = emptyMap<String, List<CartItem>>()
+        val cartItems: List<CartItem> = emptyList()
 
-        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
+        val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
         assertThat(result.id).isEqualTo(UUID)
     }
 
     @Test
     fun `map should map receiptPath`() = runBlockingTest {
-        val cartData = emptyMap<String, List<CartItem>>()
+        val cartItems: List<CartItem> = emptyList()
 
-        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
+        val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
         assertThat(result.receiptPath).isEqualTo(RECEIPT_PATH)
     }
 
     @Test
     fun `map should map cartName`() = runBlockingTest {
-        val cartData = emptyMap<String, List<CartItem>>()
+        val cartItems: List<CartItem> = emptyList()
 
-        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
+        val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
         assertThat(result.cartName).isEqualTo(CART_NAME)
     }
 
     @Test
     fun `map should map timeStamp`() = runBlockingTest {
-        val cartData = emptyMap<String, List<CartItem>>()
+        val cartItems: List<CartItem> = emptyList()
 
-        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
+        val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
         assertThat(result.timestamp).isEqualTo(TIMESTAMP)
     }
 
     @Test
     fun `map should map historyCartItems`() = runBlockingTest {
-        val cartItems = mockk<CartItem>().apply {
+        val cartItem = mockk<CartItem>().apply {
             every { id } returns ID
             every { categoryName } returns CATEGORY_NAME
             every { name } returns NAME
             every { quantity } returns QUANTITY
         }
-        val cartData = mapOf(CART_KEY to listOf(cartItems))
+        val cartItems = listOf(cartItem)
 
-        val result = sut.map(cartData, CART_NAME, RECEIPT_PATH)
+        val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
         val expectedResult = listOf(
             HistoryCartItem(
                 id = ID,

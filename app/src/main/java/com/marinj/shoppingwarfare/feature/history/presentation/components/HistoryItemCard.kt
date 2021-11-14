@@ -6,5 +6,5 @@ import com.marinj.shoppingwarfare.feature.history.domain.model.HistoryItem
 
 @Composable
 fun HistoryItemCard(historyItem: HistoryItem) {
-    Text(historyItem.timestamp.toString())
+    Text(text = historyItem.cartName)
 }

@@ -227,7 +227,7 @@ class CartViewModelTest {
         runBlockingTest {
             coEvery {
                 checkoutCart(
-                    cartData = sut.viewState.value.cartData,
+                    cartItems = sut.viewState.value.cartItems,
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                     cartName = sut.viewState.value.cartName,
                 )
@@ -247,7 +247,7 @@ class CartViewModelTest {
 
             coEvery {
                 checkoutCart(
-                    cartData = sut.viewState.value.cartData,
+                    cartItems = sut.viewState.value.cartItems,
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                     cartName = sut.viewState.value.cartName,
                 )

@@ -19,17 +19,19 @@ class CheckoutCart @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        cartData: Map<String, List<CartItem>>,
+        cartItems: List<CartItem>,
         cartName: String,
         receiptPath: String?,
     ): Either<Failure, Unit> {
         validateCartName(cartName).apply {
-            if (this is Left) { return this }
+            if (this is Left) {
+                return this
+            }
         }
 
         val result = coroutineScope {
             val historyResult = async {
-                val historyItem = cartItemsToHistoryItemMapper.map(cartData, cartName, receiptPath)
+                val historyItem = cartItemsToHistoryItemMapper.map(cartItems, cartName, receiptPath)
                 historyRepository.upsertHistoryItem(historyItem)
             }
             val cartResult = async { cartRepository.dropCurrentCart() }
