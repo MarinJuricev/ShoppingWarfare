@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.cart.presentation
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
+import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
@@ -32,6 +33,7 @@ import kotlin.time.ExperimentalTime
 
 private const val ID = "id"
 private const val NAME = "name"
+private const val ERROR_MESSAGE = "errorMessage"
 
 @ExperimentalTime
 @ExperimentalCoroutinesApi
@@ -45,6 +47,7 @@ class CartViewModelTest {
     private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
     private val checkoutCart: CheckoutCart = mockk()
     private val cartItemsToCartDataMapper: CartItemsToCartDataMapper = mockk()
+    private val failureToStringMapper: FailureToStringMapper = mockk()
 
     private lateinit var sut: CartViewModel
 
@@ -56,6 +59,7 @@ class CartViewModelTest {
             updateCartItemQuantity = updateCartItemQuantity,
             checkoutCart = checkoutCart,
             cartItemsToCartDataMapper = cartItemsToCartDataMapper,
+            failureToStringMapper = failureToStringMapper,
         )
     }
 
@@ -239,18 +243,23 @@ class CartViewModelTest {
     @Test
     fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Left`() =
         runBlockingTest {
+            val checkoutFailure = Failure.Unknown
+
             coEvery {
                 checkoutCart(
                     cartData = sut.viewState.value.cartData,
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                     cartName = sut.viewState.value.cartName,
                 )
-            } coAnswers { Failure.Unknown.buildLeft() }
+            } coAnswers { checkoutFailure.buildLeft() }
+            every {
+                failureToStringMapper.map(checkoutFailure)
+            } answers { ERROR_MESSAGE }
 
             sut.onEvent(CartEvent.CheckoutClicked)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Checkout failed, please try again later."))
+                assertThat(awaitItem()).isEqualTo(Error(ERROR_MESSAGE))
             }
         }
 

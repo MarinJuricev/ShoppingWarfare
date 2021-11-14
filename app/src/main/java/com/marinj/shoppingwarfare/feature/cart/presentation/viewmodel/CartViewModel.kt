@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
+import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
@@ -43,6 +44,7 @@ class CartViewModel @Inject constructor(
     private val updateCartItemQuantity: UpdateCartItemQuantity,
     private val checkoutCart: CheckoutCart,
     private val cartItemsToCartDataMapper: CartItemsToCartDataMapper,
+    private val failureToStringMapper: FailureToStringMapper,
 ) : BaseViewModel<CartEvent>() {
 
     private val _viewState = MutableStateFlow(CartViewState())
@@ -90,14 +92,14 @@ class CartViewModel @Inject constructor(
     private fun handleCheckoutClicked() = viewModelScope.launch {
         val viewState = viewState.value
         when (
-            checkoutCart(
+            val result = checkoutCart(
                 cartData = viewState.cartData,
                 cartName = viewState.cartName,
                 receiptPath = viewState.receiptStatus.receiptPath
             )
         ) {
             is Right -> _viewEffect.send(CartViewCheckoutCompleted)
-            is Left -> _viewEffect.send(Error("Checkout failed, please try again later."))
+            is Left -> _viewEffect.send(Error(failureToStringMapper.map(result.error)))
         }
     }
 
