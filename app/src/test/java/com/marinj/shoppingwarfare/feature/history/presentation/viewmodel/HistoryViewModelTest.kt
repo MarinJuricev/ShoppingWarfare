@@ -5,8 +5,11 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.feature.history.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.domain.usecase.ObserveHistoryItems
+import com.marinj.shoppingwarfare.feature.history.presentation.mapper.HistoryItemToUiHistoryItemMapper
+import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect.Error
+import com.marinj.shoppingwarfare.feature.history.presentation.model.UiHistoryItem
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,6 +28,7 @@ class HistoryViewModelTest {
     val coroutineRule = MainCoroutineRule()
 
     private val observeHistoryItems: ObserveHistoryItems = mockk()
+    private val historyItemToUiHistoryItemMapper: HistoryItemToUiHistoryItemMapper = mockk()
 
     private lateinit var sut: HistoryViewModel
 
@@ -32,12 +36,15 @@ class HistoryViewModelTest {
     fun setUp() {
         sut = HistoryViewModel(
             observeHistoryItems,
+            historyItemToUiHistoryItemMapper
         )
     }
 
     @Test
     fun `should update historyItems when OnGetHistoryItems is provided and emits historyItems`() =
         runBlockingTest {
+            val uiHistoryItem = mockk<UiHistoryItem>()
+            val uiHistoryItems = listOf(uiHistoryItem)
             val historyItem = mockk<HistoryItem>()
             val historyItems = listOf(historyItem)
             val historyItemsFlow = flow {
@@ -46,6 +53,9 @@ class HistoryViewModelTest {
             coEvery {
                 observeHistoryItems()
             } coAnswers { historyItemsFlow }
+            coEvery {
+                historyItemToUiHistoryItemMapper.map(historyItem)
+            } coAnswers { uiHistoryItem }
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
@@ -55,7 +65,7 @@ class HistoryViewModelTest {
                 sut.onEvent(OnGetHistoryItems)
 
                 val updatedViewState = awaitItem()
-                assertThat(updatedViewState.historyItems).isEqualTo(historyItems)
+                assertThat(updatedViewState.historyItems).isEqualTo(uiHistoryItems)
                 assertThat(updatedViewState.isLoading).isFalse()
             }
         }
@@ -84,4 +94,16 @@ class HistoryViewModelTest {
                 assertThat(awaitItem()).isEqualTo(Error("Failed to history items, please try again later."))
             }
         }
+
+    @Test
+    fun `should update searchText when OnSearchUpdated is provided`() = runBlockingTest {
+        val newSearchText = "newSearchText"
+        val event = HistoryEvent.OnSearchUpdated(newSearchText)
+
+        sut.onEvent(event)
+
+        sut.viewState.test {
+            assertThat(awaitItem().searchText).isEqualTo(newSearchText)
+        }
+    }
 }

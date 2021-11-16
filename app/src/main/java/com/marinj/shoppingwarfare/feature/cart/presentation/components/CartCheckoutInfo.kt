@@ -37,8 +37,7 @@ fun CartCheckoutInfo(
     scrollState: ScrollState = rememberScrollState()
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
     ) {
         DottedLine(

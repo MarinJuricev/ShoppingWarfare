@@ -23,8 +23,9 @@ buildscript {
         timber_version = '5.0.1'
         ktlint_version = '0.42.1'
         detekt_version = '1.18.1'
-        camera_version =  '1.1.0-alpha10'
-        camera_view_version =  '1.0.0-alpha30'
+        camera_version = '1.1.0-alpha10'
+        camera_view_version = '1.0.0-alpha30'
+        date_time_version = '0.3.1'
     }
     repositories {
         google()

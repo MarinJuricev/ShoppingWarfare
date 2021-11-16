@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.feature.history.domain.usecase.ObserveHistoryItems
+import com.marinj.shoppingwarfare.feature.history.presentation.mapper.HistoryItemToUiHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchUpdated
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -24,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     private val observeHistoryItems: ObserveHistoryItems,
+    private val historyItemToUiHistoryItemMapper: HistoryItemToUiHistoryItemMapper,
 ) : BaseViewModel<HistoryEvent>() {
 
     private val _viewState = MutableStateFlow(HistoryViewState())
@@ -43,6 +46,9 @@ class HistoryViewModel @Inject constructor(
         observeHistoryItems()
             .onStart { updateIsLoading(isLoading = true) }
             .catch { handleGetHistoryItemsError() }
+            .map { historyItems ->
+                historyItems.map { historyItem -> historyItemToUiHistoryItemMapper.map(historyItem) }
+            }
             .collect { historyItems ->
                 _viewState.safeUpdate(
                     _viewState.value.copy(

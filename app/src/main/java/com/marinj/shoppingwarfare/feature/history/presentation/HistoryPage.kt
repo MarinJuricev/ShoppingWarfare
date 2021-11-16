@@ -43,11 +43,11 @@ fun HistoryPage(
         )
     }
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) { paddingValues ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+            modifier = Modifier.padding(paddingValues),
             contentAlignment = Alignment.Center
         ) {
             when {
