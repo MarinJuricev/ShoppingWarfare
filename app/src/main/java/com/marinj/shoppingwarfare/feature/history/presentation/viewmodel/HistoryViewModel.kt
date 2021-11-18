@@ -3,10 +3,12 @@ package com.marinj.shoppingwarfare.feature.history.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
+import com.marinj.shoppingwarfare.feature.history.domain.usecase.FilterHistoryItems
 import com.marinj.shoppingwarfare.feature.history.domain.usecase.ObserveHistoryItems
 import com.marinj.shoppingwarfare.feature.history.presentation.mapper.HistoryItemToUiHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
+import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchTriggered
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchUpdated
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect.Error
@@ -27,6 +29,7 @@ import javax.inject.Inject
 class HistoryViewModel @Inject constructor(
     private val observeHistoryItems: ObserveHistoryItems,
     private val historyItemToUiHistoryItemMapper: HistoryItemToUiHistoryItemMapper,
+    private val filterHistoryItems: FilterHistoryItems,
 ) : BaseViewModel<HistoryEvent>() {
 
     private val _viewState = MutableStateFlow(HistoryViewState())
@@ -38,6 +41,7 @@ class HistoryViewModel @Inject constructor(
     override fun onEvent(event: HistoryEvent) {
         when (event) {
             OnGetHistoryItems -> handleGetHistoryItems()
+            OnSearchTriggered -> handleSearchTriggered()
             is OnSearchUpdated -> handleSearchUpdated(event.newSearch)
         }
     }
@@ -53,16 +57,29 @@ class HistoryViewModel @Inject constructor(
                 _viewState.safeUpdate(
                     _viewState.value.copy(
                         historyItems = historyItems,
+                        nonFilteredHistoryItems = historyItems,
                         isLoading = false,
                     )
                 )
             }
     }
 
-    private fun handleSearchUpdated(newSearch: String) {
+    private fun handleSearchTriggered() {
+        _viewState.safeUpdate(
+            _viewState.value.copy(
+                historyItems = filterHistoryItems(
+                    listToFilter = _viewState.value.nonFilteredHistoryItems,
+                    searchQuery = _viewState.value.searchText,
+                )
+            )
+        )
+    }
+
+    private fun handleSearchUpdated(newSearch: String) = viewModelScope.launch {
         _viewState.safeUpdate(
             _viewState.value.copy(searchText = newSearch)
         )
+        handleSearchTriggered()
     }
 
     private suspend fun handleGetHistoryItemsError() {

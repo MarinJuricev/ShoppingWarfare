@@ -19,6 +19,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBar
 import com.marinj.shoppingwarfare.feature.history.presentation.components.HistoryList
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
+import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchTriggered
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchUpdated
 import com.marinj.shoppingwarfare.feature.history.presentation.viewmodel.HistoryViewModel
 
@@ -39,6 +40,7 @@ fun HistoryPage(
                 },
                 searchTextUpdated = { viewState.searchText },
             ) {
+                historyViewModel.onEvent(OnSearchTriggered)
             }
         )
     }
