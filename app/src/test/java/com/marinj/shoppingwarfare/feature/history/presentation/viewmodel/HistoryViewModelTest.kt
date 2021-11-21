@@ -3,6 +3,8 @@ package com.marinj.shoppingwarfare.feature.history.presentation.viewmodel
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.history.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.domain.usecase.FilterHistoryItems
 import com.marinj.shoppingwarfare.feature.history.domain.usecase.ObserveHistoryItems
@@ -11,8 +13,10 @@ import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEven
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.presentation.model.UiHistoryItem
+import com.marinj.shoppingwarfare.feature.history.presentation.navigation.HistoryDetailNavigation
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -21,6 +25,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.time.ExperimentalTime
+
+private const val ID = "id"
+private const val CART_NAME = "cartName"
 
 @ExperimentalTime
 @ExperimentalCoroutinesApi
@@ -32,6 +39,7 @@ class HistoryViewModelTest {
     private val observeHistoryItems: ObserveHistoryItems = mockk()
     private val historyItemToUiHistoryItemMapper: HistoryItemToUiHistoryItemMapper = mockk()
     private val filterHistoryItems: FilterHistoryItems = mockk()
+    private val navigator: Navigator = mockk()
 
     private lateinit var sut: HistoryViewModel
 
@@ -41,6 +49,7 @@ class HistoryViewModelTest {
             observeHistoryItems = observeHistoryItems,
             historyItemToUiHistoryItemMapper = historyItemToUiHistoryItemMapper,
             filterHistoryItems = filterHistoryItems,
+            navigator = navigator,
         )
     }
 
@@ -137,5 +146,24 @@ class HistoryViewModelTest {
         sut.viewState.test {
             assertThat(awaitItem().historyItems).isEqualTo(filteredList)
         }
+    }
+
+    @Test
+    fun `should trigger navigator when OnHistoryItemClick is provided`() = runBlockingTest {
+        val uiHistoryItem = mockk<UiHistoryItem>().apply {
+            every { id } answers { ID }
+            every { cartName } answers { CART_NAME }
+        }
+        val event = HistoryEvent.OnHistoryItemClick(uiHistoryItem)
+
+        sut.onEvent(event)
+        val expectedDestination = NavigationEvent.Destination(
+            HistoryDetailNavigation.createHistoryDetailRoute(
+                historyItemId = ID,
+                historyName = CART_NAME,
+            )
+        )
+
+        coVerify { navigator.emitDestination(expectedDestination) }
     }
 }

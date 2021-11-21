@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.feature.history.presentation.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.Text
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
@@ -21,6 +22,9 @@ fun NavGraphBuilder.buildHistoryGraph(
             HistoryPage(
                 setupTopBar = sendTopBar,
             )
+        }
+        composable(HistoryDetailNavigation.route()) {
+            Text("History detail")
         }
     }
 }

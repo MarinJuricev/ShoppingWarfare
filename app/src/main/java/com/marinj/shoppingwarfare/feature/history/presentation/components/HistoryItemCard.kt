@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.feature.history.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,14 +15,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareSwipeToDismiss
+import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent
+import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnHistoryItemClick
 import com.marinj.shoppingwarfare.feature.history.presentation.model.UiHistoryItem
 
 @Composable
-fun HistoryItemCard(historyItem: UiHistoryItem) {
+fun HistoryItemCard(
+    historyItem: UiHistoryItem,
+    onHistoryEvent: (HistoryEvent) -> Unit,
+) {
     ShoppingWarfareSwipeToDismiss(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp),
+            .padding(horizontal = 8.dp)
+            .clickable { onHistoryEvent(OnHistoryItemClick(historyItem)) },
         onDismiss = { },
     ) {
         Row(

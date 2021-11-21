@@ -3,16 +3,21 @@ package com.marinj.shoppingwarfare.feature.history.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.history.domain.usecase.FilterHistoryItems
 import com.marinj.shoppingwarfare.feature.history.domain.usecase.ObserveHistoryItems
 import com.marinj.shoppingwarfare.feature.history.presentation.mapper.HistoryItemToUiHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
+import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnHistoryItemClick
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchTriggered
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnSearchUpdated
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewState
+import com.marinj.shoppingwarfare.feature.history.presentation.model.UiHistoryItem
+import com.marinj.shoppingwarfare.feature.history.presentation.navigation.HistoryDetailNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +35,7 @@ class HistoryViewModel @Inject constructor(
     private val observeHistoryItems: ObserveHistoryItems,
     private val historyItemToUiHistoryItemMapper: HistoryItemToUiHistoryItemMapper,
     private val filterHistoryItems: FilterHistoryItems,
+    private val navigator: Navigator,
 ) : BaseViewModel<HistoryEvent>() {
 
     private val _viewState = MutableStateFlow(HistoryViewState())
@@ -43,6 +49,7 @@ class HistoryViewModel @Inject constructor(
             OnGetHistoryItems -> handleGetHistoryItems()
             OnSearchTriggered -> handleSearchTriggered()
             is OnSearchUpdated -> handleSearchUpdated(event.newSearch)
+            is OnHistoryItemClick -> handleHistoryItemClick(event.uiHistoryItem)
         }
     }
 
@@ -85,6 +92,17 @@ class HistoryViewModel @Inject constructor(
     private suspend fun handleGetHistoryItemsError() {
         updateIsLoading(false)
         _viewEffect.send(Error("Failed to history items, please try again later."))
+    }
+
+    private fun handleHistoryItemClick(uiHistoryItem: UiHistoryItem) = viewModelScope.launch {
+        navigator.emitDestination(
+            Destination(
+                HistoryDetailNavigation.createHistoryDetailRoute(
+                    historyItemId = uiHistoryItem.id,
+                    historyName = uiHistoryItem.cartName,
+                )
+            )
+        )
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
