@@ -1,12 +1,13 @@
 package com.marinj.shoppingwarfare.feature.history.presentation.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material.Text
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.feature.history.presentation.HistoryPage
+import com.marinj.shoppingwarfare.feature.historydetail.presentation.HistoryDetailPage
+import com.marinj.shoppingwarfare.feature.historydetail.presentation.navigation.HistoryDetailNavigation
 
 const val HISTORY_ROOT = "historyRoot"
 
@@ -24,7 +25,9 @@ fun NavGraphBuilder.buildHistoryGraph(
             )
         }
         composable(HistoryDetailNavigation.route()) {
-            Text("History detail")
+            HistoryDetailPage(
+                setupTopBar = sendTopBar,
+            )
         }
     }
 }

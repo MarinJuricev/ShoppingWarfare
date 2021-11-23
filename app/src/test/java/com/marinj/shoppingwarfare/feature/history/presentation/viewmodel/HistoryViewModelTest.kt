@@ -13,7 +13,7 @@ import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEven
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryEvent.OnGetHistoryItems
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.presentation.model.UiHistoryItem
-import com.marinj.shoppingwarfare.feature.history.presentation.navigation.HistoryDetailNavigation
+import com.marinj.shoppingwarfare.feature.historydetail.presentation.navigation.HistoryDetailNavigation
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

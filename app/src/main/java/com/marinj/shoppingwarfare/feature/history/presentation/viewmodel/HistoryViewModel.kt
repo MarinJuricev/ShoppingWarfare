@@ -17,7 +17,7 @@ import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryView
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.presentation.model.HistoryViewState
 import com.marinj.shoppingwarfare.feature.history.presentation.model.UiHistoryItem
-import com.marinj.shoppingwarfare.feature.history.presentation.navigation.HistoryDetailNavigation
+import com.marinj.shoppingwarfare.feature.historydetail.presentation.navigation.HistoryDetailNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

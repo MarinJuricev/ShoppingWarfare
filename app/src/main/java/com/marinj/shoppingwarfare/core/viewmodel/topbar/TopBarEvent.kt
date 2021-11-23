@@ -34,6 +34,11 @@ sealed interface TopBarEvent {
         val onActionClick: () -> Unit,
     ) : TopBarEvent
 
+    data class HistoryDetailTopBar(
+        @StringRes val title: Int = R.string.history,
+        @StringRes val subTitle: Int = R.string.history_detail,
+    ) : TopBarEvent
+
     data class UserTopBar(
         val isVisible: Boolean = false
     ) : TopBarEvent

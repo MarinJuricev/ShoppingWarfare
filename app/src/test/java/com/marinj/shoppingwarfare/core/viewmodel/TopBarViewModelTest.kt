@@ -10,6 +10,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryDetailTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
@@ -142,6 +143,22 @@ class TopBarViewModelTest {
             sut.onEvent(event)
             val expectedResult = NoSearchBarTopBarViewState(
                 isTopBarVisible = false
+            )
+
+            sut.viewState.test {
+                assertThat(awaitItem()).isEqualTo(expectedResult)
+            }
+        }
+
+    @Test
+    fun `onEvent should update viewState to match historyDetailTopBar when HistoryDetailTopBar is provided`() =
+        runBlockingTest {
+            val event = HistoryDetailTopBar()
+
+            sut.onEvent(event)
+            val expectedResult = NoSearchBarTopBarViewState(
+                title = R.string.history,
+                subTitle = R.string.history_detail
             )
 
             sut.viewState.test {

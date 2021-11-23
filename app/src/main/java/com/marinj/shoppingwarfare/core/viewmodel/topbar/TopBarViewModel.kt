@@ -6,6 +6,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryDetailTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +27,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
             is CategoryDetailTopBar -> handleCategoryDetailTopBar(event)
             is CartTopBar -> handleCartTopBar(event)
             is HistoryTopBar -> handleHistoryTopBar(event)
+            is HistoryDetailTopBar -> handleHistoryDetailTopBar(event)
             is UserTopBar -> handleUserTopBar(event)
         }
     }
@@ -75,6 +77,15 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
                 isSearchEnabled = event.isSearchEnabled,
                 onTextChange = event.onTextChange,
                 onActionClick = event.onActionClick,
+            )
+        )
+    }
+
+    private fun handleHistoryDetailTopBar(event: HistoryDetailTopBar) {
+        _viewState.safeUpdate(
+            NoSearchBarTopBarViewState(
+                title = event.title,
+                subTitle = event.subTitle,
             )
         )
     }
