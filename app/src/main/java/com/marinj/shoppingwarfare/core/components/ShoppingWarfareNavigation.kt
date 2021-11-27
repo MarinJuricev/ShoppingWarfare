@@ -25,7 +25,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
 import com.marinj.shoppingwarfare.feature.cart.presentation.navigation.buildCartGraph
 import com.marinj.shoppingwarfare.feature.category.list.presentation.navigation.CATEGORY_ROOT
 import com.marinj.shoppingwarfare.feature.category.list.presentation.navigation.buildCategoryGraph
-import com.marinj.shoppingwarfare.feature.history.presentation.navigation.buildHistoryGraph
+import com.marinj.shoppingwarfare.feature.history.list.presentation.navigation.buildHistoryGraph
 import com.marinj.shoppingwarfare.feature.user.presentation.navigation.buildUserGraph
 import kotlinx.coroutines.flow.collect
 

@@ -1,8 +1,8 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.mapper
 
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
-import com.marinj.shoppingwarfare.feature.history.domain.model.HistoryCartItem
-import com.marinj.shoppingwarfare.feature.history.domain.model.HistoryItem
+import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
+import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import javax.inject.Inject
 
 class CartDataToHistoryItemMapper @Inject constructor(

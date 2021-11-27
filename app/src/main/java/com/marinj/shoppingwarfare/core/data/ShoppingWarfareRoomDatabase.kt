@@ -6,8 +6,8 @@ import androidx.room.TypeConverters
 import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
-import com.marinj.shoppingwarfare.feature.history.data.datasource.HistoryDaoTypeConverters
-import com.marinj.shoppingwarfare.feature.history.data.model.LocalHistoryItem
+import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDaoTypeConverters
+import com.marinj.shoppingwarfare.feature.history.list.data.model.LocalHistoryItem
 
 @Database(
     entities = [

@@ -6,7 +6,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.cart.domain.mapper.CartDataToHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
-import com.marinj.shoppingwarfare.feature.history.domain.repository.HistoryRepository
+import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
