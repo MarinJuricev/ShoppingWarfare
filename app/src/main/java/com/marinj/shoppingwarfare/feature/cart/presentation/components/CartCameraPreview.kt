@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation.components
 
 import android.content.Context
-import android.net.Uri
 import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -151,8 +150,7 @@ fun CartCameraPreview(
             ContextCompat.getMainExecutor(context),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    onCartEvent(CartEvent.ReceiptCaptureSuccess(savedUri.toString()))
+                    onCartEvent(CartEvent.ReceiptCaptureSuccess(output.savedUri?.lastPathSegment))
                 }
 
                 override fun onError(exc: ImageCaptureException) {

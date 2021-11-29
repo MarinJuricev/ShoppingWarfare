@@ -11,6 +11,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
@@ -43,6 +44,7 @@ class CartViewModel @Inject constructor(
     private val deleteCartItem: DeleteCartItem,
     private val updateCartItemQuantity: UpdateCartItemQuantity,
     private val checkoutCart: CheckoutCart,
+    private val validateReceiptPath: ValidateReceiptPath,
     private val cartItemsToCartDataMapper: CartItemsToCartDataMapper,
     private val failureToStringMapper: FailureToStringMapper,
 ) : BaseViewModel<CartEvent>() {
@@ -125,9 +127,9 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    private fun handleReceiptCaptureSuccess(receiptPath: String) {
+    private fun handleReceiptCaptureSuccess(receiptPath: String?) {
         _viewState.safeUpdate(
-            _viewState.value.copy(receiptStatus = ReceiptStatus.Taken(receiptPath))
+            _viewState.value.copy(receiptStatus = validateReceiptPath(receiptPath))
         )
     }
 

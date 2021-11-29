@@ -85,6 +85,8 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camera_version"
     implementation "androidx.camera:camera-view:$camera_view_version"
 
+    implementation "io.coil-kt:coil-compose:$coil_version"
+
     implementation "org.jetbrains.kotlinx:kotlinx-datetime:$date_time_version"
 
     testImplementation "junit:junit:$junit_version"

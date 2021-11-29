@@ -6,7 +6,7 @@ sealed interface CartEvent {
     object OnGetCartItems : CartEvent
     object ReceiptCaptureError : CartEvent
     object CheckoutClicked : CartEvent
-    data class ReceiptCaptureSuccess(val receiptPath: String) : CartEvent
+    data class ReceiptCaptureSuccess(val receiptPath: String?) : CartEvent
     data class CartItemQuantityChanged(
         val cartItemToUpdate: CartItem,
         val newQuantity: Int,

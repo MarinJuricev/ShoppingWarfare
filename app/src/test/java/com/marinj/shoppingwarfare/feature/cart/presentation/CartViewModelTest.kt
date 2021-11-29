@@ -12,6 +12,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
@@ -46,6 +47,7 @@ class CartViewModelTest {
     private val deleteCartItem: DeleteCartItem = mockk()
     private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
     private val checkoutCart: CheckoutCart = mockk()
+    private val validateReceiptPath: ValidateReceiptPath = mockk()
     private val cartItemsToCartDataMapper: CartItemsToCartDataMapper = mockk()
     private val failureToStringMapper: FailureToStringMapper = mockk()
 
@@ -58,6 +60,7 @@ class CartViewModelTest {
             deleteCartItem = deleteCartItem,
             updateCartItemQuantity = updateCartItemQuantity,
             checkoutCart = checkoutCart,
+            validateReceiptPath = validateReceiptPath,
             cartItemsToCartDataMapper = cartItemsToCartDataMapper,
             failureToStringMapper = failureToStringMapper,
         )
@@ -215,11 +218,14 @@ class CartViewModelTest {
     }
 
     @Test
-    fun `should update viewState receiptStatus to Taken when ReceiptCaptureSuccess is provided`() {
+    fun `should update viewState receiptStatus with result from validateReceiptPath when ReceiptCaptureSuccess is provided`() {
         val receiptPath = "receiptPath"
+        val expectedResult = ReceiptStatus.Taken(receiptPath)
+        every { validateReceiptPath(receiptPath) } answers { expectedResult }
+
         sut.onEvent(CartEvent.ReceiptCaptureSuccess(receiptPath))
 
-        assertThat(sut.viewState.value.receiptStatus).isEqualTo(ReceiptStatus.Taken(receiptPath))
+        assertThat(sut.viewState.value.receiptStatus).isEqualTo(expectedResult)
     }
 
     @Test
