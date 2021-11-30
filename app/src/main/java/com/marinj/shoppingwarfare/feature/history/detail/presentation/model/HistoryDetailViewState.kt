@@ -4,5 +4,5 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHist
 
 data class HistoryDetailViewState(
     val isLoading: Boolean = true,
-    val uiHistoryItem: UiHistoryItem? = null,
+    val uiHistoryItem: UiHistoryItem = UiHistoryItem.DEFAULT,
 )

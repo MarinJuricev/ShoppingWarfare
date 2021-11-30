@@ -8,4 +8,14 @@ data class UiHistoryItem(
     val date: String,
     val cartName: String,
     val historyCartItems: List<HistoryCartItem>
-)
+) {
+    companion object {
+        val DEFAULT = UiHistoryItem(
+            id = "",
+            receiptPath = null,
+            date = "",
+            cartName = "",
+            historyCartItems = emptyList(),
+        )
+    }
+}

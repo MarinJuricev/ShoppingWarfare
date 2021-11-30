@@ -17,7 +17,6 @@
     <string name="open_settings">Open Settings</string>
 
     <!-- Category -->
-    <!-- TODO Do we need this or is this just category ? -->
     <string name="grocery">Grocery</string>
     <string name="category">Category</string>
     <string name="category_detail">Category Detail</string>
@@ -65,6 +64,8 @@
     <!-- History Detail -->
     <string name="receipt_image_content_description">Receipt Image</string>
     <string name="history_detail_empty_message">No HistoryItem found, please try later</string>
+    <string name="history_detail_cart_name">Cart Name: %s</string>
+    <string name="history_detail_date">Receipt date: %s</string>
 
     <!-- User -->
     <string name="user">User</string>
