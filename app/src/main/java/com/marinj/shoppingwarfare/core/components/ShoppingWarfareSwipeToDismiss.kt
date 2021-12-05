@@ -30,15 +30,18 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ShoppingWarfareSwipeToDismiss(
-    onDismiss: () -> Unit,
+    onRightSwipe: () -> Unit,
     modifier: Modifier = Modifier,
+    onLeftSwipe: (() -> Unit)? = null,
     foregroundContent: @Composable () -> Unit,
 ) {
     // https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#swipetodismiss
     val dismissState = rememberDismissState(
         confirmStateChange = { dismissValue ->
             if (dismissValue == DismissValue.DismissedToStart) {
-                onDismiss()
+                onRightSwipe()
+            } else if(dismissValue == DismissValue.DismissedToEnd){
+                onLeftSwipe?.invoke()
             }
             dismissValue != DismissValue.DismissedToEnd
         }

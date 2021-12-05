@@ -30,7 +30,7 @@ fun CartItemCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
-        onDismiss = { onCartEvent(DeleteCartItem(cartItem)) },
+        onRightSwipe = { onCartEvent(DeleteCartItem(cartItem)) },
     ) {
         ConstraintLayout(
             modifier = Modifier.padding(16.dp),

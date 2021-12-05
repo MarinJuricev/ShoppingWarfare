@@ -29,7 +29,7 @@ fun HistoryItemCard(
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
             .clickable { onHistoryEvent(OnHistoryItemClick(historyItem)) },
-        onDismiss = { },
+        onRightSwipe = { },
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
