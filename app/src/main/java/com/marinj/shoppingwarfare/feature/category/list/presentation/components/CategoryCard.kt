@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTextColors
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
@@ -49,7 +50,7 @@ fun CategoryCard(
                     .align(Alignment.TopEnd)
                     .clickable { onCategoryEvent(DeleteCategory(uiCategory)) },
                 painter = painterResource(id = R.drawable.delete_icon),
-                tint = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White,
+                tint = ShoppingWarfareTextColors(),
                 contentDescription = stringResource(
                     R.string.deleted_item,
                     uiCategory.title,

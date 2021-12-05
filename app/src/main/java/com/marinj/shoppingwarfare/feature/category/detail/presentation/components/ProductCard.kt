@@ -16,11 +16,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTextColors
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductClicked
@@ -48,7 +48,7 @@ fun ProductCard(
                 Text(
                     text = stringResource(R.string.product_name),
                     style = MaterialTheme.typography.body2,
-                    color = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White
+                    color = ShoppingWarfareTextColors(),
                 )
                 Icon(
                     modifier = Modifier
@@ -58,7 +58,7 @@ fun ProductCard(
                         .size(16.dp)
                         .align(Alignment.CenterVertically),
                     painter = painterResource(id = R.drawable.delete_icon),
-                    tint = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White,
+                    tint = ShoppingWarfareTextColors(),
                     contentDescription = stringResource(
                         R.string.delete_item,
                         product.name

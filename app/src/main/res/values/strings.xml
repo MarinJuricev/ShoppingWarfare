@@ -66,6 +66,7 @@
     <string name="history_detail_empty_message">No HistoryItem found, please try later</string>
     <string name="history_detail_cart_name">Cart Name: %s</string>
     <string name="history_detail_date">Receipt date: %s</string>
+    <string name="history_detail_quantity">Quantity:</string>
 
     <!-- User -->
     <string name="user">User</string>
