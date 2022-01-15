@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -18,13 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTextColors
+import com.marinj.shoppingwarfare.core.theme.textColor
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryCard(
     modifier: Modifier = Modifier,
@@ -50,7 +48,7 @@ fun CategoryCard(
                     .align(Alignment.TopEnd)
                     .clickable { onCategoryEvent(DeleteCategory(uiCategory)) },
                 painter = painterResource(id = R.drawable.delete_icon),
-                tint = ShoppingWarfareTextColors(),
+                tint = MaterialTheme.textColor(),
                 contentDescription = stringResource(
                     R.string.deleted_item,
                     uiCategory.title,

@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.user.presentation.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
@@ -10,7 +9,6 @@ import com.marinj.shoppingwarfare.feature.user.presentation.UserPage
 
 const val USER_ROOT = "userRoot"
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.buildUserGraph(
     sendTopBar: (TopBarEvent) -> Unit,
 ) {

@@ -20,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTextColors
+import com.marinj.shoppingwarfare.core.theme.textColor
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductClicked
@@ -48,7 +48,7 @@ fun ProductCard(
                 Text(
                     text = stringResource(R.string.product_name),
                     style = MaterialTheme.typography.body2,
-                    color = ShoppingWarfareTextColors(),
+                    color = MaterialTheme.textColor(),
                 )
                 Icon(
                     modifier = Modifier
@@ -58,7 +58,7 @@ fun ProductCard(
                         .size(16.dp)
                         .align(Alignment.CenterVertically),
                     painter = painterResource(id = R.drawable.delete_icon),
-                    tint = ShoppingWarfareTextColors(),
+                    tint = MaterialTheme.textColor(),
                     contentDescription = stringResource(
                         R.string.delete_item,
                         product.name

@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
@@ -12,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryGrid(
     categoryList: List<UiCategory>,

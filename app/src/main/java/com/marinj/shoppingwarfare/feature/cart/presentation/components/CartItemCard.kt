@@ -1,7 +1,6 @@
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -20,7 +19,6 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.components.QuantityP
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.DeleteCartItem
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CartItemCard(
     cartItem: CartItem,

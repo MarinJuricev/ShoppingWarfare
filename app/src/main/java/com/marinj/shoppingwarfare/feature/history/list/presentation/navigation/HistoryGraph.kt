@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.history.list.presentation.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
@@ -12,7 +11,6 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.HistoryPage
 
 const val HISTORY_ROOT = "historyRoot"
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.buildHistoryGraph(
     sendTopBar: (TopBarEvent) -> Unit,
 ) {

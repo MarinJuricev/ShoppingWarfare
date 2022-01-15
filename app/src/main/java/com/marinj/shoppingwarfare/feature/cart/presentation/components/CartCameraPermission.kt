@@ -19,12 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CartCameraPermission(
     onCartEvent: (CartEvent) -> Unit,

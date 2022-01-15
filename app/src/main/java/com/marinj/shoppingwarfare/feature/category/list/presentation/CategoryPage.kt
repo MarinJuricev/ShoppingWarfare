@@ -1,7 +1,5 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -31,7 +29,6 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.model.Categ
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
 import kotlinx.coroutines.flow.collect
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun CategoryPage(
     categoryViewModel: CategoryViewModel = hiltViewModel(),

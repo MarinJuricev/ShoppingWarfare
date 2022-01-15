@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.core.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
@@ -33,6 +34,3 @@ fun ShoppingWarfareTheme(
         content = content
     )
 }
-
-@Composable
-fun ShoppingWarfareTextColors() = if (MaterialTheme.colors.isLight) Color.LightGray else Color.White

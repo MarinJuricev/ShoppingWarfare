@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTextColors
+import com.marinj.shoppingwarfare.core.theme.textColor
 
 // TODO: This is reused in 2 feature packages, introduce a core component package/module?
 @Composable
@@ -24,7 +24,7 @@ fun CartDescription(
         Text(
             text = stringResource(R.string.cart_product_name),
             style = MaterialTheme.typography.body2,
-            color = ShoppingWarfareTextColors()
+            color = MaterialTheme.textColor(),
         )
         Text(
             text = cartItemName,

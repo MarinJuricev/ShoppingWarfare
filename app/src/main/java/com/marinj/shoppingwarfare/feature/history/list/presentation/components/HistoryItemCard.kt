@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareSwipeToDismiss
-import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTextColors
+import com.marinj.shoppingwarfare.core.theme.textColor
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryEvent
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryEvent.OnHistoryItemClick
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
@@ -52,7 +52,7 @@ fun HistoryItemDescriptionText(description: String) {
     Text(
         text = description,
         style = MaterialTheme.typography.body2,
-        color = ShoppingWarfareTextColors(),
+        color = MaterialTheme.textColor(),
     )
 }
 

@@ -11,7 +11,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.DismissDirection.EndToStart
 import androidx.compose.material.DismissDirection.StartToEnd
 import androidx.compose.material.DismissValue
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
 import androidx.compose.material.SwipeToDismiss
@@ -27,7 +26,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ShoppingWarfareSwipeToDismiss(
     onRightSwipe: () -> Unit,
@@ -40,7 +38,7 @@ fun ShoppingWarfareSwipeToDismiss(
         confirmStateChange = { dismissValue ->
             if (dismissValue == DismissValue.DismissedToStart) {
                 onRightSwipe()
-            } else if(dismissValue == DismissValue.DismissedToEnd){
+            } else if (dismissValue == DismissValue.DismissedToEnd) {
                 onLeftSwipe?.invoke()
             }
             dismissValue != DismissValue.DismissedToEnd

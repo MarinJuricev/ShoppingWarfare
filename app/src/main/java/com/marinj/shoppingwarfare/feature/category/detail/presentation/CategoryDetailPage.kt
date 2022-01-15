@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons.Filled
@@ -39,11 +38,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-const val CATEGORY_ID = "categoryId"
 const val CATEGORY_NAME = "categoryName"
-const val CATEGORY_DETAIL_ROUTE = "categoryDetail/{$CATEGORY_ID}/{$CATEGORY_NAME}"
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CategoryDetailPage(
     categoryId: String,

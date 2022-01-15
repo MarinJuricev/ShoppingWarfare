@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.category.createcategory.presentation.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ColorPicker(
     modifier: Modifier = Modifier,

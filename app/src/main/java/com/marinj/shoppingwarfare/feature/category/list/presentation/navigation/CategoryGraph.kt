@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
@@ -17,7 +16,6 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.CategoryPag
 
 const val CATEGORY_ROOT = "categoryRoot"
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.buildCategoryGraph(
     navController: NavController,
     sendTopBar: (TopBarEvent) -> Unit,

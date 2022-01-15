@@ -6,7 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTextColors
+import com.marinj.shoppingwarfare.core.theme.textColor
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
 
 @Composable
@@ -17,7 +17,7 @@ fun HistoryDetailQuantity(historyCartItem: HistoryCartItem) {
                 id = R.string.history_detail_quantity,
             ),
             style = MaterialTheme.typography.body2,
-            color = ShoppingWarfareTextColors(),
+            color = MaterialTheme.textColor(),
         )
         Text(
             text = historyCartItem.quantity.toString(),

@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.core.components
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.Scaffold
@@ -29,7 +28,6 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.navigation.b
 import com.marinj.shoppingwarfare.feature.user.presentation.navigation.buildUserGraph
 import kotlinx.coroutines.flow.collect
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ShoppingWarfareNavigation(
     navigator: Navigator,

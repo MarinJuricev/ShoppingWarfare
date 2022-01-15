@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +27,6 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.Cart
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CheckoutClicked
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CartCheckoutInfo(
     viewState: CartViewState,
