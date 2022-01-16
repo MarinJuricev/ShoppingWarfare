@@ -31,7 +31,7 @@ class HistoryDetailViewModel @Inject constructor(
     private val _viewState = MutableStateFlow(HistoryDetailViewState())
     val viewState = _viewState.asStateFlow()
 
-    private val _viewEffect = Channel<HistoryDetailViewEffect>()
+    private val _viewEffect = Channel<HistoryDetailViewEffect>(Channel.BUFFERED)
     val viewEffect = _viewEffect.receiveAsFlow()
 
     override fun onEvent(event: HistoryDetailEvent) {

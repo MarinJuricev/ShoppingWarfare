@@ -52,7 +52,7 @@ class CartViewModel @Inject constructor(
     private val _viewState = MutableStateFlow(CartViewState())
     val viewState = _viewState.asStateFlow()
 
-    private val _viewEffect = Channel<CartViewEffect>()
+    private val _viewEffect = Channel<CartViewEffect>(Channel.BUFFERED)
     val viewEffect = _viewEffect.receiveAsFlow()
 
     override fun onEvent(event: CartEvent) {

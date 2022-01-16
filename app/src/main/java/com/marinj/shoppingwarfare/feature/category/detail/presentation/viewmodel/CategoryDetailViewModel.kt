@@ -46,7 +46,7 @@ class CategoryDetailViewModel @Inject constructor(
     private val _viewState = MutableStateFlow(CategoryDetailViewState())
     val viewState = _viewState.asStateFlow()
 
-    private val _viewEffect = Channel<CategoryDetailViewEffect>()
+    private val _viewEffect = Channel<CategoryDetailViewEffect>(Channel.BUFFERED)
     val viewEffect = _viewEffect.receiveAsFlow()
 
     override fun onEvent(event: CategoryDetailEvent) {

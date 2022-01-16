@@ -34,7 +34,7 @@ class CreateCategoryViewModel @Inject constructor(
     private val _createCategoryViewState = MutableStateFlow(CreateCategoryViewState())
     val createCategoryViewState = _createCategoryViewState.asStateFlow()
 
-    private val _createCategoryEffect = Channel<CreateCategoryViewEffect>()
+    private val _createCategoryEffect = Channel<CreateCategoryViewEffect>(Channel.BUFFERED)
     val createCategoryEffect = _createCategoryEffect.receiveAsFlow()
 
     override fun onEvent(event: CreateCategoryEvent) {
