@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.history.detail.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
+import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
@@ -16,8 +17,9 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.mapper.Histo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,7 +31,11 @@ class HistoryDetailViewModel @Inject constructor(
 ) : BaseViewModel<HistoryDetailEvent>() {
 
     private val _viewState = MutableStateFlow(HistoryDetailViewState())
-    val viewState = _viewState.asStateFlow()
+    val viewState = _viewState.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
+        initialValue = HistoryDetailViewState(),
+    )
 
     private val _viewEffect = Channel<HistoryDetailViewEffect>(Channel.BUFFERED)
     val viewEffect = _viewEffect.receiveAsFlow()

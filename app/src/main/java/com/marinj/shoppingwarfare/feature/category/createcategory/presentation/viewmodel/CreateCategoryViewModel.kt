@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
+import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
@@ -20,8 +21,9 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +34,11 @@ class CreateCategoryViewModel @Inject constructor(
 ) : BaseViewModel<CreateCategoryEvent>() {
 
     private val _createCategoryViewState = MutableStateFlow(CreateCategoryViewState())
-    val createCategoryViewState = _createCategoryViewState.asStateFlow()
+    val createCategoryViewState = _createCategoryViewState.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
+        initialValue = CreateCategoryViewState(),
+    )
 
     private val _createCategoryEffect = Channel<CreateCategoryViewEffect>(Channel.BUFFERED)
     val createCategoryEffect = _createCategoryEffect.receiveAsFlow()

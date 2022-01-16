@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
+import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.Navigator
@@ -21,12 +22,13 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -42,7 +44,11 @@ class CategoryViewModel @Inject constructor(
 ) : BaseViewModel<CategoryEvent>() {
 
     private val _viewState = MutableStateFlow(CategoryViewState())
-    val viewState = _viewState.asStateFlow()
+    val viewState = _viewState.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
+        initialValue = CategoryViewState(),
+    )
 
     private val _viewEffect = Channel<CategoryViewEffect>(Channel.BUFFERED)
     val viewEffect = _viewEffect.receiveAsFlow()

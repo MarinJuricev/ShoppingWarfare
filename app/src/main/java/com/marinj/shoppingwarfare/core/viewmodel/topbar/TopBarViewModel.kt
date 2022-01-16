@@ -1,6 +1,8 @@
 package com.marinj.shoppingwarfare.core.viewmodel.topbar
 
+import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
+import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
@@ -11,14 +13,19 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBa
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
 
     private val _viewState = MutableStateFlow<TopBarViewState>(NoSearchBarTopBarViewState())
-    val viewState = _viewState.asStateFlow()
+    val viewState = _viewState.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
+        initialValue = NoSearchBarTopBarViewState(),
+    )
 
     override fun onEvent(event: TopBarEvent) {
         when (event) {
