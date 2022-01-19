@@ -1,3 +1,4 @@
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -5,6 +6,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +31,10 @@ fun CartItemCard(
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
         onRightSwipe = { onCartEvent(DeleteCartItem(cartItem)) },
+        leftIcon = Icons.Default.ShoppingCart,
+        onLeftSwipe = {
+            Log.d("TEST", "TEST")
+        },
     ) {
         ConstraintLayout(
             modifier = Modifier.padding(16.dp),

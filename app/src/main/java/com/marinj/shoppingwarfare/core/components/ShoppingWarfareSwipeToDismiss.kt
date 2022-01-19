@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -31,6 +32,8 @@ fun ShoppingWarfareSwipeToDismiss(
     onRightSwipe: () -> Unit,
     modifier: Modifier = Modifier,
     onLeftSwipe: (() -> Unit)? = null,
+    leftIcon: ImageVector = Icons.Default.Done,
+    rightIcon: ImageVector = Icons.Default.Delete,
     foregroundContent: @Composable () -> Unit,
 ) {
     // https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#swipetodismiss
@@ -47,7 +50,7 @@ fun ShoppingWarfareSwipeToDismiss(
     SwipeToDismiss(
         state = dismissState,
         modifier = Modifier.padding(vertical = 8.dp),
-        directions = setOf(EndToStart),
+        directions = setOf(StartToEnd, EndToStart),
         dismissThresholds = {
             FractionalThreshold(0.25f)
         },
@@ -65,8 +68,8 @@ fun ShoppingWarfareSwipeToDismiss(
                 EndToStart -> Alignment.CenterEnd
             }
             val icon = when (direction) {
-                StartToEnd -> Icons.Default.Done
-                EndToStart -> Icons.Default.Delete
+                StartToEnd -> leftIcon
+                EndToStart -> rightIcon
             }
             val scale by animateFloatAsState(
                 if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
