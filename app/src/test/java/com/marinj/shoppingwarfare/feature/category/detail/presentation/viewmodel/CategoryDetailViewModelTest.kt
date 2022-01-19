@@ -26,18 +26,16 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val CATEGORY_ID = "categoryId"
 private const val CATEGORY_NAME = "fruits"
 private const val PRODUCT_NAME = "product"
 private const val PRODUCT_ID = "productId"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class CategoryDetailViewModelTest {
 
@@ -65,7 +63,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should update products in viewState when OnGetCategoryProducts is provided and emits products`() =
-        runBlockingTest {
+        runTest {
             val product = mockk<Product>()
             val productList = listOf(product)
 
@@ -88,7 +86,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should update viewEffect with Error when OnGetCategoryProducts is provided and emits an exception`() =
-        runBlockingTest {
+        runTest {
             coEvery {
                 observeCategoryProducts(CATEGORY_ID)
             } coAnswers { flow { throw Exception() } }
@@ -111,7 +109,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should log productCreated when OnCreateCategoryProduct is provided and CreateProduct returns Right`() =
-        runBlockingTest {
+        runTest {
             val event = OnCreateCategoryProduct(
                 categoryId = CATEGORY_ID,
                 productName = PRODUCT_NAME,
@@ -134,7 +132,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should update viewEffect when OnCreateCategoryProduct is provided and CreateProduct returns Left`() =
-        runBlockingTest {
+        runTest {
             val event = OnCreateCategoryProduct(
                 categoryId = CATEGORY_ID,
                 productName = PRODUCT_NAME,
@@ -157,7 +155,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should update viewEffect when OnProductDelete is provided and DeleteProduct returns Right`() =
-        runBlockingTest {
+        runTest {
             val product = mockk<Product>().apply {
                 every { id } answers { PRODUCT_ID }
             }
@@ -175,7 +173,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should update viewEffect when OnProductDelete is provided and DeleteProduct returns Left`() =
-        runBlockingTest {
+        runTest {
             val product = mockk<Product>().apply {
                 every { id } answers { PRODUCT_ID }
                 every { name } answers { PRODUCT_NAME }
@@ -194,7 +192,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should log when RestoreProductDeletion is provided and CreateProduct returns Right`() =
-        runBlockingTest {
+        runTest {
             val product = mockk<Product>().apply {
                 every { id } answers { PRODUCT_ID }
                 every { categoryId } answers { CATEGORY_ID }
@@ -219,7 +217,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should update viewEffect when RestoreProductDeletion is provided and CreateProduct returns Left`() =
-        runBlockingTest {
+        runTest {
             val product = mockk<Product>().apply {
                 every { id } answers { PRODUCT_ID }
                 every { categoryId } answers { CATEGORY_ID }
@@ -244,7 +242,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should update viewEffect when OnProductClicked is provided and AddToCart returns Right`() =
-        runBlockingTest {
+        runTest {
             val product = mockk<Product>()
             val cartItem = mockk<CartItem>()
             val event = OnProductClicked(product)
@@ -264,7 +262,7 @@ class CategoryDetailViewModelTest {
 
     @Test
     fun `should update viewEffect when OnProductClicked is provided and AddToCart returns Left`() =
-        runBlockingTest {
+        runTest {
             val product = mockk<Product>().apply {
                 every { name } answers { PRODUCT_NAME }
             }

@@ -6,7 +6,7 @@ import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartI
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -36,7 +36,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map id`() = runBlockingTest {
+    fun `map should map id`() = runTest {
         val cartItems: List<CartItem> = emptyList()
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
@@ -45,7 +45,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map receiptPath`() = runBlockingTest {
+    fun `map should map receiptPath`() = runTest {
         val cartItems: List<CartItem> = emptyList()
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
@@ -54,7 +54,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map cartName`() = runBlockingTest {
+    fun `map should map cartName`() = runTest {
         val cartItems: List<CartItem> = emptyList()
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
@@ -63,7 +63,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map timeStamp`() = runBlockingTest {
+    fun `map should map timeStamp`() = runTest {
         val cartItems: List<CartItem> = emptyList()
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
@@ -72,7 +72,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map historyCartItems`() = runBlockingTest {
+    fun `map should map historyCartItems`() = runTest {
         val cartItem = mockk<CartItem>().apply {
             every { id } returns ID
             every { categoryName } returns CATEGORY_NAME

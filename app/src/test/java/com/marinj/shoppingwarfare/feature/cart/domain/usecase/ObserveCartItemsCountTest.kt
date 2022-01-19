@@ -7,14 +7,12 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val CART_ITEMS_COUNT = 5
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class ObserveCartItemsCountTest {
 
@@ -31,7 +29,7 @@ class ObserveCartItemsCountTest {
 
     @Test
     fun `invoke should return result from cartRepository observeCartItemsCount`() =
-        runBlockingTest {
+        runTest {
             val repositoryResult = flow {
                 emit(CART_ITEMS_COUNT)
             }

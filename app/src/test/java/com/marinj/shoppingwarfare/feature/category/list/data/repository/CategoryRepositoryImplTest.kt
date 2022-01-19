@@ -15,12 +15,10 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class CategoryRepositoryImplTest {
 
@@ -40,7 +38,7 @@ class CategoryRepositoryImplTest {
     }
 
     @Test
-    fun `observeCategories should return categories`() = runBlockingTest {
+    fun `observeCategories should return categories`() = runTest {
         val category = mockk<Category>()
         val categoryList = listOf(category)
         val localCategory = mockk<LocalCategory>()
@@ -59,7 +57,7 @@ class CategoryRepositoryImplTest {
     }
 
     @Test
-    fun `upsertCategory should return LeftFailure when categoryDao returns 0L`() = runBlockingTest {
+    fun `upsertCategory should return LeftFailure when categoryDao returns 0L`() = runTest {
         val category = mockk<Category>()
         val localCategory = mockk<LocalCategory>()
         val daoResult = 0L
@@ -78,7 +76,7 @@ class CategoryRepositoryImplTest {
 
     @Test
     fun `upsertCategory should return RightUnit when categoryDao returns everything but 0L`() =
-        runBlockingTest {
+        runTest {
             val category = mockk<Category>()
             val localCategory = mockk<LocalCategory>()
             val daoResult = 1L
@@ -97,7 +95,7 @@ class CategoryRepositoryImplTest {
 
     @Test
     fun `deleteCategoryById should return RightUnit`() =
-        runBlockingTest {
+        runTest {
             val categoryId = "1"
             coEvery {
                 categoryDao.deleteCategoryById(categoryId)

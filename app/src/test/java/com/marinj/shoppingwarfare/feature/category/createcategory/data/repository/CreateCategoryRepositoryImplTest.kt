@@ -12,7 +12,7 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -33,7 +33,7 @@ class CreateCategoryRepositoryImplTest {
     }
 
     @Test
-    fun `createCategory should return Left when categoryDao returns 0L`() = runBlockingTest {
+    fun `createCategory should return Left when categoryDao returns 0L`() = runTest {
         val category = mockk<Category>()
         val localCategory = mockk<LocalCategory>()
         coEvery {
@@ -50,7 +50,7 @@ class CreateCategoryRepositoryImplTest {
     }
 
     @Test
-    fun `createCategory should return Right when categoryDao returns not 0L`() = runBlockingTest {
+    fun `createCategory should return Right when categoryDao returns not 0L`() = runTest {
         val category = mockk<Category>()
         val localCategory = mockk<LocalCategory>()
         coEvery {

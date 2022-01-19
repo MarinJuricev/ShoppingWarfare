@@ -20,15 +20,13 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val ID = "id"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class HistoryViewModelTest {
 
@@ -54,7 +52,7 @@ class HistoryViewModelTest {
 
     @Test
     fun `should update historyItems when OnGetHistoryItems is provided and emits historyItems`() =
-        runBlockingTest {
+        runTest {
             val uiHistoryItem = mockk<UiHistoryItem>()
             val uiHistoryItems = listOf(uiHistoryItem)
             val historyItem = mockk<HistoryItem>()
@@ -86,7 +84,7 @@ class HistoryViewModelTest {
 
     @Test
     fun `should update viewEffect with Error when OnGetHistoryItems is provided and throws an exception`() =
-        runBlockingTest {
+        runTest {
             val historyItemsFlow = flow<List<HistoryItem>> {
                 throw Exception()
             }
@@ -110,7 +108,7 @@ class HistoryViewModelTest {
         }
 
     @Test
-    fun `should update searchText when OnSearchUpdated is provided`() = runBlockingTest {
+    fun `should update searchText when OnSearchUpdated is provided`() = runTest {
         val newSearchText = "newSearchText"
         val event = HistoryEvent.OnSearchUpdated(newSearchText)
 
@@ -129,7 +127,7 @@ class HistoryViewModelTest {
     }
 
     @Test
-    fun `should update historyItems when OnSearchTriggered is provided`() = runBlockingTest {
+    fun `should update historyItems when OnSearchTriggered is provided`() = runTest {
         val event = HistoryEvent.OnSearchTriggered
         val uiHistoryItem = mockk<UiHistoryItem>()
         val filteredList = listOf(uiHistoryItem)
@@ -148,7 +146,7 @@ class HistoryViewModelTest {
     }
 
     @Test
-    fun `should trigger navigator when OnHistoryItemClick is provided`() = runBlockingTest {
+    fun `should trigger navigator when OnHistoryItemClick is provided`() = runTest {
         val uiHistoryItem = mockk<UiHistoryItem>().apply {
             every { id } answers { ID }
         }

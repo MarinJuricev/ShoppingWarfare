@@ -7,7 +7,7 @@ import com.marinj.shoppingwarfare.feature.history.list.domain.repository.History
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -27,7 +27,7 @@ class GetHistoryItemByIdTest {
 
     @Test
     fun `invoke should return result from historyItemRepository getHistoryItemId`() =
-        runBlockingTest {
+        runTest {
             val repositoryResult = Failure.Unknown.buildLeft()
             coEvery {
                 historyRepository.getHistoryItemById(HISTORY_ITEM_ID)

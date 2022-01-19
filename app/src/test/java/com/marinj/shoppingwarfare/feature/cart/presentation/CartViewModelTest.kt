@@ -26,17 +26,15 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val ID = "id"
 private const val NAME = "name"
 private const val ERROR_MESSAGE = "errorMessage"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class CartViewModelTest {
 
@@ -68,7 +66,7 @@ class CartViewModelTest {
 
     @Test
     fun `should update cartData when OnGetCartItems is provided and emits cartData`() =
-        runBlockingTest {
+        runTest {
             val cartItem = mockk<CartItem>()
             val cartItems = listOf(cartItem)
             val cartData = mockk<Map<String, List<CartItem>>>()
@@ -98,7 +96,7 @@ class CartViewModelTest {
 
     @Test
     fun `should update viewEffect with Error when OnGetCartItems is provided and throws an exception`() =
-        runBlockingTest {
+        runTest {
             val cartItemsFlow = flow<List<CartItem>> {
                 throw Exception()
             }
@@ -123,7 +121,7 @@ class CartViewModelTest {
 
     @Test
     fun `should update viewEffect with CartItemDeleted when DeleteCartItem is provided and deleteCartItem returns Right`() =
-        runBlockingTest {
+        runTest {
             val cartItem = mockk<CartItem>().apply {
                 every { id } answers { ID }
                 every { name } answers { NAME }
@@ -141,7 +139,7 @@ class CartViewModelTest {
 
     @Test
     fun `should update viewEffect with Error when DeleteCartItem is provided and deleteCartItem returns Left`() =
-        runBlockingTest {
+        runTest {
             val cartItem = mockk<CartItem>().apply {
                 every { id } answers { ID }
                 every { name } answers { NAME }
@@ -160,7 +158,7 @@ class CartViewModelTest {
 
     @Test
     fun `should not update viewEffect when CartItemQuantityChanged is provided and updateCartItemQuantity returns Right`() =
-        runBlockingTest {
+        runTest {
             val cartItem = mockk<CartItem>().apply {
                 every { name } answers { NAME }
             }
@@ -186,7 +184,7 @@ class CartViewModelTest {
 
     @Test
     fun `should update viewEffect with Error when CartItemQuantityChanged is provided and updateCartItemQuantity returns Left`() =
-        runBlockingTest {
+        runTest {
             val cartItem = mockk<CartItem>().apply {
                 every { name } answers { NAME }
             }
@@ -211,26 +209,32 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewState receiptStatus to Error when ReceiptCaptureError is provided`() {
-        sut.onEvent(CartEvent.ReceiptCaptureError)
+    fun `should update viewState receiptStatus to Error when ReceiptCaptureError is provided`() =
+        runTest {
+            sut.onEvent(CartEvent.ReceiptCaptureError)
 
-        assertThat(sut.viewState.value.receiptStatus).isEqualTo(ReceiptStatus.Error)
-    }
+            sut.viewState.test {
+                assertThat(awaitItem().receiptStatus).isEqualTo(ReceiptStatus.Error)
+            }
+        }
 
     @Test
-    fun `should update viewState receiptStatus with result from validateReceiptPath when ReceiptCaptureSuccess is provided`() {
-        val receiptPath = "receiptPath"
-        val expectedResult = ReceiptStatus.Taken(receiptPath)
-        every { validateReceiptPath(receiptPath) } answers { expectedResult }
+    fun `should update viewState receiptStatus with result from validateReceiptPath when ReceiptCaptureSuccess is provided`() =
+        runTest {
+            val receiptPath = "receiptPath"
+            val expectedResult = ReceiptStatus.Taken(receiptPath)
+            every { validateReceiptPath(receiptPath) } answers { expectedResult }
 
-        sut.onEvent(CartEvent.ReceiptCaptureSuccess(receiptPath))
+            sut.onEvent(CartEvent.ReceiptCaptureSuccess(receiptPath))
 
-        assertThat(sut.viewState.value.receiptStatus).isEqualTo(expectedResult)
-    }
+            sut.viewState.test {
+                assertThat(awaitItem().receiptStatus).isEqualTo(expectedResult)
+            }
+        }
 
     @Test
     fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Right`() =
-        runBlockingTest {
+        runTest {
             coEvery {
                 checkoutCart(
                     cartItems = sut.viewState.value.cartItems,
@@ -248,7 +252,7 @@ class CartViewModelTest {
 
     @Test
     fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Left`() =
-        runBlockingTest {
+        runTest {
             val checkoutFailure = Failure.Unknown
 
             coEvery {
@@ -270,12 +274,12 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewState when CartNameUpdated is provided`() = runBlockingTest {
+    fun `should update viewState when CartNameUpdated is provided`() = runTest {
         val newCartName = "newCartName"
 
         sut.onEvent(CartEvent.CartNameUpdated(newCartName))
 
-        sut.viewState.test() {
+        sut.viewState.test {
             assertThat(awaitItem().cartName).isEqualTo(newCartName)
         }
     }

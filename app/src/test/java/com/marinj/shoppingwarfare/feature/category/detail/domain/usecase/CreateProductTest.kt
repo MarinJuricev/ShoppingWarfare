@@ -10,7 +10,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -40,7 +40,7 @@ class CreateProductTest {
     }
 
     @Test
-    fun `invoke should return Left when validateCategoryItem returns Left`() = runBlockingTest {
+    fun `invoke should return Left when validateCategoryItem returns Left`() = runTest {
         val left = Failure.Unknown.buildLeft()
         coEvery {
             validateProduct(CATEGORY_ITEM_TITLE)
@@ -53,7 +53,7 @@ class CreateProductTest {
 
     @Test
     fun `invoke should return Left when validateCategoryItem returns Right and CategoryDetailRepository returns Left`() =
-        runBlockingTest {
+        runTest {
             val repositoryLeft = Failure.Unknown.buildLeft()
             val validatorRight = Unit.buildRight()
             val categoryItem = Product(
@@ -80,7 +80,7 @@ class CreateProductTest {
 
     @Test
     fun `invoke should return Right when validateCategoryItem returns Right and CategoryDetailRepository returns Right`() =
-        runBlockingTest {
+        runTest {
             val repositoryRight = Unit.buildRight()
             val validatorRight = Unit.buildRight()
             val categoryItem = Product(

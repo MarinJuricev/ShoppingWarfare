@@ -18,7 +18,7 @@ buildscript {
         junit_version = '4.13.2'
         accompanist_version = '0.21.1-beta'
         moshi_version = '1.12.0'
-        turbine_version = '0.6.0'
+        turbine_version = '0.7.0'
         core_splash_version = '1.0.0-beta01'
         timber_version = '5.0.1'
         ktlint_version = '0.42.1'

@@ -16,15 +16,13 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val CATEGORY_ID = "categoryId"
 private const val PRODUCT_ID = "productId"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class CategoryDetailRepositoryImplTest {
 
@@ -45,7 +43,7 @@ class CategoryDetailRepositoryImplTest {
     }
 
     @Test
-    fun `observeCategoryProducts should return products`() = runBlockingTest {
+    fun `observeCategoryProducts should return products`() = runTest {
         val localCategoryProducts = mockk<LocalCategoryProducts>()
         val listOfLocalCategoryProducts = listOf(localCategoryProducts)
         val product = mockk<Product>()
@@ -68,7 +66,7 @@ class CategoryDetailRepositoryImplTest {
     }
 
     @Test
-    fun `upsertCategoryProduct should return Left when productDao returns 0L`() = runBlockingTest {
+    fun `upsertCategoryProduct should return Left when productDao returns 0L`() = runTest {
         val product = mockk<Product>()
         val localProduct = mockk<LocalProduct>()
         coEvery {
@@ -86,7 +84,7 @@ class CategoryDetailRepositoryImplTest {
 
     @Test
     fun `upsertCategoryProduct should return Right when productDao returns result other than 0L`() =
-        runBlockingTest {
+        runTest {
             val product = mockk<Product>()
             val localProduct = mockk<LocalProduct>()
             coEvery {
@@ -103,7 +101,7 @@ class CategoryDetailRepositoryImplTest {
         }
 
     @Test
-    fun `deleteCategoryProductById should return Right`() = runBlockingTest {
+    fun `deleteCategoryProductById should return Right`() = runTest {
         coEvery {
             productDao.deleteProductById(PRODUCT_ID)
         } coAnswers { Unit }

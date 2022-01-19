@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.core.viewmodel
 import androidx.compose.runtime.Composable
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.NoSearchBarTopBarViewState
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.SearchTopBarViewState
@@ -15,16 +16,19 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBa
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val SEARCH_TEXT = "search"
 
 @ExperimentalCoroutinesApi
-@ExperimentalTime
+
 class TopBarViewModelTest {
+
+    @get:Rule
+    val coroutineRule = MainCoroutineRule()
 
     private lateinit var sut: TopBarViewModel
 
@@ -35,7 +39,7 @@ class TopBarViewModelTest {
 
     @Test
     fun `onEvent should update viewState to match categoryTopBar when CategoryTopBar is provided`() =
-        runBlockingTest {
+        runTest {
             val icon: @Composable () -> Unit = {}
             val onActionClicked = {}
             val event = CategoryTopBar(
@@ -57,7 +61,7 @@ class TopBarViewModelTest {
 
     @Test
     fun `onEvent should update viewState to match createCategoryTopBar when CreateCategoryTopBar is provided`() =
-        runBlockingTest {
+        runTest {
             val event = CreateCategoryTopBar()
 
             sut.onEvent(event)
@@ -73,7 +77,7 @@ class TopBarViewModelTest {
 
     @Test
     fun `onEvent should update viewState to match categoryDetailTopBar when CategoryDetailTopBar is provided`() =
-        runBlockingTest {
+        runTest {
             val icon: @Composable () -> Unit = {}
             val onActionClicked = {}
             val event = CategoryDetailTopBar(
@@ -96,7 +100,7 @@ class TopBarViewModelTest {
 
     @Test
     fun `onEvent should update viewState to match cartTopBar when CartTopBar is provided`() =
-        runBlockingTest {
+        runTest {
             val event = CartTopBar()
 
             sut.onEvent(event)
@@ -111,7 +115,7 @@ class TopBarViewModelTest {
 
     @Test
     fun `onEvent should update viewState to match historyTopBar when HistoryTopBar is provided`() =
-        runBlockingTest {
+        runTest {
             val onTextChange: (String) -> Unit = {}
             val onActionClick: () -> Unit = {}
             val searchTextUpdated = { SEARCH_TEXT }
@@ -137,7 +141,7 @@ class TopBarViewModelTest {
 
     @Test
     fun `onEvent should update viewState to match userTopBar when UserTopBar is provided`() =
-        runBlockingTest {
+        runTest {
             val event = UserTopBar()
 
             sut.onEvent(event)
@@ -152,7 +156,7 @@ class TopBarViewModelTest {
 
     @Test
     fun `onEvent should update viewState to match historyDetailTopBar when HistoryDetailTopBar is provided`() =
-        runBlockingTest {
+        runTest {
             val event = HistoryDetailTopBar()
 
             sut.onEvent(event)

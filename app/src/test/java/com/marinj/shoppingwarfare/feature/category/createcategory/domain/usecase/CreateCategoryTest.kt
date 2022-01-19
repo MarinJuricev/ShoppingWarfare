@@ -9,7 +9,7 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -35,7 +35,7 @@ class CreateCategoryTest {
 
     @Test
     fun `invoke should return result from validator when validator returns Left`() =
-        runBlockingTest {
+        runTest {
             val title = "title"
             val categoryColor = 1
             val titleColor = 2
@@ -51,7 +51,7 @@ class CreateCategoryTest {
 
     @Test
     fun `invoke should return result from repository when validator returns Right`() =
-        runBlockingTest {
+        runTest {
             val title = "title"
             val categoryColor = 1
             val titleColor = 2

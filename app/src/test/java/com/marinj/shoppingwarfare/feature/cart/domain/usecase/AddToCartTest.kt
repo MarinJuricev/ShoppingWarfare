@@ -10,7 +10,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -36,7 +36,7 @@ class AddToCartTest {
 
     @Test
     fun `invoke should return result from repository when getCartItemById returns Left`() =
-        runBlockingTest {
+        runTest {
             val cartItem = mockk<CartItem>().apply {
                 every { id } returns ID
             }
@@ -55,7 +55,7 @@ class AddToCartTest {
 
     @Test
     fun `invoke should update the existing cartItem quantity by 1 when getCartItemById returns Right and return the repository result`() =
-        runBlockingTest {
+        runTest {
             val existingCartItem = CartItem(
                 id = ID,
                 categoryName = NAME,

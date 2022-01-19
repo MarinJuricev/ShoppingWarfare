@@ -16,14 +16,12 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val CART_ITEM_NAME = "cartItemName"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class CartRepositoryImplTest {
 
@@ -43,7 +41,7 @@ class CartRepositoryImplTest {
     }
 
     @Test
-    fun `observeCartItems should return cartItems`() = runBlockingTest {
+    fun `observeCartItems should return cartItems`() = runTest {
         val cartItem = mockk<CartItem>()
         val cartItemList = listOf(cartItem)
         val localCartItem = mockk<LocalCartItem>()
@@ -62,7 +60,7 @@ class CartRepositoryImplTest {
     }
 
     @Test
-    fun `observeCartItemsCount should return number of cartItems`() = runBlockingTest {
+    fun `observeCartItemsCount should return number of cartItems`() = runTest {
         val numberOfCartItems = 5
         coEvery {
             cartDao.observeCartItemsCount()
@@ -75,7 +73,7 @@ class CartRepositoryImplTest {
     }
 
     @Test
-    fun `upsertCartItem should return LeftFailure when cartDao returns 0L`() = runBlockingTest {
+    fun `upsertCartItem should return LeftFailure when cartDao returns 0L`() = runTest {
         val cartItem = mockk<CartItem>()
         val localCartItem = mockk<LocalCartItem>().apply {
             every { name } returns CART_ITEM_NAME
@@ -96,7 +94,7 @@ class CartRepositoryImplTest {
 
     @Test
     fun `upsertCartItem should return RightUnit when cartDao returns everything but 0L`() =
-        runBlockingTest {
+        runTest {
             val cartItem = mockk<CartItem>()
             val localCartItem = mockk<LocalCartItem>()
             val daoResult = 1L
@@ -115,7 +113,7 @@ class CartRepositoryImplTest {
 
     @Test
     fun `deleteCartItemById should return RightUnit`() =
-        runBlockingTest {
+        runTest {
             val cartItemId = "1"
             coEvery {
                 cartDao.deleteCartItemById(cartItemId)
@@ -129,7 +127,7 @@ class CartRepositoryImplTest {
 
     @Test
     fun `getCartItemById should return LeftFailure when cartDao returns null`() =
-        runBlockingTest {
+        runTest {
             val cartItemId = "1"
             coEvery {
                 cartDao.getCartItemById(cartItemId)
@@ -144,7 +142,7 @@ class CartRepositoryImplTest {
 
     @Test
     fun `getCartItemById should return RightCartItem when cartDao returns LocalCartItem`() =
-        runBlockingTest {
+        runTest {
             val cartItemId = "1"
             val localCartItem = mockk<LocalCartItem>()
             val cartItem = mockk<CartItem>()
@@ -161,9 +159,10 @@ class CartRepositoryImplTest {
             assertThat(actualResult).isEqualTo(expectedResult)
         }
 
+    @Suppress("UNUSED_EXPRESSION")
     @Test
     fun `dropCurrentCart should return RightUnit when cartDao returns LocalCartItem`() =
-        runBlockingTest {
+        runTest {
             val daoResult = Unit
             coEvery {
                 cartDao.deleteCart()

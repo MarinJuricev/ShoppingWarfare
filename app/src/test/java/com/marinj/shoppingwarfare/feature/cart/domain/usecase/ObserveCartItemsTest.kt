@@ -8,12 +8,10 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class ObserveCartItemsTest {
 
@@ -29,7 +27,7 @@ class ObserveCartItemsTest {
     }
 
     @Test
-    fun `invoke should return result from cartRepository observeCartItems`() = runBlockingTest {
+    fun `invoke should return result from cartRepository observeCartItems`() = runTest {
         val cartItems = listOf(mockk<CartItem>())
         val repositoryFlow = flow { emit(cartItems) }
         coEvery {

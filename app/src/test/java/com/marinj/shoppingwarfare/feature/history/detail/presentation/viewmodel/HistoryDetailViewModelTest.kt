@@ -16,15 +16,13 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHist
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val HISTORY_ITEM_ID = "historyItemId"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class HistoryDetailViewModelTest {
 
@@ -48,7 +46,7 @@ class HistoryDetailViewModelTest {
 
     @Test
     fun `should update uiHistoryItem when OnGetHistoryDetail is provided and getHistoryItemId returns Right`() =
-        runBlockingTest {
+        runTest {
             val event = OnGetHistoryDetail(HISTORY_ITEM_ID)
             val useCaseResult = mockk<HistoryItem>()
             val useCaseResultRight = useCaseResult.buildRight()
@@ -60,14 +58,9 @@ class HistoryDetailViewModelTest {
                 historyItemToUiHistoryItemMapper.map(useCaseResult)
             } coAnswers { mapperResult }
 
+            sut.onEvent(event)
+
             sut.viewState.test {
-                val initialViewState = awaitItem()
-
-                assertThat(initialViewState.isLoading).isTrue()
-                assertThat(initialViewState.uiHistoryItem).isNull()
-
-                sut.onEvent(event)
-
                 val updatedViewState = awaitItem()
 
                 assertThat(updatedViewState.isLoading).isFalse()
@@ -77,7 +70,7 @@ class HistoryDetailViewModelTest {
 
     @Test
     fun `should update viewEffect when OnGetHistoryDetail is provided and getHistoryItemId returns Left`() =
-        runBlockingTest {
+        runTest {
             val event = OnGetHistoryDetail(HISTORY_ITEM_ID)
             val useCaseResult = Failure.Unknown
             val useCaseResultRight = useCaseResult.buildLeft()

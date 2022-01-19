@@ -8,12 +8,10 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class ObserveHistoryItemsTest {
 
@@ -30,7 +28,7 @@ class ObserveHistoryItemsTest {
 
     @Test
     fun `invoke should return result from historyRepository observeHistoryItems`() =
-        runBlockingTest {
+        runTest {
             val historyItems = listOf(mockk<HistoryItem>())
             val repositoryFlow = flow { emit(historyItems) }
             coEvery {

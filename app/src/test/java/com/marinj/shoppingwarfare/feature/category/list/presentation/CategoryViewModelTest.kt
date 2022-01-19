@@ -27,16 +27,14 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val ID = "id"
 private const val CATEGORY_NAME = "fruits"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class CategoryViewModelTest {
 
@@ -66,7 +64,7 @@ class CategoryViewModelTest {
 
     @Test
     fun `should update categories in categoryViewState when GetCategories is provided and emits categories`() =
-        runBlockingTest {
+        runTest {
             val category = mockk<Category>()
             val uiCategory = mockk<UiCategory>()
             val listOfCategory = listOf(category)
@@ -96,7 +94,7 @@ class CategoryViewModelTest {
 
     @Test
     fun `should update categoryViewEffect with Error when GetCategories is provided and emits an exception`() =
-        runBlockingTest {
+        runTest {
             val categoriesFlow = flow<List<Category>> {
                 throw Exception()
             }
@@ -122,7 +120,7 @@ class CategoryViewModelTest {
 
     @Test
     fun `should update categoryViewEffect with DeleteCategory when DeleteCategory is provided and deleteCategory returns Right`() =
-        runBlockingTest {
+        runTest {
             val uiCategory = mockk<UiCategory>().apply {
                 every { id } answers { ID }
             }
@@ -139,7 +137,7 @@ class CategoryViewModelTest {
 
     @Test
     fun `should update categoryViewEffect with Error when DeleteCategory is provided and deleteCategory returns Left`() =
-        runBlockingTest {
+        runTest {
             val uiCategory = mockk<UiCategory>().apply {
                 every { id } answers { ID }
             }
@@ -181,7 +179,7 @@ class CategoryViewModelTest {
 
     @Test
     fun `should update categoryViewEffect with Error when UndoCategoryDeletion is provided and deleteCategory returns Left`() =
-        runBlockingTest {
+        runTest {
             val uiCategory = mockk<UiCategory>()
             val category = mockk<Category>()
             coEvery {
@@ -200,7 +198,7 @@ class CategoryViewModelTest {
 
     @Test
     fun `should update not categoryViewEffect with Error when UndoCategoryDeletion is provided and deleteCategory returns Right`() =
-        runBlockingTest {
+        runTest {
             val uiCategory = mockk<UiCategory>()
             val category = mockk<Category>()
             coEvery {

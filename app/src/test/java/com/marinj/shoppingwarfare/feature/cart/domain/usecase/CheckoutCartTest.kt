@@ -12,7 +12,7 @@ import com.marinj.shoppingwarfare.feature.history.list.domain.repository.History
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -41,7 +41,7 @@ class CheckoutCartTest {
 
     @Test
     fun `invoke should return result validateCartName when validateCartName returns Left`() =
-        runBlockingTest {
+        runTest {
             val cartItems = mockk<List<CartItem>>()
             val validateResult = Failure.Unknown.buildLeft()
             coEvery {
@@ -55,7 +55,7 @@ class CheckoutCartTest {
 
     @Test
     fun `invoke should return result from historyRepository updateHistoryItem when validateCartName returns Right`() =
-        runBlockingTest {
+        runTest {
             val cartItems = mockk<List<CartItem>>()
             val historyItem = mockk<HistoryItem>()
             val historyRepositoryResult = Unit.buildRight()

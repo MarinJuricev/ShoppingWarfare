@@ -8,14 +8,12 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val CATEGORY_ID = "id"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class ObserveProductsTest {
 
@@ -31,7 +29,7 @@ class ObserveProductsTest {
     }
 
     @Test
-    fun `invoke should return result from categoryDetailRepository observeCategoryItems`() = runBlockingTest {
+    fun `invoke should return result from categoryDetailRepository observeCategoryItems`() = runTest {
         val categoryItem = mockk<Product>()
         val listOfCategoryItems = listOf(categoryItem)
         val categoryItemFlow = flow {

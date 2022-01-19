@@ -18,13 +18,11 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class CreateCategoryViewModelTest {
 
@@ -45,7 +43,7 @@ class CreateCategoryViewModelTest {
     }
 
     @Test
-    fun `should update categoryName when OnCategoryNameChanged is provided`() = runBlockingTest {
+    fun `should update categoryName when OnCategoryNameChanged is provided`() = runTest {
         val categoryText = "categoryText"
         val event = OnCategoryNameChanged(categoryText)
 
@@ -58,7 +56,7 @@ class CreateCategoryViewModelTest {
 
     @Test
     fun `should update backgroundColor when OnBackgroundColorChanged is provided`() =
-        runBlockingTest {
+        runTest {
             val selectedColor = Color.Magenta
             val event = OnBackgroundColorChanged(selectedColor)
             sut.onEvent(event)
@@ -69,7 +67,7 @@ class CreateCategoryViewModelTest {
         }
 
     @Test
-    fun `should update titleColor when OnTitleColorChanged is provided`() = runBlockingTest {
+    fun `should update titleColor when OnTitleColorChanged is provided`() = runTest {
         val selectedColor = Color.Magenta
         val event = CreateCategoryEvent.OnTitleColorChanged(selectedColor)
         sut.onEvent(event)
@@ -81,7 +79,7 @@ class CreateCategoryViewModelTest {
 
     @Test
     fun `should emit CreateCategoryFailure when OnCreateCategoryClicked is provided and createCategory returns Left`() =
-        runBlockingTest {
+        runTest {
             val event = OnCreateCategoryClicked
             val failure = Failure.Unknown
             val createCategoryEffect = CreateCategoryViewFailure("Error")
@@ -101,7 +99,7 @@ class CreateCategoryViewModelTest {
 
     @Test
     fun `should emit CreateCategorySuccess when OnCreateCategoryClicked is provided and createCategory returns Right`() =
-        runBlockingTest {
+        runTest {
             val event = OnCreateCategoryClicked
             val createCategoryEffect = CreateCategoryViewSuccess
             coEvery {

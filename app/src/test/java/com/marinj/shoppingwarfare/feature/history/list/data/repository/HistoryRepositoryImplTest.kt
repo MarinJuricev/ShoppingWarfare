@@ -15,14 +15,12 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 private const val HISTORY_ITEM_ID = "historyItemId"
 
-@ExperimentalTime
 @ExperimentalCoroutinesApi
 class HistoryRepositoryImplTest {
 
@@ -42,7 +40,7 @@ class HistoryRepositoryImplTest {
     }
 
     @Test
-    fun `observeHistoryItems should return historyItems`() = runBlockingTest {
+    fun `observeHistoryItems should return historyItems`() = runTest {
         val historyItem = mockk<HistoryItem>()
         val historyItemList = listOf(historyItem)
         val localHistoryItem = mockk<LocalHistoryItem>()
@@ -62,7 +60,7 @@ class HistoryRepositoryImplTest {
 
     @Test
     fun `upsertHistoryItem should return LeftFailure when historyDao returns 0L`() =
-        runBlockingTest {
+        runTest {
             val historyItem = mockk<HistoryItem>()
             val localHistoryItem = mockk<LocalHistoryItem>()
             val daoResult = 0L
@@ -80,7 +78,7 @@ class HistoryRepositoryImplTest {
         }
 
     @Test
-    fun `upsertHistoryItem should return RightUnit when historyDao returns 1L`() = runBlockingTest {
+    fun `upsertHistoryItem should return RightUnit when historyDao returns 1L`() = runTest {
         val historyItem = mockk<HistoryItem>()
         val localHistoryItem = mockk<LocalHistoryItem>()
         val daoResult = 1L
@@ -97,9 +95,10 @@ class HistoryRepositoryImplTest {
         assertThat(actualResult).isEqualTo(expectedResult)
     }
 
+    @Suppress("UNUSED_EXPRESSION")
     @Test
     fun `dropHistory should return RightUnit when historyDao returns LocalHistoryItem`() =
-        runBlockingTest {
+        runTest {
             val daoResult = Unit
             coEvery {
                 historyDao.deleteHistory()
@@ -113,7 +112,7 @@ class HistoryRepositoryImplTest {
 
     @Test
     fun `getHistoryItemById should return LeftErrorMessage when historyDao getHistoryItemById returns null`() =
-        runBlockingTest {
+        runTest {
             val daoResult = null
             coEvery {
                 historyDao.getHistoryItemById(HISTORY_ITEM_ID)
@@ -129,7 +128,7 @@ class HistoryRepositoryImplTest {
 
     @Test
     fun `getHistoryItemById should return RightHistoryItem when historyDao getHistoryItemById returns localHistoryItem`() =
-        runBlockingTest {
+        runTest {
             val daoResult = mockk<LocalHistoryItem>()
             val mapperResult = mockk<HistoryItem>()
             coEvery {
