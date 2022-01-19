@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.core.viewmodel.topbar
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
@@ -15,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,68 +40,68 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
     }
 
     private fun handleCategoryTopBar(event: CategoryTopBar) {
-        _viewState.safeUpdate(
+        _viewState.update {
             NoSearchBarTopBarViewState(
                 title = event.title,
                 icon = event.icon,
                 onActionClick = event.onActionClick,
             )
-        )
+        }
     }
 
     private fun handleCreateCategoryTopBar(event: CreateCategoryTopBar) {
-        _viewState.safeUpdate(
+        _viewState.update {
             NoSearchBarTopBarViewState(
                 title = event.title,
                 subTitle = event.subTitle,
             )
-        )
+        }
     }
 
     private fun handleCategoryDetailTopBar(event: CategoryDetailTopBar) {
-        _viewState.safeUpdate(
+        _viewState.update {
             NoSearchBarTopBarViewState(
                 title = event.title,
                 subTitle = event.subTitle,
                 icon = event.icon,
                 onActionClick = event.onActionClick,
             )
-        )
+        }
     }
 
     private fun handleCartTopBar(event: CartTopBar) {
-        _viewState.safeUpdate(
+        _viewState.update {
             NoSearchBarTopBarViewState(
                 isTopBarVisible = event.isVisible,
             )
-        )
+        }
     }
 
     private fun handleHistoryTopBar(event: HistoryTopBar) {
-        _viewState.safeUpdate(
+        _viewState.update {
             SearchTopBarViewState(
                 searchText = event.searchTextUpdated,
                 isSearchEnabled = event.isSearchEnabled,
                 onTextChange = event.onTextChange,
                 onActionClick = event.onActionClick,
             )
-        )
+        }
     }
 
     private fun handleHistoryDetailTopBar(event: HistoryDetailTopBar) {
-        _viewState.safeUpdate(
+        _viewState.update {
             NoSearchBarTopBarViewState(
                 title = event.title,
                 subTitle = event.subTitle,
             )
-        )
+        }
     }
 
     private fun handleUserTopBar(event: UserTopBar) {
-        _viewState.safeUpdate(
+        _viewState.update {
             NoSearchBarTopBarViewState(
                 isTopBarVisible = event.isVisible
             )
-        )
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmode
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
@@ -32,6 +31,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -74,12 +74,12 @@ class CategoryDetailViewModel @Inject constructor(
             .onStart { updateIsLoading(isLoading = true) }
             .catch { handleGetCategoriesError() }
             .collect { products ->
-                _viewState.safeUpdate(
-                    _viewState.value.copy(
+                _viewState.update { viewState ->
+                    viewState.copy(
                         products = products,
                         isLoading = false,
                     )
-                )
+                }
             }
     }
 
@@ -123,6 +123,6 @@ class CategoryDetailViewModel @Inject constructor(
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
-        _viewState.safeUpdate(_viewState.value.copy(isLoading = isLoading))
+        _viewState.update { viewState -> viewState.copy(isLoading = isLoading) }
     }
 }

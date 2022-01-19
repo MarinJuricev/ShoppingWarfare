@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Either.Left
@@ -29,6 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -74,12 +74,12 @@ class CategoryViewModel @Inject constructor(
                 categoryList.map { category -> categoryToUiCategoryMapper.map(category) }
             }
             .collect { uiCategoryList ->
-                _viewState.safeUpdate(
-                    _viewState.value.copy(
+                _viewState.update { viewState ->
+                    viewState.copy(
                         categories = uiCategoryList,
                         isLoading = false,
                     )
-                )
+                }
             }
     }
 
@@ -93,11 +93,11 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
-        _viewState.safeUpdate(
-            _viewState.value.copy(
+        _viewState.update { viewState ->
+            viewState.copy(
                 isLoading = isLoading
             )
-        )
+        }
     }
 
     private fun handleDeleteCategory(uiCategory: UiCategory) = viewModelScope.launch {

@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.createcategory.domain.usecase.CreateCategory
@@ -24,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -53,27 +53,27 @@ class CreateCategoryViewModel @Inject constructor(
     }
 
     private fun handleCategoryNameChanged(categoryText: String) {
-        _createCategoryViewState.safeUpdate(
-            _createCategoryViewState.value.copy(
+        _createCategoryViewState.update { viewState ->
+            viewState.copy(
                 categoryName = categoryText
             )
-        )
+        }
     }
 
     private fun handleBackgroundColorChanged(selectedColor: Color) {
-        _createCategoryViewState.safeUpdate(
-            _createCategoryViewState.value.copy(
+        _createCategoryViewState.update { viewState ->
+            viewState.copy(
                 backgroundColor = selectedColor
             )
-        )
+        }
     }
 
     private fun handleTitleColorChanged(selectedColor: Color) {
-        _createCategoryViewState.safeUpdate(
-            _createCategoryViewState.value.copy(
+        _createCategoryViewState.update { viewState ->
+            viewState.copy(
                 titleColor = selectedColor
             )
-        )
+        }
     }
 
     private fun handleCategoryClicked() = viewModelScope.launch {

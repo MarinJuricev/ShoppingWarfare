@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.history.detail.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,12 +48,12 @@ class HistoryDetailViewModel @Inject constructor(
 
     private fun handleGetHistoryDetail(historyItemId: String) = viewModelScope.launch {
         when (val result = getHistoryItemById(historyItemId)) {
-            is Right -> _viewState.safeUpdate(
-                _viewState.value.copy(
+            is Right -> _viewState.update { viewState ->
+                viewState.copy(
                     isLoading = false,
                     uiHistoryItem = historyItemToUiHistoryItemMapper.map(result.value)
                 )
-            )
+            }
             is Left -> _viewEffect.send(
                 Error(errorMessage = failureToStringMapper.map(result.error))
             )

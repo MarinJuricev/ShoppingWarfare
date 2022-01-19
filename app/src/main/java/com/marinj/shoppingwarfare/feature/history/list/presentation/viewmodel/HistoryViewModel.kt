@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.history.list.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.navigation.HistoryDetailNavigation
@@ -29,6 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -67,31 +67,29 @@ class HistoryViewModel @Inject constructor(
                 historyItems.map { historyItem -> historyItemToUiHistoryItemMapper.map(historyItem) }
             }
             .collect { historyItems ->
-                _viewState.safeUpdate(
-                    _viewState.value.copy(
+                _viewState.update { viewState ->
+                    viewState.copy(
                         historyItems = historyItems,
                         nonFilteredHistoryItems = historyItems,
                         isLoading = false,
                     )
-                )
+                }
             }
     }
 
     private fun handleSearchTriggered() {
-        _viewState.safeUpdate(
-            _viewState.value.copy(
+        _viewState.update { viewState ->
+            viewState.copy(
                 historyItems = filterHistoryItems(
                     listToFilter = _viewState.value.nonFilteredHistoryItems,
                     searchQuery = _viewState.value.searchText,
                 )
             )
-        )
+        }
     }
 
     private fun handleSearchUpdated(newSearch: String) = viewModelScope.launch {
-        _viewState.safeUpdate(
-            _viewState.value.copy(searchText = newSearch)
-        )
+        _viewState.update { viewState -> viewState.copy(searchText = newSearch) }
         handleSearchTriggered()
     }
 
@@ -111,10 +109,10 @@ class HistoryViewModel @Inject constructor(
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
-        _viewState.safeUpdate(
-            _viewState.value.copy(
+        _viewState.update { viewState ->
+            viewState.copy(
                 isLoading = isLoading
             )
-        )
+        }
     }
 }

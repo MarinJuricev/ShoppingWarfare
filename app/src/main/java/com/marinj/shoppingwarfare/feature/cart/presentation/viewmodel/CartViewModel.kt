@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.ext.safeUpdate
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
@@ -36,6 +35,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -81,20 +81,20 @@ class CartViewModel @Inject constructor(
             .onStart { updateIsLoading(isLoading = true) }
             .catch { handleGetCartItemsError() }
             .collect { cartItems ->
-                _viewState.safeUpdate(
-                    _viewState.value.copy(
+                _viewState.update { viewState ->
+                    viewState.copy(
                         cartData = cartItemsToCartDataMapper.map(cartItems),
                         cartItems = cartItems,
                         isLoading = false,
                     )
-                )
+                }
             }
     }
 
     private fun handleReceiptCaptureError() {
-        _viewState.safeUpdate(
-            _viewState.value.copy(receiptStatus = ReceiptStatus.Error)
-        )
+        _viewState.update { viewState ->
+            viewState.copy(receiptStatus = ReceiptStatus.Error)
+        }
     }
 
     private fun handleCheckoutClicked() = viewModelScope.launch {
@@ -134,22 +134,20 @@ class CartViewModel @Inject constructor(
     }
 
     private fun handleReceiptCaptureSuccess(receiptPath: String?) {
-        _viewState.safeUpdate(
-            _viewState.value.copy(receiptStatus = validateReceiptPath(receiptPath))
-        )
+        _viewState.update { viewState ->
+            viewState.copy(receiptStatus = validateReceiptPath(receiptPath))
+        }
     }
 
     private fun handleCartNameUpdated(updatedCartName: String) {
-        _viewState.safeUpdate(
-            _viewState.value.copy(cartName = updatedCartName)
-        )
+        _viewState.update { viewState ->
+            viewState.copy(cartName = updatedCartName)
+        }
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
-        _viewState.safeUpdate(
-            _viewState.value.copy(
-                isLoading = isLoading
-            )
-        )
+        _viewState.update { viewState ->
+            viewState.copy(isLoading = isLoading)
+        }
     }
 }
