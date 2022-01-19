@@ -4,7 +4,7 @@ data class CartItem(
     val id: String,
     val categoryName: String,
     val name: String,
-    val quantity: Int
+    val quantity: Int,
 ) {
     companion object {
         const val DEFAULT_QUANTITY = 1
