@@ -16,7 +16,7 @@ import com.marinj.shoppingwarfare.feature.user.presentation.components.UserConte
 import com.marinj.shoppingwarfare.feature.user.presentation.model.UserEvent
 import com.marinj.shoppingwarfare.feature.user.presentation.viewmodel.UserViewModel
 
-val UserEvents: ProvidableCompositionLocal<(UserEvent) -> Unit> = compositionLocalOf { {} }
+val LocalUserEvents: ProvidableCompositionLocal<((UserEvent) -> Unit)?> = compositionLocalOf { null }
 
 @Composable
 fun UserPage(
@@ -28,7 +28,7 @@ fun UserPage(
         setupTopBar(UserTopBar())
     }
 
-    CompositionLocalProvider(UserEvents provides userViewModel::onEvent) {
+    CompositionLocalProvider(LocalUserEvents provides userViewModel::onEvent) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
