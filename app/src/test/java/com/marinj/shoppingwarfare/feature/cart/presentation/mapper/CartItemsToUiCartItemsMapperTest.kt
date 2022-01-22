@@ -9,13 +9,13 @@ import org.junit.Test
 
 private const val CATEGORY_NAME = "fruits"
 
-class CartItemsToCartDataMapperTest {
+class CartItemsToUiCartItemsMapperTest {
 
-    private lateinit var sut: CartItemsToCartDataMapper
+    private lateinit var sut: CartItemsToUiCartItemsMapper
 
     @Before
     fun setUp() {
-        sut = CartItemsToCartDataMapper()
+        sut = CartItemsToUiCartItemsMapper()
     }
 
     @Test

@@ -13,7 +13,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
-import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
+import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToUiCartItemsMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewCheckoutCompleted
@@ -46,7 +46,7 @@ class CartViewModelTest {
     private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
     private val checkoutCart: CheckoutCart = mockk()
     private val validateReceiptPath: ValidateReceiptPath = mockk()
-    private val cartItemsToCartDataMapper: CartItemsToCartDataMapper = mockk()
+    private val cartItemsToUiCartItemsMapper: CartItemsToUiCartItemsMapper = mockk()
     private val failureToStringMapper: FailureToStringMapper = mockk()
 
     private lateinit var sut: CartViewModel
@@ -59,7 +59,7 @@ class CartViewModelTest {
             updateCartItemQuantity = updateCartItemQuantity,
             checkoutCart = checkoutCart,
             validateReceiptPath = validateReceiptPath,
-            cartItemsToCartDataMapper = cartItemsToCartDataMapper,
+            cartItemsToCartDataMapper = cartItemsToUiCartItemsMapper,
             failureToStringMapper = failureToStringMapper,
         )
     }
@@ -77,7 +77,7 @@ class CartViewModelTest {
                 observeCartItems()
             } coAnswers { cartItemsFlow }
             coEvery {
-                cartItemsToCartDataMapper.map(cartItems)
+                cartItemsToUiCartItemsMapper.map(cartItems)
             } coAnswers { cartData }
 
             sut.viewState.test {

@@ -12,7 +12,8 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
-import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToCartDataMapper
+import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemToUiCartItemMapper
+import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToUiCartItemsMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartNameUpdated
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -47,8 +49,9 @@ class CartViewModel @Inject constructor(
     private val updateCartItemQuantity: UpdateCartItemQuantity,
     private val checkoutCart: CheckoutCart,
     private val validateReceiptPath: ValidateReceiptPath,
-    private val cartItemsToCartDataMapper: CartItemsToCartDataMapper,
+    private val cartItemsToUiCartItemsMapper: CartItemsToUiCartItemsMapper,
     private val failureToStringMapper: FailureToStringMapper,
+    private val cartItemToUiCartItemMapper: CartItemToUiCartItemMapper,
 ) : BaseViewModel<CartEvent>() {
 
     private val _viewState = MutableStateFlow(CartViewState())
@@ -80,10 +83,11 @@ class CartViewModel @Inject constructor(
         observeCartItems()
             .onStart { updateIsLoading(isLoading = true) }
             .catch { handleGetCartItemsError() }
+            .map { cartItems -> cartItems.map { cartItem -> cartItemToUiCartItemMapper.map(cartItem) } }
             .collect { cartItems ->
                 _viewState.update { viewState ->
                     viewState.copy(
-                        cartData = cartItemsToCartDataMapper.map(cartItems),
+                        cartData = cartItemsToUiCartItemsMapper.map(cartItems),
                         cartItems = cartItems,
                         isLoading = false,
                     )
