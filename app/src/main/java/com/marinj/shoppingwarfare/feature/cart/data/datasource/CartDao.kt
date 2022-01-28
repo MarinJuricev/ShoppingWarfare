@@ -16,6 +16,9 @@ interface CartDao {
     @Query("SELECT SUM(quantity) FROM localCartItem")
     fun observeCartItemsCount(): Flow<Int?>
 
+    @Query("UPDATE localCartItem SET quantity = :newQuantity WHERE cartItemId =:id")
+    suspend fun updateCartItemQuantity(id: String, newQuantity: Int)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertCartItem(entity: LocalCartItem): Long
 

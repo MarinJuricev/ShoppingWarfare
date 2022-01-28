@@ -62,4 +62,13 @@ class ProductToCartItemMapperTest {
 
         assertThat(actualResult.quantity).isEqualTo(CartItem.DEFAULT_QUANTITY)
     }
+
+    @Test
+    fun `map should map isInBasket`() {
+        val product = mockk<Product>(relaxed = true)
+
+        val actualResult = sut.map(product)
+
+        assertThat(actualResult.isInBasket).isEqualTo(CartItem.DEFAULT_IS_IN_BASKET)
+    }
 }

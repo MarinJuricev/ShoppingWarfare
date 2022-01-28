@@ -60,7 +60,8 @@ class AddToCartTest {
                 id = ID,
                 categoryName = NAME,
                 name = CATEGORY_NAME,
-                quantity = QUANTITY
+                quantity = QUANTITY,
+                isInBasket = false
             )
             val updatedCartItem = existingCartItem.copy(quantity = UPDATED_QUANTITY)
             val repositoryResult = Unit.buildRight()

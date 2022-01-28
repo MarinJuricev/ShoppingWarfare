@@ -6,15 +6,22 @@ import javax.inject.Inject
 
 class CartItemToUiCartItemMapper @Inject constructor() {
 
-    fun map(origin: CartItem): UiCartItem {
-        return with(origin) {
-            UiCartItem(
-                id = id,
-                categoryName = categoryName,
-                name = name,
-                quantity = quantity,
-                addedToBasket = false,
-            )
+    fun map(origin: List<CartItem>): List<UiCartItem> =
+        origin.groupBy { cartItem -> cartItem.categoryName }.flatMap { cartMap ->
+            val header = UiCartItem.Header(cartMap.key, cartMap.key)
+            val content: List<UiCartItem> = cartMap.value.map { cartItem ->
+                UiCartItem.Content(
+                    id = cartItem.id,
+                    categoryName = cartItem.categoryName,
+                    name = cartItem.name,
+                    quantity = cartItem.quantity,
+                    isInBasket = cartItem.isInBasket,
+                )
+            }
+
+            buildList {
+                add(header)
+                addAll(content)
+            }
         }
-    }
 }

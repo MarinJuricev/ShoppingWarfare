@@ -17,14 +17,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 
 @Composable
 fun QuantityPicker(
     modifier: Modifier = Modifier,
-    cartItem: CartItem,
+    uiCartItem: UiCartItem.Content,
     onCartEvent: (CartEvent) -> Unit
 ) {
     Row(
@@ -35,7 +35,7 @@ fun QuantityPicker(
         ShoppingWarfareIconButton(
             buttonSize = 32.dp,
             onClick = {
-                onCartEvent(CartItemQuantityChanged(cartItem, cartItem.quantity.dec()))
+                onCartEvent(CartItemQuantityChanged(uiCartItem, uiCartItem.quantity.dec()))
             }
         ) {
             Icon(
@@ -47,14 +47,14 @@ fun QuantityPicker(
         }
         Spacer(modifier = Modifier.width(12.dp))
         Text(
-            text = cartItem.quantity.toString(), // TODO Introduce a UI model so that we don't have to do toString in the UI
+            text = uiCartItem.quantity.toString(),
             style = MaterialTheme.typography.body1
         )
         Spacer(modifier = Modifier.width(12.dp))
         ShoppingWarfareIconButton(
             buttonSize = 32.dp,
             onClick = {
-                onCartEvent(CartItemQuantityChanged(cartItem, cartItem.quantity.inc()))
+                onCartEvent(CartItemQuantityChanged(uiCartItem, uiCartItem.quantity.inc()))
             }
         ) {
             Icon(

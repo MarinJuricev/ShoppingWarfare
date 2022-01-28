@@ -21,6 +21,8 @@ import org.junit.Before
 import org.junit.Test
 
 private const val CART_ITEM_NAME = "cartItemName"
+private const val CART_ID = "cartId"
+private const val NEW_QUANTITY = 5
 
 @ExperimentalCoroutinesApi
 class CartRepositoryImplTest {
@@ -172,5 +174,20 @@ class CartRepositoryImplTest {
             val expectedResult = daoResult.buildRight()
 
             assertThat(actualResult).isEqualTo(expectedResult)
+        }
+
+    @Suppress("UNUSED_EXPRESSION")
+    @Test
+    fun `updateCartItemQuantity should return result from categoryDao updateCartItemQuantity`() =
+        runTest {
+            val daoResult = Unit
+            coEvery {
+                cartDao.updateCartItemQuantity(CART_ID, NEW_QUANTITY)
+            } coAnswers { daoResult }
+
+            val result = sut.updateCartItemQuantity(CART_ID, NEW_QUANTITY)
+            val expectedResult = daoResult.buildRight()
+
+            assertThat(result).isEqualTo(expectedResult)
         }
 }

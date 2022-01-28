@@ -9,7 +9,8 @@ sealed class UiCartItem(open val id: String) {
     data class Content(
         override val id: String,
         val name: String,
+        val categoryName: String,
         val quantity: Int,
-        val addedToBasket: Boolean,
+        val isInBasket: Boolean,
     ) : UiCartItem(id)
 }

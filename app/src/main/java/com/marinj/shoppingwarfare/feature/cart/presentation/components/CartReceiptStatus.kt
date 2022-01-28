@@ -38,7 +38,7 @@ fun CartReceiptStatus(
         )
         ShoppingWarfareIconButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            enabled = viewState.cartData.isNotEmpty(),
+            enabled = viewState.uiCartItems.isNotEmpty(),
             onClick = onReceiptClick
         ) {
             Icon(

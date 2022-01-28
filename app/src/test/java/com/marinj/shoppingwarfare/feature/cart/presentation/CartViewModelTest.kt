@@ -13,13 +13,15 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
-import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemsToUiCartItemsMapper
+import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemToUiCartItemMapper
+import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.UiCartItemToCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewCheckoutCompleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
 import io.mockk.coEvery
 import io.mockk.every
@@ -46,7 +48,8 @@ class CartViewModelTest {
     private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
     private val checkoutCart: CheckoutCart = mockk()
     private val validateReceiptPath: ValidateReceiptPath = mockk()
-    private val cartItemsToUiCartItemsMapper: CartItemsToUiCartItemsMapper = mockk()
+    private val cartItemToUiCartItemMapper: CartItemToUiCartItemMapper = mockk()
+    private val uiCartItemToCartItemMapper: UiCartItemToCartItemMapper = mockk()
     private val failureToStringMapper: FailureToStringMapper = mockk()
 
     private lateinit var sut: CartViewModel
@@ -59,7 +62,8 @@ class CartViewModelTest {
             updateCartItemQuantity = updateCartItemQuantity,
             checkoutCart = checkoutCart,
             validateReceiptPath = validateReceiptPath,
-            cartItemsToCartDataMapper = cartItemsToUiCartItemsMapper,
+            cartItemToUiCartItemMapper = cartItemToUiCartItemMapper,
+            uiCartItemToCartItemMapper = uiCartItemToCartItemMapper,
             failureToStringMapper = failureToStringMapper,
         )
     }
@@ -68,8 +72,9 @@ class CartViewModelTest {
     fun `should update cartData when OnGetCartItems is provided and emits cartData`() =
         runTest {
             val cartItem = mockk<CartItem>()
+            val uiCartItem = mockk<UiCartItem>()
+            val uiCartItems = listOf(uiCartItem)
             val cartItems = listOf(cartItem)
-            val cartData = mockk<Map<String, List<CartItem>>>()
             val cartItemsFlow = flow {
                 emit(cartItems)
             }
@@ -77,19 +82,18 @@ class CartViewModelTest {
                 observeCartItems()
             } coAnswers { cartItemsFlow }
             coEvery {
-                cartItemsToUiCartItemsMapper.map(cartItems)
-            } coAnswers { cartData }
+                cartItemToUiCartItemMapper.map(cartItems)
+            } coAnswers { uiCartItems }
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
-                assertThat(initialViewState.cartData).isEmpty()
+                assertThat(initialViewState.uiCartItems).isEmpty()
                 assertThat(initialViewState.isLoading).isTrue()
 
                 sut.onEvent(OnGetCartItems)
 
                 val updatedViewState = awaitItem()
-                assertThat(updatedViewState.cartData).isEqualTo(cartData)
-                assertThat(updatedViewState.cartItems).isEqualTo(cartItems)
+                assertThat(updatedViewState.uiCartItems).isEqualTo(uiCartItems)
                 assertThat(updatedViewState.isLoading).isFalse()
             }
         }
@@ -106,7 +110,7 @@ class CartViewModelTest {
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
-                assertThat(initialViewState.cartData).isEmpty()
+                assertThat(initialViewState.uiCartItems).isEmpty()
                 assertThat(initialViewState.isLoading).isTrue()
 
                 sut.onEvent(OnGetCartItems)
@@ -122,7 +126,7 @@ class CartViewModelTest {
     @Test
     fun `should update viewEffect with CartItemDeleted when DeleteCartItem is provided and deleteCartItem returns Right`() =
         runTest {
-            val cartItem = mockk<CartItem>().apply {
+            val cartItem = mockk<UiCartItem.Content>().apply {
                 every { id } answers { ID }
                 every { name } answers { NAME }
             }
@@ -140,7 +144,7 @@ class CartViewModelTest {
     @Test
     fun `should update viewEffect with Error when DeleteCartItem is provided and deleteCartItem returns Left`() =
         runTest {
-            val cartItem = mockk<CartItem>().apply {
+            val cartItem = mockk<UiCartItem.Content>().apply {
                 every { id } answers { ID }
                 every { name } answers { NAME }
             }
@@ -159,13 +163,14 @@ class CartViewModelTest {
     @Test
     fun `should not update viewEffect when CartItemQuantityChanged is provided and updateCartItemQuantity returns Right`() =
         runTest {
-            val cartItem = mockk<CartItem>().apply {
+            val cartItem = mockk<UiCartItem.Content>().apply {
+                every { id } answers { ID }
                 every { name } answers { NAME }
             }
             val newQuantity = 5
             coEvery {
                 updateCartItemQuantity(
-                    cartItemToUpdate = cartItem,
+                    cartItemId = ID,
                     newQuantity = newQuantity
                 )
             } coAnswers { Unit.buildRight() }
@@ -185,13 +190,14 @@ class CartViewModelTest {
     @Test
     fun `should update viewEffect with Error when CartItemQuantityChanged is provided and updateCartItemQuantity returns Left`() =
         runTest {
-            val cartItem = mockk<CartItem>().apply {
+            val cartItem = mockk<UiCartItem.Content>().apply {
+                every { id } answers { ID }
                 every { name } answers { NAME }
             }
             val newQuantity = 5
             coEvery {
                 updateCartItemQuantity(
-                    cartItemToUpdate = cartItem,
+                    cartItemId = ID,
                     newQuantity = newQuantity
                 )
             } coAnswers { Failure.Unknown.buildLeft() }
@@ -235,9 +241,13 @@ class CartViewModelTest {
     @Test
     fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Right`() =
         runTest {
+            val cartItems = mockk<List<CartItem>>()
+            every {
+                uiCartItemToCartItemMapper.map(sut.viewState.value.uiCartItems)
+            } answers { cartItems }
             coEvery {
                 checkoutCart(
-                    cartItems = sut.viewState.value.cartItems,
+                    cartItems = cartItems,
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                     cartName = sut.viewState.value.cartName,
                 )
@@ -254,10 +264,13 @@ class CartViewModelTest {
     fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Left`() =
         runTest {
             val checkoutFailure = Failure.Unknown
-
+            val cartItems = mockk<List<CartItem>>()
+            every {
+                uiCartItemToCartItemMapper.map(sut.viewState.value.uiCartItems)
+            } answers { cartItems }
             coEvery {
                 checkoutCart(
-                    cartItems = sut.viewState.value.cartItems,
+                    cartItems = cartItems,
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                     cartName = sut.viewState.value.cartName,
                 )

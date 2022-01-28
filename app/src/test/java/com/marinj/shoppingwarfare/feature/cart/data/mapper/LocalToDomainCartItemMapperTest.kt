@@ -64,4 +64,13 @@ class LocalToDomainCartItemMapperTest {
 
         assertThat(actualResult.quantity).isEqualTo(QUANTITY)
     }
+
+    @Test
+    fun `map should map isInQuantity`() {
+        val localCartItem = mockk<LocalCartItem>(relaxed = true)
+
+        val actualResult = sut.map(localCartItem)
+
+        assertThat(actualResult.isInBasket).isFalse()
+    }
 }

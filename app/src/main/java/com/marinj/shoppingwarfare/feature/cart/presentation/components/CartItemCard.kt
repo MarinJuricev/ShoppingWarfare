@@ -15,15 +15,15 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareSwipeToDismiss
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartDescription
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.QuantityPicker
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.DeleteCartItem
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 
 @Composable
 fun CartItemCard(
-    cartItem: CartItem,
+    cartItem: UiCartItem.Content,
     onCartEvent: (CartEvent) -> Unit,
 ) {
     ShoppingWarfareSwipeToDismiss(
@@ -55,7 +55,7 @@ fun CartItemCard(
                     end.linkTo(swipeToDismissIcon.start, margin = 8.dp)
                     bottom.linkTo(parent.bottom)
                 },
-                cartItem = cartItem,
+                uiCartItem = cartItem,
                 onCartEvent = onCartEvent,
             )
             Icon(

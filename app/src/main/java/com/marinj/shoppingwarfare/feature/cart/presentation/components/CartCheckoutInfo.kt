@@ -76,7 +76,7 @@ fun CartCheckoutInfo(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .weight(1f),
-                        enabled = viewState.cartData.isNotEmpty(),
+                        enabled = viewState.uiCartItems.isNotEmpty(),
                         onClick = { onCartEvent(CheckoutClicked) }
                     ) {
                         Text(text = stringResource(id = R.string.checkout))
