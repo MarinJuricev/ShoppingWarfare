@@ -1,4 +1,3 @@
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -32,9 +31,7 @@ fun CartItemCard(
             .padding(horizontal = 8.dp),
         onRightSwipe = { onCartEvent(DeleteCartItem(cartItem)) },
         leftIcon = Icons.Default.ShoppingCart,
-        onLeftSwipe = {
-            Log.d("TEST", "TEST")
-        },
+        onLeftSwipe = { onCartEvent(CartEvent.ItemAddedToBasket(cartItem)) },
     ) {
         ConstraintLayout(
             modifier = Modifier.padding(16.dp),

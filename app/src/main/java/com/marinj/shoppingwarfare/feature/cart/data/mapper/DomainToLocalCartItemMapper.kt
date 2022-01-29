@@ -13,6 +13,7 @@ class DomainToLocalCartItemMapper @Inject constructor() {
                 categoryName = categoryName,
                 name = name,
                 quantity = quantity,
+                isInBasket = isInBasket,
             )
         }
     }

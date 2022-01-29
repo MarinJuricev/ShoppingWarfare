@@ -17,6 +17,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartNameUpdated
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CheckoutClicked
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ItemAddedToBasket
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureError
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureSuccess
@@ -76,6 +77,7 @@ class CartViewModel @Inject constructor(
             )
             is ReceiptCaptureSuccess -> handleReceiptCaptureSuccess(event.receiptPath)
             is CartNameUpdated -> handleCartNameUpdated(event.updatedCartName)
+            is ItemAddedToBasket -> handleItemAddedToBasket(event.cartItem)
         }
     }
 
@@ -146,6 +148,9 @@ class CartViewModel @Inject constructor(
         _viewState.update { viewState ->
             viewState.copy(cartName = updatedCartName)
         }
+    }
+
+    private fun handleItemAddedToBasket(cartItem: UiCartItem.Content) {
     }
 
     private fun updateIsLoading(isLoading: Boolean) {

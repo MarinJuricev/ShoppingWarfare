@@ -10,4 +10,5 @@ data class LocalCartItem(
     val categoryName: String,
     val name: String,
     val quantity: Int,
+    val isInBasket: Boolean,
 )

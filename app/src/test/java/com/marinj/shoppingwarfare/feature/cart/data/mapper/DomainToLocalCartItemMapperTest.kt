@@ -11,6 +11,7 @@ private const val ID = "id"
 private const val NAME = "name"
 private const val CATEGORY_NAME = "fruits"
 private const val QUANTITY = 1
+private const val IS_IN_BASKET = false
 
 class DomainToLocalCartItemMapperTest {
 
@@ -63,5 +64,16 @@ class DomainToLocalCartItemMapperTest {
         val actualResult = sut.map(cartItem)
 
         assertThat(actualResult.quantity).isEqualTo(QUANTITY)
+    }
+
+    @Test
+    fun `map should map isInBasket`() {
+        val cartItem = mockk<CartItem>(relaxed = true).apply {
+            every { isInBasket } returns IS_IN_BASKET
+        }
+
+        val actualResult = sut.map(cartItem)
+
+        assertThat(actualResult.isInBasket).isEqualTo(IS_IN_BASKET)
     }
 }
