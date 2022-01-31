@@ -26,7 +26,6 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewMo
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -37,7 +36,6 @@ private const val ID = "id"
 private const val NAME = "name"
 private const val ERROR_MESSAGE = "errorMessage"
 
-@ExperimentalCoroutinesApi
 class CartViewModelTest {
 
     @get:Rule

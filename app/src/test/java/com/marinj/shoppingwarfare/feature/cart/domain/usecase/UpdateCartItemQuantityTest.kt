@@ -6,7 +6,6 @@ import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -14,7 +13,6 @@ import org.junit.Test
 private const val ID = "id"
 private const val UPDATED_QUANTITY = 5
 
-@ExperimentalCoroutinesApi
 class UpdateCartItemQuantityTest {
 
     private val cartRepository: CartRepository = mockk()

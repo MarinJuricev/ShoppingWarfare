@@ -9,7 +9,6 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.Cate
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -19,7 +18,6 @@ private const val CATEGORY_ID = "categoryId"
 private const val CATEGORY_NAME = "fruits"
 private const val CATEGORY_ITEM_TITLE = "title"
 
-@ExperimentalCoroutinesApi
 class CreateProductTest {
 
     private val validateProduct: ValidateProduct = mockk()

@@ -5,7 +5,6 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -13,7 +12,6 @@ import org.junit.Test
 
 private const val CART_ITEMS_COUNT = 5
 
-@ExperimentalCoroutinesApi
 class ObserveCartItemsCountTest {
 
     private val cartRepository: CartRepository = mockk()

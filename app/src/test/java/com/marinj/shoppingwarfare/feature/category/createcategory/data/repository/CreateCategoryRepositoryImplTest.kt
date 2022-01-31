@@ -11,12 +11,10 @@ import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class CreateCategoryRepositoryImplTest {
 
     private val categoryDao: CategoryDao = mockk()

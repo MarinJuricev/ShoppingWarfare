@@ -13,13 +13,11 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class CategoryRepositoryImplTest {
 
     private val categoryDao: CategoryDao = mockk()

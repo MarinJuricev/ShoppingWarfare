@@ -14,7 +14,6 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.CategoryDetailRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -23,7 +22,6 @@ import org.junit.Test
 private const val CATEGORY_ID = "categoryId"
 private const val PRODUCT_ID = "productId"
 
-@ExperimentalCoroutinesApi
 class CategoryDetailRepositoryImplTest {
 
     private val productDao: ProductDao = mockk()

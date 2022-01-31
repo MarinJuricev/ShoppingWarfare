@@ -15,15 +15,12 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryDetai
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 private const val SEARCH_TEXT = "search"
-
-@ExperimentalCoroutinesApi
 
 class TopBarViewModelTest {
 

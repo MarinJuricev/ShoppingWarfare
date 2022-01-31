@@ -17,13 +17,11 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class CreateCategoryViewModelTest {
 
     @get:Rule

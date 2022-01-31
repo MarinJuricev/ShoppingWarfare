@@ -5,14 +5,12 @@ import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.CategoryDetailRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
 private const val PRODUCT_ID = "productId"
 
-@ExperimentalCoroutinesApi
 class DeleteProductTest {
 
     private val categoryDetailRepository: CategoryDetailRepository = mockk()

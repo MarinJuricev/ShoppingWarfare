@@ -7,7 +7,6 @@ import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObserving
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCount
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -16,7 +15,6 @@ import org.junit.Test
 
 private const val NUMBER_OF_CART_ITEMS = 5
 
-@ExperimentalCoroutinesApi
 class BadgeViewModelTest {
 
     @get:Rule

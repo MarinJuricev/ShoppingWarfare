@@ -6,13 +6,11 @@ import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class ObserveCartItemsTest {
 
     private val cartRepository: CartRepository = mockk()

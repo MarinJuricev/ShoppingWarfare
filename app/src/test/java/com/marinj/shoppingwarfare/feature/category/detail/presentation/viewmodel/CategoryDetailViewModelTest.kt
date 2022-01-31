@@ -24,7 +24,6 @@ import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.Cat
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -36,7 +35,6 @@ private const val CATEGORY_NAME = "fruits"
 private const val PRODUCT_NAME = "product"
 private const val PRODUCT_ID = "productId"
 
-@ExperimentalCoroutinesApi
 class CategoryDetailViewModelTest {
 
     @get:Rule

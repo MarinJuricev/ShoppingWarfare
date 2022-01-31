@@ -18,7 +18,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -27,7 +26,6 @@ import org.junit.Test
 
 private const val ID = "id"
 
-@ExperimentalCoroutinesApi
 class HistoryViewModelTest {
 
     @get:Rule

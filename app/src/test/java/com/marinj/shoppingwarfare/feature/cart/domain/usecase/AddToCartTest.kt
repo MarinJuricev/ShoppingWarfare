@@ -9,7 +9,6 @@ import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -20,7 +19,6 @@ private const val CATEGORY_NAME = "fruits"
 private const val QUANTITY = 1
 private const val UPDATED_QUANTITY = 2
 
-@ExperimentalCoroutinesApi
 class AddToCartTest {
 
     private val cartRepository: CartRepository = mockk()

@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
 
@@ -13,7 +12,6 @@ private const val TITLE = "title"
 private const val BACKGROUND_COLOR = 0
 private const val TITLE_COLOR = 1
 
-@ExperimentalCoroutinesApi
 class LocalToDomainCategoryMapperTest {
 
     private lateinit var sut: LocalToDomainCategoryMapper

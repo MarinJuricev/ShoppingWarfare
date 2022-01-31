@@ -15,7 +15,6 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.mapper.Histo
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -23,7 +22,6 @@ import org.junit.Test
 
 private const val HISTORY_ITEM_ID = "historyItemId"
 
-@ExperimentalCoroutinesApi
 class HistoryDetailViewModelTest {
 
     @get:Rule

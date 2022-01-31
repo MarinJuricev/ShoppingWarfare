@@ -5,7 +5,6 @@ import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -22,7 +21,6 @@ private const val CART_NAME = "cartName"
 private val uuidGenerator = { UUID }
 private val timeStampGenerator = { TIMESTAMP }
 
-@ExperimentalCoroutinesApi
 class CartDataToHistoryItemMapperTest {
 
     private lateinit var sut: CartDataToHistoryItemMapper

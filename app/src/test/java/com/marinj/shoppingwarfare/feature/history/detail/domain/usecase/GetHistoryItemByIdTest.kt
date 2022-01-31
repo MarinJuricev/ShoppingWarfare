@@ -6,14 +6,12 @@ import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
 private const val HISTORY_ITEM_ID = "historyItemId"
 
-@ExperimentalCoroutinesApi
 class GetHistoryItemByIdTest {
 
     private val historyRepository: HistoryRepository = mockk()

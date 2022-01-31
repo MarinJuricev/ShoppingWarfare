@@ -11,7 +11,6 @@ import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -19,7 +18,6 @@ import org.junit.Test
 private const val RECEIPT_PATH = "receiptPath"
 private const val CART_NAME = "cartName"
 
-@ExperimentalCoroutinesApi
 class CheckoutCartTest {
 
     private val validateCartName: ValidateCartName = mockk()

@@ -8,14 +8,12 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.domain.reposit
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
 private const val ID = "id"
 
-@ExperimentalCoroutinesApi
 class CreateCategoryTest {
 
     private val validateCategory: ValidateCategory = mockk()
@@ -60,7 +58,14 @@ class CreateCategoryTest {
                 validateCategory(title, categoryColor, titleColor)
             } coAnswers { success }
             coEvery {
-                createCategoryRepository.createCategory(Category(ID, title, categoryColor, titleColor))
+                createCategoryRepository.createCategory(
+                    Category(
+                        ID,
+                        title,
+                        categoryColor,
+                        titleColor
+                    )
+                )
             } coAnswers { success }
 
             val actualResult = sut(title, categoryColor, titleColor)
