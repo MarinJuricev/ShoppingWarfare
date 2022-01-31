@@ -36,6 +36,12 @@ class CartRepositoryImpl @Inject constructor(
     ): Either<Failure, Unit> =
         cartDao.updateCartItemQuantity(cartItemId, newQuantity).buildRight()
 
+    override suspend fun updateCartItemIsInBasket(
+        cartItemId: String,
+        updatedIsInBasket: Boolean,
+    ): Either<Failure, Unit> =
+        cartDao.updateCartItemIsInBasket(cartItemId, updatedIsInBasket).buildRight()
+
     override suspend fun upsertCartItem(cartItem: CartItem): Either<Failure, Unit> {
         val localCartItem = domainToLocalCartItemMapper.map(cartItem)
         return when (cartDao.upsertCartItem(localCartItem)) {

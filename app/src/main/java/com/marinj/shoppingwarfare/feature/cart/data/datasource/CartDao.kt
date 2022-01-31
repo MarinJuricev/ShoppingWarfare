@@ -19,6 +19,9 @@ interface CartDao {
     @Query("UPDATE localCartItem SET quantity = :newQuantity WHERE cartItemId =:id")
     suspend fun updateCartItemQuantity(id: String, newQuantity: Int)
 
+    @Query("UPDATE localCartItem SET isInBasket = :updatedIsInBasket WHERE cartItemId =:id")
+    suspend fun updateCartItemIsInBasket(id: String, updatedIsInBasket: Boolean)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertCartItem(entity: LocalCartItem): Long
 

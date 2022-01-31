@@ -14,7 +14,6 @@ import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -23,8 +22,8 @@ import org.junit.Test
 private const val CART_ITEM_NAME = "cartItemName"
 private const val CART_ID = "cartId"
 private const val NEW_QUANTITY = 5
+private const val NEW_UPDATED_IN_BASKET = true
 
-@ExperimentalCoroutinesApi
 class CartRepositoryImplTest {
 
     private val cartDao: CartDao = mockk()
@@ -186,6 +185,21 @@ class CartRepositoryImplTest {
             } coAnswers { daoResult }
 
             val result = sut.updateCartItemQuantity(CART_ID, NEW_QUANTITY)
+            val expectedResult = daoResult.buildRight()
+
+            assertThat(result).isEqualTo(expectedResult)
+        }
+
+    @Suppress("UNUSED_EXPRESSION")
+    @Test
+    fun `updateCartItemIsInBasket should return result from categoryDao updateCartItemIsInBasket`() =
+        runTest {
+            val daoResult = Unit
+            coEvery {
+                cartDao.updateCartItemIsInBasket(CART_ID, NEW_UPDATED_IN_BASKET)
+            } coAnswers { daoResult }
+
+            val result = sut.updateCartItemIsInBasket(CART_ID, NEW_UPDATED_IN_BASKET)
             val expectedResult = daoResult.buildRight()
 
             assertThat(result).isEqualTo(expectedResult)

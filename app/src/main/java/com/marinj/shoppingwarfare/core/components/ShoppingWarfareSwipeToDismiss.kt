@@ -1,6 +1,8 @@
 package com.marinj.shoppingwarfare.core.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -13,6 +15,7 @@ import androidx.compose.material.DismissDirection.StartToEnd
 import androidx.compose.material.DismissValue
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -20,6 +23,9 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -36,12 +42,18 @@ fun ShoppingWarfareSwipeToDismiss(
     rightIcon: ImageVector = Icons.Default.Delete,
     foregroundContent: @Composable () -> Unit,
 ) {
+    // Not ideal we'd like to have this state hoisted, but the problem in a LazyColumn is
+    // that the item gets recomposed right away after we change it and we don't get the "nice"
+    // animation... so this is a design tradeoff for a "nice" animation.
+    var swipedLeft by rememberSaveable { mutableStateOf(false) }
+
     // https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#swipetodismiss
     val dismissState = rememberDismissState(
         confirmStateChange = { dismissValue ->
             if (dismissValue == DismissValue.DismissedToStart) {
                 onRightSwipe()
             } else if (dismissValue == DismissValue.DismissedToEnd) {
+                swipedLeft = !swipedLeft
                 onLeftSwipe?.invoke()
             }
             dismissValue != DismissValue.DismissedToEnd
@@ -89,11 +101,23 @@ fun ShoppingWarfareSwipeToDismiss(
             }
         },
         dismissContent = {
+            val backgroundColor by animateColorAsState(
+                when (swipedLeft && dismissState.targetValue == DismissValue.Default) {
+                    true -> Color.Green
+                    false -> MaterialTheme.colors.surface
+                },
+                animationSpec = SpringSpec(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow,
+                ),
+            )
+
             Card(
                 modifier = modifier,
                 elevation = animateDpAsState(
                     if (dismissState.dismissDirection != null) 4.dp else 2.dp
-                ).value
+                ).value,
+                backgroundColor = backgroundColor,
             ) {
                 foregroundContent()
             }

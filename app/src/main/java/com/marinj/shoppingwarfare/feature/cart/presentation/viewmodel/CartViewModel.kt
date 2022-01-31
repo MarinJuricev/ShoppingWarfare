@@ -9,6 +9,7 @@ import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsInBasket
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemToUiCartItemMapper
@@ -48,6 +49,7 @@ class CartViewModel @Inject constructor(
     private val observeCartItems: ObserveCartItems,
     private val deleteCartItem: DeleteCartItem,
     private val updateCartItemQuantity: UpdateCartItemQuantity,
+    private val updateCartItemIsInBasket: UpdateCartItemIsInBasket,
     private val checkoutCart: CheckoutCart,
     private val validateReceiptPath: ValidateReceiptPath,
     private val failureToStringMapper: FailureToStringMapper,
@@ -150,7 +152,13 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    private fun handleItemAddedToBasket(cartItem: UiCartItem.Content) {
+    private fun handleItemAddedToBasket(
+        uiCartItem: UiCartItem.Content,
+    ) = viewModelScope.launch {
+        when (updateCartItemIsInBasket(uiCartItem.id, !uiCartItem.isInBasket)) {
+            is Right -> Timber.d("${uiCartItem.name} successfully updated with ${!uiCartItem.isInBasket} isInBasket status")
+            is Left -> _viewEffect.send(Error("Failed to update ${uiCartItem.name}, please try again later"))
+        }
     }
 
     private fun updateIsLoading(isLoading: Boolean) {

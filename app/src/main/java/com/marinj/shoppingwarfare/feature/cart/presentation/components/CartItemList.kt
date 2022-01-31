@@ -15,10 +15,14 @@ fun CartItemList(
     LazyColumn {
         uiCartItems.fastForEach { uiCartItem ->
             when (uiCartItem) {
-                is UiCartItem.Header -> stickyHeader {
+                is UiCartItem.Header -> stickyHeader(
+                    key = uiCartItem.categoryName
+                ) {
                     CartHeader(uiCartItem.categoryName)
                 }
-                is UiCartItem.Content -> item(uiCartItem.id) {
+                is UiCartItem.Content -> item(
+                    key = uiCartItem.id
+                ) {
                     CartItemCard(
                         uiCartItem,
                         onCartEvent,

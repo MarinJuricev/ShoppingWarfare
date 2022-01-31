@@ -18,6 +18,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartDescr
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.QuantityPicker
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.DeleteCartItem
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ItemAddedToBasket
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 
 @Composable
@@ -31,7 +32,7 @@ fun CartItemCard(
             .padding(horizontal = 8.dp),
         onRightSwipe = { onCartEvent(DeleteCartItem(cartItem)) },
         leftIcon = Icons.Default.ShoppingCart,
-        onLeftSwipe = { onCartEvent(CartEvent.ItemAddedToBasket(cartItem)) },
+        onLeftSwipe = { onCartEvent(ItemAddedToBasket(cartItem)) },
     ) {
         ConstraintLayout(
             modifier = Modifier.padding(16.dp),

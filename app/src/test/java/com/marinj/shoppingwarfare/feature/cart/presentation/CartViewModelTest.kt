@@ -11,6 +11,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsInBasket
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemToUiCartItemMapper
@@ -35,6 +36,7 @@ import org.junit.Test
 private const val ID = "id"
 private const val NAME = "name"
 private const val ERROR_MESSAGE = "errorMessage"
+private const val IS_IN_BASKET = true
 
 class CartViewModelTest {
 
@@ -49,6 +51,7 @@ class CartViewModelTest {
     private val cartItemToUiCartItemMapper: CartItemToUiCartItemMapper = mockk()
     private val uiCartItemToCartItemMapper: UiCartItemToCartItemMapper = mockk()
     private val failureToStringMapper: FailureToStringMapper = mockk()
+    private val updateCartItemIsInBasket: UpdateCartItemIsInBasket = mockk()
 
     private lateinit var sut: CartViewModel
 
@@ -58,6 +61,7 @@ class CartViewModelTest {
             observeCartItems = observeCartItems,
             deleteCartItem = deleteCartItem,
             updateCartItemQuantity = updateCartItemQuantity,
+            updateCartItemIsInBasket = updateCartItemIsInBasket,
             checkoutCart = checkoutCart,
             validateReceiptPath = validateReceiptPath,
             cartItemToUiCartItemMapper = cartItemToUiCartItemMapper,
@@ -294,4 +298,55 @@ class CartViewModelTest {
             assertThat(awaitItem().cartName).isEqualTo(newCartName)
         }
     }
+
+    @Test
+    fun `should not update viewEffect when ItemAddedToBasket is provided and updateCartItemIsInBasket returns Right`() =
+        runTest {
+            val cartItem = mockk<UiCartItem.Content>().apply {
+                every { id } answers { ID }
+                every { isInBasket } answers { IS_IN_BASKET }
+            }
+            coEvery {
+                updateCartItemIsInBasket(
+                    cartItemId = ID,
+                    updatedIsInBasket = !IS_IN_BASKET,
+                )
+            } coAnswers { Unit.buildRight() }
+
+            sut.onEvent(
+                CartEvent.ItemAddedToBasket(
+                    cartItem = cartItem,
+                )
+            )
+
+            sut.viewEffect.test {
+                expectNoEvents()
+            }
+        }
+
+    @Test
+    fun `should update viewEffect with Error when ItemAddedToBasket is provided and updateCartItemIsInBasket returns Left`() =
+        runTest {
+            val cartItem = mockk<UiCartItem.Content>().apply {
+                every { id } answers { ID }
+                every { name } answers { NAME }
+                every { isInBasket } answers { IS_IN_BASKET }
+            }
+            coEvery {
+                updateCartItemIsInBasket(
+                    cartItemId = ID,
+                    updatedIsInBasket = !IS_IN_BASKET
+                )
+            } coAnswers { Failure.Unknown.buildLeft() }
+
+            sut.onEvent(
+                CartEvent.ItemAddedToBasket(
+                    cartItem = cartItem,
+                )
+            )
+
+            sut.viewEffect.test {
+                assertThat(awaitItem()).isEqualTo(Error("Failed to update $NAME, please try again later"))
+            }
+        }
 }
