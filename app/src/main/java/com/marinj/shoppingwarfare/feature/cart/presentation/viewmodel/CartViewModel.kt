@@ -17,6 +17,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.UiCartItemToC
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartNameUpdated
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartTabPositionUpdated
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CheckoutClicked
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ItemAddedToBasket
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
@@ -80,6 +81,7 @@ class CartViewModel @Inject constructor(
             is ReceiptCaptureSuccess -> handleReceiptCaptureSuccess(event.receiptPath)
             is CartNameUpdated -> handleCartNameUpdated(event.updatedCartName)
             is ItemAddedToBasket -> handleItemAddedToBasket(event.cartItem)
+            is CartTabPositionUpdated -> handleCartTabPositionUpdated(event.updatedCartTabPosition)
         }
     }
 
@@ -158,6 +160,12 @@ class CartViewModel @Inject constructor(
         when (updateCartItemIsInBasket(uiCartItem.id, !uiCartItem.isInBasket)) {
             is Right -> Timber.d("${uiCartItem.name} successfully updated with ${!uiCartItem.isInBasket} isInBasket status")
             is Left -> _viewEffect.send(Error("Failed to update ${uiCartItem.name}, please try again later"))
+        }
+    }
+
+    private fun handleCartTabPositionUpdated(updatedCartTabPosition: Int) {
+        _viewState.update { viewState ->
+            viewState.copy(selectedTabPosition = updatedCartTabPosition)
         }
     }
 

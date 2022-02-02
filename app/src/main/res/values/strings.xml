@@ -35,6 +35,8 @@
     <string name="cart_item_deleted">%s successfully deleted from cart</string>
     <string name="create_product">Create Product</string>
     <string name="checkout">Checkout</string>
+    <string name="pending_tab">Pending</string>
+    <string name="approved_tab">Approved</string>
 
     <!-- Cart -->
     <string name="cart">Cart</string>

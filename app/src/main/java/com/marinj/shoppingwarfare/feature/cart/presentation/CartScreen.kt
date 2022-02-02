@@ -29,6 +29,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCameraPermission
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCheckoutInfo
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
+import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartTabs
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
@@ -90,6 +91,11 @@ fun CartScreen(
         sheetPeekHeight = 0.dp,
     ) {
         Column {
+            CartTabs(
+                selectedTabPosition = viewState.selectedTabPosition,
+                cartTabs = viewState.cartTabs,
+                onCartEvent = cartViewModel::onEvent,
+            )
             Box(
                 modifier = Modifier
                     .fillMaxHeight(0.8f)

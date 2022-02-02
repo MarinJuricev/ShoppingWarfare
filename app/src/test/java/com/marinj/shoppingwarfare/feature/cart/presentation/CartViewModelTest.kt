@@ -349,4 +349,15 @@ class CartViewModelTest {
                 assertThat(awaitItem()).isEqualTo(Error("Failed to update $NAME, please try again later"))
             }
         }
+
+    @Test
+    fun `should update viewState when CartTabPositionUpdated is provided`() = runTest {
+        val newCartTabPosition = 1
+
+        sut.onEvent(CartEvent.CartTabPositionUpdated(newCartTabPosition))
+
+        sut.viewState.test {
+            assertThat(awaitItem().selectedTabPosition).isEqualTo(newCartTabPosition)
+        }
+    }
 }
