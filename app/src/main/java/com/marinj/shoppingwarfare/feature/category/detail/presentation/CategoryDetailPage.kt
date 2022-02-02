@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 const val CATEGORY_NAME = "categoryName"
 
 @Composable
-fun CategoryDetailPage(
+fun CategoryDetailScreen(
     categoryId: String,
     categoryName: String,
     setupTopBar: (TopBarEvent) -> Unit,

@@ -24,7 +24,7 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.model.Histor
 import com.marinj.shoppingwarfare.feature.history.list.presentation.viewmodel.HistoryViewModel
 
 @Composable
-fun HistoryPage(
+fun HistoryScreen(
     setupTopBar: (TopBarEvent) -> Unit,
     historyViewModel: HistoryViewModel = hiltViewModel()
 ) {

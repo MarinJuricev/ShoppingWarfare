@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.collect
 const val CREATE_CATEGORY_ROUTE = "createCategory"
 
 @Composable
-fun CreateCategoryPage(
+fun CreateCategoryScreen(
     navigateBack: () -> Unit,
     setupTopBar: (TopBarEvent) -> Unit,
     createCategoryViewModel: CreateCategoryViewModel = hiltViewModel(),

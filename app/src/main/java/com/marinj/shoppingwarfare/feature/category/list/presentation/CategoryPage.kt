@@ -30,7 +30,7 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.C
 import kotlinx.coroutines.flow.collect
 
 @Composable
-fun CategoryPage(
+fun CategoryScreen(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
     setupTopBar: (TopBarEvent) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),

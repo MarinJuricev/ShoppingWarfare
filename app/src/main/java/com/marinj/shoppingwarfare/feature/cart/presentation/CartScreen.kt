@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @Composable
-fun CartPage(
+fun CartScreen(
     cartViewModel: CartViewModel = hiltViewModel(),
     setupTopBar: (TopBarEvent) -> Unit,
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),

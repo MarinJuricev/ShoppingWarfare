@@ -24,7 +24,7 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHist
 import kotlinx.coroutines.flow.collect
 
 @Composable
-fun HistoryDetailPage(
+fun HistoryDetailScreen(
     historyItemId: String,
     setupTopBar: (TopBarEvent) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),

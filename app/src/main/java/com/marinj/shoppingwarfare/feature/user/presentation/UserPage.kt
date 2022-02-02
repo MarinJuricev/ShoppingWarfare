@@ -19,7 +19,7 @@ import com.marinj.shoppingwarfare.feature.user.presentation.viewmodel.UserViewMo
 val LocalUserEvents: ProvidableCompositionLocal<((UserEvent) -> Unit)?> = compositionLocalOf { null }
 
 @Composable
-fun UserPage(
+fun UserScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     setupTopBar: (TopBarEvent) -> Unit,
 ) {

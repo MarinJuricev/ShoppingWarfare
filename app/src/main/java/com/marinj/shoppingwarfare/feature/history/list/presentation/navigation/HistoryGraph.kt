@@ -4,10 +4,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
-import com.marinj.shoppingwarfare.feature.history.detail.presentation.HistoryDetailPage
+import com.marinj.shoppingwarfare.feature.history.detail.presentation.HistoryDetailScreen
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.navigation.HISTORY_ID_PARAM
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.navigation.HistoryDetailNavigation
-import com.marinj.shoppingwarfare.feature.history.list.presentation.HistoryPage
+import com.marinj.shoppingwarfare.feature.history.list.presentation.HistoryScreen
 
 const val HISTORY_ROOT = "historyRoot"
 
@@ -19,7 +19,7 @@ fun NavGraphBuilder.buildHistoryGraph(
         route = HISTORY_ROOT,
     ) {
         composable(route = HistoryDestination.route()) {
-            HistoryPage(
+            HistoryScreen(
                 setupTopBar = sendTopBar,
             )
         }
@@ -30,7 +30,7 @@ fun NavGraphBuilder.buildHistoryGraph(
             val historyItemId = backStackEntry.arguments?.getString(HISTORY_ID_PARAM)
                 ?: error("$HISTORY_ID_PARAM was not provided to historyDetailRoute")
 
-            HistoryDetailPage(
+            HistoryDetailScreen(
                 historyItemId = historyItemId,
                 setupTopBar = sendTopBar,
             )
