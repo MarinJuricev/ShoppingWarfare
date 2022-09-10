@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdk 31
-    buildToolsVersion "31"
+    compileSdk 33
+    buildToolsVersion "33"
 
     defaultConfig {
         applicationId "com.marinj.shoppingwarfare"
         minSdk 23
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -34,13 +34,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        useIR = true
     }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion compose_compiler_version
     }
 }
 
