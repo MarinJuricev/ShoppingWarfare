@@ -17,7 +17,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
 import java.io.File
@@ -57,14 +59,14 @@ private fun rememberHistoryDetailInfoPainter(
     uiHistoryItem: UiHistoryItem,
 ): Painter {
     return if (uiHistoryItem.receiptPath != null) {
-        rememberImagePainter(
+        rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current).data(
             data = File(
                 context.filesDir,
                 uiHistoryItem.receiptPath,
-            ),
-            builder = {
-                crossfade(true)
-            }
+            )
+        ).apply(block = fun ImageRequest.Builder.() {
+            crossfade(true)
+        }).build()
         )
     } else {
         painterResource(

@@ -2,9 +2,9 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,7 +16,7 @@ fun CategoryGrid(
     categoryList: List<UiCategory>,
     onCategoryEvent: (CategoryEvent) -> Unit,
 ) {
-    LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(categoryList) { uiCategory ->
             CategoryCard(
                 modifier = Modifier

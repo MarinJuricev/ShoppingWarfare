@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +35,7 @@ fun ColorPicker(
         Text(title, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.padding(vertical = 4.dp))
         LazyVerticalGrid(
-            cells = GridCells.Adaptive(36.dp)
+            columns = GridCells.Adaptive(36.dp)
         ) {
             itemsIndexed(colors) { index, newColor ->
                 Box(

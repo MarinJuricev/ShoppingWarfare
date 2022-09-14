@@ -19,7 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.PermissionStatus.*
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 
@@ -28,11 +31,8 @@ fun CartCameraPermission(
     onCartEvent: (CartEvent) -> Unit,
     navigateToSettingsScreen: () -> Unit,
 ) {
-    // Track if the user doesn't want to see the rationale any more.
-    var doNotShowRationale by rememberSaveable { mutableStateOf(false) }
-
     // Camera permission state
-    val cameraPermissionState = rememberPermissionState(
+    val cameraPermissionState: PermissionState = rememberPermissionState(
         android.Manifest.permission.CAMERA
     )
 
@@ -43,33 +43,22 @@ fun CartCameraPermission(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        when {
-            cameraPermissionState.hasPermission -> CartCameraPreview(onCartEvent = onCartEvent)
-            cameraPermissionState.shouldShowRationale || !cameraPermissionState.permissionRequested -> {
-                if (doNotShowRationale) {
-                    Text(text = stringResource(string.feature_not_available))
-                } else {
+        when (cameraPermissionState.status) {
+            Granted -> CartCameraPreview(onCartEvent = onCartEvent)
+            is Denied -> {
+                if (cameraPermissionState.status.shouldShowRationale) {
                     Text(text = stringResource(string.cart_camera_permission_reasoning))
                     Spacer(modifier = Modifier.height(8.dp))
-                    Row {
-                        Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
-                            Text(stringResource(string.request_permission))
-                        }
-                        Spacer(Modifier.width(8.dp))
-                        Button(onClick = { doNotShowRationale = true }) {
-                            Text(stringResource(string.do_not_show_rationale))
-                        }
+                    Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
+                        Text(stringResource(string.request_permission))
                     }
-                }
-            }
-            // If the criteria above hasn't been met, the user denied the permission. Let's present
-            // the user with a FAQ in case they want to know more and send them to the Settings screen
-            // to enable it the future there if they want to.
-            else -> {
-                Text(text = stringResource(string.camera_permission_denied))
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = navigateToSettingsScreen) {
-                    Text(text = stringResource(string.open_settings))
+                } else {
+                    Text(text = stringResource(string.camera_permission_denied))
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = navigateToSettingsScreen) {
+                        Text(text = stringResource(string.open_settings))
+                    }
+
                 }
             }
         }
