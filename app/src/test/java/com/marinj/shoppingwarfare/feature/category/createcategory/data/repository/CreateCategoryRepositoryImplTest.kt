@@ -5,7 +5,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.createcategory.domain.repository.CreateCategoryRepository
-import com.marinj.shoppingwarfare.feature.category.list.data.datasource.CategoryDao
+import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.mapper.DomainToLocalCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category

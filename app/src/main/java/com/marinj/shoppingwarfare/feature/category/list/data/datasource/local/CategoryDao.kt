@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.feature.category.list.data.datasource
+package com.marinj.shoppingwarfare.feature.category.list.data.datasource.local
 
 import androidx.room.Dao
 import androidx.room.Insert
