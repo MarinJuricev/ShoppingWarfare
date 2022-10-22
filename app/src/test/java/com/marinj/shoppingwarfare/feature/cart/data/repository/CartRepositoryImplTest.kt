@@ -9,6 +9,7 @@ import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
 import com.marinj.shoppingwarfare.feature.cart.data.mapper.DomainToLocalCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.data.mapper.LocalToDomainCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
+import com.marinj.shoppingwarfare.feature.cart.data.remote.CartApi
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
@@ -27,6 +28,7 @@ private const val NEW_UPDATED_IN_BASKET = true
 class CartRepositoryImplTest {
 
     private val cartDao: CartDao = mockk()
+    private val cartApi: CartApi = mockk()
     private val localToDomainCartItemMapper: LocalToDomainCartItemMapper = mockk()
     private val domainToLocalCartItemMapper: DomainToLocalCartItemMapper = mockk()
 
@@ -35,6 +37,7 @@ class CartRepositoryImplTest {
     @Before
     fun setUp() {
         sut = CartRepositoryImpl(
+            cartApi,
             cartDao,
             localToDomainCartItemMapper,
             domainToLocalCartItemMapper,
