@@ -20,7 +20,7 @@ buildscript {
         junit_version = '4.13.2'
         accompanist_navigation_animation_version = '0.26.3-beta'
         accompanist_permission_version = '0.26.3-beta'
-        moshi_version = '1.13.0'
+        kotlinx_serialization_version = '1.4.1'
         turbine_version = '0.7.0'
         core_splash_version = '1.0.0'
         timber_version = '5.0.1'

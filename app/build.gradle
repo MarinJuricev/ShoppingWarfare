@@ -4,6 +4,7 @@ plugins {
     id "org.jetbrains.kotlin.kapt"
     id "dagger.hilt.android.plugin"
     id 'com.google.gms.google-services'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.20'
 }
 
 android {
@@ -73,8 +74,6 @@ dependencies {
 
     implementation "androidx.constraintlayout:constraintlayout-compose:$compose_constraint_layout_version"
 
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-
     implementation "androidx.core:core-splashscreen:$core_splash_version"
 
     implementation "com.jakewharton.timber:timber:$timber_version"
@@ -90,6 +89,8 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:$firebase_version")
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "io.mockk:mockk:$mockk_version"
