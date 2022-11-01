@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.core.di
 
 import android.content.Context
 import androidx.room.Room
+import com.marinj.shoppingwarfare.core.data.ShoppingWarfareDatabase
 import com.marinj.shoppingwarfare.core.data.ShoppingWarfareRoomDatabase
 import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDaoTypeConverters
 import dagger.Module
@@ -13,10 +14,10 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object RoomDatabaseModule {
+object LocalModule {
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context,
         historyDaoTypeConverters: HistoryDaoTypeConverters,
@@ -29,4 +30,10 @@ object RoomDatabaseModule {
 
         return builder.build()
     }
+
+    @Provides
+    @Singleton
+    fun provideShoppingWarfareDatabase(
+        database: ShoppingWarfareRoomDatabase
+    ): ShoppingWarfareDatabase = database
 }
