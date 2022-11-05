@@ -1,12 +1,11 @@
 package com.marinj.shoppingwarfare.core.di
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -19,7 +18,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideMoshi(): Moshi = Moshi.Builder()
-        .addLast(KotlinJsonAdapterFactory())
-        .build()
+    fun provideJson(): Json = Json {
+        isLenient = true
+        ignoreUnknownKeys = true
+    }
+
 }
