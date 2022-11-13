@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.core.data
 
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -20,20 +21,32 @@ class JsonConverter @Inject constructor(
 
     inline fun <reified T> decode(
         origin: Map<String, Any>,
-    ): T = origin.toJsonElement().let {
-        json.decodeFromJsonElement(it)
+    ): T? = tryOrNull {
+        origin.toJsonElement().let {
+            json.decodeFromJsonElement(it)
+        }
     }
 
     inline fun <reified T> decode(
         origin: List<Any>,
-    ): T = origin.toJsonElement().let {
-        json.decodeFromJsonElement(it)
+    ): T? = tryOrNull {
+        origin.toJsonElement().let {
+            json.decodeFromJsonElement(it)
+        }
     }
 
     inline fun <reified T> decode(
         origin: String,
-    ): T = origin.toJsonElement().let {
-        json.decodeFromJsonElement(it)
+    ): T? = tryOrNull {
+        json.decodeFromString(origin)
+    }
+
+    inline fun <reified T> tryOrNull(
+        action: () -> T
+    ): T? = try {
+        action()
+    } catch (e: Throwable) {
+        null
     }
 
     inline fun <reified T> toJson(
@@ -58,6 +71,10 @@ class JsonConverter @Inject constructor(
         null -> JsonNull
         is Map<*, *> -> toJsonElement()
         is Collection<*> -> toJsonElement()
-        else -> JsonPrimitive(toString())
+        is Boolean -> JsonPrimitive(this)
+        is Number -> JsonPrimitive(this)
+        is String -> JsonPrimitive(this)
+        is Enum<*> -> JsonPrimitive(this.toString())
+        else -> throw IllegalStateException("Can't serialize unknown collection type: $this")
     }
 }

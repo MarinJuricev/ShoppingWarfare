@@ -2,35 +2,22 @@ package com.marinj.shoppingwarfare.feature.history.list.data.datasource
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
+import com.marinj.shoppingwarfare.core.data.JsonConverter
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import javax.inject.Inject
 
 @ProvidedTypeConverter
 class HistoryDaoTypeConverters @Inject constructor(
-    private val moshi: Moshi
+    private val json: JsonConverter
 ) {
 
     @TypeConverter
     fun fromHistoryCartItemsToString(
         value: List<HistoryCartItem>,
-    ): String {
-        val type = Types.newParameterizedType(
-            List::class.java,
-            HistoryCartItem::class.java
-        )
-        val jsonAdapter = moshi.adapter<List<HistoryCartItem>>(type)
-        return jsonAdapter.toJson(value)
-    }
+    ): String = json.toJson(value)
 
     @TypeConverter
-    fun fromStringToHistoryCartItems(value: String): List<HistoryCartItem> {
-        val listMyData = Types.newParameterizedType(
-            List::class.java,
-            HistoryCartItem::class.java
-        )
-        val jsonAdapter = moshi.adapter<List<HistoryCartItem>>(listMyData)
-        return jsonAdapter.fromJson(value) ?: emptyList()
-    }
+    fun fromStringToHistoryCartItems(
+        value: String
+    ) = json.decode<List<HistoryCartItem>>(value)
 }
