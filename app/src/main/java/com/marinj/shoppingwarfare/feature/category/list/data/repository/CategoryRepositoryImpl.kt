@@ -5,6 +5,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
+import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
 import com.marinj.shoppingwarfare.feature.category.list.data.mapper.DomainToLocalCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.data.mapper.LocalToDomainCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
     private val categoryDao: CategoryDao,
+    private val categoryApi: CategoryApi,
     private val localToDomainCategoryMapper: LocalToDomainCategoryMapper,
     private val domainToLocalCategoryMapper: DomainToLocalCategoryMapper,
 ) : CategoryRepository {

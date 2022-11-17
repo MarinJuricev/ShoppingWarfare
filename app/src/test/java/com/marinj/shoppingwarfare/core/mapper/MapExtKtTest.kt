@@ -1,6 +1,9 @@
 package com.marinj.shoppingwarfare.core.mapper
 
 import com.google.common.truth.Truth.assertThat
+import com.marinj.shoppingwarfare.core.ext.getOrEmpty
+import com.marinj.shoppingwarfare.core.ext.getOrFalse
+import com.marinj.shoppingwarfare.core.ext.getOrZero
 import org.junit.Test
 
 class MapExtKtTest {

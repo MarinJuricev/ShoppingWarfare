@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.core.mapper
+package com.marinj.shoppingwarfare.core.ext
 
 fun Map<String, Any>.getOrEmpty(
     key: String
