@@ -20,7 +20,7 @@ class JsonConverter @Inject constructor(
 ) {
 
     inline fun <reified T> decode(
-        origin: Map<String, Any>,
+        origin: Map<String, Any?>,
     ): T? = tryOrNull {
         origin.toJsonElement().let {
             json.decodeFromJsonElement(it)

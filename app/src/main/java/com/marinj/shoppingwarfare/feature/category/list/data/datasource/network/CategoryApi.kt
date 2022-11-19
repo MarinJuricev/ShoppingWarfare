@@ -1,11 +1,13 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.datasource.network
 
-import com.marinj.shoppingwarfare.feature.cart.data.model.RemoteCartItem
+import com.marinj.shoppingwarfare.core.exception.SHWException
+import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategoryItem
 import kotlinx.coroutines.flow.Flow
 
 interface CategoryApi {
 
-    fun observeCartItems(): Flow<List<RemoteCartItem>>
+    @Throws(SHWException::class)
+    fun observeCategoryItems(): Flow<List<RemoteCategoryItem>>
 
-    suspend fun addCartItem(cartItem: RemoteCartItem)
+    suspend fun addCategoryItem(cartItem: RemoteCategoryItem)
 }

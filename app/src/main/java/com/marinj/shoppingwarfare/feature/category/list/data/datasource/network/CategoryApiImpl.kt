@@ -2,8 +2,9 @@ package com.marinj.shoppingwarfare.feature.category.list.data.datasource.network
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.marinj.shoppingwarfare.core.data.JsonConverter
-import com.marinj.shoppingwarfare.core.exception.SHWException
-import com.marinj.shoppingwarfare.feature.cart.data.model.RemoteCartItem
+import com.marinj.shoppingwarfare.core.ext.addWarfareSnapshotListener
+import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategoryItem
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
@@ -13,16 +14,19 @@ class CategoryApiImpl @Inject constructor(
     private val jsonConverter: JsonConverter,
 ) : CategoryApi {
 
-    override fun observeCartItems(): Flow<List<RemoteCartItem>> = callbackFlow {
+    override fun observeCategoryItems(): Flow<List<RemoteCategoryItem>> = callbackFlow {
         val subscription = fireStore
             .getCategoryDocument()
-            .addSnapshotListener { value, error ->
-                if(error != null)
-                    throw SHWException(error.message ?: "Unknown Error Occured")
+            .addWarfareSnapshotListener { data ->
+                jsonConverter.decode<RemoteCategoryItem>(data)
             }
+
+        awaitClose {
+            subscription.remove()
+        }
     }
 
-    override suspend fun addCartItem(cartItem: RemoteCartItem) {
+    override suspend fun addCategoryItem(cartItem: RemoteCategoryItem) {
         TODO("Not yet implemented")
     }
 

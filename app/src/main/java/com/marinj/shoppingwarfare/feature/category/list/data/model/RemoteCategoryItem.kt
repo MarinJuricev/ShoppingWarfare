@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 
 @Keep
 @kotlinx.serialization.Serializable
-data class RemoteCategory(
+data class RemoteCategoryItem(
     val categoryId: String,
     val title: String,
     val backgroundColor: Int,
