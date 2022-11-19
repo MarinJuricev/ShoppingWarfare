@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.category.list.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 
 @Entity(tableName = "localCategory")
 data class LocalCategory(
@@ -10,4 +11,11 @@ data class LocalCategory(
     val title: String,
     val backgroundColor: Int,
     val titleColor: Int,
-)
+) {
+    fun toDomain() = Category(
+        categoryId,
+        title,
+        backgroundColor,
+        titleColor,
+    )
+}

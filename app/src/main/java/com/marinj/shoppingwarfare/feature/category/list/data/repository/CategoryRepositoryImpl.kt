@@ -7,7 +7,6 @@ import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
 import com.marinj.shoppingwarfare.feature.category.list.data.mapper.DomainToLocalCategoryMapper
-import com.marinj.shoppingwarfare.feature.category.list.data.mapper.LocalToDomainCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import kotlinx.coroutines.flow.Flow
@@ -17,12 +16,11 @@ import javax.inject.Inject
 class CategoryRepositoryImpl @Inject constructor(
     private val categoryDao: CategoryDao,
     private val categoryApi: CategoryApi,
-    private val localToDomainCategoryMapper: LocalToDomainCategoryMapper,
     private val domainToLocalCategoryMapper: DomainToLocalCategoryMapper,
 ) : CategoryRepository {
     override fun observeCategories(): Flow<List<Category>> =
         categoryDao.observeCategories().map { localCategoryList ->
-            localCategoryList.map { localToDomainCategoryMapper.map(it) }
+            localCategoryList.map { it.toDomain() }
         }
 
     override suspend fun upsertCategory(category: Category): Either<Failure, Unit> {
