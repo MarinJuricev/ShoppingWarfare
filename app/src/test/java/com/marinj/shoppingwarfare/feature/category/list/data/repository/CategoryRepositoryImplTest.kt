@@ -6,6 +6,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
+import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
 import com.marinj.shoppingwarfare.feature.category.list.data.mapper.DomainToLocalCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
@@ -20,7 +21,7 @@ import org.junit.Test
 class CategoryRepositoryImplTest {
 
     private val categoryDao: CategoryDao = mockk()
-    private val localToDomainCategoryMapper: LocalToDomainCategoryMapper = mockk()
+    private val categoryApi: CategoryApi = mockk()
     private val domainToLocalCategoryMapper: DomainToLocalCategoryMapper = mockk()
 
     private lateinit var sut: CategoryRepository
@@ -29,7 +30,7 @@ class CategoryRepositoryImplTest {
     fun setUp() {
         sut = CategoryRepositoryImpl(
             categoryDao,
-            localToDomainCategoryMapper,
+            categoryApi,
             domainToLocalCategoryMapper,
         )
     }
@@ -40,9 +41,6 @@ class CategoryRepositoryImplTest {
         val categoryList = listOf(category)
         val localCategory = mockk<LocalCategory>()
         val localCategoryList = listOf(localCategory)
-        coEvery {
-            localToDomainCategoryMapper.map(localCategory)
-        } coAnswers { category }
         coEvery {
             categoryDao.observeCategories()
         } coAnswers { flow { emit(localCategoryList) } }

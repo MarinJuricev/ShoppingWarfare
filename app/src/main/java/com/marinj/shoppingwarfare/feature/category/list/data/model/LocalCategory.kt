@@ -19,3 +19,10 @@ data class LocalCategory(
         titleColor,
     )
 }
+
+fun Category.toLocal() = LocalCategory(
+    categoryId = id,
+    title = title,
+    backgroundColor = backgroundColor,
+    titleColor = titleColor,
+)

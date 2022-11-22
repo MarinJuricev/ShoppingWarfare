@@ -1,7 +1,11 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.model
 
 import com.google.common.truth.Truth.assertThat
+import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
+import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Test
 
 class LocalCategoryTest {
@@ -38,6 +42,42 @@ class LocalCategoryTest {
         val localCategory = buildLocalCategory(providedTitleColor = TITLE_COLOR)
 
         val actualResult = localCategory.toDomain()
+
+        assertThat(actualResult.titleColor).isEqualTo(TITLE_COLOR)
+    }
+
+    @Test
+    fun `toLocal should map id`() {
+        val category = buildCategory(providedId = ID)
+
+        val actualResult = category.toLocal()
+
+        assertThat(actualResult.categoryId).isEqualTo(ID)
+    }
+
+    @Test
+    fun `toLocal should map title`() {
+        val category = buildCategory(providedTitle = TITLE)
+
+        val actualResult = category.toLocal()
+
+        assertThat(actualResult.title).isEqualTo(TITLE)
+    }
+
+    @Test
+    fun `toLocal should map backgroundColor`() {
+        val category = buildCategory(providedBackgroundColor = BACKGROUND_COLOR)
+
+        val actualResult = category.toLocal()
+
+        assertThat(actualResult.backgroundColor).isEqualTo(BACKGROUND_COLOR)
+    }
+
+    @Test
+    fun `toLocal should map titleColor`() {
+        val category = buildCategory(providedTitleColor = TITLE_COLOR)
+
+        val actualResult = category.toLocal()
 
         assertThat(actualResult.titleColor).isEqualTo(TITLE_COLOR)
     }

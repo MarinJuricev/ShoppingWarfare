@@ -8,7 +8,9 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.domain.reposit
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.mapper.DomainToLocalCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
+import com.marinj.shoppingwarfare.feature.category.list.data.model.toLocal
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
+import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -18,7 +20,6 @@ import org.junit.Test
 class CreateCategoryRepositoryImplTest {
 
     private val categoryDao: CategoryDao = mockk()
-    private val domainToLocalCategoryMapper: DomainToLocalCategoryMapper = mockk()
 
     private lateinit var sut: CreateCategoryRepository
 
@@ -26,17 +27,13 @@ class CreateCategoryRepositoryImplTest {
     fun setUp() {
         sut = CreateCategoryRepositoryImpl(
             categoryDao,
-            domainToLocalCategoryMapper,
         )
     }
 
     @Test
     fun `createCategory should return Left when categoryDao returns 0L`() = runTest {
-        val category = mockk<Category>()
-        val localCategory = mockk<LocalCategory>()
-        coEvery {
-            domainToLocalCategoryMapper.map(category)
-        } coAnswers { localCategory }
+        val category = buildCategory()
+        val localCategory = category.toLocal()
         coEvery {
             categoryDao.upsertCategory(localCategory)
         } coAnswers { 0L }
@@ -49,11 +46,8 @@ class CreateCategoryRepositoryImplTest {
 
     @Test
     fun `createCategory should return Right when categoryDao returns not 0L`() = runTest {
-        val category = mockk<Category>()
-        val localCategory = mockk<LocalCategory>()
-        coEvery {
-            domainToLocalCategoryMapper.map(category)
-        } coAnswers { localCategory }
+        val category = buildCategory()
+        val localCategory = category.toLocal()
         coEvery {
             categoryDao.upsertCategory(localCategory)
         } coAnswers { 1L }
