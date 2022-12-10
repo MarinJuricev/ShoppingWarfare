@@ -8,7 +8,7 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.Produc
 import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.DomainToLocalCategoryItemMapper
 import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.LocalCategoryProductsListToDomainProductMapper
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
-import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.CategoryDetailRepository
+import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -17,13 +17,13 @@ class CategoryDetailRepositoryImpl @Inject constructor(
     private val productDao: ProductDao,
     private val domainToLocalCategoryItemMapper: DomainToLocalCategoryItemMapper,
     private val localCategoryProductsListToDomainProductMapper: LocalCategoryProductsListToDomainProductMapper,
-) : CategoryDetailRepository {
+) : ProductRepository {
 
-    override fun observeCategoryProducts(categoryId: String): Flow<List<Product>> =
-        productDao.observeProductsForGivenCategoryId(categoryId)
+    override fun observeProducts(productId: String): Flow<List<Product>> =
+        productDao.observeProductsForGivenCategoryId(productId)
             .map { localCategoryProductsListToDomainProductMapper.map(it) }
 
-    override suspend fun upsertCategoryProduct(product: Product): Either<Failure, Unit> {
+    override suspend fun upsertProduct(product: Product): Either<Failure, Unit> {
         val localProduct = domainToLocalCategoryItemMapper.map(product)
         return when (productDao.upsertProduct(localProduct)) {
             0L -> Failure.ErrorMessage("Error while adding new category product").buildLeft()
@@ -31,6 +31,6 @@ class CategoryDetailRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteCategoryProductById(productId: String): Either<Failure, Unit> =
+    override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
         productDao.deleteProductById(productId).buildRight()
 }

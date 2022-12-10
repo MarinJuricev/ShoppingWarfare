@@ -5,8 +5,8 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 
-interface CategoryDetailRepository {
-    fun observeCategoryProducts(categoryId: String): Flow<List<Product>>
-    suspend fun upsertCategoryProduct(product: Product): Either<Failure, Unit>
-    suspend fun deleteCategoryProductById(productId: String): Either<Failure, Unit>
+interface ProductRepository {
+    fun observeProducts(productId: String): Flow<List<Product>>
+    suspend fun upsertProduct(product: Product): Either<Failure, Unit>
+    suspend fun deleteProductById(productId: String): Either<Failure, Unit>
 }

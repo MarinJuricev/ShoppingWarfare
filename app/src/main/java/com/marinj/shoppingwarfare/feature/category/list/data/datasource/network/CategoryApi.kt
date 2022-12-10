@@ -13,5 +13,5 @@ interface CategoryApi {
 
     suspend fun addCategoryItem(categoryItem: RemoteCategoryItem): Either<Failure, Unit>
 
-    suspend fun deleteCategoryItem(categoryItem: RemoteCategoryItem): Either<Failure, Unit>
+    suspend fun deleteCategoryItemById(categoryId: String): Either<Failure, Unit>
 }

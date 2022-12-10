@@ -5,7 +5,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
-import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.CategoryDetailRepository
+import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -22,7 +22,7 @@ class CreateProductTest {
 
     private val validateProduct: ValidateProduct = mockk()
     private val uuidGenerator: () -> String = mockk()
-    private val categoryDetailRepository: CategoryDetailRepository = mockk()
+    private val productRepository: ProductRepository = mockk()
 
     private lateinit var sut: CreateProduct
 
@@ -33,7 +33,7 @@ class CreateProductTest {
         sut = CreateProduct(
             validateProduct,
             uuidGenerator,
-            categoryDetailRepository,
+            productRepository,
         )
     }
 
@@ -64,7 +64,7 @@ class CreateProductTest {
                 validateProduct(CATEGORY_ITEM_TITLE)
             } coAnswers { validatorRight }
             coEvery {
-                categoryDetailRepository.upsertCategoryProduct(categoryItem)
+                productRepository.upsertProduct(categoryItem)
             } coAnswers { repositoryLeft }
 
             val actualResult = sut(
@@ -91,7 +91,7 @@ class CreateProductTest {
                 validateProduct(CATEGORY_ITEM_TITLE)
             } coAnswers { validatorRight }
             coEvery {
-                categoryDetailRepository.upsertCategoryProduct(categoryItem)
+                productRepository.upsertProduct(categoryItem)
             } coAnswers { repositoryRight }
 
             val actualResult = sut(

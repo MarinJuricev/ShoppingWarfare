@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.core.ext
 
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ktx.toObject
 import com.marinj.shoppingwarfare.core.exception.SHWException
 
 fun DocumentReference.addWarfareSnapshotListener(

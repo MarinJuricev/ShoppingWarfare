@@ -2,10 +2,10 @@ package com.marinj.shoppingwarfare.feature.category.list.data.datasource.network
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.marinj.shoppingwarfare.core.data.JsonConverter
-import com.marinj.shoppingwarfare.core.ext.addWarfareSnapshotListener
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
+import com.marinj.shoppingwarfare.core.result.toLeft
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategoryItem
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -21,10 +21,18 @@ class CategoryApiImpl @Inject constructor(
 
     override fun observeCategoryItems(): Flow<List<RemoteCategoryItem>> = callbackFlow {
         val subscription = fireStore
-            .getCategoryDocument()
-            .addWarfareSnapshotListener { data ->
-                jsonConverter.decode<RemoteCategoryItem>(data)
+            .getCategoryCollection()
+            .addSnapshotListener { value, error ->
+                val cities = ArrayList<String>()
+                for (doc in value!!) {
+                    doc.getString("name")?.let {
+                        cities.add(it)
+                    }
+                }
             }
+//            .addWarfareSnapshotListener { data ->
+//                jsonConverter.decode<RemoteCategoryItem>(data)
+//            }
 
         awaitClose {
             subscription.remove()
@@ -35,22 +43,23 @@ class CategoryApiImpl @Inject constructor(
         categoryItem: RemoteCategoryItem
     ) = suspendCancellableCoroutine { continuation ->
         fireStore
-            .getCategoryDocument()
-            .set(categoryItem)
+            .getCategoryCollection()
+            .add(categoryItem)
             .addOnSuccessListener {
                 if (continuation.isActive)
                     continuation.resume(Unit.buildRight())
             }
-            .addOnFailureListener {
-                continuation.resume(Unknown.buildLeft())
+            .addOnFailureListener { exception: Exception ->
+                continuation.resume(exception.toLeft())
             }
     }
 
-    override suspend fun deleteCategoryItem(
-        categoryItem: RemoteCategoryItem
+    override suspend fun deleteCategoryItemById(
+        categoryId: String,
     ) = suspendCancellableCoroutine { continuation ->
         fireStore
-            .getCategoryDocument()
+            .getCategoryCollection()
+            .document()
             .delete()
             .addOnSuccessListener {
                 if (continuation.isActive)
@@ -61,10 +70,9 @@ class CategoryApiImpl @Inject constructor(
             }
     }
 
-    private fun FirebaseFirestore.getCategoryDocument() =
+    private fun FirebaseFirestore.getCategoryCollection() =
         this.collection(CATEGORY_COLLECTION)
-            .document(CATEGORY_DOCUMENT)
+
 }
 
 private const val CATEGORY_COLLECTION = "category"
-private const val CATEGORY_DOCUMENT = "categoryDocument"

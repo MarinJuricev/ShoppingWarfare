@@ -3,7 +3,7 @@ package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
-import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.CategoryDetailRepository
+import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
@@ -15,7 +15,7 @@ private const val CATEGORY_ID = "id"
 
 class ObserveProductsTest {
 
-    private val categoryDetailRepository: CategoryDetailRepository = mockk()
+    private val categoryDetailRepository: ProductRepository = mockk()
 
     private lateinit var sut: ObserveCategoryProducts
 
@@ -35,7 +35,7 @@ class ObserveProductsTest {
                 emit(listOfCategoryItems)
             }
             coEvery {
-                categoryDetailRepository.observeCategoryProducts(CATEGORY_ID)
+                categoryDetailRepository.observeProducts(CATEGORY_ID)
             } coAnswers { categoryItemFlow }
 
             sut(CATEGORY_ID).test {

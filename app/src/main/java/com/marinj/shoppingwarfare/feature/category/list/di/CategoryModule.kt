@@ -9,19 +9,18 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
 
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 @Module
 abstract class CategoryModule {
 
     @Binds
-    @ViewModelScoped
     abstract fun provideCategoryRepository(
         repository: CategoryRepositoryImpl
     ): CategoryRepository
 
     @Binds
-    @ViewModelScoped
     abstract fun provideCategoryApi(
         categoryApiImpl: CategoryApiImpl
     ): CategoryApi

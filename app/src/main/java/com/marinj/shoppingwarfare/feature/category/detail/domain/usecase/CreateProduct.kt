@@ -5,13 +5,13 @@ import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
-import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.CategoryDetailRepository
+import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import javax.inject.Inject
 
 class CreateProduct @Inject constructor(
     private val validateProduct: ValidateProduct,
     private val uuidGenerator: () -> String,
-    private val categoryDetailRepository: CategoryDetailRepository,
+    private val categoryDetailRepository: ProductRepository,
 ) {
 
     suspend operator fun invoke(
@@ -21,7 +21,7 @@ class CreateProduct @Inject constructor(
     ): Either<Failure, Unit> {
         return when (val result = validateProduct(productName)) {
             is Left -> result
-            is Right -> categoryDetailRepository.upsertCategoryProduct(
+            is Right -> categoryDetailRepository.upsertProduct(
                 Product(
                     id = uuidGenerator(),
                     categoryId = categoryId,

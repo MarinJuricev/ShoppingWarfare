@@ -8,3 +8,7 @@ sealed interface Either<out E, out V> {
 fun <E> E.buildLeft() = Either.Left(this)
 
 fun <T> T.buildRight() = Either.Right(this)
+
+fun Throwable.toLeft() = message?.let { message ->
+    Failure.ErrorMessage(message).buildLeft()
+} ?: Failure.Unknown.buildLeft()

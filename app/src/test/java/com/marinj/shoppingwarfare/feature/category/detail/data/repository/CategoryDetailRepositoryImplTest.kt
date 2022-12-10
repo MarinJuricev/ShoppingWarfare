@@ -11,7 +11,7 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.LocalCateg
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalCategoryProducts
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
-import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.CategoryDetailRepository
+import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
@@ -29,7 +29,7 @@ class CategoryDetailRepositoryImplTest {
     private val localCategoryProductsListToDomainProductMapper: LocalCategoryProductsListToDomainProductMapper =
         mockk()
 
-    private lateinit var sut: CategoryDetailRepository
+    private lateinit var sut: ProductRepository
 
     @Before
     fun setUp() {
@@ -57,7 +57,7 @@ class CategoryDetailRepositoryImplTest {
             localCategoryProductsListToDomainProductMapper.map(listOfLocalCategoryProducts)
         } coAnswers { listOfProducts }
 
-        sut.observeCategoryProducts(CATEGORY_ID).test {
+        sut.observeProducts(CATEGORY_ID).test {
             assertThat(awaitItem()).isEqualTo(listOfProducts)
             awaitComplete()
         }
@@ -74,7 +74,7 @@ class CategoryDetailRepositoryImplTest {
             productDao.upsertProduct(localProduct)
         } coAnswers { 0L }
 
-        val actualResult = sut.upsertCategoryProduct(product)
+        val actualResult = sut.upsertProduct(product)
         val expectedResult = ErrorMessage("Error while adding new category product").buildLeft()
 
         assertThat(actualResult).isEqualTo(expectedResult)
@@ -92,7 +92,7 @@ class CategoryDetailRepositoryImplTest {
                 productDao.upsertProduct(localProduct)
             } coAnswers { 1L }
 
-            val actualResult = sut.upsertCategoryProduct(product)
+            val actualResult = sut.upsertProduct(product)
             val expectedResult = Unit.buildRight()
 
             assertThat(actualResult).isEqualTo(expectedResult)
@@ -104,7 +104,7 @@ class CategoryDetailRepositoryImplTest {
             productDao.deleteProductById(PRODUCT_ID)
         } coAnswers { Unit }
 
-        val actualResult = sut.deleteCategoryProductById(PRODUCT_ID)
+        val actualResult = sut.deleteProductById(PRODUCT_ID)
         val expectedResult = Unit.buildRight()
 
         assertThat(actualResult).isEqualTo(expectedResult)
