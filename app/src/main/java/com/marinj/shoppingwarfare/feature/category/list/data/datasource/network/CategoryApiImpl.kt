@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.category.list.data.datasource.network
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.marinj.shoppingwarfare.core.data.JsonConverter
+import com.marinj.shoppingwarfare.core.ext.addWarfareSnapshotListener
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
@@ -22,14 +23,22 @@ class CategoryApiImpl @Inject constructor(
     override fun observeCategoryItems(): Flow<List<RemoteCategoryItem>> = callbackFlow {
         val subscription = fireStore
             .getCategoryCollection()
-            .addSnapshotListener { value, error ->
-                val cities = ArrayList<String>()
-                for (doc in value!!) {
-                    doc.getString("name")?.let {
-                        cities.add(it)
+            .addWarfareSnapshotListener(
+                onDataSuccess = { documents ->
+                    documents.forEach { document ->
+//                        jsonConverter.decode<RemoteCategoryItem>(document.data)
                     }
+                },
+                onError = {
+
                 }
-            }
+            )
+//                for (doc in value!!) {
+//                    doc.getString("name")?.let {
+//                        cities.add(it)
+//                    }
+//                }
+//            }
 //            .addWarfareSnapshotListener { data ->
 //                jsonConverter.decode<RemoteCategoryItem>(data)
 //            }
