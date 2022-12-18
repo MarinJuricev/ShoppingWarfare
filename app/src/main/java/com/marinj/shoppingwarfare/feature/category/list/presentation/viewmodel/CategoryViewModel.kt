@@ -15,7 +15,9 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCateg
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.CategoryToUiCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.*
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewState
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +25,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -55,10 +56,10 @@ class CategoryViewModel @Inject constructor(
 
     override fun onEvent(event: CategoryEvent) {
         when (event) {
-            CategoryEvent.GetCategories -> handleGetGroceries()
-            CategoryEvent.NavigateToCreateCategory -> handleNavigateToCreateCategory()
+            GetCategories -> handleGetGroceries()
+            NavigateToCreateCategory -> handleNavigateToCreateCategory()
             is CategoryEvent.DeleteCategory -> handleDeleteCategory(event.uiCategory)
-            is CategoryEvent.NavigateToCategoryDetail -> handleNavigateToCategoryDetail(
+            is NavigateToCategoryDetail -> handleNavigateToCategoryDetail(
                 event.categoryId,
                 event.categoryName,
             )
@@ -89,7 +90,7 @@ class CategoryViewModel @Inject constructor(
 
     private suspend fun handleGetCategoriesError() {
         updateIsLoading(isLoading = false)
-        _viewEffect.send(CategoryViewEffect.Error("Failed to fetch Categories, try again later."))
+        _viewEffect.send(Error("Failed to fetch Categories, try again later."))
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
@@ -102,8 +103,8 @@ class CategoryViewModel @Inject constructor(
 
     private fun handleDeleteCategory(uiCategory: UiCategory) = viewModelScope.launch {
         when (deleteCategory(uiCategory.id)) {
-            is Right -> _viewEffect.send(CategoryViewEffect.DeleteCategoryView(uiCategory))
-            is Left -> _viewEffect.send(CategoryViewEffect.Error("Error while deleting category."))
+            is Right -> _viewEffect.send(DeleteCategoryView(uiCategory))
+            is Left -> _viewEffect.send(Error("Error while deleting category."))
         }
     }
 
@@ -124,7 +125,7 @@ class CategoryViewModel @Inject constructor(
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {
         when (undoCategoryDeletion(uiCategoryToCategoryMapper.map(uiCategory))) {
             is Right -> Timber.d("${uiCategory.title} successfully restored")
-            is Left -> _viewEffect.send(CategoryViewEffect.Error("Couldn't undo category deletion."))
+            is Left -> _viewEffect.send(Error("Couldn't undo category deletion."))
         }
     }
 }

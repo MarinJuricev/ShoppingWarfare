@@ -25,23 +25,14 @@ class CategoryApiImpl @Inject constructor(
             .getCategoryCollection()
             .addWarfareSnapshotListener(
                 onDataSuccess = { documents ->
-                    documents.forEach { document ->
-//                        jsonConverter.decode<RemoteCategoryItem>(document.data)
-                    }
+                    documents.mapNotNull { document ->
+                        document.data?.let { jsonConverter.decode<RemoteCategoryItem>(it) }
+                    }.let { trySend(it) }
                 },
-                onError = {
-
-                }
+                onError = { throwable ->
+                    throw  throwable
+                },
             )
-//                for (doc in value!!) {
-//                    doc.getString("name")?.let {
-//                        cities.add(it)
-//                    }
-//                }
-//            }
-//            .addWarfareSnapshotListener { data ->
-//                jsonConverter.decode<RemoteCategoryItem>(data)
-//            }
 
         awaitClose {
             subscription.remove()
@@ -68,7 +59,7 @@ class CategoryApiImpl @Inject constructor(
     ) = suspendCancellableCoroutine { continuation ->
         fireStore
             .getCategoryCollection()
-            .document()
+            .document(categoryId)
             .delete()
             .addOnSuccessListener {
                 if (continuation.isActive)

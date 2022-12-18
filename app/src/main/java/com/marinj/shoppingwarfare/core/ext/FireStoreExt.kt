@@ -6,14 +6,15 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.marinj.shoppingwarfare.core.exception.SHWException
 
 fun DocumentReference.addWarfareSnapshotListener(
-    onDataSuccess: (Map<String, Any?>) -> Unit
+    onDataSuccess: (Map<String, Any?>) -> Unit,
+    onError: (Throwable) -> Unit,
 ) = addSnapshotListener { value, error ->
     if (error != null)
-        throw SHWException(error.message ?: "Unknown Error Occurred")
+        onError(SHWException(error.message ?: "Unknown Error Occurred"))
 
-    val data = value?.data ?: throw SHWException("No data present")
+    val data = value?.data
 
-    onDataSuccess(data)
+    data?.let(onDataSuccess) ?: onError(SHWException("No data present"))
 }
 
 fun CollectionReference.addWarfareSnapshotListener(
@@ -23,7 +24,7 @@ fun CollectionReference.addWarfareSnapshotListener(
     if (error != null)
         onError(SHWException(error.message ?: "Unknown Error Occurred"))
 
-    val data = value?.documents ?: throw SHWException("No data present")
+    val data = value?.documents
 
-    onDataSuccess(data)
+    data?.let(onDataSuccess) ?: onError(SHWException("No data present"))
 }
