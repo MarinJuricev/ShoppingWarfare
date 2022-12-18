@@ -26,7 +26,10 @@ class CategoryApiImpl @Inject constructor(
             .addWarfareSnapshotListener(
                 onDataSuccess = { documents ->
                     documents.mapNotNull { document ->
-                        document.data?.let { jsonConverter.decode<RemoteCategoryItem>(it) }
+                        document.data?.let {
+                            jsonConverter.decode<RemoteCategoryItem>(it)
+                                ?.copy(categoryId = document.id)
+                        }
                     }.let { trySend(it) }
                 },
                 onError = { throwable ->

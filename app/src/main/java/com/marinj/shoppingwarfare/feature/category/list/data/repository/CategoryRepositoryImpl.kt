@@ -29,9 +29,10 @@ class CategoryRepositoryImpl @Inject constructor(
             }
         }
 
-    private fun categoriesFromLocal() = categoryDao.observeCategories().map { localCategoryList ->
-        localCategoryList.map { it.toDomain() }
-    }
+    private fun categoriesFromLocal() = categoryDao.observeCategories()
+        .map { localCategoryList ->
+            localCategoryList.map { it.toDomain() }
+        }
 
     override suspend fun upsertCategory(category: Category): Either<Failure, Unit> =
         category.toRemote().let { remoteCategory ->
@@ -39,5 +40,7 @@ class CategoryRepositoryImpl @Inject constructor(
         }
 
     override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> =
-        categoryApi.deleteCategoryItemById(id)
+        categoryApi.deleteCategoryItemById(id).also {
+            categoryDao.deleteCategoryById(id)
+        }
 }
