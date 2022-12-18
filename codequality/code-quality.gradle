@@ -33,11 +33,11 @@ dependencies {
     // ktlint will pick them up
 }
 
-task ktlint(type: JavaExec, group: "verification") {
+task ktlintCheck(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style."
     classpath = configurations.ktlint
-    main = "com.pinterest.ktlint.Main"
-    args "src/**/*.kt"
+    mainClass = "com.pinterest.ktlint.Main"
+    args ("src/**/*.kt", "--editorconfig=.editorconfig" , "--experimental")
     // to generate report in checkstyle format prepend following args:
     // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
     // to add a baseline to check against prepend following args:
@@ -48,6 +48,6 @@ task ktlint(type: JavaExec, group: "verification") {
 task ktlintFormat(type: JavaExec, group: "formatting") {
     description = "Fix Kotlin code style deviations."
     classpath = configurations.ktlint
-    main = "com.pinterest.ktlint.Main"
-    args "-F", "src/**/*.kt"
+    mainClass = "com.pinterest.ktlint.Main"
+    args ("-F", "src/**/*.kt", "--editorconfig=.editorconfig" , "--experimental")
 }
