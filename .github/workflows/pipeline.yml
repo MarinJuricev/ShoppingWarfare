@@ -15,8 +15,8 @@ jobs:
           java-version: 11
       - name: ktlint
         run: ./gradlew ktlintFormat
-#      - name: detekt
-#        run: ./gradlew detekt
+      - name: detekt
+        run: ./gradlew detekt
       - name: Build android app
         run: ./gradlew assembleDebug
       - name: Run Unit Tests

@@ -1,5 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -43,9 +46,11 @@ fun CategoryScreen(
         block = {
             categoryViewModel.onEvent(GetCategories)
             setupTopBar(
-                CategoryTopBar(onActionClick = {
-                    categoryViewModel.onEvent(NavigateToCreateCategory)
-                }) {
+                CategoryTopBar(
+                    onActionClick = {
+                        categoryViewModel.onEvent(NavigateToCreateCategory)
+                    },
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = stringResource(id = R.string.create_category),
@@ -77,14 +82,17 @@ fun CategoryScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
-    ) {
-        when {
-            viewState.isLoading -> ShoppingWarfareLoadingIndicator()
-            viewState.categories.isEmpty() -> ShoppingWarfareEmptyScreen(message = stringResource(R.string.empty_category_message))
-            viewState.categories.isNotEmpty() -> CategoryGrid(
-                categoryList = viewState.categories,
-                onCategoryEvent = categoryViewModel::onEvent,
-            )
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            when {
+                viewState.isLoading -> ShoppingWarfareLoadingIndicator()
+                viewState.categories.isEmpty() ->
+                    ShoppingWarfareEmptyScreen(message = stringResource(R.string.empty_category_message))
+                viewState.categories.isNotEmpty() -> CategoryGrid(
+                    categoryList = viewState.categories,
+                    onCategoryEvent = categoryViewModel::onEvent,
+                )
+            }
         }
     }
 }

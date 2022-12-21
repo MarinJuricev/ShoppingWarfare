@@ -75,6 +75,6 @@ class JsonConverter @Inject constructor(
         is Number -> JsonPrimitive(this)
         is String -> JsonPrimitive(this)
         is Enum<*> -> JsonPrimitive(this.toString())
-        else -> throw IllegalStateException("Can't serialize unknown collection type: $this")
+        else -> error("Can't serialize unknown collection type: $this")
     }
 }

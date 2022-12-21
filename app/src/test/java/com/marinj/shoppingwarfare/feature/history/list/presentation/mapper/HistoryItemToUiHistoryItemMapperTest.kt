@@ -10,7 +10,7 @@ import org.junit.Test
 
 private const val ID = "id"
 private const val RECEIPT_PATH = "receiptPath"
-private const val TIMESTAMP = 1239123981290L
+private const val TIMESTAMP = 1_239_123_981_290L
 private const val CONVERTED_TIMESTAMP = "2009-04-07"
 private const val CART_NAME = "cartName"
 

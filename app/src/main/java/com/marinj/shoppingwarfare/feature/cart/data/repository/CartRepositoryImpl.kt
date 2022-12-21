@@ -8,7 +8,6 @@ import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
 import com.marinj.shoppingwarfare.feature.cart.data.mapper.DomainToLocalCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.data.mapper.LocalToDomainCartItemMapper
-import com.marinj.shoppingwarfare.feature.cart.data.remote.CartApi
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(
-    private val cartApi: CartApi,
     private val cartDao: CartDao,
     private val localToDomainCartItemMapper: LocalToDomainCartItemMapper,
     private val domainToLocalCartItemMapper: DomainToLocalCartItemMapper,
