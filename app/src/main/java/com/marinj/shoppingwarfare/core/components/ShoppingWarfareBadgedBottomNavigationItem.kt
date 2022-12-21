@@ -20,7 +20,7 @@ fun RowScope.ShoppingWarfareBadgedBottomNavigationItem(
     screen: BottomNavigationItem,
     currentDestination: NavDestination?,
     badgeCount: Int?,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     BottomNavigationItem(
         icon = {
@@ -36,7 +36,7 @@ fun RowScope.ShoppingWarfareBadgedBottomNavigationItem(
             }) {
                 Icon(
                     painter = painterResource(screen.iconId),
-                    contentDescription = screen.route
+                    contentDescription = screen.route,
                 )
             }
         },
@@ -59,6 +59,6 @@ fun RowScope.ShoppingWarfareBadgedBottomNavigationItem(
                 // Restore state when reselecting a previously selected item
                 restoreState = true
             }
-        }
+        },
     )
 }

@@ -15,11 +15,11 @@ abstract class CartModule {
 
     @Binds
     abstract fun bindCartRepository(
-        repository: CartRepositoryImpl
+        repository: CartRepositoryImpl,
     ): CartRepository
 
     @Binds
     abstract fun bindCartApi(
-        cartApiImpl: CartApiImpl
+        cartApiImpl: CartApiImpl,
     ): CartApi
 }

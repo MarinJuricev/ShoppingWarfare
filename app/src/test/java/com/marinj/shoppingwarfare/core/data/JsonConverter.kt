@@ -18,7 +18,7 @@ class MoshiJsonConverterTest {
     fun `decode with map origin SHOULD return valid object WHEN the origin contract matches the provided type`() {
         val origin = mapOf(
             "name" to NAME,
-            "age" to AGE
+            "age" to AGE,
         )
 
         val result = sut.decode<JsonConverterTest>(origin)
@@ -34,7 +34,7 @@ class MoshiJsonConverterTest {
     fun `decode with map origin SHOULD return null WHEN the origin contract does no match the provided type`() {
         val origin = mapOf(
             "name" to NAME,
-            "age" to NAME
+            "age" to NAME,
         )
 
         val result = sut.decode<JsonConverterTest>(origin)
@@ -47,8 +47,8 @@ class MoshiJsonConverterTest {
         val origin = listOf(
             mapOf(
                 "name" to NAME,
-                "age" to AGE
-            )
+                "age" to AGE,
+            ),
         )
 
         val result = sut.decode<List<JsonConverterTest>>(origin)
@@ -66,7 +66,7 @@ class MoshiJsonConverterTest {
             mapOf(
                 "name" to NAME,
                 "age" to NAME,
-            )
+            ),
         )
 
         val result = sut.decode<List<JsonConverterTest>>(origin)
@@ -98,7 +98,7 @@ class MoshiJsonConverterTest {
             mapOf(
                 "name" to NAME,
                 "age" to NAME,
-            )
+            ),
         )
 
         val result = sut.decode<List<JsonConverterTest>>(origin)

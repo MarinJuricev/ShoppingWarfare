@@ -118,7 +118,7 @@ class HistoryRepositoryImplTest {
 
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
             val expectedResult = ErrorMessage(
-                "No historyItem present with the id: $HISTORY_ITEM_ID"
+                "No historyItem present with the id: $HISTORY_ITEM_ID",
             ).buildLeft()
 
             assertThat(actualResult).isEqualTo(expectedResult)

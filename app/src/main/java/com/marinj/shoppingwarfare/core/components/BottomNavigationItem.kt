@@ -16,7 +16,7 @@ sealed class BottomNavigationItem(
     object User : BottomNavigationItem("user", R.string.user, R.drawable.user_icon)
 
     companion object {
-        val navigationItems = listOf(
+        val NAVIGATION_ITEMS = listOf(
             Category,
             Cart,
             History,

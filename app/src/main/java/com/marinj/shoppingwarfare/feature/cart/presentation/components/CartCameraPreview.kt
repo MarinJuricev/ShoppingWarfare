@@ -57,7 +57,7 @@ fun CartCameraPreview(
                     this.scaleType = scaleType
                     layoutParams = ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
+                        ViewGroup.LayoutParams.MATCH_PARENT,
                     )
                     // Preview is incorrectly scaled in Compose on some devices without this
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
@@ -76,88 +76,91 @@ fun CartCameraPreview(
                     )
                 }, ContextCompat.getMainExecutor(context))
 
-                    previewView
-                }
-            )
-            ShoppingWarfareIconButton(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 8.dp),
-                backgroundAlpha = ICON_ALPHA,
-                onClick = {
-                    setupImageCaptureListener(
-                        imageCapture,
-                        context,
-                        onCartEvent,
-                    )
-                },
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.take_photo_icon),
-                    tint = MaterialTheme.colors.surface.copy(alpha = ICON_ALPHA),
-                    contentDescription = null
+                previewView
+            },
+        )
+        ShoppingWarfareIconButton(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
+            backgroundAlpha = ICON_ALPHA,
+            onClick = {
+                setupImageCaptureListener(
+                    imageCapture,
+                    context,
+                    onCartEvent,
                 )
-            }
-        }
-    }
-
-    private fun setupCameraView(
-        cameraProvider: ProcessCameraProvider,
-        previewView: PreviewView,
-        imageCapture: ImageCapture?,
-        lifecycleOwner: LifecycleOwner,
-        cameraSelector: CameraSelector,
-        onCartEvent: (CartEvent) -> Unit,
-    ) {
-        // Preview
-        val preview = Preview.Builder()
-            .build()
-            .also {
-                it.setSurfaceProvider(previewView.surfaceProvider)
-            }
-
-        try {
-            // Must unbind the use-cases before rebinding them.
-            cameraProvider.unbindAll()
-            cameraProvider.bindToLifecycle(
-                lifecycleOwner, cameraSelector, preview, imageCapture
+            },
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.take_photo_icon),
+                tint = MaterialTheme.colors.surface.copy(alpha = ICON_ALPHA),
+                contentDescription = null,
             )
-        } catch (exc: Exception) {
-            Timber.e("Use case binding failed", exc)
-            onCartEvent(ReceiptCaptureError)
-            cameraProvider.unbindAll()
         }
     }
+}
 
-    private fun setupImageCaptureListener(
-        imageCapture: ImageCapture?,
-        context: Context,
-        onCartEvent: (CartEvent) -> Unit,
-    ) {
-        // Create time-stamped output file to hold the image
-        val photoFile = File(
-            context.filesDir,
-            SimpleDateFormat(
-                DATE_FORMAT, Locale.US
-            ).format(System.currentTimeMillis()) + JPG_EXTENSION
+private fun setupCameraView(
+    cameraProvider: ProcessCameraProvider,
+    previewView: PreviewView,
+    imageCapture: ImageCapture?,
+    lifecycleOwner: LifecycleOwner,
+    cameraSelector: CameraSelector,
+    onCartEvent: (CartEvent) -> Unit,
+) {
+    // Preview
+    val preview = Preview.Builder()
+        .build()
+        .also {
+            it.setSurfaceProvider(previewView.surfaceProvider)
+        }
+
+    try {
+        // Must unbind the use-cases before rebinding them.
+        cameraProvider.unbindAll()
+        cameraProvider.bindToLifecycle(
+            lifecycleOwner,
+            cameraSelector,
+            preview,
+            imageCapture,
         )
-
-        // Create output options object which contains file + metadata
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
-        imageCapture?.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(context),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    onCartEvent(CartEvent.ReceiptCaptureSuccess(output.savedUri?.lastPathSegment))
-                }
-
-                override fun onError(exc: ImageCaptureException) {
-                    Timber.d("Photo capture failed: ${exc.message}", exc)
-                    onCartEvent(ReceiptCaptureError)
-                }
-            }
-        )
+    } catch (exc: Exception) {
+        Timber.e("Use case binding failed", exc)
+        onCartEvent(ReceiptCaptureError)
+        cameraProvider.unbindAll()
     }
-    
+}
+
+private fun setupImageCaptureListener(
+    imageCapture: ImageCapture?,
+    context: Context,
+    onCartEvent: (CartEvent) -> Unit,
+) {
+    // Create time-stamped output file to hold the image
+    val photoFile = File(
+        context.filesDir,
+        SimpleDateFormat(
+            DATE_FORMAT,
+            Locale.US,
+        ).format(System.currentTimeMillis()) + JPG_EXTENSION,
+    )
+
+    // Create output options object which contains file + metadata
+    val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
+    imageCapture?.takePicture(
+        outputOptions,
+        ContextCompat.getMainExecutor(context),
+        object : ImageCapture.OnImageSavedCallback {
+            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                onCartEvent(CartEvent.ReceiptCaptureSuccess(output.savedUri?.lastPathSegment))
+            }
+
+            override fun onError(exc: ImageCaptureException) {
+                Timber.d("Photo capture failed: ${exc.message}", exc)
+                onCartEvent(ReceiptCaptureError)
+            }
+        },
+    )
+}

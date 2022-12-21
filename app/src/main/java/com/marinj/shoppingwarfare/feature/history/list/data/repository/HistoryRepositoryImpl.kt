@@ -28,7 +28,7 @@ class HistoryRepositoryImpl @Inject constructor(
         }
 
     override suspend fun upsertHistoryItem(
-        historyItem: HistoryItem
+        historyItem: HistoryItem,
     ): Either<Failure, Unit> {
         val localHistoryItem = domainToLocalHistoryItemMapper.map(historyItem)
         return when (historyDao.upsertHistoryItem(localHistoryItem)) {

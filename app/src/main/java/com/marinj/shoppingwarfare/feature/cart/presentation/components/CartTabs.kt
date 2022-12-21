@@ -21,7 +21,7 @@ fun CartTabs(
             Tab(
                 selected = index == selectedTabPosition,
                 onClick = { onCartEvent(CartTabPositionUpdated(index)) },
-                text = { Text(stringResource(id = cartTab.name)) }
+                text = { Text(stringResource(id = cartTab.name)) },
             )
         }
     }

@@ -26,16 +26,16 @@ fun HistoryDetailCartInfo(uiHistoryItem: UiHistoryItem) {
             Text(
                 text = stringResource(
                     R.string.history_detail_cart_name,
-                    uiHistoryItem.cartName
+                    uiHistoryItem.cartName,
                 ),
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.body1,
             )
             Text(
                 text = stringResource(
                     R.string.history_detail_date,
-                    uiHistoryItem.date
+                    uiHistoryItem.date,
                 ),
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.body1,
             )
         }
     }

@@ -32,7 +32,7 @@ fun CartCheckoutInfo(
     viewState: CartViewState,
     onReceiptClick: () -> Unit,
     onCartEvent: (CartEvent) -> Unit,
-    scrollState: ScrollState = rememberScrollState()
+    scrollState: ScrollState = rememberScrollState(),
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -59,7 +59,7 @@ fun CartCheckoutInfo(
                     value = viewState.cartName,
                     onValueChange = { updatedCartName ->
                         onCartEvent(CartNameUpdated(updatedCartName))
-                    }
+                    },
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row {
@@ -68,7 +68,7 @@ fun CartCheckoutInfo(
                             .padding(horizontal = 8.dp)
                             .weight(1f),
                         enabled = viewState.isPremiumUser,
-                        onClick = { onCartEvent(CheckoutClicked) }
+                        onClick = { onCartEvent(CheckoutClicked) },
                     ) {
                         Text(text = stringResource(id = R.string.share_cart))
                     }
@@ -77,7 +77,7 @@ fun CartCheckoutInfo(
                             .padding(horizontal = 8.dp)
                             .weight(1f),
                         enabled = viewState.uiCartItems.isNotEmpty(),
-                        onClick = { onCartEvent(CheckoutClicked) }
+                        onClick = { onCartEvent(CheckoutClicked) },
                     ) {
                         Text(text = stringResource(id = R.string.checkout))
                     }
@@ -85,7 +85,7 @@ fun CartCheckoutInfo(
             }
             CartReceiptStatus(
                 viewState = viewState,
-                onReceiptClick = onReceiptClick
+                onReceiptClick = onReceiptClick,
             )
         }
     }

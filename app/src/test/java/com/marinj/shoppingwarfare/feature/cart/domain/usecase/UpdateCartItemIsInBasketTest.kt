@@ -21,7 +21,7 @@ class UpdateCartItemIsInBasketTest {
     @Before
     fun setUp() {
         sut = UpdateCartItemIsInBasket(
-            cartRepository
+            cartRepository,
         )
     }
 

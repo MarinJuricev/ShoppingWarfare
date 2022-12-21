@@ -24,7 +24,7 @@ sealed interface TopBarEvent {
     ) : TopBarEvent
 
     data class CartTopBar(
-        val isVisible: Boolean = false
+        val isVisible: Boolean = false,
     ) : TopBarEvent
 
     data class HistoryTopBar(
@@ -40,6 +40,6 @@ sealed interface TopBarEvent {
     ) : TopBarEvent
 
     data class UserTopBar(
-        val isVisible: Boolean = false
+        val isVisible: Boolean = false,
     ) : TopBarEvent
 }

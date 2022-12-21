@@ -26,8 +26,8 @@ class CreateProduct @Inject constructor(
                     id = uuidGenerator(),
                     categoryId = categoryId,
                     categoryName = categoryName,
-                    name = productName!!
-                )
+                    name = productName!!,
+                ),
             )
         }
     }

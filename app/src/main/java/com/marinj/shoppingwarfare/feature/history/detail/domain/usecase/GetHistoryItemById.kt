@@ -13,7 +13,7 @@ class GetHistoryItemById @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        historyItemId: String
+        historyItemId: String,
     ): Either<Failure, HistoryItem> =
         historyRepository.getHistoryItemById(historyItemId)
 }

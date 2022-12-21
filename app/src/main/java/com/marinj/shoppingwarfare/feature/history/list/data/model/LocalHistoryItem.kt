@@ -11,5 +11,5 @@ data class LocalHistoryItem(
     val receiptPath: String?,
     val timestamp: Long,
     val cartName: String,
-    val historyCartItems: List<HistoryCartItem>
+    val historyCartItems: List<HistoryCartItem>,
 )

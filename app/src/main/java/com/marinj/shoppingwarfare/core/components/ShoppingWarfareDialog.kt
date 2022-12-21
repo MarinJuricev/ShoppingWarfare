@@ -28,17 +28,17 @@ fun ShoppingWarfareDialog(
         },
         confirmButton = {
             Button(
-                onClick = { onConfirmClick?.invoke() }
+                onClick = { onConfirmClick?.invoke() },
             ) {
                 Text(stringResource(id = confirmMessage))
             }
         },
         dismissButton = {
             Button(
-                onClick = { onDismissClick?.invoke() }
+                onClick = { onDismissClick?.invoke() },
             ) {
                 Text(stringResource(id = dismissMessage))
             }
-        }
+        },
     )
 }

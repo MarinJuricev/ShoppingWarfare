@@ -16,12 +16,12 @@ fun CartItemList(
         uiCartItems.fastForEach { uiCartItem ->
             when (uiCartItem) {
                 is UiCartItem.Header -> stickyHeader(
-                    key = uiCartItem.categoryName
+                    key = uiCartItem.categoryName,
                 ) {
                     CartHeader(uiCartItem.categoryName)
                 }
                 is UiCartItem.Content -> item(
-                    key = uiCartItem.id
+                    key = uiCartItem.id,
                 ) {
                     CartItemCard(
                         uiCartItem,

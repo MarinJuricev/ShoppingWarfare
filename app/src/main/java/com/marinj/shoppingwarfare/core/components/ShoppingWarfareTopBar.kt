@@ -53,10 +53,10 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
     AnimatedVisibility(
         visible = topBarViewState.isVisible,
         enter = expandVertically(
-            animationSpec = topBarSpring
+            animationSpec = topBarSpring,
         ),
         exit = shrinkVertically(
-            animationSpec = topBarSpring
+            animationSpec = topBarSpring,
         ),
     ) {
         TopAppBar {
@@ -97,7 +97,7 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
                     if (topBarViewState is NoSearchBarTopBarViewState) {
                         ShoppingWarfareNonSearchTopBar(
                             topBarSpring = topBarSpring,
-                            topBarViewState = topBarViewState
+                            topBarViewState = topBarViewState,
                         )
                     }
                 }
@@ -108,14 +108,13 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
 
 @Composable
 fun ShoppingWarfareSearchTopBar(
-    topBarViewState: SearchTopBarViewState
+    topBarViewState: SearchTopBarViewState,
 ) {
     Row(
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-
         AnimatedVisibility(
             visible = topBarViewState.isSearchEnabled,
             enter = fadeIn() + slideInHorizontally(
@@ -129,7 +128,7 @@ fun ShoppingWarfareSearchTopBar(
         ) {
             IconButton(
                 modifier = Modifier.wrapContentWidth(),
-                onClick = { topBarViewState.onActionClick?.invoke() }
+                onClick = { topBarViewState.onActionClick?.invoke() },
             ) {
                 Icon(
                     imageVector = Icons.Filled.Search,
@@ -146,7 +145,7 @@ fun ShoppingWarfareSearchTopBar(
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     backgroundColor = Color.White,
                     textColor = MaterialTheme.colors.onSurface,
-                )
+                ),
             )
         }
     }
@@ -155,7 +154,7 @@ fun ShoppingWarfareSearchTopBar(
 @Composable
 private fun ShoppingWarfareNonSearchTopBar(
     topBarSpring: FiniteAnimationSpec<IntSize>,
-    topBarViewState: NoSearchBarTopBarViewState
+    topBarViewState: NoSearchBarTopBarViewState,
 ) {
     Row(
         modifier = Modifier.fillMaxSize(),
@@ -165,7 +164,7 @@ private fun ShoppingWarfareNonSearchTopBar(
         Column(
             modifier = Modifier
                 .animateContentSize(animationSpec = topBarSpring)
-                .padding(8.dp)
+                .padding(8.dp),
         ) {
             topBarViewState.title?.let {
                 Text(text = stringResource(id = it), style = MaterialTheme.typography.body1)
@@ -187,7 +186,7 @@ private fun ShoppingWarfareNonSearchTopBar(
             exit = fadeOut(),
         ) {
             IconButton(
-                onClick = { topBarViewState.onActionClick?.invoke() }
+                onClick = { topBarViewState.onActionClick?.invoke() },
             ) {
                 topBarViewState.icon?.invoke()
             }

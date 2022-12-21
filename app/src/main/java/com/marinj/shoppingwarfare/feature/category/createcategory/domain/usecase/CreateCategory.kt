@@ -25,7 +25,7 @@ class CreateCategory @Inject constructor(
                     title!!,
                     categoryColor!!,
                     titleColor!!,
-                )
+                ),
             )
         }
     }

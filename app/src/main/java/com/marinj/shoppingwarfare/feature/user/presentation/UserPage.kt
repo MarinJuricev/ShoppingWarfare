@@ -23,7 +23,6 @@ fun UserScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     setupTopBar: (TopBarEvent) -> Unit,
 ) {
-
     LaunchedEffect(key1 = Unit) {
         setupTopBar(UserTopBar())
     }
@@ -31,7 +30,7 @@ fun UserScreen(
     CompositionLocalProvider(LocalUserEvents provides userViewModel::onEvent) {
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             UserContent()
         }

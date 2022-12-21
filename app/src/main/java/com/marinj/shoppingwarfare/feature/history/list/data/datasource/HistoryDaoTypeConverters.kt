@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 @ProvidedTypeConverter
 class HistoryDaoTypeConverters @Inject constructor(
-    private val json: JsonConverter
+    private val json: JsonConverter,
 ) {
 
     @TypeConverter
@@ -18,6 +18,6 @@ class HistoryDaoTypeConverters @Inject constructor(
 
     @TypeConverter
     fun fromStringToHistoryCartItems(
-        value: String
+        value: String,
     ) = json.decode<List<HistoryCartItem>>(value)
 }

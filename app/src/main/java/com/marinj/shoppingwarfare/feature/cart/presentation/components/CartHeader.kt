@@ -17,7 +17,7 @@ fun CartHeader(categoryName: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colors.primaryVariant)
+            .background(MaterialTheme.colors.primaryVariant),
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),

@@ -76,7 +76,7 @@ class CartViewModel @Inject constructor(
             is CartEvent.DeleteCartItem -> handleDeleteCartItem(event.cartItem)
             is CartItemQuantityChanged -> handleCartItemQuantityChanged(
                 event.cartItemToUpdate,
-                event.newQuantity
+                event.newQuantity,
             )
             is ReceiptCaptureSuccess -> handleReceiptCaptureSuccess(event.receiptPath)
             is CartNameUpdated -> handleCartNameUpdated(event.updatedCartName)

@@ -26,7 +26,6 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.navigation.
 import com.marinj.shoppingwarfare.feature.category.list.presentation.navigation.buildCategoryGraph
 import com.marinj.shoppingwarfare.feature.history.list.presentation.navigation.buildHistoryGraph
 import com.marinj.shoppingwarfare.feature.user.presentation.navigation.buildUserGraph
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun ShoppingWarfareNavigation(
@@ -34,7 +33,6 @@ fun ShoppingWarfareNavigation(
     navController: NavHostController = rememberAnimatedNavController(),
     topBarViewModel: TopBarViewModel = hiltViewModel(),
 ) {
-
     LaunchedEffect(key1 = Unit) {
         navigator.navigationEvent.collect { navigationEvent ->
             when (navigationEvent) {
@@ -42,7 +40,7 @@ fun ShoppingWarfareNavigation(
                 NavigateBack -> navController.popBackStack()
                 is Destination -> navController.navigate(
                     route = navigationEvent.destination,
-                    builder = navigationEvent.builder
+                    builder = navigationEvent.builder,
                 )
             }
         }
@@ -57,7 +55,7 @@ fun ShoppingWarfareNavigation(
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                BottomNavigationItem.navigationItems.fastForEach { screen ->
+                BottomNavigationItem.NAVIGATION_ITEMS.fastForEach { screen ->
                     if (screen == BottomNavigationItem.Cart) {
                         val badgeViewModel: BadgeViewModel = hiltViewModel()
                         val viewState by badgeViewModel.viewState.collectAsState()
@@ -81,12 +79,12 @@ fun ShoppingWarfareNavigation(
                     }
                 }
             }
-        }
+        },
     ) { innerPadding ->
         AnimatedNavHost(
             navController = navController,
             startDestination = CATEGORY_ROOT,
-            Modifier.padding(innerPadding)
+            Modifier.padding(innerPadding),
         ) {
             buildCategoryGraph(navController, topBarViewModel::onEvent)
             buildCartGraph(topBarViewModel::onEvent)

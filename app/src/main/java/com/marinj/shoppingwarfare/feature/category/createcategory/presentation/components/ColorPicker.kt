@@ -29,13 +29,13 @@ fun ColorPicker(
     title: String,
     onColorChanged: (Color) -> Unit,
     selectedColor: Color?,
-    colors: List<Color>
+    colors: List<Color>,
 ) {
     Column(modifier = modifier) {
         Text(title, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.padding(vertical = 4.dp))
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(36.dp)
+            columns = GridCells.Adaptive(36.dp),
         ) {
             itemsIndexed(colors) { index, newColor ->
                 Box(
@@ -44,7 +44,7 @@ fun ColorPicker(
                         .padding(4.dp)
                         .clip(CircleShape)
                         .background(newColor)
-                        .clickable { onColorChanged(colors[index]) }
+                        .clickable { onColorChanged(colors[index]) },
                 ) {
                     if (selectedColor == newColor) {
                         Image(

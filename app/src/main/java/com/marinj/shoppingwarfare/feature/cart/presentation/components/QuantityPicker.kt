@@ -25,7 +25,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 fun QuantityPicker(
     modifier: Modifier = Modifier,
     uiCartItem: UiCartItem.Content,
-    onCartEvent: (CartEvent) -> Unit
+    onCartEvent: (CartEvent) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -36,32 +36,32 @@ fun QuantityPicker(
             buttonSize = 32.dp,
             onClick = {
                 onCartEvent(CartItemQuantityChanged(uiCartItem, uiCartItem.quantity.dec()))
-            }
+            },
         ) {
             Icon(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.minus_icon),
                 tint = Color.White,
-                contentDescription = stringResource(R.string.decrease_quantity)
+                contentDescription = stringResource(R.string.decrease_quantity),
             )
         }
         Spacer(modifier = Modifier.width(12.dp))
         Text(
             text = uiCartItem.quantity.toString(),
-            style = MaterialTheme.typography.body1
+            style = MaterialTheme.typography.body1,
         )
         Spacer(modifier = Modifier.width(12.dp))
         ShoppingWarfareIconButton(
             buttonSize = 32.dp,
             onClick = {
                 onCartEvent(CartItemQuantityChanged(uiCartItem, uiCartItem.quantity.inc()))
-            }
+            },
         ) {
             Icon(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.add_icon),
                 tint = Color.White,
-                contentDescription = stringResource(R.string.increase_quantity)
+                contentDescription = stringResource(R.string.increase_quantity),
             )
         }
     }

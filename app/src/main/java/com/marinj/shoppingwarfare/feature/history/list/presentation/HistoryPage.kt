@@ -26,7 +26,7 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.viewmodel.Hi
 @Composable
 fun HistoryScreen(
     setupTopBar: (TopBarEvent) -> Unit,
-    historyViewModel: HistoryViewModel = hiltViewModel()
+    historyViewModel: HistoryViewModel = hiltViewModel(),
 ) {
     val viewState by historyViewModel.viewState.collectAsState()
 
@@ -41,25 +41,25 @@ fun HistoryScreen(
                 searchTextUpdated = { viewState.searchText },
             ) {
                 historyViewModel.onEvent(OnSearchTriggered)
-            }
+            },
         )
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) { paddingValues ->
         Box(
             modifier = Modifier.padding(paddingValues),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             when {
                 viewState.isLoading -> ShoppingWarfareLoadingIndicator()
                 viewState.historyItems.isEmpty() -> ShoppingWarfareEmptyScreen(
-                    message = stringResource(R.string.empty_history_message)
+                    message = stringResource(R.string.empty_history_message),
                 )
                 viewState.historyItems.isNotEmpty() -> HistoryList(
                     historyItems = viewState.historyItems,
-                    onHistoryEvent = historyViewModel::onEvent
+                    onHistoryEvent = historyViewModel::onEvent,
                 )
             }
         }

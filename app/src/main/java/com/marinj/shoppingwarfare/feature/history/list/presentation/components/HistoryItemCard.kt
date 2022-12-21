@@ -33,7 +33,7 @@ fun HistoryItemCard(
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column {
                 HistoryItemDescriptionText(description = stringResource(id = R.string.cart_name))

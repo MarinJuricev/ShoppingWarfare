@@ -154,7 +154,7 @@ class HistoryViewModelTest {
         val expectedDestination = NavigationEvent.Destination(
             HistoryDetailNavigation.createHistoryDetailRoute(
                 historyItemId = ID,
-            )
+            ),
         )
 
         coVerify { navigator.emitDestination(expectedDestination) }

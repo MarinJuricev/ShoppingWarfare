@@ -40,7 +40,7 @@ fun CategoryCard(
         backgroundColor = backGroundColor,
     ) {
         Box(
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 modifier = Modifier
@@ -52,7 +52,7 @@ fun CategoryCard(
                 contentDescription = stringResource(
                     R.string.deleted_item,
                     uiCategory.title,
-                )
+                ),
             )
             Text(
                 text = uiCategory.title,

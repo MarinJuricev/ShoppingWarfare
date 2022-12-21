@@ -33,13 +33,13 @@ fun ShoppingWarfareIconButton(
     buttonSize: Dp = DefaultIconButtonSize,
     backgroundAlpha: Float = 1.0f,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val contentColor by ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.primary,
         disabledBackgroundColor = Color.LightGray,
-        disabledContentColor = Color.LightGray
+        disabledContentColor = Color.LightGray,
     ).contentColor(enabled)
 
     Box(
@@ -49,12 +49,12 @@ fun ShoppingWarfareIconButton(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = rememberRipple(bounded = false, radius = 24.dp)
+                indication = rememberRipple(bounded = false, radius = 24.dp),
             )
             .size(buttonSize)
             .clip(CircleShape)
             .background(contentColor.copy(alpha = backgroundAlpha)),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         val contentAlpha = if (enabled) LocalContentAlpha.current else ContentAlpha.disabled
         CompositionLocalProvider(LocalContentAlpha provides contentAlpha, content = content)

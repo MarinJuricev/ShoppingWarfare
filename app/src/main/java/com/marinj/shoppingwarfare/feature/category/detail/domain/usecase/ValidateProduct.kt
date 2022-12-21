@@ -10,7 +10,7 @@ import javax.inject.Inject
 class ValidateProduct @Inject constructor() {
 
     operator fun invoke(
-        title: String?
+        title: String?,
     ): Either<Failure, Unit> {
         return when {
             title.isNullOrEmpty() -> ErrorMessage("Title can't be empty").buildLeft()

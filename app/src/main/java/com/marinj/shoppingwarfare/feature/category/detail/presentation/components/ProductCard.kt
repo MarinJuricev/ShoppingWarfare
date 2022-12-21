@@ -39,7 +39,7 @@ fun ProductCard(
         Column(
             modifier = Modifier
                 .clickable { onCategoryDetailEvent(OnProductClicked(product)) }
-                .padding(12.dp)
+                .padding(12.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -61,8 +61,8 @@ fun ProductCard(
                     tint = MaterialTheme.textColor(),
                     contentDescription = stringResource(
                         R.string.delete_item,
-                        product.name
-                    )
+                        product.name,
+                    ),
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))

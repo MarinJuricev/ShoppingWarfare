@@ -30,7 +30,7 @@ fun ShoppingWarfareEmptyScreen(message: String) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.shrug_emoji),

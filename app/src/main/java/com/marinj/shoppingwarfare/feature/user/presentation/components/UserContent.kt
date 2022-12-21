@@ -27,7 +27,7 @@ import timber.log.Timber
 @Composable
 fun UserContent(
     listState: LazyListState = rememberLazyListState(),
-    coroutineScope: CoroutineScope = rememberCoroutineScope()
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) {
 //    val eventHandler = LocalUserEvents.current ?: error("LocalUserEvents wasn't provided")
 
@@ -59,11 +59,11 @@ fun UserContent(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .padding(8.dp),
                 ) {
                     Text(
                         modifier = Modifier.padding(16.dp),
-                        text = index.toString()
+                        text = index.toString(),
                     )
                 }
             }
@@ -76,7 +76,7 @@ fun UserContent(
 private fun ColumnScope.ScrollToTopButton(
     showScrollToTop: Boolean,
     coroutineScope: CoroutineScope,
-    listState: LazyListState
+    listState: LazyListState,
 ) {
     AnimatedVisibility(visible = showScrollToTop) {
         Timber.d("derivedState: actual button")
@@ -89,7 +89,8 @@ private fun ColumnScope.ScrollToTopButton(
                 coroutineScope.launch {
                     listState.animateScrollToItem(0)
                 }
-            }) {
+            },
+        ) {
             Text("Scroll to top")
         }
     }

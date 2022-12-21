@@ -11,12 +11,13 @@ class FilterHistoryItems @Inject constructor() {
     ): List<UiHistoryItem> {
         return if (searchQuery.isBlank()) {
             listToFilter
-        } else
+        } else {
             listToFilter.filter { uiHistoryItem ->
                 uiHistoryItem.cartName.startsWith(
                     searchQuery,
-                    ignoreCase = true
+                    ignoreCase = true,
                 )
             }
+        }
     }
 }

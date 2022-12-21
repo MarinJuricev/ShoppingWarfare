@@ -34,7 +34,7 @@ class CartRepositoryImpl @Inject constructor(
 
     override suspend fun updateCartItemQuantity(
         cartItemId: String,
-        newQuantity: Int
+        newQuantity: Int,
     ): Either<Failure, Unit> =
         cartDao.updateCartItemQuantity(cartItemId, newQuantity).buildRight()
 

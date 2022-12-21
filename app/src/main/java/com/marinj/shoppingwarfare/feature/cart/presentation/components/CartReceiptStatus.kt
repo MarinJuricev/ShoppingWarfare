@@ -34,17 +34,17 @@ fun CartReceiptStatus(
                 ReceiptStatus.Empty -> Color.LightGray
                 ReceiptStatus.Error -> MaterialTheme.colors.error
                 is ReceiptStatus.Taken -> MaterialTheme.colors.primary
-            }
+            },
         )
         ShoppingWarfareIconButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             enabled = viewState.uiCartItems.isNotEmpty(),
-            onClick = onReceiptClick
+            onClick = onReceiptClick,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.camera_icon),
                 tint = Color.White,
-                contentDescription = stringResource(R.string.camera_permission_denied)
+                contentDescription = stringResource(R.string.camera_permission_denied),
             )
         }
         Text(

@@ -13,6 +13,6 @@ abstract class CategoryDetailModule {
 
     @Binds
     abstract fun providesCategoryDetailRepository(
-        repository: CategoryDetailRepositoryImpl
+        repository: CategoryDetailRepositoryImpl,
     ): ProductRepository
 }

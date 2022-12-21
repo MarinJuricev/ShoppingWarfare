@@ -18,8 +18,8 @@ private const val QUANTITY = 5
 private const val RECEIPT_PATH = "receiptPath"
 private const val CART_NAME = "cartName"
 
-private val uuidGenerator = { UUID }
-private val timeStampGenerator = { TIMESTAMP }
+private val UUID_GENERATOR = { UUID }
+private val TIME_STAMP_GENERATOR = { TIMESTAMP }
 
 class CartDataToHistoryItemMapperTest {
 
@@ -28,8 +28,8 @@ class CartDataToHistoryItemMapperTest {
     @Before
     fun setUp() {
         sut = CartDataToHistoryItemMapper(
-            uuidGenerator = uuidGenerator,
-            timeStampGenerator = timeStampGenerator,
+            uuidGenerator = UUID_GENERATOR,
+            timeStampGenerator = TIME_STAMP_GENERATOR,
         )
     }
 
@@ -86,7 +86,7 @@ class CartDataToHistoryItemMapperTest {
                 categoryName = CATEGORY_NAME,
                 name = NAME,
                 quantity = QUANTITY,
-            )
+            ),
         )
 
         assertThat(result.historyCartItems).isEqualTo(expectedResult)

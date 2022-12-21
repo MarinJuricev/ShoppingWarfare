@@ -154,14 +154,14 @@ class CategoryViewModelTest {
     fun `should trigger Navigator emitDestination with CategoryDetailAction when NavigateToCategoryDetail is provided`() {
         coEvery {
             navigator.emitDestination(
-                Destination(CategoryDetailDestination.createCategoryDetailRoute(ID, CATEGORY_NAME))
+                Destination(CategoryDetailDestination.createCategoryDetailRoute(ID, CATEGORY_NAME)),
             )
         } returns Unit
         sut.onEvent(CategoryEvent.NavigateToCategoryDetail(ID, CATEGORY_NAME))
 
         coVerify {
             navigator.emitDestination(
-                Destination(CategoryDetailDestination.createCategoryDetailRoute(ID, CATEGORY_NAME))
+                Destination(CategoryDetailDestination.createCategoryDetailRoute(ID, CATEGORY_NAME)),
             )
         }
     }

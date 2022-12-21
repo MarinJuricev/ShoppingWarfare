@@ -15,6 +15,6 @@ object HistoryModule {
     @Provides
     @ViewModelScoped
     fun provideHistoryRepository(
-        repository: HistoryRepositoryImpl
+        repository: HistoryRepositoryImpl,
     ): HistoryRepository = repository
 }

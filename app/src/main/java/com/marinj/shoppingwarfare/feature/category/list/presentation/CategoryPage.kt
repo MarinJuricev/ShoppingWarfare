@@ -51,9 +51,9 @@ fun CategoryScreen(
                         contentDescription = stringResource(id = R.string.create_category),
                         tint = Color.White,
                     )
-                }
+                },
             )
-        }
+        },
     )
 
     LaunchedEffect(key1 = categoryViewModel.viewEffect) {
@@ -62,7 +62,7 @@ fun CategoryScreen(
                 is DeleteCategoryView -> scaffoldState.snackbarHostState.showSnackbar(
                     context.getString(
                         R.string.category_deleted,
-                        categoryEffect.uiCategory.title
+                        categoryEffect.uiCategory.title,
                     ),
                     actionLabel = context.getString(R.string.undo),
                 ).also { snackBarResult ->

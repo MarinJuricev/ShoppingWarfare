@@ -55,7 +55,7 @@ class CartItemToUiCartItemMapperTest {
             categoryName = CATEGORY_NAME,
             name = NAME,
             quantity = QUANTITY,
-            isInBasket = IS_IN_BASKET
+            isInBasket = IS_IN_BASKET,
         )
 
         assertThat(result[1]).isEqualTo(expectedResult)

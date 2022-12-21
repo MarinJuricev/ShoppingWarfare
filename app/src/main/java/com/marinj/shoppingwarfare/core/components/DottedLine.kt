@@ -23,7 +23,7 @@ fun DottedLine(
 ) {
     Box(
         modifier = modifier
-            .background(Color.Gray, shape = DottedShape(step = step))
+            .background(Color.Gray, shape = DottedShape(step = step)),
     )
 }
 
@@ -33,7 +33,7 @@ private data class DottedShape(
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
-        density: Density
+        density: Density,
     ) = Outline.Generic(
         Path().apply {
             val stepPx = with(density) { step.toPx() }
@@ -44,11 +44,11 @@ private data class DottedShape(
                 addRect(
                     Rect(
                         offset = Offset(x = i * actualStep, y = 0f),
-                        size = dotSize
-                    )
+                        size = dotSize,
+                    ),
                 )
             }
             close()
-        }
+        },
     )
 }

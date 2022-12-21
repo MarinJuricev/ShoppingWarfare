@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             ShoppingWarfareTheme {
                 ShoppingWarfareNavigation(
-                    navigator = navigator
+                    navigator = navigator,
                 )
             }
         }

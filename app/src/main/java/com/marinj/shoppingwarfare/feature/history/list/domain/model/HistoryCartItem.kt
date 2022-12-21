@@ -4,5 +4,5 @@ data class HistoryCartItem(
     val id: String,
     val categoryName: String,
     val name: String,
-    val quantity: Int
+    val quantity: Int,
 )

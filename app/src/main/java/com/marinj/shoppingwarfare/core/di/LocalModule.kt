@@ -34,6 +34,6 @@ object LocalModule {
     @Provides
     @Singleton
     fun provideShoppingWarfareDatabase(
-        database: ShoppingWarfareRoomDatabase
+        database: ShoppingWarfareRoomDatabase,
     ): ShoppingWarfareDatabase = database
 }

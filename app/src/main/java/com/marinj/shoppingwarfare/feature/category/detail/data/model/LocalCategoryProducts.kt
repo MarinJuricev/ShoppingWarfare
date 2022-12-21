@@ -9,7 +9,7 @@ data class LocalCategoryProducts(
     val category: LocalCategory,
     @Relation(
         parentColumn = "categoryId",
-        entityColumn = "categoryProductId"
+        entityColumn = "categoryProductId",
     )
-    val productList: List<LocalProduct>
+    val productList: List<LocalProduct>,
 )

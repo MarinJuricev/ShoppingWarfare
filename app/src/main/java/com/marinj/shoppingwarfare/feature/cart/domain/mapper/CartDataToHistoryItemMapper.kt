@@ -26,10 +26,10 @@ class CartDataToHistoryItemMapper @Inject constructor(
                         id = id,
                         categoryName = categoryName,
                         name = name,
-                        quantity = quantity
+                        quantity = quantity,
                     )
                 }
-            }
+            },
         )
     }
 }

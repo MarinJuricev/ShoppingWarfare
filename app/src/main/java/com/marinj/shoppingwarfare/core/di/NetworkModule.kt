@@ -22,5 +22,4 @@ object NetworkModule {
         isLenient = true
         ignoreUnknownKeys = true
     }
-
 }

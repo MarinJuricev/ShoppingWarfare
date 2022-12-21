@@ -45,7 +45,7 @@ fun CartItemCard(
                         start.linkTo(parent.start)
                         bottom.linkTo(parent.bottom)
                     },
-                cartItemName = cartItem.name
+                cartItemName = cartItem.name,
             )
             QuantityPicker(
                 modifier = Modifier.constrainAs(quantityPicker) {
@@ -68,8 +68,8 @@ fun CartItemCard(
                 tint = if (MaterialTheme.colors.isLight) Color.DarkGray else Color.White,
                 contentDescription = stringResource(
                     R.string.swipe_to_delete_item,
-                    cartItem.name
-                )
+                    cartItem.name,
+                ),
             )
         }
     }

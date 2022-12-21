@@ -9,7 +9,7 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHist
 @Composable
 fun HistoryList(
     historyItems: List<UiHistoryItem>,
-    onHistoryEvent: (HistoryEvent) -> Unit
+    onHistoryEvent: (HistoryEvent) -> Unit,
 ) {
     LazyColumn {
         items(
@@ -18,7 +18,7 @@ fun HistoryList(
         ) { historyItem ->
             HistoryItemCard(
                 historyItem = historyItem,
-                onHistoryEvent = onHistoryEvent
+                onHistoryEvent = onHistoryEvent,
             )
         }
     }

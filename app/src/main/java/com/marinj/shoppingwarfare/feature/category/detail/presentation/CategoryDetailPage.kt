@@ -66,8 +66,8 @@ fun CategoryDetailScreen(
                         contentDescription = stringResource(id = string.create_category_item),
                         tint = Color.White,
                     )
-                }
-            )
+                },
+            ),
         )
         categoryDetailViewModel.onEvent(OnGetCategoryProducts(categoryId))
     }
@@ -77,14 +77,14 @@ fun CategoryDetailScreen(
             when (viewEffect) {
                 is Error -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = viewEffect.errorMessage,
-                    actionLabel = currentContext.getString(string.dismiss)
+                    actionLabel = currentContext.getString(string.dismiss),
                 )
                 is ProductDeleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
                         string.deleted_item,
                         viewEffect.product.name,
                     ),
-                    actionLabel = currentContext.getString(string.undo)
+                    actionLabel = currentContext.getString(string.undo),
                 )
                 is CategoryDetailViewEffect.AddedToCart -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
@@ -121,8 +121,8 @@ fun CategoryDetailScreen(
             viewState.isLoading -> ShoppingWarfareLoadingIndicator()
             viewState.products.isEmpty() -> ShoppingWarfareEmptyScreen(
                 message = stringResource(
-                    string.empty_category_detail_message
-                )
+                    string.empty_category_detail_message,
+                ),
             )
             viewState.products.isNotEmpty() -> ProductList(
                 viewState.products,

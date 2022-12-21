@@ -7,6 +7,6 @@ sealed interface NavigationEvent {
     object NavigateBack : NavigationEvent
     data class Destination(
         val destination: String,
-        val builder: NavOptionsBuilder.() -> Unit = {}
+        val builder: NavOptionsBuilder.() -> Unit = {},
     ) : NavigationEvent
 }

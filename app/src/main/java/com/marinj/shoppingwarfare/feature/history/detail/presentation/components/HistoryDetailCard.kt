@@ -15,7 +15,7 @@ import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartI
 @Composable
 fun HistoryDetailCard(historyCartItem: HistoryCartItem) {
     Card(
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp),
     ) {
         Row(
             modifier = Modifier

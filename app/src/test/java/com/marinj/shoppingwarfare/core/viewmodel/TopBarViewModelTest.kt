@@ -48,7 +48,7 @@ class TopBarViewModelTest {
             val expectedResult = NoSearchBarTopBarViewState(
                 title = R.string.category,
                 icon = icon,
-                onActionClick = onActionClicked
+                onActionClick = onActionClicked,
             )
 
             sut.viewState.test {
@@ -64,7 +64,7 @@ class TopBarViewModelTest {
             sut.onEvent(event)
             val expectedResult = NoSearchBarTopBarViewState(
                 title = R.string.category,
-                subTitle = R.string.create_category
+                subTitle = R.string.create_category,
             )
 
             sut.viewState.test {
@@ -102,7 +102,7 @@ class TopBarViewModelTest {
 
             sut.onEvent(event)
             val expectedResult = NoSearchBarTopBarViewState(
-                isTopBarVisible = false
+                isTopBarVisible = false,
             )
 
             sut.viewState.test {
@@ -119,7 +119,7 @@ class TopBarViewModelTest {
             val event = HistoryTopBar(
                 searchTextUpdated = searchTextUpdated,
                 onTextChange = onTextChange,
-                onActionClick = onActionClick
+                onActionClick = onActionClick,
             )
 
             sut.onEvent(event)
@@ -143,7 +143,7 @@ class TopBarViewModelTest {
 
             sut.onEvent(event)
             val expectedResult = NoSearchBarTopBarViewState(
-                isTopBarVisible = false
+                isTopBarVisible = false,
             )
 
             sut.viewState.test {
@@ -159,7 +159,7 @@ class TopBarViewModelTest {
             sut.onEvent(event)
             val expectedResult = NoSearchBarTopBarViewState(
                 title = R.string.history,
-                subTitle = R.string.history_detail
+                subTitle = R.string.history_detail,
             )
 
             sut.viewState.test {

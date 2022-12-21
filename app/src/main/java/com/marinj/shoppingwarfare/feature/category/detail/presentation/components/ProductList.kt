@@ -14,7 +14,7 @@ fun ProductList(
     onCategoryDetailEvent: (CategoryDetailEvent) -> Unit,
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(8.dp)
+        contentPadding = PaddingValues(8.dp),
     ) {
         items(products) { product ->
             ProductCard(

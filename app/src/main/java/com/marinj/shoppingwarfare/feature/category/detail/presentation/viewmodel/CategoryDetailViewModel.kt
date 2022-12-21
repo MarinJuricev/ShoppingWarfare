@@ -103,7 +103,7 @@ class CategoryDetailViewModel @Inject constructor(
         handleCreateCategoryProduct(
             categoryId = product.categoryId,
             categoryName = product.categoryName,
-            productName = product.name
+            productName = product.name,
         )
     }
 

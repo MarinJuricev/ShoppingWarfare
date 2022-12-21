@@ -55,7 +55,7 @@ class CreateCategoryViewModel @Inject constructor(
     private fun handleCategoryNameChanged(categoryText: String) {
         _createCategoryViewState.update { viewState ->
             viewState.copy(
-                categoryName = categoryText
+                categoryName = categoryText,
             )
         }
     }
@@ -63,7 +63,7 @@ class CreateCategoryViewModel @Inject constructor(
     private fun handleBackgroundColorChanged(selectedColor: Color) {
         _createCategoryViewState.update { viewState ->
             viewState.copy(
-                backgroundColor = selectedColor
+                backgroundColor = selectedColor,
             )
         }
     }
@@ -71,7 +71,7 @@ class CreateCategoryViewModel @Inject constructor(
     private fun handleTitleColorChanged(selectedColor: Color) {
         _createCategoryViewState.update { viewState ->
             viewState.copy(
-                titleColor = selectedColor
+                titleColor = selectedColor,
             )
         }
     }
@@ -85,7 +85,7 @@ class CreateCategoryViewModel @Inject constructor(
                 createCategory(categoryName, categoryColor?.toArgb(), titleColor?.toArgb())
         ) {
             is Left -> _createCategoryEffect.send(
-                failureToCreateCategoryEffectMapper.map(result.error)
+                failureToCreateCategoryEffectMapper.map(result.error),
             )
             is Right -> _createCategoryEffect.send(CreateCategoryViewSuccess)
         }

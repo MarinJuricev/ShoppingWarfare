@@ -62,7 +62,7 @@ fun CreateCategoryScreen(
                 )
                 is CreateCategoryViewEffect.CreateCategoryViewFailure -> scaffoldState.snackbarHostState.showSnackbar(
                     message = viewEffect.errorMessage,
-                    actionLabel = currentContext.getString(R.string.dismiss)
+                    actionLabel = currentContext.getString(R.string.dismiss),
                 )
             }.also {
                 if (viewEffect is CreateCategoryViewSuccess) {
@@ -73,12 +73,12 @@ fun CreateCategoryScreen(
     }
 
     Scaffold(
-        scaffoldState = scaffoldState
+        scaffoldState = scaffoldState,
     ) {
         Card(
             modifier = Modifier
                 .fillMaxSize()
-                .wrapContentSize()
+                .wrapContentSize(),
         ) {
             Column(
                 modifier = Modifier.padding(24.dp),
@@ -89,7 +89,7 @@ fun CreateCategoryScreen(
                     value = viewState.categoryName,
                     maxLines = 1,
                     label = { Text(stringResource(R.string.category_name)) },
-                    onValueChange = { createCategoryViewModel.onEvent(OnCategoryNameChanged(it)) }
+                    onValueChange = { createCategoryViewModel.onEvent(OnCategoryNameChanged(it)) },
                 )
                 // TODO  Later down the line allow the user to select a picture for the category
                 ColorPicker(
@@ -118,7 +118,7 @@ fun CreateCategoryScreen(
                 )
                 Button(
                     modifier = Modifier.padding(top = 24.dp),
-                    onClick = { createCategoryViewModel.onEvent(OnCreateCategoryClicked) }
+                    onClick = { createCategoryViewModel.onEvent(OnCreateCategoryClicked) },
                 ) {
                     Text(stringResource(R.string.create_category))
                 }

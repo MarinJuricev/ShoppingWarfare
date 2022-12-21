@@ -63,8 +63,8 @@ class CreateCategoryTest {
                         ID,
                         title,
                         categoryColor,
-                        titleColor
-                    )
+                        titleColor,
+                    ),
                 )
             } coAnswers { success }
 

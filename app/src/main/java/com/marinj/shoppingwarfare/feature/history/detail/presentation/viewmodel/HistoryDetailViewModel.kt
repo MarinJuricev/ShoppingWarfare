@@ -51,11 +51,11 @@ class HistoryDetailViewModel @Inject constructor(
             is Right -> _viewState.update { viewState ->
                 viewState.copy(
                     isLoading = false,
-                    uiHistoryItem = historyItemToUiHistoryItemMapper.map(result.value)
+                    uiHistoryItem = historyItemToUiHistoryItemMapper.map(result.value),
                 )
             }
             is Left -> _viewEffect.send(
-                Error(errorMessage = failureToStringMapper.map(result.error))
+                Error(errorMessage = failureToStringMapper.map(result.error)),
             )
         }
     }

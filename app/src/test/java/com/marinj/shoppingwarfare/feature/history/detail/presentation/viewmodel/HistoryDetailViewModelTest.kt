@@ -38,7 +38,7 @@ class HistoryDetailViewModelTest {
         sut = HistoryDetailViewModel(
             getHistoryItemById = getHistoryItemById,
             historyItemToUiHistoryItemMapper = historyItemToUiHistoryItemMapper,
-            failureToStringMapper = failureToStringMapper
+            failureToStringMapper = failureToStringMapper,
         )
     }
 

@@ -7,7 +7,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import javax.inject.Inject
 
 class AddToCart @Inject constructor(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
 ) {
 
     suspend operator fun invoke(cartItem: CartItem): Either<Failure, Unit> {

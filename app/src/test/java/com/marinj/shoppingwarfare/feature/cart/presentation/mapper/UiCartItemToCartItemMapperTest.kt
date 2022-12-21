@@ -30,8 +30,8 @@ class UiCartItemToCartItemMapperTest {
                 name = NAME,
                 categoryName = CATEGORY_NAME,
                 quantity = QUANTITY,
-                isInBasket = IS_IN_BASKET
-            )
+                isInBasket = IS_IN_BASKET,
+            ),
         )
 
         val result = sut.map(origin)
@@ -41,8 +41,8 @@ class UiCartItemToCartItemMapperTest {
                 name = NAME,
                 categoryName = CATEGORY_NAME,
                 quantity = QUANTITY,
-                isInBasket = IS_IN_BASKET
-            )
+                isInBasket = IS_IN_BASKET,
+            ),
         )
 
         assertThat(result).isEqualTo(expectedResult)

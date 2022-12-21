@@ -37,7 +37,7 @@ fun CreateCategoryProduct(
 
     Column(
         modifier = Modifier.fillMaxHeight(0.25f),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),

@@ -32,11 +32,11 @@ class UpdateCartItemQuantityFakeTest {
             assertThat(actualResult).isEqualTo(Unit.buildRight())
         }
 
-    private inner class FakeCartRepository: CartRepository {
+    private inner class FakeCartRepository : CartRepository {
 
         override suspend fun updateCartItemQuantity(
             cartItemId: String,
-            newQuantity: Int
+            newQuantity: Int,
         ): Either<Failure, Unit> = Unit.buildRight()
 
         override fun observeCartItems(): Flow<List<CartItem>> {
@@ -66,7 +66,6 @@ class UpdateCartItemQuantityFakeTest {
         override suspend fun dropCurrentCart(): Either<Failure, Unit> {
             TODO("Not yet implemented")
         }
-
     }
 }
 

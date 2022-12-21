@@ -100,7 +100,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
     private fun handleUserTopBar(event: UserTopBar) {
         _viewState.update {
             NoSearchBarTopBarViewState(
-                isTopBarVisible = event.isVisible
+                isTopBarVisible = event.isVisible,
             )
         }
     }

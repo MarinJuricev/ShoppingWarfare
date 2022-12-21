@@ -22,7 +22,7 @@ fun RowScope.ShoppingWarfareBottomNavigationItem(
         icon = {
             Icon(
                 painter = painterResource(screen.iconId),
-                contentDescription = screen.route
+                contentDescription = screen.route,
             )
         },
         label = { Text(stringResource(id = screen.resourceId)) },
@@ -42,6 +42,6 @@ fun RowScope.ShoppingWarfareBottomNavigationItem(
                 // Restore state when reselecting a previously selected item
                 restoreState = true
             }
-        }
+        },
     )
 }

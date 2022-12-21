@@ -83,7 +83,7 @@ class HistoryViewModel @Inject constructor(
                 historyItems = filterHistoryItems(
                     listToFilter = _viewState.value.nonFilteredHistoryItems,
                     searchQuery = _viewState.value.searchText,
-                )
+                ),
             )
         }
     }
@@ -103,15 +103,15 @@ class HistoryViewModel @Inject constructor(
             Destination(
                 HistoryDetailNavigation.createHistoryDetailRoute(
                     historyItemId = uiHistoryItem.id,
-                )
-            )
+                ),
+            ),
         )
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
         _viewState.update { viewState ->
             viewState.copy(
-                isLoading = isLoading
+                isLoading = isLoading,
             )
         }
     }

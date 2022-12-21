@@ -173,15 +173,15 @@ class CartViewModelTest {
             coEvery {
                 updateCartItemQuantity(
                     cartItemId = ID,
-                    newQuantity = newQuantity
+                    newQuantity = newQuantity,
                 )
             } coAnswers { Unit.buildRight() }
 
             sut.onEvent(
                 CartEvent.CartItemQuantityChanged(
                     cartItemToUpdate = cartItem,
-                    newQuantity = newQuantity
-                )
+                    newQuantity = newQuantity,
+                ),
             )
 
             sut.viewEffect.test {
@@ -200,15 +200,15 @@ class CartViewModelTest {
             coEvery {
                 updateCartItemQuantity(
                     cartItemId = ID,
-                    newQuantity = newQuantity
+                    newQuantity = newQuantity,
                 )
             } coAnswers { Failure.Unknown.buildLeft() }
 
             sut.onEvent(
                 CartEvent.CartItemQuantityChanged(
                     cartItemToUpdate = cartItem,
-                    newQuantity = newQuantity
-                )
+                    newQuantity = newQuantity,
+                ),
             )
 
             sut.viewEffect.test {
@@ -316,7 +316,7 @@ class CartViewModelTest {
             sut.onEvent(
                 CartEvent.ItemAddedToBasket(
                     cartItem = cartItem,
-                )
+                ),
             )
 
             sut.viewEffect.test {
@@ -335,14 +335,14 @@ class CartViewModelTest {
             coEvery {
                 updateCartItemIsInBasket(
                     cartItemId = ID,
-                    updatedIsInBasket = !IS_IN_BASKET
+                    updatedIsInBasket = !IS_IN_BASKET,
                 )
             } coAnswers { Failure.Unknown.buildLeft() }
 
             sut.onEvent(
                 CartEvent.ItemAddedToBasket(
                     cartItem = cartItem,
-                )
+                ),
             )
 
             sut.viewEffect.test {

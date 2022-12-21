@@ -1,11 +1,8 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.model
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
-import io.mockk.every
-import io.mockk.mockk
 import org.junit.Test
 
 class LocalCategoryTest {

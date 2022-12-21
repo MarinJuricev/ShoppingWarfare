@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
@@ -38,7 +37,7 @@ fun HistoryDetailInfo(
         Image(
             modifier = Modifier.fillMaxSize(0.5f),
             painter = rememberHistoryDetailInfoPainter(context, uiHistoryItem),
-            contentDescription = stringResource(id = R.string.receipt_image_content_description)
+            contentDescription = stringResource(id = R.string.receipt_image_content_description),
         )
         HistoryDetailCartInfo(uiHistoryItem)
         Spacer(modifier = Modifier.height(16.dp))
@@ -59,14 +58,15 @@ private fun rememberHistoryDetailInfoPainter(
     uiHistoryItem: UiHistoryItem,
 ): Painter {
     return if (uiHistoryItem.receiptPath != null) {
-        rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current).data(
-            data = File(
-                context.filesDir,
-                uiHistoryItem.receiptPath,
-            )
-        ).apply(block = fun ImageRequest.Builder.() {
-            crossfade(true)
-        }).build()
+        rememberAsyncImagePainter(
+            ImageRequest.Builder(LocalContext.current).data(
+                data = File(
+                    context.filesDir,
+                    uiHistoryItem.receiptPath,
+                ),
+            ).apply(block = fun ImageRequest.Builder.() {
+                crossfade(true)
+            }).build(),
         )
     } else {
         painterResource(

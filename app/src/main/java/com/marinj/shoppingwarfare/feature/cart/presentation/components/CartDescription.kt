@@ -19,7 +19,7 @@ fun CartDescription(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
             text = stringResource(R.string.cart_product_name),

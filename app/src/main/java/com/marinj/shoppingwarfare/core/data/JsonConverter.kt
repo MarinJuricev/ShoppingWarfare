@@ -42,7 +42,7 @@ class JsonConverter @Inject constructor(
     }
 
     inline fun <reified T> tryOrNull(
-        action: () -> T
+        action: () -> T,
     ): T? = try {
         action()
     } catch (e: Throwable) {

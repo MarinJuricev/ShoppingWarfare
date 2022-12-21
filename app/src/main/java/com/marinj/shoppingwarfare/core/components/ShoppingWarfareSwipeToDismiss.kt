@@ -57,7 +57,7 @@ fun ShoppingWarfareSwipeToDismiss(
                 onLeftSwipe?.invoke()
             }
             dismissValue != DismissValue.DismissedToEnd
-        }
+        },
     )
     SwipeToDismiss(
         state = dismissState,
@@ -73,7 +73,7 @@ fun ShoppingWarfareSwipeToDismiss(
                     DismissValue.Default -> Color.LightGray
                     DismissValue.DismissedToEnd -> Color.Green
                     DismissValue.DismissedToStart -> Color.Red
-                }
+                },
             )
             val alignment = when (direction) {
                 StartToEnd -> Alignment.CenterStart
@@ -84,19 +84,19 @@ fun ShoppingWarfareSwipeToDismiss(
                 EndToStart -> rightIcon
             }
             val scale by animateFloatAsState(
-                if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
+                if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f,
             )
             Box(
                 Modifier
                     .fillMaxSize()
                     .background(color)
                     .padding(horizontal = 20.dp),
-                contentAlignment = alignment
+                contentAlignment = alignment,
             ) {
                 Icon(
                     icon,
                     contentDescription = null,
-                    modifier = Modifier.scale(scale)
+                    modifier = Modifier.scale(scale),
                 )
             }
         },
@@ -115,12 +115,12 @@ fun ShoppingWarfareSwipeToDismiss(
             Card(
                 modifier = modifier,
                 elevation = animateDpAsState(
-                    if (dismissState.dismissDirection != null) 4.dp else 2.dp
+                    if (dismissState.dismissDirection != null) 4.dp else 2.dp,
                 ).value,
                 backgroundColor = backgroundColor,
             ) {
                 foregroundContent()
             }
-        }
+        },
     )
 }

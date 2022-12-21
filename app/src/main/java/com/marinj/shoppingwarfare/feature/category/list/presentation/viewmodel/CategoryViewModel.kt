@@ -15,9 +15,12 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCateg
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.CategoryToUiCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.*
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewState
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -96,7 +99,7 @@ class CategoryViewModel @Inject constructor(
     private fun updateIsLoading(isLoading: Boolean) {
         _viewState.update { viewState ->
             viewState.copy(
-                isLoading = isLoading
+                isLoading = isLoading,
             )
         }
     }
@@ -116,9 +119,9 @@ class CategoryViewModel @Inject constructor(
             Destination(
                 CategoryDetailDestination.createCategoryDetailRoute(
                     categoryId,
-                    categoryName
-                )
-            )
+                    categoryName,
+                ),
+            ),
         )
     }
 

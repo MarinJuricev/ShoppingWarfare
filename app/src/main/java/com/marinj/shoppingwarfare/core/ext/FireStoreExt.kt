@@ -9,8 +9,9 @@ fun DocumentReference.addWarfareSnapshotListener(
     onDataSuccess: (Map<String, Any?>) -> Unit,
     onError: (Throwable) -> Unit,
 ) = addSnapshotListener { value, error ->
-    if (error != null)
+    if (error != null) {
         onError(SHWException(error.message ?: "Unknown Error Occurred"))
+    }
 
     val data = value?.data
 
@@ -21,8 +22,9 @@ fun CollectionReference.addWarfareSnapshotListener(
     onDataSuccess: (List<DocumentSnapshot>) -> Unit,
     onError: (Throwable) -> Unit,
 ) = addSnapshotListener { value, error ->
-    if (error != null)
+    if (error != null) {
         onError(SHWException(error.message ?: "Unknown Error Occurred"))
+    }
 
     val data = value?.documents
 

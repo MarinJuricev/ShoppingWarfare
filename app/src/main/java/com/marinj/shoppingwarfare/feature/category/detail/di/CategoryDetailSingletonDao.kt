@@ -15,6 +15,6 @@ object CategoryDetailSingletonDao {
     @Provides
     @Singleton
     fun provideCategoryDetailDao(
-        database: ShoppingWarfareDatabase
+        database: ShoppingWarfareDatabase,
     ): ProductDao = database.productDao()
 }

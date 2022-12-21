@@ -85,7 +85,7 @@ class CreateProductTest {
                 id = UUID,
                 categoryId = CATEGORY_ID,
                 categoryName = CATEGORY_NAME,
-                name = CATEGORY_ITEM_TITLE
+                name = CATEGORY_ITEM_TITLE,
             )
             coEvery {
                 validateProduct(CATEGORY_ITEM_TITLE)

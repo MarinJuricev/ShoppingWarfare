@@ -33,7 +33,7 @@ class CategoryApiImpl @Inject constructor(
                     }.let { trySend(it) }
                 },
                 onError = { throwable ->
-                    throw  throwable
+                    throw throwable
                 },
             )
 
@@ -43,14 +43,15 @@ class CategoryApiImpl @Inject constructor(
     }
 
     override suspend fun addCategoryItem(
-        categoryItem: RemoteCategoryItem
+        categoryItem: RemoteCategoryItem,
     ) = suspendCancellableCoroutine { continuation ->
         fireStore
             .getCategoryCollection()
             .add(categoryItem)
             .addOnSuccessListener {
-                if (continuation.isActive)
+                if (continuation.isActive) {
                     continuation.resume(Unit.buildRight())
+                }
             }
             .addOnFailureListener { exception: Exception ->
                 continuation.resume(exception.toLeft())
@@ -65,8 +66,9 @@ class CategoryApiImpl @Inject constructor(
             .document(categoryId)
             .delete()
             .addOnSuccessListener {
-                if (continuation.isActive)
+                if (continuation.isActive) {
                     continuation.resume(Unit.buildRight())
+                }
             }
             .addOnFailureListener {
                 continuation.resume(Unknown.buildLeft())
@@ -75,7 +77,6 @@ class CategoryApiImpl @Inject constructor(
 
     private fun FirebaseFirestore.getCategoryCollection() =
         this.collection(CATEGORY_COLLECTION)
-
 }
 
 private const val CATEGORY_COLLECTION = "category"
