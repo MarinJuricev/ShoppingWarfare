@@ -47,7 +47,8 @@ class CategoryApiImpl @Inject constructor(
     ) = suspendCancellableCoroutine { continuation ->
         fireStore
             .getCategoryCollection()
-            .add(categoryItem)
+            .document(categoryItem.categoryId)
+            .set(categoryItem)
             .addOnSuccessListener {
                 if (continuation.isActive) {
                     continuation.resume(Unit.buildRight())
