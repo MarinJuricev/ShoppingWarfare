@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class RemoteCategoryItem(
+data class RemoteCategory(
     val categoryId: String,
     val title: String,
     val backgroundColor: Int,
@@ -20,7 +20,7 @@ data class RemoteCategoryItem(
     )
 }
 
-fun Category.toRemote() = RemoteCategoryItem(
+fun Category.toRemote() = RemoteCategory(
     categoryId = id,
     title = title,
     backgroundColor = backgroundColor,

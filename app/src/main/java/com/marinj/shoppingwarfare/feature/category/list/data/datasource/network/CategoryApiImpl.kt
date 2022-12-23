@@ -7,7 +7,7 @@ import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.core.result.toLeft
-import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategoryItem
+import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -20,14 +20,14 @@ class CategoryApiImpl @Inject constructor(
     private val jsonConverter: JsonConverter,
 ) : CategoryApi {
 
-    override fun observeCategoryItems(): Flow<List<RemoteCategoryItem>> = callbackFlow {
+    override fun observeCategoryItems(): Flow<List<RemoteCategory>> = callbackFlow {
         val subscription = fireStore
             .getCategoryCollection()
             .addWarfareSnapshotListener(
                 onDataSuccess = { documents ->
                     documents.mapNotNull { document ->
                         document.data?.let {
-                            jsonConverter.decode<RemoteCategoryItem>(it)
+                            jsonConverter.decode<RemoteCategory>(it)
                                 ?.copy(categoryId = document.id)
                         }
                     }.let { trySend(it) }
@@ -43,7 +43,7 @@ class CategoryApiImpl @Inject constructor(
     }
 
     override suspend fun addCategoryItem(
-        categoryItem: RemoteCategoryItem,
+        categoryItem: RemoteCategory,
     ) = suspendCancellableCoroutine { continuation ->
         fireStore
             .getCategoryCollection()
