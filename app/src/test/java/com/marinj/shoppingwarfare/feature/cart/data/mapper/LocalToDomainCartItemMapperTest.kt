@@ -23,7 +23,7 @@ class LocalToDomainCartItemMapperTest {
     }
 
     @Test
-    fun `map should map id`() {
+    fun `map SHOULD map id`() {
         val localCartItem = mockk<LocalCartItem>(relaxed = true).apply {
             every { cartItemId } returns ID
         }
@@ -34,7 +34,7 @@ class LocalToDomainCartItemMapperTest {
     }
 
     @Test
-    fun `map should map name`() {
+    fun `map SHOULD map name`() {
         val localCartItem = mockk<LocalCartItem>(relaxed = true).apply {
             every { name } returns NAME
         }
@@ -45,7 +45,7 @@ class LocalToDomainCartItemMapperTest {
     }
 
     @Test
-    fun `map should map categoryName`() {
+    fun `map SHOULD map categoryName`() {
         val localCartItem = mockk<LocalCartItem>(relaxed = true).apply {
             every { categoryName } returns CATEGORY_NAME
         }
@@ -56,7 +56,7 @@ class LocalToDomainCartItemMapperTest {
     }
 
     @Test
-    fun `map should map quantity`() {
+    fun `map SHOULD map quantity`() {
         val localCartItem = mockk<LocalCartItem>(relaxed = true).apply {
             every { quantity } returns QUANTITY
         }
@@ -67,7 +67,7 @@ class LocalToDomainCartItemMapperTest {
     }
 
     @Test
-    fun `map should map isInQuantity`() {
+    fun `map SHOULD map isInQuantity`() {
         val localCartItem = mockk<LocalCartItem>(relaxed = true).apply {
             every { isInBasket } returns IS_IN_BASKET
         }

@@ -34,7 +34,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map id`() = runTest {
+    fun `map SHOULD map id`() = runTest {
         val cartItems: List<CartItem> = emptyList()
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
@@ -43,7 +43,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map receiptPath`() = runTest {
+    fun `map SHOULD map receiptPath`() = runTest {
         val cartItems: List<CartItem> = emptyList()
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
@@ -52,7 +52,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map cartName`() = runTest {
+    fun `map SHOULD map cartName`() = runTest {
         val cartItems: List<CartItem> = emptyList()
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
@@ -61,7 +61,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map timeStamp`() = runTest {
+    fun `map SHOULD map timeStamp`() = runTest {
         val cartItems: List<CartItem> = emptyList()
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
@@ -70,7 +70,7 @@ class CartDataToHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map historyCartItems`() = runTest {
+    fun `map SHOULD map historyCartItems`() = runTest {
         val cartItem = mockk<CartItem>().apply {
             every { id } returns ID
             every { categoryName } returns CATEGORY_NAME

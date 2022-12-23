@@ -24,7 +24,7 @@ class CartItemToUiCartItemMapperTest {
     }
 
     @Test
-    fun `map should return UiCartItem Header as the first item in the list`() {
+    fun `map SHOULD return UiCartItem Header as the first item in the list`() {
         val cartItems = mockk<CartItem>().apply {
             every { categoryName } returns CATEGORY_NAME
             every { id } returns ID
@@ -40,7 +40,7 @@ class CartItemToUiCartItemMapperTest {
     }
 
     @Test
-    fun `map should return UiCartItem Content as the second item in the list`() {
+    fun `map SHOULD return UiCartItem Content as the second item in the list`() {
         val cartItems = mockk<CartItem>().apply {
             every { categoryName } returns CATEGORY_NAME
             every { id } returns ID

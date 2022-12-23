@@ -27,7 +27,7 @@ class UpdateCartItemQuantityTest {
     }
 
     @Test
-    fun `invoke should trigger updateCartItemQuantity and return result from cartRepository`() =
+    fun `invoke SHOULD trigger updateCartItemQuantity and return result from cartRepository`() =
         runTest {
             val repositoryResult = Failure.Unknown.buildLeft()
             coEvery {

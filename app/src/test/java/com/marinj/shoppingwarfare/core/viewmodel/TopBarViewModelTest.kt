@@ -35,7 +35,7 @@ class TopBarViewModelTest {
     }
 
     @Test
-    fun `onEvent should update viewState to match categoryTopBar when CategoryTopBar is provided`() =
+    fun `onEvent SHOULD update viewState to match categoryTopBar when CategoryTopBar is provided`() =
         runTest {
             val icon: @Composable () -> Unit = {}
             val onActionClicked = {}
@@ -57,7 +57,7 @@ class TopBarViewModelTest {
         }
 
     @Test
-    fun `onEvent should update viewState to match createCategoryTopBar when CreateCategoryTopBar is provided`() =
+    fun `onEvent SHOULD update viewState to match createCategoryTopBar when CreateCategoryTopBar is provided`() =
         runTest {
             val event = CreateCategoryTopBar()
 
@@ -73,7 +73,7 @@ class TopBarViewModelTest {
         }
 
     @Test
-    fun `onEvent should update viewState to match categoryDetailTopBar when CategoryDetailTopBar is provided`() =
+    fun `onEvent SHOULD update viewState to match categoryDetailTopBar when CategoryDetailTopBar is provided`() =
         runTest {
             val icon: @Composable () -> Unit = {}
             val onActionClicked = {}
@@ -96,7 +96,7 @@ class TopBarViewModelTest {
         }
 
     @Test
-    fun `onEvent should update viewState to match cartTopBar when CartTopBar is provided`() =
+    fun `onEvent SHOULD update viewState to match cartTopBar when CartTopBar is provided`() =
         runTest {
             val event = CartTopBar()
 
@@ -111,7 +111,7 @@ class TopBarViewModelTest {
         }
 
     @Test
-    fun `onEvent should update viewState to match historyTopBar when HistoryTopBar is provided`() =
+    fun `onEvent SHOULD update viewState to match historyTopBar when HistoryTopBar is provided`() =
         runTest {
             val onTextChange: (String) -> Unit = {}
             val onActionClick: () -> Unit = {}
@@ -137,7 +137,7 @@ class TopBarViewModelTest {
         }
 
     @Test
-    fun `onEvent should update viewState to match userTopBar when UserTopBar is provided`() =
+    fun `onEvent SHOULD update viewState to match userTopBar when UserTopBar is provided`() =
         runTest {
             val event = UserTopBar()
 
@@ -152,7 +152,7 @@ class TopBarViewModelTest {
         }
 
     @Test
-    fun `onEvent should update viewState to match historyDetailTopBar when HistoryDetailTopBar is provided`() =
+    fun `onEvent SHOULD update viewState to match historyDetailTopBar when HistoryDetailTopBar is provided`() =
         runTest {
             val event = HistoryDetailTopBar()
 

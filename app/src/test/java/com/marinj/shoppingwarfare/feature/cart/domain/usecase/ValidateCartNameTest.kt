@@ -17,7 +17,7 @@ class ValidateCartNameTest {
     }
 
     @Test
-    fun `invoke should return Left when cartName is empty`() {
+    fun `invoke SHOULD return Left when cartName is empty`() {
         val cartName = ""
 
         val result = sut(cartName)
@@ -26,7 +26,7 @@ class ValidateCartNameTest {
     }
 
     @Test
-    fun `invoke should return Left when cartName is blank`() {
+    fun `invoke SHOULD return Left when cartName is blank`() {
         val cartName = "        "
 
         val result = sut(cartName)
@@ -35,7 +35,7 @@ class ValidateCartNameTest {
     }
 
     @Test
-    fun `invoke should return Right when cartName is empty`() {
+    fun `invoke SHOULD return Right when cartName is empty`() {
         val cartName = "cartName"
 
         val result = sut(cartName)

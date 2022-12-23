@@ -45,7 +45,7 @@ class CartRepositoryImplTest {
     }
 
     @Test
-    fun `observeCartItems should return cartItems`() = runTest {
+    fun `observeCartItems SHOULD return cartItems`() = runTest {
         val cartItem = mockk<CartItem>()
         val cartItemList = listOf(cartItem)
         val localCartItem = mockk<LocalCartItem>()
@@ -64,7 +64,7 @@ class CartRepositoryImplTest {
     }
 
     @Test
-    fun `observeCartItemsCount should return number of cartItems`() = runTest {
+    fun `observeCartItemsCount SHOULD return number of cartItems`() = runTest {
         val numberOfCartItems = 5
         coEvery {
             cartDao.observeCartItemsCount()
@@ -77,7 +77,7 @@ class CartRepositoryImplTest {
     }
 
     @Test
-    fun `upsertCartItem should return LeftFailure when cartDao returns 0L`() = runTest {
+    fun `upsertCartItem SHOULD return LeftFailure when cartDao returns 0L`() = runTest {
         val cartItem = mockk<CartItem>()
         val localCartItem = mockk<LocalCartItem>().apply {
             every { name } returns CART_ITEM_NAME
@@ -97,7 +97,7 @@ class CartRepositoryImplTest {
     }
 
     @Test
-    fun `upsertCartItem should return RightUnit when cartDao returns everything but 0L`() =
+    fun `upsertCartItem SHOULD return RightUnit when cartDao returns everything but 0L`() =
         runTest {
             val cartItem = mockk<CartItem>()
             val localCartItem = mockk<LocalCartItem>()
@@ -116,7 +116,7 @@ class CartRepositoryImplTest {
         }
 
     @Test
-    fun `deleteCartItemById should return RightUnit`() =
+    fun `deleteCartItemById SHOULD return RightUnit`() =
         runTest {
             val cartItemId = "1"
             coEvery {
@@ -130,7 +130,7 @@ class CartRepositoryImplTest {
         }
 
     @Test
-    fun `getCartItemById should return LeftFailure when cartDao returns null`() =
+    fun `getCartItemById SHOULD return LeftFailure when cartDao returns null`() =
         runTest {
             val cartItemId = "1"
             coEvery {

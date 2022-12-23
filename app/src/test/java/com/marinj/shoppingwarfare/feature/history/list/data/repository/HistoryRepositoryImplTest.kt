@@ -38,7 +38,7 @@ class HistoryRepositoryImplTest {
     }
 
     @Test
-    fun `observeHistoryItems should return historyItems`() = runTest {
+    fun `observeHistoryItems SHOULD return historyItems`() = runTest {
         val historyItem = mockk<HistoryItem>()
         val historyItemList = listOf(historyItem)
         val localHistoryItem = mockk<LocalHistoryItem>()
@@ -57,7 +57,7 @@ class HistoryRepositoryImplTest {
     }
 
     @Test
-    fun `upsertHistoryItem should return LeftFailure when historyDao returns 0L`() =
+    fun `upsertHistoryItem SHOULD return LeftFailure when historyDao returns 0L`() =
         runTest {
             val historyItem = mockk<HistoryItem>()
             val localHistoryItem = mockk<LocalHistoryItem>()
@@ -76,7 +76,7 @@ class HistoryRepositoryImplTest {
         }
 
     @Test
-    fun `upsertHistoryItem should return RightUnit when historyDao returns 1L`() = runTest {
+    fun `upsertHistoryItem SHOULD return RightUnit when historyDao returns 1L`() = runTest {
         val historyItem = mockk<HistoryItem>()
         val localHistoryItem = mockk<LocalHistoryItem>()
         val daoResult = 1L

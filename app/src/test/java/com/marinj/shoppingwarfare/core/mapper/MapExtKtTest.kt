@@ -9,7 +9,7 @@ import org.junit.Test
 class MapExtKtTest {
 
     @Test
-    fun `getOrEmpty should return value from map when key is present in the map`() {
+    fun `getOrEmpty SHOULD return value from map when key is present in the map`() {
         val sut = mapOf(KEY to "value")
 
         val result = sut.getOrEmpty(KEY)
@@ -18,7 +18,7 @@ class MapExtKtTest {
     }
 
     @Test
-    fun `getOrEmpty should return empty string from map when key is not present in the map`() {
+    fun `getOrEmpty SHOULD return empty string from map when key is not present in the map`() {
         val sut = mapOf(KEY to "value")
 
         val result = sut.getOrEmpty("randomKey")
@@ -27,7 +27,7 @@ class MapExtKtTest {
     }
 
     @Test
-    fun `getOrZero should return value from map when key is present in the map`() {
+    fun `getOrZero SHOULD return value from map when key is present in the map`() {
         val sut = mapOf(KEY to 1)
 
         val result = sut.getOrZero(KEY)
@@ -36,7 +36,7 @@ class MapExtKtTest {
     }
 
     @Test
-    fun `getOrZero should return empty string from map when key is not present in the map`() {
+    fun `getOrZero SHOULD return empty string from map when key is not present in the map`() {
         val sut = mapOf(KEY to 1)
 
         val result = sut.getOrZero("randomKey")
@@ -45,7 +45,7 @@ class MapExtKtTest {
     }
 
     @Test
-    fun `getOrFalse should return value from map when key is present in the map`() {
+    fun `getOrFalse SHOULD return value from map when key is present in the map`() {
         val sut = mapOf(KEY to true)
 
         val result = sut.getOrFalse(KEY)
@@ -54,7 +54,7 @@ class MapExtKtTest {
     }
 
     @Test
-    fun `getOrFalse should return empty string from map when key is not present in the map`() {
+    fun `getOrFalse SHOULD return empty string from map when key is not present in the map`() {
         val sut = mapOf(KEY to true)
 
         val result = sut.getOrFalse("randomKey")

@@ -25,7 +25,7 @@ class UpdateCartItemQuantityFakeTest {
     }
 
     @Test
-    fun `invoke should trigger updateCartItemQuantity and return result from cartRepository`() =
+    fun `invoke SHOULD trigger updateCartItemQuantity and return result from cartRepository`() =
         runTest {
             val actualResult = sut(ID, UPDATED_QUANTITY)
 

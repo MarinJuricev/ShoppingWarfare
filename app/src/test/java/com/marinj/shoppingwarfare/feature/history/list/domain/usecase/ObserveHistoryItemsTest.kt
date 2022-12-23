@@ -25,7 +25,7 @@ class ObserveHistoryItemsTest {
     }
 
     @Test
-    fun `invoke should return result from historyRepository observeHistoryItems`() =
+    fun `invoke SHOULD return result from historyRepository observeHistoryItems`() =
         runTest {
             val historyItems = listOf(mockk<HistoryItem>())
             val repositoryFlow = flow { emit(historyItems) }

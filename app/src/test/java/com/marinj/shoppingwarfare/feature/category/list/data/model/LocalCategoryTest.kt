@@ -8,7 +8,7 @@ import org.junit.Test
 class LocalCategoryTest {
 
     @Test
-    fun `toDomain should map id`() {
+    fun `toDomain SHOULD map id`() {
         val localCategory = buildLocalCategory(providedCategoryId = ID)
 
         val actualResult = localCategory.toDomain()
@@ -17,7 +17,7 @@ class LocalCategoryTest {
     }
 
     @Test
-    fun `toDomain should map title`() {
+    fun `toDomain SHOULD map title`() {
         val localCategory = buildLocalCategory(providedTitle = TITLE)
 
         val actualResult = localCategory.toDomain()
@@ -26,7 +26,7 @@ class LocalCategoryTest {
     }
 
     @Test
-    fun `toDomain should map backgroundColor`() {
+    fun `toDomain SHOULD map backgroundColor`() {
         val localCategory = buildLocalCategory(providedBackgroundColor = BACKGROUND_COLOR)
 
         val actualResult = localCategory.toDomain()
@@ -35,7 +35,7 @@ class LocalCategoryTest {
     }
 
     @Test
-    fun `toDomain should map titleColor`() {
+    fun `toDomain SHOULD map titleColor`() {
         val localCategory = buildLocalCategory(providedTitleColor = TITLE_COLOR)
 
         val actualResult = localCategory.toDomain()
@@ -44,7 +44,7 @@ class LocalCategoryTest {
     }
 
     @Test
-    fun `toLocal should map id`() {
+    fun `toLocal SHOULD map id`() {
         val category = buildCategory(providedId = ID)
 
         val actualResult = category.toLocal()
@@ -53,7 +53,7 @@ class LocalCategoryTest {
     }
 
     @Test
-    fun `toLocal should map title`() {
+    fun `toLocal SHOULD map title`() {
         val category = buildCategory(providedTitle = TITLE)
 
         val actualResult = category.toLocal()
@@ -62,7 +62,7 @@ class LocalCategoryTest {
     }
 
     @Test
-    fun `toLocal should map backgroundColor`() {
+    fun `toLocal SHOULD map backgroundColor`() {
         val category = buildCategory(providedBackgroundColor = BACKGROUND_COLOR)
 
         val actualResult = category.toLocal()
@@ -71,7 +71,7 @@ class LocalCategoryTest {
     }
 
     @Test
-    fun `toLocal should map titleColor`() {
+    fun `toLocal SHOULD map titleColor`() {
         val category = buildCategory(providedTitleColor = TITLE_COLOR)
 
         val actualResult = category.toLocal()

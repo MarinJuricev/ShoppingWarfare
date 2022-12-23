@@ -15,7 +15,7 @@ class FailureToStringMapperTest {
     }
 
     @Test
-    fun `map should return provided errorMessage when failure is of type ErrorMessage`() {
+    fun `map SHOULD return provided errorMessage when failure is of type ErrorMessage`() {
         val errorMessage = "errorMessage"
         val origin = Failure.ErrorMessage(errorMessage)
 
@@ -25,7 +25,7 @@ class FailureToStringMapperTest {
     }
 
     @Test
-    fun `map should return generic error when failure is not of type ErrorMessage`() {
+    fun `map SHOULD return generic error when failure is not of type ErrorMessage`() {
         val origin = Failure.Unknown
 
         val actualResult = sut.map(origin)

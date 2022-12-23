@@ -71,7 +71,7 @@ class CartViewModelTest {
     }
 
     @Test
-    fun `should update cartData when OnGetCartItems is provided and emits cartData`() =
+    fun `SHOULD update cartData when OnGetCartItems is provided and emits cartData`() =
         runTest {
             val cartItem = mockk<CartItem>()
             val uiCartItem = mockk<UiCartItem>()
@@ -101,7 +101,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewEffect with Error when OnGetCartItems is provided and throws an exception`() =
+    fun `SHOULD update viewEffect with Error when OnGetCartItems is provided and throws an exception`() =
         runTest {
             val cartItemsFlow = flow<List<CartItem>> {
                 throw Exception()
@@ -126,7 +126,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewEffect with CartItemDeleted when DeleteCartItem is provided and deleteCartItem returns Right`() =
+    fun `SHOULD update viewEffect with CartItemDeleted when DeleteCartItem is provided and deleteCartItem returns Right`() =
         runTest {
             val cartItem = mockk<UiCartItem.Content>().apply {
                 every { id } answers { ID }
@@ -144,7 +144,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewEffect with Error when DeleteCartItem is provided and deleteCartItem returns Left`() =
+    fun `SHOULD update viewEffect with Error when DeleteCartItem is provided and deleteCartItem returns Left`() =
         runTest {
             val cartItem = mockk<UiCartItem.Content>().apply {
                 every { id } answers { ID }
@@ -163,7 +163,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should not update viewEffect when CartItemQuantityChanged is provided and updateCartItemQuantity returns Right`() =
+    fun `SHOULD not update viewEffect when CartItemQuantityChanged is provided and updateCartItemQuantity returns Right`() =
         runTest {
             val cartItem = mockk<UiCartItem.Content>().apply {
                 every { id } answers { ID }
@@ -190,7 +190,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewEffect with Error when CartItemQuantityChanged is provided and updateCartItemQuantity returns Left`() =
+    fun `SHOULD update viewEffect with Error when CartItemQuantityChanged is provided and updateCartItemQuantity returns Left`() =
         runTest {
             val cartItem = mockk<UiCartItem.Content>().apply {
                 every { id } answers { ID }
@@ -217,7 +217,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewState receiptStatus to Error when ReceiptCaptureError is provided`() =
+    fun `SHOULD update viewState receiptStatus to Error when ReceiptCaptureError is provided`() =
         runTest {
             sut.onEvent(CartEvent.ReceiptCaptureError)
 
@@ -227,7 +227,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewState receiptStatus with result from validateReceiptPath when ReceiptCaptureSuccess is provided`() =
+    fun `SHOULD update viewState receiptStatus with result from validateReceiptPath when ReceiptCaptureSuccess is provided`() =
         runTest {
             val receiptPath = "receiptPath"
             val expectedResult = ReceiptStatus.Taken(receiptPath)
@@ -241,7 +241,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Right`() =
+    fun `SHOULD update viewEffect when CheckoutClicked is provided and checkoutCart returns Right`() =
         runTest {
             val cartItems = mockk<List<CartItem>>()
             every {
@@ -263,7 +263,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewEffect when CheckoutClicked is provided and checkoutCart returns Left`() =
+    fun `SHOULD update viewEffect when CheckoutClicked is provided and checkoutCart returns Left`() =
         runTest {
             val checkoutFailure = Failure.Unknown
             val cartItems = mockk<List<CartItem>>()
@@ -289,7 +289,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewState when CartNameUpdated is provided`() = runTest {
+    fun `SHOULD update viewState when CartNameUpdated is provided`() = runTest {
         val newCartName = "newCartName"
 
         sut.onEvent(CartEvent.CartNameUpdated(newCartName))
@@ -300,7 +300,7 @@ class CartViewModelTest {
     }
 
     @Test
-    fun `should not update viewEffect when ItemAddedToBasket is provided and updateCartItemIsInBasket returns Right`() =
+    fun `SHOULD not update viewEffect when ItemAddedToBasket is provided and updateCartItemIsInBasket returns Right`() =
         runTest {
             val cartItem = mockk<UiCartItem.Content>().apply {
                 every { id } answers { ID }
@@ -325,7 +325,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewEffect with Error when ItemAddedToBasket is provided and updateCartItemIsInBasket returns Left`() =
+    fun `SHOULD update viewEffect with Error when ItemAddedToBasket is provided and updateCartItemIsInBasket returns Left`() =
         runTest {
             val cartItem = mockk<UiCartItem.Content>().apply {
                 every { id } answers { ID }
@@ -351,7 +351,7 @@ class CartViewModelTest {
         }
 
     @Test
-    fun `should update viewState when CartTabPositionUpdated is provided`() = runTest {
+    fun `SHOULD update viewState when CartTabPositionUpdated is provided`() = runTest {
         val newCartTabPosition = 1
 
         sut.onEvent(CartEvent.CartTabPositionUpdated(newCartTabPosition))

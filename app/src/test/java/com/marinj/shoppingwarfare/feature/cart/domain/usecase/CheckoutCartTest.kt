@@ -38,7 +38,7 @@ class CheckoutCartTest {
     }
 
     @Test
-    fun `invoke should return result validateCartName when validateCartName returns Left`() =
+    fun `invoke SHOULD return result validateCartName when validateCartName returns Left`() =
         runTest {
             val cartItems = mockk<List<CartItem>>()
             val validateResult = Failure.Unknown.buildLeft()
@@ -52,7 +52,7 @@ class CheckoutCartTest {
         }
 
     @Test
-    fun `invoke should return result from historyRepository updateHistoryItem when validateCartName returns Right`() =
+    fun `invoke SHOULD return result from historyRepository updateHistoryItem when validateCartName returns Right`() =
         runTest {
             val cartItems = mockk<List<CartItem>>()
             val historyItem = mockk<HistoryItem>()

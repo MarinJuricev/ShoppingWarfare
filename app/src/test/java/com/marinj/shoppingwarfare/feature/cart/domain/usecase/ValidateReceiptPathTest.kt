@@ -15,7 +15,7 @@ class ValidateReceiptPathTest {
     }
 
     @Test
-    fun `invoke should return ReceiptStatusError when receiptPath is null`() {
+    fun `invoke SHOULD return ReceiptStatusError when receiptPath is null`() {
         val receiptPath = null
 
         val result = sut(receiptPath = receiptPath)
@@ -25,7 +25,7 @@ class ValidateReceiptPathTest {
     }
 
     @Test
-    fun `invoke should return ReceiptStatusError when receiptPath is empty`() {
+    fun `invoke SHOULD return ReceiptStatusError when receiptPath is empty`() {
         val receiptPath = ""
 
         val result = sut(receiptPath = receiptPath)
@@ -35,7 +35,7 @@ class ValidateReceiptPathTest {
     }
 
     @Test
-    fun `invoke should return ReceiptStatusError when receiptPath is blank`() {
+    fun `invoke SHOULD return ReceiptStatusError when receiptPath is blank`() {
         val receiptPath = "        "
 
         val result = sut(receiptPath = receiptPath)
@@ -45,7 +45,7 @@ class ValidateReceiptPathTest {
     }
 
     @Test
-    fun `invoke should return ReceiptStatusTaken when receiptPath is not null or blank`() {
+    fun `invoke SHOULD return ReceiptStatusTaken when receiptPath is not null or blank`() {
         val receiptPath = "receiptPath"
 
         val result = sut(receiptPath = receiptPath)

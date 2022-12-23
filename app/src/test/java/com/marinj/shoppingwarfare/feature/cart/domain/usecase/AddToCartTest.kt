@@ -33,7 +33,7 @@ class AddToCartTest {
     }
 
     @Test
-    fun `invoke should return result from repository when getCartItemById returns Left`() =
+    fun `invoke SHOULD return result from repository when getCartItemById returns Left`() =
         runTest {
             val cartItem = mockk<CartItem>().apply {
                 every { id } returns ID
@@ -52,7 +52,7 @@ class AddToCartTest {
         }
 
     @Test
-    fun `invoke should update the existing cartItem quantity by 1 when getCartItemById returns Right and return the repository result`() =
+    fun `invoke SHOULD update the existing cartItem quantity by 1 when getCartItemById returns Right and return the repository result`() =
         runTest {
             val existingCartItem = CartItem(
                 id = ID,

@@ -26,7 +26,7 @@ class ObserveCartItemsCountTest {
     }
 
     @Test
-    fun `invoke should return result from cartRepository observeCartItemsCount`() =
+    fun `invoke SHOULD return result from cartRepository observeCartItemsCount`() =
         runTest {
             val repositoryResult = flow {
                 emit(CART_ITEMS_COUNT)

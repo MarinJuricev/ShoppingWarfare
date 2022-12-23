@@ -23,7 +23,7 @@ class DomainToLocalHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map id`() {
+    fun `map SHOULD map id`() {
         val origin = mockk<HistoryItem>(relaxed = true).apply {
             every { id } returns ID
         }
@@ -34,7 +34,7 @@ class DomainToLocalHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map receiptPath`() {
+    fun `map SHOULD map receiptPath`() {
         val origin = mockk<HistoryItem>(relaxed = true).apply {
             every { receiptPath } returns RECEIPT_PATH
         }
@@ -45,7 +45,7 @@ class DomainToLocalHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map cartName`() {
+    fun `map SHOULD map cartName`() {
         val origin = mockk<HistoryItem>(relaxed = true).apply {
             every { cartName } returns CART_NAME
         }

@@ -25,7 +25,7 @@ class ObserveCartItemsTest {
     }
 
     @Test
-    fun `invoke should return result from cartRepository observeCartItems`() = runTest {
+    fun `invoke SHOULD return result from cartRepository observeCartItems`() = runTest {
         val cartItems = listOf(mockk<CartItem>())
         val repositoryFlow = flow { emit(cartItems) }
         coEvery {

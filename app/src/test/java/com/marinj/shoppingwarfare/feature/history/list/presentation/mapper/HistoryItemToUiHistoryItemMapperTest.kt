@@ -24,7 +24,7 @@ class HistoryItemToUiHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map id`() {
+    fun `map SHOULD map id`() {
         val origin = mockk<HistoryItem>(relaxed = true).apply {
             every { id } returns ID
         }
@@ -35,7 +35,7 @@ class HistoryItemToUiHistoryItemMapperTest {
     }
 
     @Test
-    fun `map should map receiptPath`() {
+    fun `map SHOULD map receiptPath`() {
         val origin = mockk<HistoryItem>(relaxed = true).apply {
             every { receiptPath } returns RECEIPT_PATH
         }

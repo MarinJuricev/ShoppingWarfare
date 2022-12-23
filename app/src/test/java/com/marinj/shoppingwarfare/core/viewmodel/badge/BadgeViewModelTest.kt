@@ -32,7 +32,7 @@ class BadgeViewModelTest {
     }
 
     @Test
-    fun `onEvent should update cartBadgeCount when StartObservingBadgesCount is provided`() =
+    fun `onEvent SHOULD update cartBadgeCount when StartObservingBadgesCount is provided`() =
         runTest {
             val cartItemsCountFlow = flow {
                 emit(NUMBER_OF_CART_ITEMS)
