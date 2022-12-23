@@ -2,103 +2,110 @@ package com.marinj.shoppingwarfare.feature.category.list.data.repository
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
-import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
-import com.marinj.shoppingwarfare.feature.category.list.data.mapper.DomainToLocalCategoryMapper
-import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
-import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
-import io.mockk.coEvery
-import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
+import com.marinj.shoppingwarfare.fixtures.category.FakeFailureCategoryApi
+import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryApi
+import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryDao
+import com.marinj.shoppingwarfare.fixtures.category.buildCategory
+import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
+import com.marinj.shoppingwarfare.fixtures.category.buildRemoteCategory
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
 
 class CategoryRepositoryImplTest {
 
-    private val categoryDao: CategoryDao = mockk()
-    private val categoryApi: CategoryApi = mockk()
-    private val domainToLocalCategoryMapper: DomainToLocalCategoryMapper = mockk()
-
     private lateinit var sut: CategoryRepository
 
-    @Before
-    fun setUp() {
-        sut = CategoryRepositoryImpl(
-            categoryDao,
-            categoryApi,
-            domainToLocalCategoryMapper,
-        )
-    }
-
     @Test
-    fun `observeCategories should return categories`() = runTest {
-        val category = mockk<Category>()
-        val categoryList = listOf(category)
-        val localCategory = mockk<LocalCategory>()
-        val localCategoryList = listOf(localCategory)
-        coEvery {
-            categoryDao.observeCategories()
-        } coAnswers { flow { emit(localCategoryList) } }
+    fun `observeCategories SHOULD return categories from local source`() = runTest {
+        val remoteCategoryList = listOf(
+            buildRemoteCategory(providedCategoryId = CATEGORY_ID),
+        )
+        val localCategoryList = listOf(
+            buildLocalCategory(providedCategoryId = CATEGORY_ID),
+        )
+        val expectedResult = listOf(
+            buildCategory(providedId = CATEGORY_ID),
+        )
+        sut = CategoryRepositoryImpl(
+            categoryDao = FakeSuccessCategoryDao(localCategoryList),
+            categoryApi = FakeSuccessCategoryApi(remoteCategoryList),
+        )
 
         sut.observeCategories().test {
-            assertThat(awaitItem()).isEqualTo(categoryList)
+            assertThat(awaitItem()).isEqualTo(expectedResult)
             awaitComplete()
         }
     }
 
     @Test
-    fun `upsertCategory should return LeftFailure when categoryDao returns 0L`() = runTest {
-        val category = mockk<Category>()
-        val localCategory = mockk<LocalCategory>()
-        val daoResult = 0L
-        coEvery {
-            domainToLocalCategoryMapper.map(category)
-        } coAnswers { localCategory }
-        coEvery {
-            categoryDao.upsertCategory(localCategory)
-        } coAnswers { daoResult }
+    fun `observeCategories SHOULD insert data into categoryDao from apiService`() = runTest {
+        val remoteCategoryList = listOf(
+            buildRemoteCategory(providedCategoryId = CATEGORY_ID),
+        )
+        val localCategoryList = listOf(
+            buildLocalCategory(providedCategoryId = CATEGORY_ID),
+        )
+        val dao = FakeSuccessCategoryDao(localCategoryList)
+        sut = CategoryRepositoryImpl(
+            categoryDao = dao,
+            categoryApi = FakeSuccessCategoryApi(remoteCategoryList),
+        )
 
-        val actualResult = sut.upsertCategory(category)
-        val expectedResult = Failure.ErrorMessage("Error while adding new category").buildLeft()
-
-        assertThat(actualResult).isEqualTo(expectedResult)
+        sut.observeCategories().test {
+            assertThat(dao.localCategories).isEqualTo(localCategoryList)
+            cancelAndConsumeRemainingEvents()
+        }
     }
 
     @Test
-    fun `upsertCategory should return RightUnit when categoryDao returns everything but 0L`() =
-        runTest {
-            val category = mockk<Category>()
-            val localCategory = mockk<LocalCategory>()
-            val daoResult = 1L
-            coEvery {
-                domainToLocalCategoryMapper.map(category)
-            } coAnswers { localCategory }
-            coEvery {
-                categoryDao.upsertCategory(localCategory)
-            } coAnswers { daoResult }
+    fun `upsertCategory SHOULD return Left WHEN categoryApi returns Left`() = runTest {
+        val category = buildCategory(providedId = CATEGORY_ID)
+        sut = CategoryRepositoryImpl(
+            categoryDao = FakeSuccessCategoryDao(),
+            categoryApi = FakeFailureCategoryApi(),
+        )
 
-            val actualResult = sut.upsertCategory(category)
-            val expectedResult = Unit.buildRight()
+        val result = sut.upsertCategory(category)
 
-            assertThat(actualResult).isEqualTo(expectedResult)
-        }
+        assertThat(result).isEqualTo(Unknown.buildLeft())
+    }
 
     @Test
-    fun `deleteCategoryById should return RightUnit`() =
-        runTest {
-            val categoryId = "1"
-            coEvery {
-                categoryDao.deleteCategoryById(categoryId)
-            } coAnswers { Unit }
+    fun `upsertCategory SHOULD return Right WHEN categoryApi returns Right`() = runTest {
+        val category = buildCategory(providedId = CATEGORY_ID)
+        sut = CategoryRepositoryImpl(
+            categoryDao = FakeSuccessCategoryDao(),
+            categoryApi = FakeSuccessCategoryApi(),
+        )
 
-            val actualResult = sut.deleteCategoryById(categoryId)
-            val expectedResult = Unit.buildRight()
+        val result = sut.upsertCategory(category)
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(Unit.buildRight())
+    }
+
+    @Test
+    fun `deleteCategoryById SHOULD return Right WHEN categoryApi returns Right`() = runTest {
+        val dao = FakeSuccessCategoryDao().also {
+            it.upsertCategory(buildLocalCategory(providedCategoryId = CATEGORY_ID))
         }
+        val api = FakeSuccessCategoryApi().also {
+            it.addCategoryItem(buildRemoteCategory(providedCategoryId = CATEGORY_ID))
+        }
+        sut = CategoryRepositoryImpl(
+            categoryDao = dao,
+            categoryApi = api,
+        )
+
+        val result = sut.deleteCategoryById(CATEGORY_ID)
+
+        assertThat(result).isEqualTo(Unit.buildRight())
+        assertThat(dao.localCategories).isEmpty()
+        assertThat(api.remoteCategories).isEmpty()
+    }
 }
+
+private const val CATEGORY_ID = "categoryId"

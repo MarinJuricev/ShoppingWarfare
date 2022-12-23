@@ -48,41 +48,48 @@ fun buildCategory(
     titleColor = providedTitleColor,
 )
 
-class FakeSuccessCategoryDao : CategoryDao {
+class FakeSuccessCategoryDao(
+    private val categoryListToReturn: List<LocalCategory> = listOf(buildLocalCategory()),
+) : CategoryDao {
+
+    val localCategories = mutableListOf<LocalCategory>()
+
     override fun observeCategories(): Flow<List<LocalCategory>> = flow {
-        emit(listOf(buildLocalCategory()))
+        emit(categoryListToReturn)
     }
 
     override suspend fun upsertCategory(
         entity: LocalCategory,
-    ): Long = 1L
-
-    override suspend fun deleteCategoryById(id: String) = Unit
-}
-
-class FakeFailureCategoryDao : CategoryDao {
-    override fun observeCategories(): Flow<List<LocalCategory>> = flow {
-        throw Throwable()
+    ): Long {
+        localCategories.add(entity)
+        return 1L
     }
 
-    override suspend fun upsertCategory(
-        entity: LocalCategory,
-    ): Long = 0L
-
-    override suspend fun deleteCategoryById(id: String) = Unit
+    override suspend fun deleteCategoryById(id: String) {
+        localCategories.removeIf { it.categoryId == id }
+    }
 }
 
-class FakeSuccessCategoryApi : CategoryApi {
+class FakeSuccessCategoryApi(
+    private val categoryListToReturn: List<RemoteCategory> = listOf(buildRemoteCategory()),
+) : CategoryApi {
+
+    val remoteCategories = mutableListOf<RemoteCategory>()
+
     override fun observeCategoryItems(): Flow<List<RemoteCategory>> =
         flow {
-            emit(listOf(buildRemoteCategory()))
+            emit(categoryListToReturn)
         }
 
-    override suspend fun addCategoryItem(categoryItem: RemoteCategory): Either<Failure, Unit> =
-        Unit.buildRight()
+    override suspend fun addCategoryItem(categoryItem: RemoteCategory): Either<Failure, Unit> {
+        remoteCategories.add(categoryItem)
+        return Unit.buildRight()
+    }
 
-    override suspend fun deleteCategoryItemById(categoryId: String): Either<Failure, Unit> =
-        Unit.buildRight()
+    override suspend fun deleteCategoryItemById(categoryId: String): Either<Failure, Unit> {
+        remoteCategories.removeIf { it.categoryId == categoryId }
+        return Unit.buildRight()
+    }
 
 }
 
