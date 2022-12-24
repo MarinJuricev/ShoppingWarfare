@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.fixtures.category
 
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
@@ -9,7 +10,7 @@ import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
-import kotlinx.coroutines.flow.Flow
+import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import kotlinx.coroutines.flow.flow
 
 fun buildRemoteCategory(
@@ -38,7 +39,7 @@ fun buildLocalCategory(
 
 fun buildCategory(
     providedId: String = "",
-    providedTitle: String = "",
+    providedTitle: String = TITLE,
     providedBackgroundColor: Int = 0,
     providedTitleColor: Int = 0,
 ) = Category.of(
@@ -46,7 +47,7 @@ fun buildCategory(
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
     titleColor = providedTitleColor,
-)!!
+)
 
 class FakeSuccessCategoryDao(
     private val categoryListToReturn: List<LocalCategory> = listOf(buildLocalCategory()),
@@ -54,7 +55,7 @@ class FakeSuccessCategoryDao(
 
     val localCategories = mutableListOf<LocalCategory>()
 
-    override fun observeCategories(): Flow<List<LocalCategory>> = flow {
+    override fun observeCategories() = flow {
         emit(categoryListToReturn)
     }
 
@@ -76,10 +77,9 @@ class FakeSuccessCategoryApi(
 
     val remoteCategories = mutableListOf<RemoteCategory>()
 
-    override fun observeCategoryItems(): Flow<List<RemoteCategory>> =
-        flow {
-            emit(categoryListToReturn)
-        }
+    override fun observeCategories() = flow {
+        emit(categoryListToReturn)
+    }
 
     override suspend fun addCategoryItem(categoryItem: RemoteCategory): Either<Failure, Unit> {
         remoteCategories.add(categoryItem)
@@ -90,19 +90,33 @@ class FakeSuccessCategoryApi(
         remoteCategories.removeIf { it.categoryId == categoryId }
         return Unit.buildRight()
     }
-
 }
 
 class FakeFailureCategoryApi : CategoryApi {
-    override fun observeCategoryItems(): Flow<List<RemoteCategory>> =
-        flow {
-            throw Throwable()
-        }
+    override fun observeCategories() = flow<List<RemoteCategory>> {
+        throw Throwable()
+    }
 
     override suspend fun addCategoryItem(categoryItem: RemoteCategory) =
-        Failure.Unknown.buildLeft()
+        Unknown.buildLeft()
 
     override suspend fun deleteCategoryItemById(categoryId: String) =
-        Failure.Unknown.buildLeft()
-
+        Unknown.buildLeft()
 }
+
+class FakeSuccessCategoryRepository(
+    private val categoryListToReturn: List<Category> = listOf(buildCategory()!!),
+) : CategoryRepository {
+    override fun observeCategories() = flow {
+        emit(categoryListToReturn)
+    }
+
+    override suspend fun upsertCategory(category: Category) =
+        Unit.buildRight()
+
+    override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> {
+        TODO("Not yet implemented")
+    }
+}
+
+private const val TITLE = "title"

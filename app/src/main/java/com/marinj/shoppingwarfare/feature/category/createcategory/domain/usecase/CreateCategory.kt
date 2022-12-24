@@ -2,7 +2,7 @@ package com.marinj.shoppingwarfare.feature.category.createcategory.domain.usecas
 
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
@@ -15,14 +15,14 @@ class CreateCategory @Inject constructor(
 
     suspend operator fun invoke(
         title: String?,
-        categoryColor: Int?,
+        backgroundColor: Int?,
         titleColor: Int?,
     ): Either<Failure, Unit> = Category.of(
         id = uuidGenerator(),
         title = title,
-        categoryColor = categoryColor,
+        backgroundColor = backgroundColor,
         titleColor = titleColor,
     )?.let {
         categoryRepository.upsertCategory(it)
-    } ?: Unknown.buildLeft()
+    } ?: ErrorMessage("Failed to create category").buildLeft()
 }

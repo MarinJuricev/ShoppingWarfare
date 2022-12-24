@@ -9,7 +9,6 @@ import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.core.result.toLeft
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -20,7 +19,7 @@ class CategoryApiImpl @Inject constructor(
     private val jsonConverter: JsonConverter,
 ) : CategoryApi {
 
-    override fun observeCategoryItems(): Flow<List<RemoteCategory>> = callbackFlow {
+    override fun observeCategories() = callbackFlow {
         val subscription = fireStore
             .getCategoryCollection()
             .addWarfareSnapshotListener(

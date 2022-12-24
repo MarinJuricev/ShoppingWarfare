@@ -10,14 +10,17 @@ data class Category private constructor(
         fun of(
             id: String,
             title: String?,
-            categoryColor: Int?,
+            backgroundColor: Int?,
             titleColor: Int?,
         ): Category? = when {
             title.isNullOrEmpty() -> null
-            categoryColor == null -> null
+            backgroundColor == null -> null
             titleColor == null -> null
             else -> Category(
-                id, title, categoryColor, titleColor
+                id,
+                title,
+                backgroundColor,
+                titleColor,
             )
         }
     }

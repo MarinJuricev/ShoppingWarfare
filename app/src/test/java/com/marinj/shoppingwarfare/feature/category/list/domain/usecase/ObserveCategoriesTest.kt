@@ -2,18 +2,18 @@ package com.marinj.shoppingwarfare.feature.category.list.domain.usecase
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
-import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
-import io.mockk.coEvery
-import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
+import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepository
+import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
 class ObserveCategoriesTest {
 
-    private val categoryRepository: CategoryRepository = mockk()
+    private val repositoryCategories = listOf(
+        buildCategory(providedId = CATEGORY_ID),
+    )
+    private val categoryRepository = FakeSuccessCategoryRepository()
 
     private lateinit var sut: ObserveCategories
 
@@ -26,15 +26,11 @@ class ObserveCategoriesTest {
 
     @Test
     fun `invoke should return result from categoryRepository observeCategories`() = runTest {
-        val categories = listOf(mockk<Category>())
-        val repositoryFlow = flow { emit(categories) }
-        coEvery {
-            categoryRepository.observeCategories()
-        } coAnswers { repositoryFlow }
-
         sut().test {
-            assertThat(awaitItem()).isEqualTo(categories)
+            assertThat(awaitItem()).isEqualTo(repositoryCategories)
             awaitComplete()
         }
     }
 }
+
+private const val CATEGORY_ID = "categoryId"

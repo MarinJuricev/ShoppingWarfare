@@ -1,13 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.createcategory.domain.usecase
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.feature.category.createcategory.domain.repository.CreateCategoryRepository
-import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
-import io.mockk.coEvery
-import io.mockk.mockk
+import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -16,7 +13,7 @@ private const val ID = "id"
 
 class CreateCategoryTest {
 
-    private val createCategoryRepository: CreateCategoryRepository = mockk()
+    private val categoryRepository = FakeSuccessCategoryRepository()
     private val uuidGenerator = { ID }
 
     private lateinit var sut: CreateCategory
@@ -24,49 +21,32 @@ class CreateCategoryTest {
     @Before
     fun setUp() {
         sut = CreateCategory(
-            createCategoryRepository,
+            categoryRepository,
+            uuidGenerator,
         )
     }
 
     @Test
-    fun `invoke should return result from validator when validator returns Left`() =
-        runTest {
-            val title = "title"
-            val categoryColor = 1
-            val titleColor = 2
-            val failure = Failure.Unknown.buildLeft()
-            coEvery {
-                validateCategory(title, categoryColor, titleColor)
-            } coAnswers { failure }
+    fun `invoke SHOULD return result from repository WHEN category factory returns not null`() = runTest {
+        val title = "title"
+        val categoryColor = 1
+        val titleColor = 2
+        val repositoryResult = Unit.buildRight()
 
-            val actualResult = sut(title, categoryColor, titleColor)
+        val actualResult = sut(title, categoryColor, titleColor)
 
-            assertThat(actualResult).isEqualTo(failure)
-        }
+        assertThat(actualResult).isEqualTo(repositoryResult)
+    }
 
     @Test
-    fun `invoke should return result from repository when validator returns Right`() =
-        runTest {
-            val title = "title"
-            val categoryColor = 1
-            val titleColor = 2
-            val success = Unit.buildRight()
-            coEvery {
-                validateCategory(title, categoryColor, titleColor)
-            } coAnswers { success }
-            coEvery {
-                createCategoryRepository.createCategory(
-                    Category(
-                        ID,
-                        title,
-                        categoryColor,
-                        titleColor,
-                    ),
-                )
-            } coAnswers { success }
+    fun `invoke SHOULD return Left WHEN category factory returns not null`() = runTest {
+        val title = null
+        val categoryColor = 1
+        val titleColor = 2
+        val expectedResult = ErrorMessage("Failed to create category").buildLeft()
 
-            val actualResult = sut(title, categoryColor, titleColor)
+        val actualResult = sut(title, categoryColor, titleColor)
 
-            assertThat(actualResult).isEqualTo(success)
-        }
+        assertThat(actualResult).isEqualTo(expectedResult)
+    }
 }

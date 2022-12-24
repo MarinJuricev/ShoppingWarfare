@@ -128,7 +128,7 @@ class CategoryViewModel @Inject constructor(
     private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {
         uiCategoryToCategoryMapper.map(uiCategory)?.let { category ->
             when (undoCategoryDeletion(category)) {
-                is Right -> Timber.d("${uiCategory.title} successfully restored") // TODO: Abstract away timber into our own logger
+                is Right -> Timber.d("${uiCategory.title} successfully restored")
                 is Left -> _viewEffect.send(Error("Couldn't undo category deletion."))
             }
         } ?: _viewEffect.send(Error("Couldn't undo category deletion."))

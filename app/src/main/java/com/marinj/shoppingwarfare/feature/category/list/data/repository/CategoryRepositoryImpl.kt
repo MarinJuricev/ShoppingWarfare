@@ -21,7 +21,7 @@ class CategoryRepositoryImpl @Inject constructor(
     override fun observeCategories(): Flow<List<Category>> =
         syncApiToLocal().flatMapLatest { categoriesFromLocal() }
 
-    private fun syncApiToLocal() = categoryApi.observeCategoryItems()
+    private fun syncApiToLocal() = categoryApi.observeCategories()
         .onEach { remoteCategories ->
             remoteCategories.map { remoteCategory ->
                 categoryDao.upsertCategory(remoteCategory.toLocal())

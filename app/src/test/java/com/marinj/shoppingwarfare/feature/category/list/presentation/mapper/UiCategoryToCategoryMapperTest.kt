@@ -27,7 +27,7 @@ class UiCategoryToCategoryMapperTest {
 
         val actualResult = sut.map(uiCategory)
 
-        assertThat(actualResult.id).isEqualTo(ID)
+        assertThat(actualResult?.id).isEqualTo(ID)
     }
 
     @Test
@@ -38,7 +38,7 @@ class UiCategoryToCategoryMapperTest {
 
         val actualResult = sut.map(uiCategory)
 
-        assertThat(actualResult.title).isEqualTo(TITLE)
+        assertThat(actualResult?.title).isEqualTo(TITLE)
     }
 
 //    TODO: Investigate why this throws an exception

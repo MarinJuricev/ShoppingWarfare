@@ -13,7 +13,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.id).isEqualTo(ID)
+        assertThat(actualResult?.id).isEqualTo(ID)
     }
 
     @Test
@@ -22,7 +22,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.title).isEqualTo(TITLE)
+        assertThat(actualResult?.title).isEqualTo(TITLE)
     }
 
     @Test
@@ -31,7 +31,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.backgroundColor).isEqualTo(BACKGROUND_COLOR)
+        assertThat(actualResult?.backgroundColor).isEqualTo(BACKGROUND_COLOR)
     }
 
     @Test
@@ -40,43 +40,43 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.titleColor).isEqualTo(TITLE_COLOR)
+        assertThat(actualResult?.titleColor).isEqualTo(TITLE_COLOR)
     }
 
     @Test
     fun `toLocal SHOULD map id`() {
         val category = buildCategory(providedId = ID)
 
-        val actualResult = category.toLocal()
+        val actualResult = category?.toLocal()
 
-        assertThat(actualResult.categoryId).isEqualTo(ID)
+        assertThat(actualResult?.categoryId).isEqualTo(ID)
     }
 
     @Test
     fun `toLocal SHOULD map title`() {
         val category = buildCategory(providedTitle = TITLE)
 
-        val actualResult = category.toLocal()
+        val actualResult = category?.toLocal()
 
-        assertThat(actualResult.title).isEqualTo(TITLE)
+        assertThat(actualResult?.title).isEqualTo(TITLE)
     }
 
     @Test
     fun `toLocal SHOULD map backgroundColor`() {
         val category = buildCategory(providedBackgroundColor = BACKGROUND_COLOR)
 
-        val actualResult = category.toLocal()
+        val actualResult = category?.toLocal()
 
-        assertThat(actualResult.backgroundColor).isEqualTo(BACKGROUND_COLOR)
+        assertThat(actualResult?.backgroundColor).isEqualTo(BACKGROUND_COLOR)
     }
 
     @Test
     fun `toLocal SHOULD map titleColor`() {
         val category = buildCategory(providedTitleColor = TITLE_COLOR)
 
-        val actualResult = category.toLocal()
+        val actualResult = category?.toLocal()
 
-        assertThat(actualResult.titleColor).isEqualTo(TITLE_COLOR)
+        assertThat(actualResult?.titleColor).isEqualTo(TITLE_COLOR)
     }
 }
 

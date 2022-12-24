@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryApi {
 
     @Throws(SHWException::class)
-    fun observeCategoryItems(): Flow<List<RemoteCategory>>
+    fun observeCategories(): Flow<List<RemoteCategory>>
 
     suspend fun addCategoryItem(categoryItem: RemoteCategory): Either<Failure, Unit>
 

@@ -63,7 +63,7 @@ class CategoryRepositoryImplTest {
 
     @Test
     fun `upsertCategory SHOULD return Left WHEN categoryApi returns Left`() = runTest {
-        val category = buildCategory(providedId = CATEGORY_ID)
+        val category = buildCategory(providedId = CATEGORY_ID)!!
         sut = CategoryRepositoryImpl(
             categoryDao = FakeSuccessCategoryDao(),
             categoryApi = FakeFailureCategoryApi(),
@@ -76,7 +76,7 @@ class CategoryRepositoryImplTest {
 
     @Test
     fun `upsertCategory SHOULD return Right WHEN categoryApi returns Right`() = runTest {
-        val category = buildCategory(providedId = CATEGORY_ID)
+        val category = buildCategory(providedId = CATEGORY_ID)!!
         sut = CategoryRepositoryImpl(
             categoryDao = FakeSuccessCategoryDao(),
             categoryApi = FakeSuccessCategoryApi(),
