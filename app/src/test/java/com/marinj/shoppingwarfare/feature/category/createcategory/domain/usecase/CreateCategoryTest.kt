@@ -16,7 +16,6 @@ private const val ID = "id"
 
 class CreateCategoryTest {
 
-    private val validateCategory: ValidateCategory = mockk()
     private val createCategoryRepository: CreateCategoryRepository = mockk()
     private val uuidGenerator = { ID }
 
@@ -25,9 +24,7 @@ class CreateCategoryTest {
     @Before
     fun setUp() {
         sut = CreateCategory(
-            validateCategory,
             createCategoryRepository,
-            uuidGenerator,
         )
     }
 

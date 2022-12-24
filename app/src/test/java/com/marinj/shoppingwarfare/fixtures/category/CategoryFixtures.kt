@@ -41,12 +41,12 @@ fun buildCategory(
     providedTitle: String = "",
     providedBackgroundColor: Int = 0,
     providedTitleColor: Int = 0,
-) = Category(
+) = Category.of(
     id = providedId,
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
     titleColor = providedTitleColor,
-)
+)!!
 
 class FakeSuccessCategoryDao(
     private val categoryListToReturn: List<LocalCategory> = listOf(buildLocalCategory()),

@@ -12,7 +12,7 @@ data class LocalCategory(
     val backgroundColor: Int,
     val titleColor: Int,
 ) {
-    fun toDomain() = Category(
+    fun toDomain() = Category.of(
         categoryId,
         title,
         backgroundColor,

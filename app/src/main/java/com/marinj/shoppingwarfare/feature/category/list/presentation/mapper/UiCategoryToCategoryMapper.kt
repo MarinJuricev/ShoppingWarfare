@@ -7,14 +7,12 @@ import javax.inject.Inject
 
 class UiCategoryToCategoryMapper @Inject constructor() {
 
-    fun map(origin: UiCategory): Category {
-        return with(origin) {
-            Category(
-                id,
-                title,
-                backgroundColor.toArgb(),
-                titleColor.toArgb(),
-            )
-        }
+    fun map(origin: UiCategory): Category? = with(origin) {
+        Category.of(
+            id,
+            title,
+            backgroundColor.toArgb(),
+            titleColor.toArgb(),
+        )
     }
 }

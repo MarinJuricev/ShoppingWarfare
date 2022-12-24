@@ -30,7 +30,7 @@ class CategoryRepositoryImpl @Inject constructor(
 
     private fun categoriesFromLocal() = categoryDao.observeCategories()
         .map { localCategoryList ->
-            localCategoryList.map { it.toDomain() }
+            localCategoryList.mapNotNull { it.toDomain() }
         }
 
     override suspend fun upsertCategory(category: Category): Either<Failure, Unit> =
