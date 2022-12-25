@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.DismissDirection.EndToStart
 import androidx.compose.material.DismissDirection.StartToEnd
+import androidx.compose.material.DismissState
 import androidx.compose.material.DismissValue
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
@@ -67,60 +68,79 @@ fun ShoppingWarfareSwipeToDismiss(
             FractionalThreshold(0.25f)
         },
         background = {
-            val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
-            val color by animateColorAsState(
-                when (dismissState.targetValue) {
-                    DismissValue.Default -> Color.LightGray
-                    DismissValue.DismissedToEnd -> Color.Green
-                    DismissValue.DismissedToStart -> Color.Red
-                },
-            )
-            val alignment = when (direction) {
-                StartToEnd -> Alignment.CenterStart
-                EndToStart -> Alignment.CenterEnd
-            }
-            val icon = when (direction) {
-                StartToEnd -> leftIcon
-                EndToStart -> rightIcon
-            }
-            val scale by animateFloatAsState(
-                if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f,
-            )
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .background(color)
-                    .padding(horizontal = 20.dp),
-                contentAlignment = alignment,
-            ) {
-                Icon(
-                    icon,
-                    contentDescription = null,
-                    modifier = Modifier.scale(scale),
-                )
-            }
+            DismissBackground(dismissState, leftIcon, rightIcon)
         },
         dismissContent = {
-            val backgroundColor by animateColorAsState(
-                when (swipedLeft && dismissState.targetValue == DismissValue.Default) {
-                    true -> Color.Green
-                    false -> MaterialTheme.colors.surface
-                },
-                animationSpec = SpringSpec(
-                    dampingRatio = Spring.DampingRatioLowBouncy,
-                    stiffness = Spring.StiffnessLow,
-                ),
-            )
-
-            Card(
-                modifier = modifier,
-                elevation = animateDpAsState(
-                    if (dismissState.dismissDirection != null) 4.dp else 2.dp,
-                ).value,
-                backgroundColor = backgroundColor,
-            ) {
-                foregroundContent()
-            }
+            DismissContent(swipedLeft, dismissState, modifier, foregroundContent)
         },
     )
+}
+
+@Composable
+private fun DismissBackground(
+    dismissState: DismissState,
+    leftIcon: ImageVector,
+    rightIcon: ImageVector,
+) {
+    val direction = dismissState.dismissDirection ?: return
+    val color by animateColorAsState(
+        when (dismissState.targetValue) {
+            DismissValue.Default -> Color.LightGray
+            DismissValue.DismissedToEnd -> Color.Green
+            DismissValue.DismissedToStart -> Color.Red
+        },
+    )
+    val alignment = when (direction) {
+        StartToEnd -> Alignment.CenterStart
+        EndToStart -> Alignment.CenterEnd
+    }
+    val icon = when (direction) {
+        StartToEnd -> leftIcon
+        EndToStart -> rightIcon
+    }
+    val scale by animateFloatAsState(
+        if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f,
+    )
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(color)
+            .padding(horizontal = 20.dp),
+        contentAlignment = alignment,
+    ) {
+        Icon(
+            icon,
+            contentDescription = null,
+            modifier = Modifier.scale(scale),
+        )
+    }
+}
+
+@Composable
+private fun DismissContent(
+    swipedLeft: Boolean,
+    dismissState: DismissState,
+    modifier: Modifier,
+    foregroundContent: @Composable () -> Unit,
+) {
+    val backgroundColor by animateColorAsState(
+        when (swipedLeft && dismissState.targetValue == DismissValue.Default) {
+            true -> Color.Green
+            false -> MaterialTheme.colors.surface
+        },
+        animationSpec = SpringSpec(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessLow,
+        ),
+    )
+
+    Card(
+        modifier = modifier,
+        elevation = animateDpAsState(
+            if (dismissState.dismissDirection != null) 4.dp else 2.dp,
+        ).value,
+        backgroundColor = backgroundColor,
+    ) {
+        foregroundContent()
+    }
 }

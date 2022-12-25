@@ -8,24 +8,24 @@ custom-checks:
   active: true
   SpekTestDiscovery:
     active: true
-    includes: ['**/test/**/*Spec.kt']
+    includes: [ '**/test/**/*Spec.kt' ]
 
 comments:
   CommentOverPrivateProperty:
     active: true
   UndocumentedPublicClass:
     active: true
-    excludes: ['**/*.kt']
-    includes: ['**/detekt-api/src/main/**/api/*.kt']
+    excludes: [ '**/*.kt' ]
+    includes: [ '**/detekt-api/src/main/**/api/*.kt' ]
   UndocumentedPublicFunction:
     active: true
-    excludes: ['**/*.kt']
-    includes: ['**/detekt-api/src/main/**/api/*.kt']
+    excludes: [ '**/*.kt' ]
+    includes: [ '**/detekt-api/src/main/**/api/*.kt' ]
 
 complexity:
   StringLiteralDuplication:
     active: true
-    excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt', '**/build/**']
+    excludes: [ '**/test/**', '**/*Test.kt', '**/*Spec.kt', '**/build/**' ]
     threshold: 5
     ignoreAnnotation: true
     excludeStringsWithLessThan5Characters: true
@@ -35,13 +35,13 @@ complexity:
     threshold: 10
     includeStaticDeclarations: false
     includePrivateDeclarations: false
-  ComplexMethod:
+  CyclomaticComplexMethod:
     active: true
     ignoreSingleWhenExpression: true
-    excludes: ['**/build/**']
+    excludes: [ '**/build/**' ]
   LargeClass:
     active: true
-    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+    excludes: [ '**/test/**', '**/*.Test.kt', '**/*.Spec.kt' ]
   MethodOverloading:
     active: true
 
@@ -65,7 +65,7 @@ exceptions:
     active: true
   RethrowCaughtException:
     active: true
-    excludes: [ '**/PoqErrorUtils.kt']
+    excludes: [ '**/PoqErrorUtils.kt' ]
   ReturnFromFinally:
     active: true
   ThrowingExceptionFromFinally:
@@ -74,14 +74,14 @@ exceptions:
     active: true
   ThrowingExceptionsWithoutMessageOrCause:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   ThrowingNewInstanceOfSameException:
     active: true
 
 naming:
   InvalidPackageDeclaration:
     active: true
-    excludes: ['**/build-logic/**/*.kt', '**/*.kts', '**/build/**']
+    excludes: [ '**/build-logic/**/*.kt', '**/*.kts', '**/build/**' ]
   NoNameShadowing:
     active: true
   NonBooleanPropertyPrefixedWithIs:
@@ -114,7 +114,7 @@ potential-bugs:
     active: true
   UnsafeCast:
     active: true
-    excludes: ['**/test/**', '**/*.Test.kt', '**/*.Spec.kt']
+    excludes: [ '**/test/**', '**/*.Test.kt', '**/*.Spec.kt' ]
   UselessPostfixExpression:
     active: true
 
@@ -128,7 +128,7 @@ style:
     maxDestructuringEntries: 5
   EqualsOnSignatureLine:
     active: true
-    excludes: ['**/build/**']
+    excludes: [ '**/build/**' ]
   ExplicitCollectionElementAccessMethod:
     active: true
   ExplicitItLambdaParameter:
@@ -141,15 +141,11 @@ style:
       - 'STOPSHIP:'
       - '@author'
       - '@requiresTypeResolution'
-    excludes: ['**/detekt-rules-style/**/ForbiddenComment.kt']
+    excludes: [ '**/detekt-rules-style/**/ForbiddenComment.kt' ]
   ForbiddenVoid:
     active: true
-  LibraryCodeMustSpecifyReturnType:
-    active: true
-    excludes: ['**/*.kt']
-    includes: ['**/detekt-api/src/main/**/api/*.kt']
   MagicNumber:
-    excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt']
+    excludes: [ '**/test/**', '**/*Test.kt', '**/*Spec.kt' ]
     ignorePropertyDeclaration: true
     ignoreAnnotation: true
     ignoreEnums: true
@@ -165,7 +161,7 @@ style:
   MaxLineLength:
     active: true
     maxLineLength: 130
-    excludes: ['**/test/**', '**/*Test.kt', '**/*Spec.kt', '**/build/**']
+    excludes: [ '**/test/**', '**/*Test.kt', '**/*Spec.kt', '**/build/**' ]
     excludeCommentStatements: true
   NestedClassesVisibility:
     active: true
@@ -179,7 +175,7 @@ style:
     active: true
   RedundantVisibilityModifierRule:
     active: true
-    excludes: ['**/build/**']
+    excludes: [ '**/build/**' ]
   ReturnCount:
     active: true
     excludeGuardClauses: true
