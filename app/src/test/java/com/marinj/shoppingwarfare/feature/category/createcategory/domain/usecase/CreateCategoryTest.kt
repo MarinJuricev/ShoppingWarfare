@@ -9,8 +9,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-private const val ID = "id"
-
 class CreateCategoryTest {
 
     private val categoryRepository = FakeSuccessCategoryRepository()
@@ -43,10 +41,12 @@ class CreateCategoryTest {
         val title = null
         val categoryColor = 1
         val titleColor = 2
-        val expectedResult = ErrorMessage("Failed to create category").buildLeft()
+        val expectedResult = ErrorMessage("Title can not be empty or null got: null").buildLeft()
 
         val actualResult = sut(title, categoryColor, titleColor)
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }
 }
+
+private const val ID = "id"

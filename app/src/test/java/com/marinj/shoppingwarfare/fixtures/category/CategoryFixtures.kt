@@ -5,6 +5,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
+import com.marinj.shoppingwarfare.core.result.takeRightOrNull
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
@@ -47,7 +48,7 @@ fun buildCategory(
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
     titleColor = providedTitleColor,
-)!!
+).takeRightOrNull()!!
 
 class FakeSuccessCategoryDao(
     private val categoryListToReturn: List<LocalCategory> = listOf(buildLocalCategory()),
@@ -105,7 +106,7 @@ class FakeFailureCategoryApi : CategoryApi {
 }
 
 class FakeSuccessCategoryRepository(
-    private val categoryListToReturn: List<Category> = listOf(buildCategory()!!),
+    private val categoryListToReturn: List<Category> = listOf(buildCategory()),
 ) : CategoryRepository {
     override fun observeCategories() = flow {
         emit(categoryListToReturn)

@@ -2,8 +2,7 @@ package com.marinj.shoppingwarfare.feature.category.createcategory.domain.usecas
 
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.core.result.buildLeft
+import com.marinj.shoppingwarfare.core.result.map
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class CreateCategory @Inject constructor(
         title = title,
         backgroundColor = backgroundColor,
         titleColor = titleColor,
-    )?.let {
-        categoryRepository.upsertCategory(it)
-    } ?: ErrorMessage("Failed to create category").buildLeft()
+    ).map { category ->
+        categoryRepository.upsertCategory(category)
+    }
 }
