@@ -18,7 +18,7 @@ class CategoryRepositoryImpl @Inject constructor(
     private val categoryApi: CategoryApi,
 ) : CategoryRepository {
 
-    override fun observeCategories(): Flow<List<Category>> =
+    override fun observeCategories() =
         syncApiToLocal().flatMapLatest { categoriesFromLocal() }
 
     private fun syncApiToLocal() = categoryApi.observeCategories()
@@ -33,12 +33,12 @@ class CategoryRepositoryImpl @Inject constructor(
             localCategoryList.mapNotNull { it.toDomain() }
         }
 
-    override suspend fun upsertCategory(category: Category): Either<Failure, Unit> =
+    override suspend fun upsertCategory(category: Category) =
         category.toRemote().let { remoteCategory ->
             categoryApi.addCategoryItem(remoteCategory)
         }
 
-    override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> =
+    override suspend fun deleteCategoryById(id: String) =
         categoryApi.deleteCategoryItemById(id).also {
             categoryDao.deleteCategoryById(id)
         }
