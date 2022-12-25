@@ -4,6 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
+import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepository
+import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -12,7 +14,7 @@ import org.junit.Test
 
 class UndoCategoryDeletionTest {
 
-    private val categoryRepository: CategoryRepository = mockk()
+    private val categoryRepository: CategoryRepository = FakeSuccessCategoryRepository()
     private lateinit var sut: UndoCategoryDeletion
 
     @Before
@@ -23,15 +25,11 @@ class UndoCategoryDeletionTest {
     }
 
     @Test
-    fun `invoke should return result categoryRepository upsertCategory`() = runTest {
-        val category = mockk<Category>()
-        val repositoryResult = Unit.buildRight()
-        coEvery {
-            categoryRepository.upsertCategory(category)
-        } coAnswers { repositoryResult }
+    fun `invoke SHOULD return result from repository`() = runTest {
+        val category = buildCategory()
 
         val actualResult = sut(category)
 
-        assertThat(actualResult).isEqualTo(repositoryResult)
+        assertThat(actualResult).isEqualTo(Unit.buildRight())
     }
 }

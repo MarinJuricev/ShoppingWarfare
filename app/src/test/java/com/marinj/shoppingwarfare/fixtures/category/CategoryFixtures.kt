@@ -47,7 +47,7 @@ fun buildCategory(
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
     titleColor = providedTitleColor,
-)
+)!!
 
 class FakeSuccessCategoryDao(
     private val categoryListToReturn: List<LocalCategory> = listOf(buildLocalCategory()),
@@ -114,9 +114,8 @@ class FakeSuccessCategoryRepository(
     override suspend fun upsertCategory(category: Category) =
         Unit.buildRight()
 
-    override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> =
+        Unit.buildRight()
 }
 
 private const val TITLE = "title"
