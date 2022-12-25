@@ -20,4 +20,4 @@ jobs:
       - name: Build android app
         run: ./gradlew assembleDebug
       - name: Run Unit Tests
-        run: ./gradlew test
+        run: ./gradlew testReleaseUnitTest
