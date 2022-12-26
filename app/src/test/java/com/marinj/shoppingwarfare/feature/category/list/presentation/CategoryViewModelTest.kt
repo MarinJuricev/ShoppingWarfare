@@ -15,8 +15,6 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategoryImpl
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategoriesImpl
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletionImpl
-import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.CategoryToUiCategoryMapper
-import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
@@ -43,8 +41,6 @@ class CategoryViewModelTest {
     private val observeCategories: ObserveCategoriesImpl = mockk()
     private val deleteCategory: DeleteCategoryImpl = mockk()
     private val undoCategoryDeletion: UndoCategoryDeletionImpl = mockk()
-    private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper = mockk()
-    private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper = mockk()
     private val failureToStringMapper: FailureToStringMapper = mockk()
     private val navigator: Navigator = mockk()
 
@@ -56,8 +52,6 @@ class CategoryViewModelTest {
             observeCategories,
             deleteCategory,
             undoCategoryDeletion,
-            categoryToUiCategoryMapper,
-            uiCategoryToCategoryMapper,
             failureToStringMapper,
             navigator,
         )
@@ -76,9 +70,6 @@ class CategoryViewModelTest {
             coEvery {
                 observeCategories()
             } coAnswers { categoriesFlow }
-            coEvery {
-                categoryToUiCategoryMapper.map(category)
-            } coAnswers { uiCategory }
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
@@ -184,9 +175,6 @@ class CategoryViewModelTest {
             val uiCategory = mockk<UiCategory>()
             val category = mockk<Category>()
             coEvery {
-                uiCategoryToCategoryMapper.map(uiCategory)
-            } coAnswers { category.buildRight() }
-            coEvery {
                 undoCategoryDeletion(category)
             } coAnswers { Failure.Unknown.buildLeft() }
 
@@ -202,9 +190,6 @@ class CategoryViewModelTest {
         runTest {
             val uiCategory = mockk<UiCategory>()
             val category = mockk<Category>()
-            coEvery {
-                uiCategoryToCategoryMapper.map(uiCategory)
-            } coAnswers { category.buildRight() }
             coEvery {
                 undoCategoryDeletion(category)
             } coAnswers { Unit.buildRight() }

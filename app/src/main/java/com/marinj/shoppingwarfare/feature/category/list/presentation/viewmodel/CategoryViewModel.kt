@@ -14,8 +14,6 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategoryImpl
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletionImpl
-import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.CategoryToUiCategoryMapper
-import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
@@ -25,6 +23,7 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.model.Categ
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewState
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory.Companion.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,8 +43,6 @@ class CategoryViewModel @Inject constructor(
     private val observeCategories: ObserveCategories,
     private val deleteCategory: DeleteCategoryImpl,
     private val undoCategoryDeletion: UndoCategoryDeletionImpl,
-    private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper,
-    private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper,
     private val failureToStringMapper: FailureToStringMapper,
     private val navigator: Navigator,
 ) : BaseViewModel<CategoryEvent>() {
@@ -78,7 +75,7 @@ class CategoryViewModel @Inject constructor(
             .onStart { updateIsLoading(isLoading = true) }
             .catch { handleGetCategoriesError() }
             .map { categoryList ->
-                categoryList.map { category -> categoryToUiCategoryMapper.map(category) }
+                categoryList.map { category -> category.toUi() }
             }
             .collect { uiCategoryList ->
                 _viewState.update { viewState ->
@@ -131,7 +128,7 @@ class CategoryViewModel @Inject constructor(
     private fun handleUndoCategoryDeletion(
         uiCategory: UiCategory,
     ) = viewModelScope.launch {
-        when (val result = uiCategoryToCategoryMapper.map(uiCategory)) {
+        when (val result = uiCategory.toDomain()) {
             is Left -> _viewEffect.send(Error(failureToStringMapper.map(result.error)))
             is Right -> restoreCategory(result.value)
         }

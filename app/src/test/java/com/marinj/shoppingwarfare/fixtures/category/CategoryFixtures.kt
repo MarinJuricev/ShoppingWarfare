@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.fixtures.category
 
+import androidx.compose.ui.graphics.Color
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
@@ -12,6 +13,7 @@ import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import kotlinx.coroutines.flow.flow
 
 fun buildRemoteCategory(
@@ -49,6 +51,18 @@ fun buildCategory(
     backgroundColor = providedBackgroundColor,
     titleColor = providedTitleColor,
 ).takeRightOrNull()!!
+
+fun buildUiCategory(
+    providedCategoryId: String = "",
+    providedTitle: String = "",
+    providedBackgroundColor: Int = 0,
+    providedTitleColor: Int = 0,
+) = UiCategory(
+    id = providedCategoryId,
+    title = providedTitle,
+    backgroundColor = Color(providedBackgroundColor),
+    titleColor = Color(providedTitleColor),
+)
 
 class FakeSuccessCategoryDao(
     private val categoryListToReturn: List<LocalCategory> = listOf(buildLocalCategory()),
