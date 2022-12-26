@@ -21,7 +21,7 @@ class ObserveCategoriesTest {
 
     @Before
     fun setUp() {
-        sut = ObserveCategories(
+        sut = ObserveCategoriesImpl(
             categoryRepository,
         )
     }

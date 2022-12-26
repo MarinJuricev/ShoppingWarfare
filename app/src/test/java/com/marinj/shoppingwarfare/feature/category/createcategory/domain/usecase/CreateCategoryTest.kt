@@ -4,6 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategory
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategoryImpl
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -18,7 +20,7 @@ class CreateCategoryTest {
 
     @Before
     fun setUp() {
-        sut = CreateCategory(
+        sut = CreateCategoryImpl(
             categoryRepository,
             uuidGenerator,
         )

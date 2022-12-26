@@ -12,9 +12,9 @@ import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.navigation.CreateCategoryDestination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
-import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
-import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
-import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategoryImpl
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategoriesImpl
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletionImpl
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.CategoryToUiCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.mapper.UiCategoryToCategoryMapper
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
@@ -40,9 +40,9 @@ class CategoryViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val observeCategories: ObserveCategories = mockk()
-    private val deleteCategory: DeleteCategory = mockk()
-    private val undoCategoryDeletion: UndoCategoryDeletion = mockk()
+    private val observeCategories: ObserveCategoriesImpl = mockk()
+    private val deleteCategory: DeleteCategoryImpl = mockk()
+    private val undoCategoryDeletion: UndoCategoryDeletionImpl = mockk()
     private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper = mockk()
     private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper = mockk()
     private val failureToStringMapper: FailureToStringMapper = mockk()

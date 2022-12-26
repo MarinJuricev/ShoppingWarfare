@@ -16,7 +16,7 @@ class UndoCategoryDeletionTest {
 
     @Before
     fun setUp() {
-        sut = UndoCategoryDeletion(
+        sut = UndoCategoryDeletionImpl(
             categoryRepository,
         )
     }

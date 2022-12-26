@@ -7,7 +7,6 @@ import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
-import com.marinj.shoppingwarfare.feature.category.createcategory.domain.usecase.CreateCategory
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.mapper.FailureToCreateCategoryEffectMapper
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
@@ -17,6 +16,7 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewState
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateCategoryViewModel @Inject constructor(
-    private val createCategory: CreateCategory,
+    private val createCategory: CreateCategoryImpl,
     private val failureToCreateCategoryEffectMapper: FailureToCreateCategoryEffectMapper,
 ) : BaseViewModel<CreateCategoryEvent>() {
 

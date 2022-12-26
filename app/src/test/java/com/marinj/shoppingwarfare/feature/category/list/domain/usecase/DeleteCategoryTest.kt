@@ -16,7 +16,7 @@ class DeleteCategoryTest {
 
     @Before
     fun setUp() {
-        sut = DeleteCategory(categoryRepository)
+        sut = DeleteCategoryImpl(categoryRepository)
     }
 
     @Test
