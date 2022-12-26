@@ -13,7 +13,11 @@ import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 fun buildRemoteCategory(
@@ -131,6 +135,26 @@ class FakeSuccessCategoryRepository(
 
     override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> =
         Unit.buildRight()
+}
+
+class FakeSuccessObserveCategories(
+    private val categoryListToReturn: List<Category> = listOf(buildCategory()),
+) : ObserveCategories {
+    override fun invoke(): Flow<List<Category>> = flow {
+        emit(categoryListToReturn)
+    }
+}
+
+class FakeSuccessDeleteCategory() : DeleteCategory {
+    override suspend fun invoke(
+        categoryId: String,
+    ): Either<Failure, Unit> = Unit.buildRight()
+}
+
+class FakeSuccessUndoCategoryDeletion() : UndoCategoryDeletion {
+    override suspend fun invoke(
+        category: Category,
+    ): Either<Failure, Unit> = Unit.buildRight()
 }
 
 private const val TITLE = "title"
