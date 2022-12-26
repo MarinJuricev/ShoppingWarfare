@@ -25,10 +25,16 @@ class CategoryRepositoryImplTest {
             buildRemoteCategory(providedCategoryId = CATEGORY_ID),
         )
         val localCategoryList = listOf(
-            buildLocalCategory(providedCategoryId = CATEGORY_ID),
+            buildLocalCategory(
+                providedCategoryId = CATEGORY_ID,
+                providedTitle = TITLE,
+            ),
         )
         val expectedResult = listOf(
-            buildCategory(providedId = CATEGORY_ID),
+            buildCategory(
+                providedId = CATEGORY_ID,
+                providedTitle = TITLE,
+            ),
         )
         sut = CategoryRepositoryImpl(
             categoryDao = FakeSuccessCategoryDao(localCategoryList),
@@ -109,3 +115,4 @@ class CategoryRepositoryImplTest {
 }
 
 private const val CATEGORY_ID = "categoryId"
+private const val TITLE = "title"

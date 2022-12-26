@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation.mapper
 
 import com.google.common.truth.Truth.assertThat
+import com.marinj.shoppingwarfare.core.result.takeRightOrNull
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import io.mockk.every
 import io.mockk.mockk
@@ -23,11 +24,12 @@ class UiCategoryToCategoryMapperTest {
     fun `map should map id`() {
         val uiCategory = mockk<UiCategory>(relaxed = true).apply {
             every { id } answers { ID }
+            every { title } answers { TITLE }
         }
 
         val actualResult = sut.map(uiCategory)
 
-        assertThat(actualResult?.id).isEqualTo(ID)
+        assertThat(actualResult.takeRightOrNull()?.id).isEqualTo(ID)
     }
 
     @Test
@@ -38,7 +40,7 @@ class UiCategoryToCategoryMapperTest {
 
         val actualResult = sut.map(uiCategory)
 
-        assertThat(actualResult?.title).isEqualTo(TITLE)
+        assertThat(actualResult.takeRightOrNull()?.title).isEqualTo(TITLE)
     }
 
 //    TODO: Investigate why this throws an exception

@@ -3,12 +3,14 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
+import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Either.Left
 import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.navigation.CreateCategoryDestination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination
+import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
@@ -44,6 +46,7 @@ class CategoryViewModel @Inject constructor(
     private val undoCategoryDeletion: UndoCategoryDeletion,
     private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper,
     private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper,
+    private val failureToStringMapper: FailureToStringMapper,
     private val navigator: Navigator,
 ) : BaseViewModel<CategoryEvent>() {
 
@@ -106,8 +109,8 @@ class CategoryViewModel @Inject constructor(
 
     private fun handleDeleteCategory(uiCategory: UiCategory) = viewModelScope.launch {
         when (deleteCategory(uiCategory.id)) {
-            is Right -> _viewEffect.send(DeleteCategoryView(uiCategory))
             is Left -> _viewEffect.send(Error("Error while deleting category."))
+            is Right -> _viewEffect.send(DeleteCategoryView(uiCategory))
         }
     }
 
@@ -125,12 +128,21 @@ class CategoryViewModel @Inject constructor(
         )
     }
 
-    private fun handleUndoCategoryDeletion(uiCategory: UiCategory) = viewModelScope.launch {
-        uiCategoryToCategoryMapper.map(uiCategory)?.let { category ->
-            when (undoCategoryDeletion(category)) {
-                is Right -> Timber.d("${uiCategory.title} successfully restored")
-                is Left -> _viewEffect.send(Error("Couldn't undo category deletion."))
-            }
-        } ?: _viewEffect.send(Error("Couldn't undo category deletion."))
+    private fun handleUndoCategoryDeletion(
+        uiCategory: UiCategory,
+    ) = viewModelScope.launch {
+        when (val result = uiCategoryToCategoryMapper.map(uiCategory)) {
+            is Left -> _viewEffect.send(Error(failureToStringMapper.map(result.error)))
+            is Right -> restoreCategory(result.value)
+        }
+    }
+
+    private suspend fun restoreCategory(
+        category: Category,
+    ) {
+        when (undoCategoryDeletion(category)) {
+            is Left -> _viewEffect.send(Error("Couldn't undo category deletion."))
+            is Right -> Timber.d("${category.title} successfully restored")
+        }
     }
 }

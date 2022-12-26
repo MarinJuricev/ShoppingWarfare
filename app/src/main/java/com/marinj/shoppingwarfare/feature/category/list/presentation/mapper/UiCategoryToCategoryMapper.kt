@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class UiCategoryToCategoryMapper @Inject constructor() {
 
-    fun map(origin: UiCategory): Category? = with(origin) {
+    fun map(origin: UiCategory) = with(origin) {
         Category.of(
             id,
             title,

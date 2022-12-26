@@ -11,9 +11,11 @@ import org.junit.Test
 class ObserveCategoriesTest {
 
     private val repositoryCategories = listOf(
-        buildCategory(providedId = CATEGORY_ID),
+        buildCategory(providedId = CATEGORY_ID, providedTitle = TITLE),
     )
-    private val categoryRepository = FakeSuccessCategoryRepository()
+    private val categoryRepository = FakeSuccessCategoryRepository(
+        repositoryCategories,
+    )
 
     private lateinit var sut: ObserveCategories
 
@@ -25,7 +27,7 @@ class ObserveCategoriesTest {
     }
 
     @Test
-    fun `invoke should return result from categoryRepository observeCategories`() = runTest {
+    fun `invoke should return result from repository`() = runTest {
         sut().test {
             assertThat(awaitItem()).isEqualTo(repositoryCategories)
             awaitComplete()
@@ -34,3 +36,4 @@ class ObserveCategoriesTest {
 }
 
 private const val CATEGORY_ID = "categoryId"
+private const val TITLE = "title"

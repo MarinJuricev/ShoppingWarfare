@@ -14,7 +14,7 @@ class CartApiImpl @Inject constructor(
     override fun observeCartItems(): Flow<List<RemoteCartItem>> = callbackFlow {
         val subscription = fireStore
             .getCartDocument()
-            .addSnapshotListener { snapshot, throwable ->
+            .addSnapshotListener { snapshot, _ ->
                 if (snapshot?.exists() == true) {
                     snapshot.data
 //                    val versionCode = snapshot.data().toRemoteCar

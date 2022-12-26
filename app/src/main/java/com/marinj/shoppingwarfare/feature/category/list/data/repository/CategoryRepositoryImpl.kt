@@ -1,10 +1,12 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.repository
 
+import com.marinj.shoppingwarfare.core.result.takeRightOrNull
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
 import com.marinj.shoppingwarfare.feature.category.list.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -15,7 +17,7 @@ class CategoryRepositoryImpl @Inject constructor(
     private val categoryApi: CategoryApi,
 ) : CategoryRepository {
 
-    override fun observeCategories() =
+    override fun observeCategories(): Flow<List<Category>> =
         syncApiToLocal().flatMapLatest { categoriesFromLocal() }
 
     private fun syncApiToLocal() = categoryApi.observeCategories()
@@ -25,9 +27,9 @@ class CategoryRepositoryImpl @Inject constructor(
             }
         }
 
-    private fun categoriesFromLocal() = categoryDao.observeCategories()
-        .map { localCategoryList ->
-            localCategoryList.mapNotNull { it.toDomain() }
+    private fun categoriesFromLocal(): Flow<List<Category>> =
+        categoryDao.observeCategories().map { localCategoryList ->
+            localCategoryList.mapNotNull { it.toDomain().takeRightOrNull() }
         }
 
     override suspend fun upsertCategory(category: Category) =

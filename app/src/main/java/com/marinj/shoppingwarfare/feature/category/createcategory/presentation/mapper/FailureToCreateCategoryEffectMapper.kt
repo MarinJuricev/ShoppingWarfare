@@ -6,7 +6,7 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import javax.inject.Inject
 
 class FailureToCreateCategoryEffectMapper @Inject constructor() {
-
+    // TODO DELETE AND REPLACE WITH Generic Failure to ErrorMessageMapper
     fun map(origin: Failure): CreateCategoryViewEffect {
         return when (origin) {
             is Failure.ErrorMessage -> CreateCategoryViewFailure(origin.errorMessage)

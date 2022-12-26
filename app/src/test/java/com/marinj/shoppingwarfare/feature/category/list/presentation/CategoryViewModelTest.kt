@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
+import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.Failure
@@ -44,6 +45,7 @@ class CategoryViewModelTest {
     private val undoCategoryDeletion: UndoCategoryDeletion = mockk()
     private val categoryToUiCategoryMapper: CategoryToUiCategoryMapper = mockk()
     private val uiCategoryToCategoryMapper: UiCategoryToCategoryMapper = mockk()
+    private val failureToStringMapper: FailureToStringMapper = mockk()
     private val navigator: Navigator = mockk()
 
     private lateinit var sut: CategoryViewModel
@@ -56,6 +58,7 @@ class CategoryViewModelTest {
             undoCategoryDeletion,
             categoryToUiCategoryMapper,
             uiCategoryToCategoryMapper,
+            failureToStringMapper,
             navigator,
         )
     }
@@ -182,7 +185,7 @@ class CategoryViewModelTest {
             val category = mockk<Category>()
             coEvery {
                 uiCategoryToCategoryMapper.map(uiCategory)
-            } coAnswers { category }
+            } coAnswers { category.buildRight() }
             coEvery {
                 undoCategoryDeletion(category)
             } coAnswers { Failure.Unknown.buildLeft() }
@@ -201,7 +204,7 @@ class CategoryViewModelTest {
             val category = mockk<Category>()
             coEvery {
                 uiCategoryToCategoryMapper.map(uiCategory)
-            } coAnswers { category }
+            } coAnswers { category.buildRight() }
             coEvery {
                 undoCategoryDeletion(category)
             } coAnswers { Unit.buildRight() }
