@@ -5,8 +5,13 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.navigation.Navigator
+import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.*
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
+import com.marinj.shoppingwarfare.fixtures.category.FakeFailureObserveCategories
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessDeleteCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessObserveCategories
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessUndoCategoryDeletion
@@ -26,28 +31,14 @@ class CategoryViewModelTest {
 
     @Test
     fun `onEvent SHOULD update categories WHEN GetCategories is provided and ObserveCategories emits categories`() = runTest {
-        val categories = listOf(
-            buildCategory(
-                providedId = ID,
-                providedTitle = TITLE,
-                providedBackgroundColor = BACKGROUND_COLOR,
-                providedTitleColor = TITLE_COLOR,
-            ),
-        )
+        val categories = buildCategoryList()
+        val expectedResult = buildUiCategoryList()
         val sut = CategoryViewModel(
             FakeSuccessObserveCategories(categories),
             FakeSuccessDeleteCategory(),
             FakeSuccessUndoCategoryDeletion(),
             FailureToStringMapper(),
             navigator,
-        )
-        val expectedResult = listOf(
-            buildUiCategory(
-                providedCategoryId = ID,
-                providedTitle = TITLE,
-                providedBackgroundColor = BACKGROUND_COLOR,
-                providedTitleColor = TITLE_COLOR,
-            ),
         )
 
         sut.onEvent(GetCategories)
@@ -59,31 +50,23 @@ class CategoryViewModelTest {
         }
     }
 
-//    @Test
-//    fun `should update categoryViewEffect with Error when GetCategories is provided and emits an exception`() =
-//        runTest {
-//            val categoriesFlow = flow<List<Category>> {
-//                throw Exception()
-//            }
-//            coEvery {
-//                observeCategories()
-//            } coAnswers { categoriesFlow }
-//
-//            sut.viewState.test {
-//                val initialViewState = awaitItem()
-//                assertThat(initialViewState.categories).isEmpty()
-//                assertThat(initialViewState.isLoading).isTrue()
-//
-//                sut.onEvent(GetCategories)
-//
-//                val updatedViewState = awaitItem()
-//                assertThat(updatedViewState.isLoading).isFalse()
-//            }
-//
-//            sut.viewEffect.test {
-//                assertThat(awaitItem()).isEqualTo(CategoryViewEffect.Error("Failed to fetch Categories, try again later."))
-//            }
-//        }
+    @Test
+    fun `onEvent SHOULD update viewEffect WHEN GetCategories is provided and ObserveCategories throws exception`() = runTest {
+        val sut = CategoryViewModel(
+            FakeFailureObserveCategories(),
+            FakeSuccessDeleteCategory(),
+            FakeSuccessUndoCategoryDeletion(),
+            FailureToStringMapper(),
+            navigator,
+        )
+
+        sut.onEvent(GetCategories)
+
+
+        sut.viewEffect.test {
+            assertThat(awaitItem()).isEqualTo(Error("Failed to fetch Categories, try again later."))
+        }
+    }
 //
 //    @Test
 //    fun `should update categoryViewEffect with DeleteCategory when DeleteCategory is provided and deleteCategory returns Right`() =
@@ -175,7 +158,26 @@ class CategoryViewModelTest {
 //                expectNoEvents()
 //            }
 //        }
+
+    private fun buildUiCategoryList(): List<UiCategory> = listOf(
+        buildUiCategory(
+            providedCategoryId = ID,
+            providedTitle = TITLE,
+            providedBackgroundColor = BACKGROUND_COLOR,
+            providedTitleColor = TITLE_COLOR,
+        ),
+    )
+
+    private fun buildCategoryList(): List<Category> = listOf(
+        buildCategory(
+            providedId = ID,
+            providedTitle = TITLE,
+            providedBackgroundColor = BACKGROUND_COLOR,
+            providedTitleColor = TITLE_COLOR,
+        ),
+    )
 }
+
 
 private const val ID = "id"
 private const val TITLE = "title"
