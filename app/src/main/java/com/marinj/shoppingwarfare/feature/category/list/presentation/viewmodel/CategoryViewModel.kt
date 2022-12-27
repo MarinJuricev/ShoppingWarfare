@@ -11,8 +11,10 @@ import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.navigation.CreateCategoryDestination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategoryImpl
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletionImpl
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
@@ -41,8 +43,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val observeCategories: ObserveCategories,
-    private val deleteCategory: DeleteCategoryImpl,
-    private val undoCategoryDeletion: UndoCategoryDeletionImpl,
+    private val deleteCategory: DeleteCategory,
+    private val undoCategoryDeletion: UndoCategoryDeletion,
     private val failureToStringMapper: FailureToStringMapper,
     private val navigator: Navigator,
 ) : BaseViewModel<CategoryEvent>() {
