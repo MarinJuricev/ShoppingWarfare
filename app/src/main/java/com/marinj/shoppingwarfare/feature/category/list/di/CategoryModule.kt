@@ -43,5 +43,4 @@ abstract class CategoryModule {
     abstract fun bindUndoCategoryDeletion(
         undoCategoryDeletion: UndoCategoryDeletionImpl,
     ): UndoCategoryDeletion
-
 }

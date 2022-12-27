@@ -178,7 +178,6 @@ class CategoryViewModelTest {
 }
 
 private const val ID = "id"
-private const val CATEGORY_NAME = "fruits"
 private const val TITLE = "title"
 private const val BACKGROUND_COLOR = 123
 private const val TITLE_COLOR = 312
