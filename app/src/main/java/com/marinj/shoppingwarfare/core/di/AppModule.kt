@@ -1,17 +1,20 @@
 package com.marinj.shoppingwarfare.core.di
 
 import com.marinj.shoppingwarfare.core.navigation.Navigator
+import com.marinj.shoppingwarfare.core.navigation.NavigatorImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+abstract class AppModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideNavigator(): Navigator = Navigator()
+    abstract fun bindNavigator(
+        navigatorImpl: NavigatorImpl,
+    ): Navigator
 }
