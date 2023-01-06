@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:filename")
+
 package com.marinj.shoppingwarfare.core.fixture
 
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent

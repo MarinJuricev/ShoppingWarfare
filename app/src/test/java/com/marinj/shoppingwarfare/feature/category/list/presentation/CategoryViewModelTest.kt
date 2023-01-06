@@ -1,19 +1,17 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
-import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
-import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.*
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.CATEGORY_NAME
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination.createCategoryDetailRoute
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.*
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureObserveCategories
@@ -65,7 +63,6 @@ class CategoryViewModelTest {
         )
 
         sut.onEvent(GetCategories)
-
 
         sut.viewEffect.test {
             assertThat(awaitItem()).isEqualTo(Error("Failed to fetch Categories, try again later."))
@@ -207,7 +204,6 @@ class CategoryViewModelTest {
         ),
     )
 }
-
 
 private const val ID = "id"
 private const val TITLE = "title"
