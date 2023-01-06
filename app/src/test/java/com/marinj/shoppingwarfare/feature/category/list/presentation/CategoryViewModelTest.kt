@@ -1,13 +1,18 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation
 
 import app.cash.turbine.test
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
+import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
-import com.marinj.shoppingwarfare.core.navigation.Navigator
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.*
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.CATEGORY_NAME
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination.createCategoryDetailRoute
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.*
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
@@ -17,7 +22,6 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessObserveCategories
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessUndoCategoryDeletion
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildUiCategory
-import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +31,7 @@ class CategoryViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val navigator: Navigator = mockk()
+    private val navigator = FakeNavigator
 
     @Test
     fun `onEvent SHOULD update categories WHEN GetCategories is provided and ObserveCategories emits categories`() = runTest {
@@ -67,9 +71,35 @@ class CategoryViewModelTest {
             assertThat(awaitItem()).isEqualTo(Error("Failed to fetch Categories, try again later."))
         }
     }
-//
+
+    @Test
+    fun `onEvent SHOULD trigger navigation WHEN NavigateToCreateCategory is provided with DeleteCategory when DeleteCategory is provided`() =
+        runTest {
+            val sut = CategoryViewModel(
+                FakeFailureObserveCategories(),
+                FakeSuccessDeleteCategory(),
+                FakeSuccessUndoCategoryDeletion(),
+                FailureToStringMapper(),
+                navigator,
+            )
+            val expectedEvent = Destination(
+                createCategoryDetailRoute(categoryId = ID, categoryName = CATEGORY_NAME),
+            )
+
+            navigator.receivedEvents.test {
+                sut.onEvent(
+                    NavigateToCategoryDetail(
+                        categoryId = ID,
+                        categoryName = CATEGORY_NAME,
+                    ),
+                )
+
+                assertThat(awaitItem()).isEqualTo(expectedEvent)
+            }
+        }
+
 //    @Test
-//    fun `should update categoryViewEffect with DeleteCategory when DeleteCategory is provided and deleteCategory returns Right`() =
+//    fun `onEvent SHOULD update viewEffect WHEN DeleteCategory is provided with DeleteCategory when DeleteCategory is provided and deleteCategory returns Right`() =
 //        runTest {
 //            val uiCategory = mockk<UiCategory>().apply {
 //                every { id } answers { ID }
