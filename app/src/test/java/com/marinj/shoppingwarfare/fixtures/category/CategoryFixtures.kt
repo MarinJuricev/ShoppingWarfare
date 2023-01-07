@@ -169,4 +169,10 @@ object FakeSuccessUndoCategoryDeletion : UndoCategoryDeletion {
     ): Either<Failure, Unit> = Unit.buildRight()
 }
 
+object FakeFailureUndoCategoryDeletion : UndoCategoryDeletion {
+    override suspend fun invoke(
+        category: Category,
+    ): Either<Failure, Unit> = Unknown.buildLeft()
+}
+
 private const val TITLE = "title"

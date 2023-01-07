@@ -12,12 +12,14 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureDeleteCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureObserveCategories
+import com.marinj.shoppingwarfare.fixtures.category.FakeFailureUndoCategoryDeletion
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessDeleteCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessObserveCategories
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessUndoCategoryDeletion
@@ -135,80 +137,63 @@ class CategoryViewModelTest {
                 assertThat(awaitItem()).isEqualTo(Error("Error while deleting category."))
             }
         }
-//
-//    @Test
-//    fun `should update categoryViewEffect with Error when DeleteCategory is provided and deleteCategory returns Left`() =
-//        runTest {
-//            val uiCategory = mockk<UiCategory>().apply {
-//                every { id } answers { ID }
-//            }
-//            coEvery {
-//                deleteCategory(ID)
-//            } coAnswers { Unknown.buildLeft() }
-//
-//            sut.onEvent(DeleteCategory(uiCategory))
-//
-//            sut.viewEffect.test {
-//                assertThat(awaitItem()).isEqualTo(CategoryViewEffect.Error("Error while deleting category."))
-//            }
-//        }
-//
-//    @Test
-//    fun `should trigger Navigator emitDestination with CategoryDetailAction when NavigateToCategoryDetail is provided`() {
-//        coEvery {
-//            navigator.emitDestination(
-//                Destination(CategoryDetailDestination.createCategoryDetailRoute(ID, CATEGORY_NAME)),
-//            )
-//        } returns Unit
-//        sut.onEvent(NavigateToCategoryDetail(ID, CATEGORY_NAME))
-//
-//        coVerify {
-//            navigator.emitDestination(
-//                Destination(CategoryDetailDestination.createCategoryDetailRoute(ID, CATEGORY_NAME)),
-//            )
-//        }
-//    }
-//
-//    @Test
-//    fun `should trigger Navigator emitAction with CreateCategoryAction when NavigateToCreateCategory is provided`() {
-//        sut.onEvent(NavigateToCreateCategory)
-//
-//        coVerify {
-//            navigator.emitDestination(Destination(CreateCategoryDestination.route()))
-//        }
-//    }
-//
-//    @Test
-//    fun `should update categoryViewEffect with Error when UndoCategoryDeletion is provided and deleteCategory returns Left`() =
-//        runTest {
-//            val uiCategory = mockk<UiCategory>()
-//            val category = mockk<Category>()
-//            coEvery {
-//                undoCategoryDeletion(category)
-//            } coAnswers { Unknown.buildLeft() }
-//
-//            sut.onEvent(UndoCategoryDeletion(uiCategory))
-//
-//            sut.viewEffect.test {
-//                assertThat(awaitItem()).isEqualTo(CategoryViewEffect.Error("Couldn't undo category deletion."))
-//            }
-//        }
-//
-//    @Test
-//    fun `should update not categoryViewEffect with Error when UndoCategoryDeletion is provided and deleteCategory returns Right`() =
-//        runTest {
-//            val uiCategory = mockk<UiCategory>()
-//            val category = mockk<Category>()
-//            coEvery {
-//                undoCategoryDeletion(category)
-//            } coAnswers { Unit.buildRight() }
-//
-//            sut.onEvent(UndoCategoryDeletion(uiCategory))
-//
-//            sut.viewEffect.test {
-//                expectNoEvents()
-//            }
-//        }
+
+    @Test
+    fun `onEvent SHOULD update viewEffect WHEN UndoCategoryDeletion is provided and toDomain returns Left`() =
+        runTest {
+            val sut = CategoryViewModel(
+                FakeFailureObserveCategories,
+                FakeFailureDeleteCategory,
+                FakeSuccessUndoCategoryDeletion,
+                FailureToStringMapper(),
+                navigator,
+            )
+            val uiCategory = buildUiCategory(providedTitle = "")
+
+            sut.onEvent(UndoCategoryDeletion(uiCategory))
+
+            sut.viewEffect.test {
+                assertThat(awaitItem()).isEqualTo(Error("Title can not be empty or null got: "))
+            }
+        }
+
+    @Test
+    fun `onEvent SHOULD update viewEffect WHEN UndoCategoryDeletion is provided and undoCategoryDeletion returns Left`() =
+        runTest {
+            val sut = CategoryViewModel(
+                FakeFailureObserveCategories,
+                FakeFailureDeleteCategory,
+                FakeFailureUndoCategoryDeletion,
+                FailureToStringMapper(),
+                navigator,
+            )
+            val uiCategory = buildUiCategory(providedTitle = TITLE)
+
+            sut.onEvent(UndoCategoryDeletion(uiCategory))
+
+            sut.viewEffect.test {
+                assertThat(awaitItem()).isEqualTo(Error("Couldn't undo category deletion."))
+            }
+        }
+
+    @Test
+    fun `onEvent SHOULD not update viewEffect WHEN UndoCategoryDeletion is provided and undoCategoryDeletion returns Right`() =
+        runTest {
+            val sut = CategoryViewModel(
+                FakeFailureObserveCategories,
+                FakeFailureDeleteCategory,
+                FakeSuccessUndoCategoryDeletion,
+                FailureToStringMapper(),
+                navigator,
+            )
+            val uiCategory = buildUiCategory(providedTitle = TITLE)
+
+            sut.onEvent(UndoCategoryDeletion(uiCategory))
+
+            sut.viewEffect.test {
+                expectNoEvents()
+            }
+        }
 
     private fun buildUiCategoryList(): List<UiCategory> = listOf(
         buildUiCategory(
