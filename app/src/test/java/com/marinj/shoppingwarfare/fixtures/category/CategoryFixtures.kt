@@ -157,6 +157,12 @@ class FakeSuccessDeleteCategory : DeleteCategory {
     ): Either<Failure, Unit> = Unit.buildRight()
 }
 
+class FakeFailureDeleteCategory : DeleteCategory {
+    override suspend fun invoke(
+        categoryId: String,
+    ): Either<Failure, Unit> = Unknown.buildLeft()
+}
+
 class FakeSuccessUndoCategoryDeletion : UndoCategoryDeletion {
     override suspend fun invoke(
         category: Category,

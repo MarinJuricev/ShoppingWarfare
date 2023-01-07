@@ -15,9 +15,7 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCat
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCreateCategory
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
@@ -104,13 +102,6 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    private fun handleDeleteCategory(uiCategory: UiCategory) = viewModelScope.launch {
-        when (deleteCategory(uiCategory.id)) {
-            is Left -> _viewEffect.send(Error("Error while deleting category."))
-            is Right -> _viewEffect.send(DeleteCategoryView(uiCategory))
-        }
-    }
-
     private fun handleNavigateToCategoryDetail(
         categoryId: String,
         categoryName: String,
@@ -123,6 +114,13 @@ class CategoryViewModel @Inject constructor(
                 ),
             ),
         )
+    }
+
+    private fun handleDeleteCategory(uiCategory: UiCategory) = viewModelScope.launch {
+        when (deleteCategory(uiCategory.id)) {
+            is Left -> _viewEffect.send(Error("Error while deleting category."))
+            is Right -> _viewEffect.send(DeleteCategoryView(uiCategory))
+        }
     }
 
     private fun handleUndoCategoryDeletion(

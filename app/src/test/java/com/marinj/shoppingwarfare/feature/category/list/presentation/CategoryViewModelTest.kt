@@ -9,11 +9,13 @@ import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.CATEGORY_NAME
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination.createCategoryDetailRoute
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.*
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
+import com.marinj.shoppingwarfare.fixtures.category.FakeFailureDeleteCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureObserveCategories
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessDeleteCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessObserveCategories
@@ -95,22 +97,43 @@ class CategoryViewModelTest {
             }
         }
 
-//    @Test
-//    fun `onEvent SHOULD update viewEffect WHEN DeleteCategory is provided with DeleteCategory when DeleteCategory is provided and deleteCategory returns Right`() =
-//        runTest {
-//            val uiCategory = mockk<UiCategory>().apply {
-//                every { id } answers { ID }
-//            }
-//            coEvery {
-//                deleteCategory(ID)
-//            } coAnswers { Unit.buildRight() }
-//
-//            sut.onEvent(DeleteCategory(uiCategory))
-//
-//            sut.viewEffect.test {
-//                assertThat(awaitItem()).isEqualTo(CategoryViewEffect.DeleteCategoryView(uiCategory))
-//            }
-//        }
+    @Test
+    fun `onEvent SHOULD update viewEffect WHEN DeleteCategory is provided with DeleteCategory when DeleteCategory is provided and deleteCategory returns Right`() =
+        runTest {
+            val sut = CategoryViewModel(
+                FakeFailureObserveCategories(),
+                FakeSuccessDeleteCategory(),
+                FakeSuccessUndoCategoryDeletion(),
+                FailureToStringMapper(),
+                navigator,
+            )
+            val uiCategory = buildUiCategory()
+
+            sut.onEvent(DeleteCategory(uiCategory))
+
+            sut.viewEffect.test {
+                assertThat(awaitItem()).isEqualTo(DeleteCategoryView(uiCategory))
+            }
+        }
+
+    @Test
+    fun `onEvent SHOULD update viewEffect WHEN DeleteCategory is provided with DeleteCategory when DeleteCategory is provided and deleteCategory returns Left`() =
+        runTest {
+            val sut = CategoryViewModel(
+                FakeFailureObserveCategories(),
+                FakeFailureDeleteCategory(),
+                FakeSuccessUndoCategoryDeletion(),
+                FailureToStringMapper(),
+                navigator,
+            )
+            val uiCategory = buildUiCategory()
+
+            sut.onEvent(DeleteCategory(uiCategory))
+
+            sut.viewEffect.test {
+                assertThat(awaitItem()).isEqualTo(Error("Error while deleting category."))
+            }
+        }
 //
 //    @Test
 //    fun `should update categoryViewEffect with Error when DeleteCategory is provided and deleteCategory returns Left`() =
