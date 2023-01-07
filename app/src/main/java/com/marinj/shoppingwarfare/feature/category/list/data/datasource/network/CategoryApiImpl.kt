@@ -76,7 +76,7 @@ class CategoryApiImpl @Inject constructor(
     }
 
     private fun FirebaseFirestore.getCategoryCollection() =
-        this.collection(CATEGORY_COLLECTION)
+        collection(CATEGORY_COLLECTION)
 }
 
 private const val CATEGORY_COLLECTION = "category"
