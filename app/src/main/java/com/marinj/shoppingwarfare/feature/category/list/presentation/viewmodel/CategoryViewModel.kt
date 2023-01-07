@@ -15,7 +15,9 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCat
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
