@@ -145,25 +145,25 @@ class FakeSuccessObserveCategories(
     }
 }
 
-class FakeFailureObserveCategories : ObserveCategories {
+object FakeFailureObserveCategories : ObserveCategories {
     override fun invoke(): Flow<List<Category>> = flow {
         throw Throwable()
     }
 }
 
-class FakeSuccessDeleteCategory : DeleteCategory {
+object FakeSuccessDeleteCategory : DeleteCategory {
     override suspend fun invoke(
         categoryId: String,
     ): Either<Failure, Unit> = Unit.buildRight()
 }
 
-class FakeFailureDeleteCategory : DeleteCategory {
+object FakeFailureDeleteCategory : DeleteCategory {
     override suspend fun invoke(
         categoryId: String,
     ): Either<Failure, Unit> = Unknown.buildLeft()
 }
 
-class FakeSuccessUndoCategoryDeletion : UndoCategoryDeletion {
+object FakeSuccessUndoCategoryDeletion : UndoCategoryDeletion {
     override suspend fun invoke(
         category: Category,
     ): Either<Failure, Unit> = Unit.buildRight()

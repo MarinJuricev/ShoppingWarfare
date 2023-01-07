@@ -9,10 +9,11 @@ import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.CATEGORY_NAME
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination.createCategoryDetailRoute
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.*
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.*
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.DeleteCategory
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCategoryDetail
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureDeleteCategory
@@ -39,8 +40,8 @@ class CategoryViewModelTest {
         val expectedResult = buildUiCategoryList()
         val sut = CategoryViewModel(
             FakeSuccessObserveCategories(categories),
-            FakeSuccessDeleteCategory(),
-            FakeSuccessUndoCategoryDeletion(),
+            FakeSuccessDeleteCategory,
+            FakeSuccessUndoCategoryDeletion,
             FailureToStringMapper(),
             navigator,
         )
@@ -57,9 +58,9 @@ class CategoryViewModelTest {
     @Test
     fun `onEvent SHOULD update viewEffect WHEN GetCategories is provided and ObserveCategories throws exception`() = runTest {
         val sut = CategoryViewModel(
-            FakeFailureObserveCategories(),
-            FakeSuccessDeleteCategory(),
-            FakeSuccessUndoCategoryDeletion(),
+            FakeFailureObserveCategories,
+            FakeSuccessDeleteCategory,
+            FakeSuccessUndoCategoryDeletion,
             FailureToStringMapper(),
             navigator,
         )
@@ -75,9 +76,9 @@ class CategoryViewModelTest {
     fun `onEvent SHOULD trigger navigation WHEN NavigateToCreateCategory is provided with DeleteCategory when DeleteCategory is provided`() =
         runTest {
             val sut = CategoryViewModel(
-                FakeFailureObserveCategories(),
-                FakeSuccessDeleteCategory(),
-                FakeSuccessUndoCategoryDeletion(),
+                FakeFailureObserveCategories,
+                FakeSuccessDeleteCategory,
+                FakeSuccessUndoCategoryDeletion,
                 FailureToStringMapper(),
                 navigator,
             )
@@ -101,9 +102,9 @@ class CategoryViewModelTest {
     fun `onEvent SHOULD update viewEffect WHEN DeleteCategory is provided with DeleteCategory when DeleteCategory is provided and deleteCategory returns Right`() =
         runTest {
             val sut = CategoryViewModel(
-                FakeFailureObserveCategories(),
-                FakeSuccessDeleteCategory(),
-                FakeSuccessUndoCategoryDeletion(),
+                FakeFailureObserveCategories,
+                FakeSuccessDeleteCategory,
+                FakeSuccessUndoCategoryDeletion,
                 FailureToStringMapper(),
                 navigator,
             )
@@ -120,9 +121,9 @@ class CategoryViewModelTest {
     fun `onEvent SHOULD update viewEffect WHEN DeleteCategory is provided with DeleteCategory when DeleteCategory is provided and deleteCategory returns Left`() =
         runTest {
             val sut = CategoryViewModel(
-                FakeFailureObserveCategories(),
-                FakeFailureDeleteCategory(),
-                FakeSuccessUndoCategoryDeletion(),
+                FakeFailureObserveCategories,
+                FakeFailureDeleteCategory,
+                FakeSuccessUndoCategoryDeletion,
                 FailureToStringMapper(),
                 navigator,
             )
