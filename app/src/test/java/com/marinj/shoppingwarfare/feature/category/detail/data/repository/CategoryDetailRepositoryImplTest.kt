@@ -5,7 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.ProductDao
+import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.DomainToLocalCategoryItemMapper
 import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.LocalCategoryProductsListToDomainProductMapper
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalCategoryProducts

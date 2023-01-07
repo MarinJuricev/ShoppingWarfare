@@ -4,7 +4,8 @@ import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.ProductDao
+import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
+import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
 import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.DomainToLocalCategoryItemMapper
 import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.LocalCategoryProductsListToDomainProductMapper
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CategoryDetailRepositoryImpl @Inject constructor(
+    private val productApi: ProductApi,
     private val productDao: ProductDao,
     private val domainToLocalCategoryItemMapper: DomainToLocalCategoryItemMapper,
     private val localCategoryProductsListToDomainProductMapper: LocalCategoryProductsListToDomainProductMapper,

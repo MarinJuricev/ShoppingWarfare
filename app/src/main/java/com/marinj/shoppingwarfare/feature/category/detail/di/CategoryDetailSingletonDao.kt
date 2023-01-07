@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.detail.di
 
 import com.marinj.shoppingwarfare.core.data.ShoppingWarfareDatabase
-import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.ProductDao
+import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
