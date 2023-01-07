@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class CategoryDetailRepositoryImpl @Inject constructor(
+class ProductRepositoryImpl @Inject constructor(
     private val productApi: ProductApi,
     private val productDao: ProductDao,
     private val domainToLocalCategoryItemMapper: DomainToLocalCategoryItemMapper,

@@ -5,10 +5,10 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.Prod
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ObserveCategoryProducts @Inject constructor(
-    private val categoryDetailRepository: ProductRepository,
+class ObserveProducts @Inject constructor(
+    private val productRepository: ProductRepository,
 ) {
 
     operator fun invoke(categoryId: String): Flow<List<Product>> =
-        categoryDetailRepository.observeProducts(categoryId)
+        productRepository.observeProducts(categoryId)
 }

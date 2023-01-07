@@ -25,36 +25,35 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
-import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.components.CreateCategoryProduct
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.ProductTopBar
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.components.CreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.components.ProductList
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.RestoreProductDeletion
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.Error
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.ProductDeleted
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmodel.CategoryDetailViewModel
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnGetProducts
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.RestoreProductDeletion
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.Error
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.ProductDeleted
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmodel.ProductViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 const val CATEGORY_NAME = "categoryName"
 
 @Composable
-fun CategoryDetailScreen(
+fun ProductScreen(
     categoryId: String,
     categoryName: String,
     setupTopBar: (TopBarEvent) -> Unit,
-    categoryDetailViewModel: CategoryDetailViewModel = hiltViewModel(),
+    productViewModel: ProductViewModel = hiltViewModel(),
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     currentContext: Context = LocalContext.current,
 ) {
-    val viewState by categoryDetailViewModel.viewState.collectAsState()
+    val viewState by productViewModel.viewState.collectAsState()
 
     LaunchedEffect(key1 = categoryId) {
         setupTopBar(
-            CategoryDetailTopBar(
+            ProductTopBar(
                 onActionClick = {
                     coroutineScope.launch {
                         bottomSheetScaffoldState.expandOrCollapse()
@@ -69,11 +68,11 @@ fun CategoryDetailScreen(
                 },
             ),
         )
-        categoryDetailViewModel.onEvent(OnGetCategoryProducts(categoryId))
+        productViewModel.onEvent(OnGetProducts(categoryId))
     }
 
-    LaunchedEffect(key1 = categoryDetailViewModel.viewEffect) {
-        categoryDetailViewModel.viewEffect.collect { viewEffect ->
+    LaunchedEffect(key1 = productViewModel.viewEffect) {
+        productViewModel.viewEffect.collect { viewEffect ->
             when (viewEffect) {
                 is Error -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = viewEffect.errorMessage,
@@ -86,7 +85,7 @@ fun CategoryDetailScreen(
                     ),
                     actionLabel = currentContext.getString(string.undo),
                 )
-                is CategoryDetailViewEffect.AddedToCart -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                is ProductViewEffect.AddedToCart -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
                         string.cart_item_added,
                         viewEffect.product.name,
@@ -94,7 +93,7 @@ fun CategoryDetailScreen(
                 )
             }.also { snackBarResult ->
                 if (viewEffect is ProductDeleted && snackBarResult == SnackbarResult.ActionPerformed) {
-                    categoryDetailViewModel.onEvent(RestoreProductDeletion(viewEffect.product))
+                    productViewModel.onEvent(RestoreProductDeletion(viewEffect.product))
                 }
             }
         }
@@ -104,13 +103,13 @@ fun CategoryDetailScreen(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
-            CreateCategoryProduct(
+            CreateProduct(
                 categoryId = categoryId,
                 categoryName = categoryName,
-                onCategoryDetailEvent = { categoryDetailEvent ->
+                onProductEvent = { categoryDetailEvent ->
                     coroutineScope.launch {
                         bottomSheetScaffoldState.expandOrCollapse()
-                        categoryDetailViewModel.onEvent(categoryDetailEvent)
+                        productViewModel.onEvent(categoryDetailEvent)
                     }
                 },
             )
@@ -126,7 +125,7 @@ fun CategoryDetailScreen(
             )
             viewState.products.isNotEmpty() -> ProductList(
                 viewState.products,
-                categoryDetailViewModel::onEvent,
+                productViewModel::onEvent,
             )
         }
     }

@@ -17,11 +17,11 @@ class ObserveProductsTest {
 
     private val categoryDetailRepository: ProductRepository = mockk()
 
-    private lateinit var sut: ObserveCategoryProducts
+    private lateinit var sut: ObserveProducts
 
     @Before
     fun setUp() {
-        sut = ObserveCategoryProducts(
+        sut = ObserveProducts(
             categoryDetailRepository,
         )
     }

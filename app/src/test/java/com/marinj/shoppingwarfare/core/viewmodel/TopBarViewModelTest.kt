@@ -8,7 +8,7 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.NoSearchBarTopBarViewState
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.SearchTopBarViewState
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
-import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.ProductTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryDetailTopBar
@@ -77,7 +77,7 @@ class TopBarViewModelTest {
         runTest {
             val icon: @Composable () -> Unit = {}
             val onActionClicked = {}
-            val event = CategoryDetailTopBar(
+            val event = ProductTopBar(
                 onActionClick = onActionClicked,
                 icon = icon,
             )

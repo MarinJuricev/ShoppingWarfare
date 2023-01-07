@@ -22,14 +22,14 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.theme.textColor
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductClicked
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductDelete
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnProductClicked
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnProductDelete
 
 @Composable
 fun ProductCard(
     product: Product,
-    onCategoryDetailEvent: (CategoryDetailEvent) -> Unit,
+    onCategoryDetailEvent: (ProductEvent) -> Unit,
 ) {
     Card(
         modifier = Modifier

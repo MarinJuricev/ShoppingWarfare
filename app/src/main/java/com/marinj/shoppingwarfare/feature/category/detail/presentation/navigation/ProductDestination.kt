@@ -12,7 +12,7 @@ private const val CATEGORY_DETAIL_ROOT = "categoryDetail"
 private const val CATEGORY_DETAIL_ROUTE =
     "$CATEGORY_DETAIL_ROOT/{$CATEGORY_ID_PARAM}/{$CATEGORY_NAME_PARAM}"
 
-object CategoryDetailDestination : NavigationDestination {
+object ProductDestination : NavigationDestination {
 
     override fun route(): String = CATEGORY_DETAIL_ROUTE
 

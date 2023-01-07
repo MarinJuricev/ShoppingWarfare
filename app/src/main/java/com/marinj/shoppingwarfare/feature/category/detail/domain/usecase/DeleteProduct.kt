@@ -6,10 +6,10 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.Prod
 import javax.inject.Inject
 
 class DeleteProduct @Inject constructor(
-    private val categoryDetailRepository: ProductRepository,
+    private val productRepository: ProductRepository,
 ) {
 
     suspend operator fun invoke(
         productId: String,
-    ): Either<Failure, Unit> = categoryDetailRepository.deleteProductById(productId)
+    ): Either<Failure, Unit> = productRepository.deleteProductById(productId)
 }

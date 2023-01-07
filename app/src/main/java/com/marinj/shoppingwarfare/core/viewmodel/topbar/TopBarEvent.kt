@@ -16,7 +16,7 @@ sealed interface TopBarEvent {
         @StringRes val subTitle: Int = R.string.create_category,
     ) : TopBarEvent
 
-    data class CategoryDetailTopBar(
+    data class ProductTopBar(
         @StringRes val title: Int = R.string.category,
         @StringRes val subTitle: Int = R.string.category_detail,
         val onActionClick: () -> Unit,

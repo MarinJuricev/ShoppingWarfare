@@ -22,7 +22,7 @@ import org.junit.Test
 private const val CATEGORY_ID = "categoryId"
 private const val PRODUCT_ID = "productId"
 
-class CategoryDetailRepositoryImplTest {
+class ProductRepositoryImplTest {
 
     private val productDao: ProductDao = mockk()
     private val domainToLocalProductMapper: DomainToLocalCategoryItemMapper = mockk()
@@ -33,7 +33,7 @@ class CategoryDetailRepositoryImplTest {
 
     @Before
     fun setUp() {
-        sut = CategoryDetailRepositoryImpl(
+        sut = ProductRepositoryImpl(
             productDao,
             domainToLocalProductMapper,
             localCategoryProductsListToDomainProductMapper,

@@ -7,7 +7,7 @@ import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.CATEGORY_NAME
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CategoryDetailDestination.createCategoryDetailRoute
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.ProductDestination.createCategoryDetailRoute
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories

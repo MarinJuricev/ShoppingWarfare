@@ -6,12 +6,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent
 
 @Composable
 fun ProductList(
     products: List<Product>,
-    onCategoryDetailEvent: (CategoryDetailEvent) -> Unit,
+    onCategoryDetailEvent: (ProductEvent) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(8.dp),

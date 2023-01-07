@@ -11,16 +11,16 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
-import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveCategoryProducts
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper.ProductToCartItemMapper
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnCreateCategoryProduct
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnGetCategoryProducts
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductClicked
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.OnProductDelete
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailEvent.RestoreProductDeletion
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.AddedToCart
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.Error
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewEffect.ProductDeleted
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnCreateProduct
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnGetProducts
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnProductClicked
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnProductDelete
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.RestoreProductDeletion
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.AddedToCart
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.Error
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.ProductDeleted
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -35,23 +35,23 @@ private const val CATEGORY_NAME = "fruits"
 private const val PRODUCT_NAME = "product"
 private const val PRODUCT_ID = "productId"
 
-class CategoryDetailViewModelTest {
+class ProductViewModelTest {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val observeCategoryProducts: ObserveCategoryProducts = mockk()
+    private val observeProducts: ObserveProducts = mockk()
     private val createProduct: CreateProduct = mockk()
     private val deleteProduct: DeleteProduct = mockk()
     private val productToCartItemMapper: ProductToCartItemMapper = mockk()
     private val addToCart: AddToCart = mockk()
 
-    private lateinit var sut: CategoryDetailViewModel
+    private lateinit var sut: ProductViewModel
 
     @Before
     fun setUp() {
-        sut = CategoryDetailViewModel(
-            observeCategoryProducts,
+        sut = ProductViewModel(
+            observeProducts,
             createProduct,
             deleteProduct,
             productToCartItemMapper,
@@ -66,7 +66,7 @@ class CategoryDetailViewModelTest {
             val productList = listOf(product)
 
             coEvery {
-                observeCategoryProducts(CATEGORY_ID)
+                observeProducts(CATEGORY_ID)
             } coAnswers { flow { emit(productList) } }
 
             sut.viewState.test {
@@ -74,7 +74,7 @@ class CategoryDetailViewModelTest {
                 assertThat(initialViewState.products).isEmpty()
                 assertThat(initialViewState.isLoading).isTrue()
 
-                sut.onEvent(OnGetCategoryProducts(CATEGORY_ID))
+                sut.onEvent(OnGetProducts(CATEGORY_ID))
 
                 val viewState = awaitItem()
                 assertThat(viewState.products).isEqualTo(productList)
@@ -86,7 +86,7 @@ class CategoryDetailViewModelTest {
     fun `should update viewEffect with Error when OnGetCategoryProducts is provided and emits an exception`() =
         runTest {
             coEvery {
-                observeCategoryProducts(CATEGORY_ID)
+                observeProducts(CATEGORY_ID)
             } coAnswers { flow { throw Exception() } }
 
             sut.viewState.test {
@@ -94,7 +94,7 @@ class CategoryDetailViewModelTest {
                 assertThat(initialViewState.products).isEmpty()
                 assertThat(initialViewState.isLoading).isTrue()
 
-                sut.onEvent(OnGetCategoryProducts(CATEGORY_ID))
+                sut.onEvent(OnGetProducts(CATEGORY_ID))
 
                 val viewState = awaitItem()
 
@@ -108,7 +108,7 @@ class CategoryDetailViewModelTest {
     @Test
     fun `should log productCreated when OnCreateCategoryProduct is provided and CreateProduct returns Right`() =
         runTest {
-            val event = OnCreateCategoryProduct(
+            val event = OnCreateProduct(
                 categoryId = CATEGORY_ID,
                 productName = PRODUCT_NAME,
                 categoryName = CATEGORY_NAME,
@@ -131,7 +131,7 @@ class CategoryDetailViewModelTest {
     @Test
     fun `should update viewEffect when OnCreateCategoryProduct is provided and CreateProduct returns Left`() =
         runTest {
-            val event = OnCreateCategoryProduct(
+            val event = OnCreateProduct(
                 categoryId = CATEGORY_ID,
                 productName = PRODUCT_NAME,
                 categoryName = CATEGORY_NAME,

@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CartTopBar
-import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryDetailTopBar
+import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.ProductTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryDetailTopBar
@@ -31,7 +31,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         when (event) {
             is CategoryTopBar -> handleCategoryTopBar(event)
             is CreateCategoryTopBar -> handleCreateCategoryTopBar(event)
-            is CategoryDetailTopBar -> handleCategoryDetailTopBar(event)
+            is ProductTopBar -> handleCategoryDetailTopBar(event)
             is CartTopBar -> handleCartTopBar(event)
             is HistoryTopBar -> handleHistoryTopBar(event)
             is HistoryDetailTopBar -> handleHistoryDetailTopBar(event)
@@ -58,7 +58,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
         }
     }
 
-    private fun handleCategoryDetailTopBar(event: CategoryDetailTopBar) {
+    private fun handleCategoryDetailTopBar(event: ProductTopBar) {
         _viewState.update {
             NoSearchBarTopBarViewState(
                 title = event.title,

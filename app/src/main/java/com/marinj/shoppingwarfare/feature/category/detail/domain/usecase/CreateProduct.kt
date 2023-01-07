@@ -11,7 +11,7 @@ import javax.inject.Inject
 class CreateProduct @Inject constructor(
     private val validateProduct: ValidateProduct,
     private val uuidGenerator: () -> String,
-    private val categoryDetailRepository: ProductRepository,
+    private val productRepository: ProductRepository,
 ) {
 
     suspend operator fun invoke(
@@ -21,7 +21,7 @@ class CreateProduct @Inject constructor(
     ): Either<Failure, Unit> {
         return when (val result = validateProduct(productName)) {
             is Left -> result
-            is Right -> categoryDetailRepository.upsertProduct(
+            is Right -> productRepository.upsertProduct(
                 Product(
                     id = uuidGenerator(),
                     categoryId = categoryId,
