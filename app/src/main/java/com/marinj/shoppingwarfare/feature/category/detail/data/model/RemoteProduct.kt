@@ -10,4 +10,11 @@ data class RemoteProduct(
     val categoryId: String,
     val categoryName: String,
     val name: String,
-)
+) {
+    fun toLocal() = LocalProduct(
+        productId = productId,
+        categoryProductId = categoryId,
+        categoryName = categoryName,
+        name = name,
+    )
+}
