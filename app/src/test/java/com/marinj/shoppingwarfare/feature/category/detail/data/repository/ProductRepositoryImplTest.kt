@@ -6,8 +6,7 @@ import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
-import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.DomainToLocalCategoryItemMapper
-import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.LocalCategoryProductsListToDomainProductMapper
+import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalCategoryProducts
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
@@ -25,18 +24,15 @@ private const val PRODUCT_ID = "productId"
 class ProductRepositoryImplTest {
 
     private val productDao: ProductDao = mockk()
-    private val domainToLocalProductMapper: DomainToLocalCategoryItemMapper = mockk()
-    private val localCategoryProductsListToDomainProductMapper: LocalCategoryProductsListToDomainProductMapper =
-        mockk()
+    private val productApi: ProductApi = mockk()
 
     private lateinit var sut: ProductRepository
 
     @Before
     fun setUp() {
         sut = ProductRepositoryImpl(
+            productApi,
             productDao,
-            domainToLocalProductMapper,
-            localCategoryProductsListToDomainProductMapper,
         )
     }
 
@@ -53,9 +49,6 @@ class ProductRepositoryImplTest {
                 emit(listOfLocalCategoryProducts)
             }
         }
-        coEvery {
-            localCategoryProductsListToDomainProductMapper.map(listOfLocalCategoryProducts)
-        } coAnswers { listOfProducts }
 
         sut.observeProducts(CATEGORY_ID).test {
             assertThat(awaitItem()).isEqualTo(listOfProducts)
@@ -65,11 +58,8 @@ class ProductRepositoryImplTest {
 
     @Test
     fun `upsertCategoryProduct should return Left when productDao returns 0L`() = runTest {
-        val product = mockk<Product>()
+         val product = mockk<Product>()
         val localProduct = mockk<LocalProduct>()
-        coEvery {
-            domainToLocalProductMapper.map(product)
-        } coAnswers { localProduct }
         coEvery {
             productDao.upsertProduct(localProduct)
         } coAnswers { 0L }
@@ -85,9 +75,6 @@ class ProductRepositoryImplTest {
         runTest {
             val product = mockk<Product>()
             val localProduct = mockk<LocalProduct>()
-            coEvery {
-                domainToLocalProductMapper.map(product)
-            } coAnswers { localProduct }
             coEvery {
                 productDao.upsertProduct(localProduct)
             } coAnswers { 1L }
