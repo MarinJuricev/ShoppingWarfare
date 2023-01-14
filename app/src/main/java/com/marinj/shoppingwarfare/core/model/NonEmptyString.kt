@@ -9,8 +9,8 @@ import com.marinj.shoppingwarfare.core.result.buildRight
 @JvmInline
 value class NonEmptyString private constructor(val value: String) {
     companion object {
-        fun of(value: String): Either<Failure, NonEmptyString> = when {
-            value.isBlank() -> ErrorMessage("Can not provide a value").buildLeft()
+        fun of(value: String?): Either<Failure, NonEmptyString> = when {
+            value.isNullOrBlank() -> ErrorMessage("Can not provide a value").buildLeft()
             else -> NonEmptyString(value).buildRight()
         }
     }
