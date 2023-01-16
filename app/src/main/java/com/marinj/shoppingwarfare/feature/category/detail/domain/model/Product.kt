@@ -6,7 +6,7 @@ import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 
-data class Product private constructor(
+data class Product(
     val id: String,
     val categoryId: String,
     val categoryName: String,

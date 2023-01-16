@@ -14,7 +14,7 @@ data class LocalCategoryProducts(
     )
     val productList: List<LocalProduct>,
 ) {
-    fun toProductOrNull () = productList.map {
+    fun toProductOrNull() = productList.map {
         it.toDomain().takeRightOrNull()
     }
 }

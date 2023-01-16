@@ -11,6 +11,7 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateP
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper.ProductToCartItemMapper
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewState
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnCreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnGetProducts
@@ -21,7 +22,6 @@ import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.Pro
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.AddedToCart
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.ProductDeleted
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
