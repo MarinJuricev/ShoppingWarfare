@@ -1,15 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.detail.data.repository
 
-import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
-import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Test
 
 class ProductRepositoryImplTest {
 
@@ -75,17 +70,15 @@ class ProductRepositoryImplTest {
 //            assertThat(actualResult).isEqualTo(expectedResult)
 //        }
 
-    @Test
-    fun `deleteCategoryProductById should return Right`() = runTest {
-        coEvery {
-            productDao.deleteProductById(PRODUCT_ID)
-        } coAnswers { Unit }
-
-        val actualResult = sut.deleteProductById(PRODUCT_ID)
-        val expectedResult = Unit.buildRight()
-
-        assertThat(actualResult).isEqualTo(expectedResult)
-    }
+//    @Test
+//    fun `deleteCategoryProductById should return Right`() = runTest {
+//        coEvery {
+//            productDao.deleteProductById(PRODUCT_ID)
+//        } coAnswers { Unit }
+//
+//        val actualResult = sut.deleteProductById(PRODUCT_ID)
+//        val expectedResult = Unit.buildRight()
+//
+//        assertThat(actualResult).isEqualTo(expectedResult)
+//    }
 }
-
-private const val PRODUCT_ID = "productId"

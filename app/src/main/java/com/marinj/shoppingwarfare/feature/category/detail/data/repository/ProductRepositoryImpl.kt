@@ -2,8 +2,6 @@ package com.marinj.shoppingwarfare.feature.category.detail.data.repository
 
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.toLocal
@@ -47,7 +45,6 @@ class ProductRepositoryImpl @Inject constructor(
         product.toRemote().let { remoteProduct ->
             productApi.addProduct(remoteProduct)
         }
-
 
     override suspend fun deleteProductById(
         productId: String,
