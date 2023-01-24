@@ -7,8 +7,10 @@ import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.toLocal
+import com.marinj.shoppingwarfare.feature.category.detail.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
+import com.marinj.shoppingwarfare.feature.category.list.data.model.toRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -41,14 +43,15 @@ class ProductRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun upsertProduct(product: Product): Either<Failure, Unit> {
-        val localProduct = product.toLocal()
-        return when (productDao.upsertProduct(localProduct)) {
-            0L -> Failure.ErrorMessage("Error while adding new category product").buildLeft()
-            else -> Unit.buildRight()
+    override suspend fun upsertProduct(product: Product): Either<Failure, Unit> =
+        product.toRemote().let { remoteProduct ->
+            productApi.addProduct(remoteProduct)
         }
-    }
 
-    override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
-        productDao.deleteProductById(productId).buildRight()
+
+    override suspend fun deleteProductById(
+        productId: String,
+    ): Either<Failure, Unit> = productApi.deleteProductById(productId).also {
+        productDao.deleteProductById(productId)
+    }
 }
