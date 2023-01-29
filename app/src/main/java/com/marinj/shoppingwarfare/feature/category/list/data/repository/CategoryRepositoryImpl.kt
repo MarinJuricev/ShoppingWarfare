@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
@@ -18,7 +19,10 @@ class CategoryRepositoryImpl @Inject constructor(
 ) : CategoryRepository {
 
     override fun observeCategories(): Flow<List<Category>> =
-        syncApiToLocal().flatMapLatest { categoriesFromLocal() }
+        categoriesFromLocal()
+            .onStart {
+                syncApiToLocal()
+            }
 
     private fun syncApiToLocal() = categoryApi.observeCategories()
         .onEach { remoteCategories ->

@@ -48,12 +48,24 @@ class CategoryRepositoryImplTest {
     }
 
     @Test
-    fun `observeCategories SHOULD insert data into categoryDao from apiService`() = runTest {
+    fun `observeCategories SHOULD return data from local service`() = runTest {
         val remoteCategoryList = listOf(
-            buildRemoteCategory(providedCategoryId = CATEGORY_ID),
+            buildRemoteCategory(
+                providedCategoryId = CATEGORY_ID,
+                providedTitle = TITLE,
+            ),
         )
         val localCategoryList = listOf(
-            buildLocalCategory(providedCategoryId = CATEGORY_ID),
+            buildLocalCategory(
+                providedCategoryId = CATEGORY_ID,
+                providedTitle = TITLE,
+            ),
+        )
+        val expectedResult = listOf(
+            buildCategory(
+                providedId = CATEGORY_ID,
+                providedTitle = TITLE,
+            ),
         )
         val dao = FakeSuccessCategoryDao(localCategoryList)
         sut = CategoryRepositoryImpl(
@@ -62,14 +74,14 @@ class CategoryRepositoryImplTest {
         )
 
         sut.observeCategories().test {
-            assertThat(dao.localCategories).isEqualTo(localCategoryList)
-            cancelAndConsumeRemainingEvents()
+            assertThat(awaitItem()).isEqualTo(expectedResult)
+            awaitComplete()
         }
     }
 
     @Test
     fun `upsertCategory SHOULD return Left WHEN categoryApi returns Left`() = runTest {
-        val category = buildCategory(providedId = CATEGORY_ID)!!
+        val category = buildCategory(providedId = CATEGORY_ID)
         sut = CategoryRepositoryImpl(
             categoryDao = FakeSuccessCategoryDao(),
             categoryApi = FakeFailureCategoryApi(),
