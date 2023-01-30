@@ -84,7 +84,7 @@ class CategoryRepositoryImplTest {
         val category = buildCategory(providedId = CATEGORY_ID)
         sut = CategoryRepositoryImpl(
             categoryDao = FakeSuccessCategoryDao(),
-            categoryApi = FakeFailureCategoryApi(),
+            categoryApi = FakeFailureCategoryApi,
         )
 
         val result = sut.upsertCategory(category)

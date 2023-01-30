@@ -111,7 +111,7 @@ class FakeSuccessCategoryApi(
     }
 }
 
-class FakeFailureCategoryApi : CategoryApi {
+object FakeFailureCategoryApi : CategoryApi {
     override fun observeCategories() = flow<List<RemoteCategory>> {
         throw Throwable()
     }
