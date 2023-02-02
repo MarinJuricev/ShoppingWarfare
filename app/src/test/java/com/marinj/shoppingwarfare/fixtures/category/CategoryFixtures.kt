@@ -91,13 +91,13 @@ class FakeSuccessCategoryDao(
 }
 
 class FakeSuccessCategoryApi(
-    private val categoryListToReturn: List<RemoteCategory> = listOf(buildRemoteCategory()),
+    private val categoryListToEmit: List<RemoteCategory> = listOf(buildRemoteCategory()),
 ) : CategoryApi {
 
     val remoteCategories = mutableListOf<RemoteCategory>()
 
     override fun observeCategories() = flow {
-        emit(categoryListToReturn)
+        emit(categoryListToEmit)
     }
 
     override suspend fun addCategoryItem(categoryItem: RemoteCategory): Either<Failure, Unit> {
