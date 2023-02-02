@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
@@ -21,7 +22,8 @@ class ProductRepositoryImpl @Inject constructor(
 ) : ProductRepository {
 
     override fun observeProducts(productId: String) =
-        syncApiToLocal(productId).flatMapLatest { productsFromLocal(productId) }
+        productsFromLocal(productId)
+            .onStart { syncApiToLocal(productId) }
 
     private fun syncApiToLocal(
         productId: String,
