@@ -1,24 +1,49 @@
 package com.marinj.shoppingwarfare.feature.category.detail.data.repository
 
-import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
-import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
-import io.mockk.mockk
-import org.junit.Before
+import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductApi
+import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductDao
+import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategoryProducts
+import com.marinj.shoppingwarfare.fixtures.category.buildLocalProduct
+import com.marinj.shoppingwarfare.fixtures.category.buildProduct
+import com.marinj.shoppingwarfare.fixtures.category.buildRemoteProduct
+import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
 class ProductRepositoryImplTest {
 
-    private val productDao: ProductDao = mockk()
-    private val productApi: ProductApi = mockk()
-
     private lateinit var sut: ProductRepository
 
-    @Before
-    fun setUp() {
-        sut = ProductRepositoryImpl(
-            productApi,
-            productDao,
+    @Test
+    fun `observeProducts SHOULD return products from local source`() = runTest {
+        val remoteProducts = listOf(buildRemoteProduct())
+        val localCategoryProducts = listOf(
+            buildLocalCategoryProducts(
+                providedLocalProductList = listOf(
+                    buildLocalProduct(
+                        providedCategoryName = CATEGORY_NAME,
+                        providedName = PRODUCT_NAME,
+                    ),
+                ),
+            ),
         )
+        val expectedResult = listOf(
+            buildProduct(
+                providedCategoryName = CATEGORY_NAME,
+                providedName = PRODUCT_NAME,
+            ),
+        )
+        sut = ProductRepositoryImpl(
+            productApi = FakeSuccessProductApi(remoteProducts),
+            productDao = FakeSuccessProductDao(localCategoryProducts),
+        )
+
+        sut.observeProducts(PRODUCT_ID).test {
+            assertThat(awaitItem()).isEqualTo(expectedResult)
+            awaitComplete()
+        }
     }
 
 //    @Test
@@ -82,3 +107,7 @@ class ProductRepositoryImplTest {
 //        assertThat(actualResult).isEqualTo(expectedResult)
 //    }
 }
+
+private const val PRODUCT_ID = "productId"
+private const val CATEGORY_NAME = "categoryName"
+private const val PRODUCT_NAME = "name"
