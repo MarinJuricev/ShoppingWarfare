@@ -24,21 +24,21 @@ class ProductRepositoryImpl @Inject constructor(
         productsFromLocal(productId)
             .onStart { syncApiToLocal(productId) }
 
-    private fun syncApiToLocal(
-        productId: String,
-    ) = productApi.observeProductsForGivenCategoryId(productId)
-        .onEach { remoteProducts ->
-            remoteProducts.map { remoteProduct ->
-                productDao.upsertProduct(remoteProduct.toLocal())
-            }
-        }
-
     private fun productsFromLocal(
         productId: String,
     ): Flow<List<Product>> =
         productDao.observeProductsForGivenCategoryId(productId).map { localCategoryList ->
             localCategoryList.flatMap { localCategoryProduct ->
                 localCategoryProduct.toProductOrNull().filterNotNull()
+            }
+        }
+
+    private fun syncApiToLocal(
+        productId: String,
+    ) = productApi.observeProductsForGivenCategoryId(productId)
+        .map { remoteProducts ->
+            remoteProducts.map { remoteProduct ->
+                productDao.upsertProduct(remoteProduct.toLocal())
             }
         }
 

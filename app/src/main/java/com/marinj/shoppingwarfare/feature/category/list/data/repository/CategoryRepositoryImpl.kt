@@ -22,7 +22,7 @@ class CategoryRepositoryImpl @Inject constructor(
             .onStart { syncApiToLocal() }
 
     private fun syncApiToLocal() = categoryApi.observeCategories()
-        .onEach { remoteCategories ->
+        .map { remoteCategories ->
             remoteCategories.map { remoteCategory ->
                 categoryDao.upsertCategory(remoteCategory.toLocal())
             }
