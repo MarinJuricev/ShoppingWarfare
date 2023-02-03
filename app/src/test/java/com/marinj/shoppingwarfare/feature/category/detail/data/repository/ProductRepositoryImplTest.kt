@@ -2,7 +2,11 @@ package com.marinj.shoppingwarfare.feature.category.detail.data.repository
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.core.result.buildLeft
+import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
+import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductDao
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategoryProducts
@@ -47,7 +51,7 @@ class ProductRepositoryImplTest {
     }
 
     @Test
-    fun `upsertProduct SHOULD return Left when productApi returns Left`() = runTest {
+    fun `upsertProduct SHOULD return Right when productApi returns Right`() = runTest {
         val product = buildProduct(
             providedCategoryName = CATEGORY_NAME,
             providedName = PRODUCT_NAME,
@@ -64,37 +68,75 @@ class ProductRepositoryImplTest {
             productDao = FakeSuccessProductDao(),
         )
 
-        sut.upsertProduct(product)
+        val result = sut.upsertProduct(product)
 
+        assertThat(result).isEqualTo(Unit.buildRight())
         assertThat(productApi.remoteProducts).isEqualTo(remoteProducts)
     }
 
-//    @Test
-//    fun `upsertCategoryProduct should return Right when productDao returns result other than 0L`() =
-//        runTest {
-//            val product = mockk<Product>()
-//            val localProduct = mockk<LocalProduct>()
-//            coEvery {
-//                productDao.upsertProduct(localProduct)
-//            } coAnswers { 1L }
-//
-//            val actualResult = sut.upsertProduct(product)
-//            val expectedResult = Unit.buildRight()
-//
-//            assertThat(actualResult).isEqualTo(expectedResult)
-//        }
+    @Test
+    fun `upsertProduct SHOULD return Left when productApi returns Left`() = runTest {
+        val product = buildProduct(
+            providedCategoryName = CATEGORY_NAME,
+            providedName = PRODUCT_NAME,
+        )
+        val sut = ProductRepositoryImpl(
+            productApi = FakeFailureProductApi,
+            productDao = FakeSuccessProductDao(),
+        )
 
-//    @Test
-//    fun `deleteCategoryProductById should return Right`() = runTest {
-//        coEvery {
-//            productDao.deleteProductById(PRODUCT_ID)
-//        } coAnswers { Unit }
-//
-//        val actualResult = sut.deleteProductById(PRODUCT_ID)
-//        val expectedResult = Unit.buildRight()
-//
-//        assertThat(actualResult).isEqualTo(expectedResult)
-//    }
+        val result = sut.upsertProduct(product)
+
+        assertThat(result).isEqualTo(Unknown.buildLeft())
+    }
+
+    @Test
+    fun `deleteProductById SHOULD return Right when productApi returns Right`() = runTest {
+        val sut = ProductRepositoryImpl(
+            productApi = FakeSuccessProductApi(),
+            productDao = FakeSuccessProductDao(),
+        )
+
+        val result = sut.deleteProductById(PRODUCT_ID)
+
+        assertThat(result).isEqualTo(Unit.buildRight())
+    }
+
+    @Test
+    fun `deleteProductById SHOULD return Left when productApi returns Left`() = runTest {
+        val sut = ProductRepositoryImpl(
+            productApi = FakeFailureProductApi,
+            productDao = FakeSuccessProductDao(),
+        )
+
+        val result = sut.deleteProductById(PRODUCT_ID)
+
+        assertThat(result).isEqualTo(Unknown.buildLeft())
+    }
+
+    @Test
+    fun `deleteProductById SHOULD return delete the item in productDao`() = runTest {
+        val localProduct = buildLocalProduct(
+            providedProductId = PRODUCT_ID,
+            providedCategoryName = CATEGORY_NAME,
+            providedName = PRODUCT_NAME,
+        )
+        val localCategoryProducts = listOf(
+            buildLocalCategoryProducts(
+                providedLocalProductList = listOf(localProduct),
+            ),
+        )
+        val dao = FakeSuccessProductDao(localCategoryProducts)
+        val sut = ProductRepositoryImpl(
+            productApi = FakeSuccessProductApi(),
+            productDao = dao,
+        )
+
+        dao.upsertProduct(localProduct)
+        assertThat(dao.localProducts).isEqualTo(listOf(localProduct))
+        sut.deleteProductById(PRODUCT_ID)
+        assertThat(dao.localProducts).isEmpty()
+    }
 }
 
 private const val PRODUCT_ID = "productId"

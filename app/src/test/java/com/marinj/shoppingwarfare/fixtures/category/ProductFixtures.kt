@@ -2,6 +2,8 @@ package com.marinj.shoppingwarfare.fixtures.category
 
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.core.result.takeRightOrNull
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
@@ -12,6 +14,7 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.model.RemoteProdu
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 
 fun buildRemoteProduct(
@@ -106,6 +109,21 @@ class FakeSuccessProductApi(
         remoteProducts.removeIf { it.productId == id }
         return Unit.buildRight()
     }
+}
+
+object FakeFailureProductApi : ProductApi {
+
+    override fun observeProductsForGivenCategoryId(
+        categoryId: String,
+    ): Flow<List<RemoteProduct>> = emptyFlow()
+
+    override suspend fun addProduct(
+        product: RemoteProduct,
+    ): Either<Failure, Unit> = Unknown.buildLeft()
+
+    override suspend fun deleteProductById(
+        id: String,
+    ): Either<Failure, Unit> = Unknown.buildLeft()
 }
 
 private const val PRODUCT_NAME = "productName"
