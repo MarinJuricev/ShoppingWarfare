@@ -9,6 +9,7 @@ import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategoryProducts
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalProduct
 import com.marinj.shoppingwarfare.fixtures.category.buildProduct
 import com.marinj.shoppingwarfare.fixtures.category.buildRemoteProduct
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -46,39 +47,29 @@ class ProductRepositoryImplTest {
         }
     }
 
-//    @Test
-//    fun `observeCategoryProducts should return products`() = runTest {
-//        val localCategoryProducts = mockk<LocalCategoryProducts>()
-//        val listOfLocalCategoryProducts = listOf(localCategoryProducts)
-//        val product = mockk<Product>()
-//        val listOfProducts = listOf(product)
-//        coEvery {
-//            productDao.observeProductsForGivenCategoryId(CATEGORY_ID)
-//        } coAnswers {
-//            flow {
-//                emit(listOfLocalCategoryProducts)
-//            }
-//        }
-//
-//        sut.observeProducts(CATEGORY_ID).test {
-//            assertThat(awaitItem()).isEqualTo(listOfProducts)
-//            awaitComplete()
-//        }
-//    }
 
-//    @Test
-//    fun `upsertCategoryProduct should return Left when productDao returns 0L`() = runTest {
-//        val product = mockk<Product>()
-//        val localProduct = mockk<LocalProduct>()
-//        coEvery {
-//            productDao.upsertProduct(localProduct)
-//        } coAnswers { 0L }
-//
-//        val actualResult = sut.upsertProduct(product)
-//        val expectedResult = ErrorMessage("Error while adding new category product").buildLeft()
-//
-//        assertThat(actualResult).isEqualTo(expectedResult)
-//    }
+    @Test
+    fun `upsertProduct SHOULD return Left when productApi returns Left`() = runTest {
+        val product = buildProduct(
+            providedCategoryName = CATEGORY_NAME,
+            providedName = PRODUCT_NAME,
+        )
+        val remoteProducts = listOf(
+            buildRemoteProduct(
+                providedCategoryName = CATEGORY_NAME,
+                providedName = PRODUCT_NAME,
+            ),
+        )
+        val productApi = FakeSuccessProductApi()
+        val sut = ProductRepositoryImpl(
+            productApi = productApi,
+            productDao = FakeSuccessProductDao(),
+        )
+
+        sut.upsertProduct(product)
+
+        assertThat(productApi.remoteProducts).isEqualTo(remoteProducts)
+    }
 
 //    @Test
 //    fun `upsertCategoryProduct should return Right when productDao returns result other than 0L`() =
