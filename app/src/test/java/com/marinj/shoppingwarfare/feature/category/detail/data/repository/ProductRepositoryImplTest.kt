@@ -9,7 +9,6 @@ import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategoryProducts
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalProduct
 import com.marinj.shoppingwarfare.fixtures.category.buildProduct
 import com.marinj.shoppingwarfare.fixtures.category.buildRemoteProduct
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -46,7 +45,6 @@ class ProductRepositoryImplTest {
             awaitComplete()
         }
     }
-
 
     @Test
     fun `upsertProduct SHOULD return Left when productApi returns Left`() = runTest {

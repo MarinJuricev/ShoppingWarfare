@@ -11,7 +11,6 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.Prod
 import com.marinj.shoppingwarfare.feature.category.list.data.model.toRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
