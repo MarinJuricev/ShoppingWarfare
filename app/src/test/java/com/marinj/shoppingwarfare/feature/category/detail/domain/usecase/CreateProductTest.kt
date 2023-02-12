@@ -20,7 +20,6 @@ private const val CATEGORY_ITEM_TITLE = "title"
 
 class CreateProductTest {
 
-    private val validateProduct: ValidateProduct = mockk()
     private val uuidGenerator: () -> String = mockk()
     private val productRepository: ProductRepository = mockk()
 
@@ -31,7 +30,6 @@ class CreateProductTest {
         every { uuidGenerator() } answers { UUID }
 
         sut = CreateProduct(
-            validateProduct,
             uuidGenerator,
             productRepository,
         )
@@ -40,9 +38,6 @@ class CreateProductTest {
     @Test
     fun `invoke should return Left when validateCategoryItem returns Left`() = runTest {
         val left = Failure.Unknown.buildLeft()
-        coEvery {
-            validateProduct(CATEGORY_ITEM_TITLE)
-        } coAnswers { left }
 
         val actualResult = sut(CATEGORY_ID, CATEGORY_NAME, CATEGORY_ITEM_TITLE)
 
@@ -60,9 +55,6 @@ class CreateProductTest {
                 categoryName = CATEGORY_NAME,
                 name = CATEGORY_ITEM_TITLE,
             )
-            coEvery {
-                validateProduct(CATEGORY_ITEM_TITLE)
-            } coAnswers { validatorRight }
             coEvery {
                 productRepository.upsertProduct(categoryItem)
             } coAnswers { repositoryLeft }
@@ -87,9 +79,6 @@ class CreateProductTest {
                 categoryName = CATEGORY_NAME,
                 name = CATEGORY_ITEM_TITLE,
             )
-            coEvery {
-                validateProduct(CATEGORY_ITEM_TITLE)
-            } coAnswers { validatorRight }
             coEvery {
                 productRepository.upsertProduct(categoryItem)
             } coAnswers { repositoryRight }
