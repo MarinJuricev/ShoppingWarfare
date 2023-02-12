@@ -4,11 +4,9 @@ import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
-import com.marinj.shoppingwarfare.feature.category.detail.data.model.toLocal
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
-import com.marinj.shoppingwarfare.feature.category.list.data.model.toRemote
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -41,7 +39,9 @@ class ProductRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun upsertProduct(product: Product): Either<Failure, Unit> =
+    override suspend fun upsertProduct(
+        product: Product,
+    ): Either<Failure, Unit> =
         product.toRemote().let { remoteProduct ->
             productApi.addProduct(remoteProduct)
         }

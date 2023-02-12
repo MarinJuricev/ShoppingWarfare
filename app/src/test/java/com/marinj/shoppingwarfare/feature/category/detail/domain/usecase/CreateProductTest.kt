@@ -48,7 +48,6 @@ class CreateProductTest {
     fun `invoke should return Left when validateCategoryItem returns Right and CategoryDetailRepository returns Left`() =
         runTest {
             val repositoryLeft = Failure.Unknown.buildLeft()
-            val validatorRight = Unit.buildRight()
             val categoryItem = Product(
                 id = UUID,
                 categoryId = CATEGORY_ID,
@@ -72,7 +71,6 @@ class CreateProductTest {
     fun `invoke should return Right when validateCategoryItem returns Right and CategoryDetailRepository returns Right`() =
         runTest {
             val repositoryRight = Unit.buildRight()
-            val validatorRight = Unit.buildRight()
             val categoryItem = Product(
                 id = UUID,
                 categoryId = CATEGORY_ID,

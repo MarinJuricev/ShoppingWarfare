@@ -129,7 +129,6 @@ object FakeFailureProductApi : ProductApi {
 
 private const val PRODUCT_NAME = "productName"
 
-
 class FakeSuccessProductRepository(
     private val productListToObserve: List<Product> = listOf(buildProduct()),
 ) : ProductRepository {
@@ -142,5 +141,4 @@ class FakeSuccessProductRepository(
 
     override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
         Unit.buildRight()
-
 }

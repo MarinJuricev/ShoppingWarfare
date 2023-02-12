@@ -32,7 +32,6 @@ class ObserveProductsTest {
 
     @Test
     fun `invoke SHOULD return result from repository`() = runTest {
-
         sut(CATEGORY_ID).test {
             assertThat(awaitItem()).isEqualTo(products)
             awaitComplete()
