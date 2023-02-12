@@ -124,10 +124,10 @@ object FakeFailureCategoryApi : CategoryApi {
 }
 
 class FakeSuccessCategoryRepository(
-    private val categoryListToReturn: List<Category> = listOf(buildCategory()),
+    private val categoryListToObserve: List<Category> = listOf(buildCategory()),
 ) : CategoryRepository {
     override fun observeCategories() = flow {
-        emit(categoryListToReturn)
+        emit(categoryListToObserve)
     }
 
     override suspend fun upsertCategory(category: Category) =
