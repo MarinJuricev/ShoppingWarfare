@@ -37,6 +37,20 @@ internal class ProductTest {
     }
 
     @Test
+    fun `of SHOULD return Left WHEN name is null`() {
+        val expectedResult = ErrorMessage("Name can not be empty got: null").buildLeft()
+
+        val result = Product.of(
+            id = ID,
+            categoryId = CATEGORY_ID,
+            categoryName = CATEGORY_NAME,
+            name = null,
+        )
+
+        assertThat(result).isEqualTo(expectedResult)
+    }
+
+    @Test
     fun `of SHOULD return Right WHEN validation passes`() {
         val expectedResult = Product(
             id = ID,
