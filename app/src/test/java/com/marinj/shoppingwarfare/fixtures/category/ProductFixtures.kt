@@ -12,6 +12,7 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalCatego
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.RemoteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
+import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -127,3 +128,19 @@ object FakeFailureProductApi : ProductApi {
 }
 
 private const val PRODUCT_NAME = "productName"
+
+
+class FakeSuccessProductRepository(
+    private val productListToObserve: List<Product> = listOf(buildProduct()),
+) : ProductRepository {
+    override fun observeProducts(productId: String): Flow<List<Product>> = flow {
+        emit(productListToObserve)
+    }
+
+    override suspend fun upsertProduct(product: Product): Either<Failure, Unit> =
+        Unit.buildRight()
+
+    override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
+        Unit.buildRight()
+
+}
