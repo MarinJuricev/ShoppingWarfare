@@ -21,6 +21,7 @@ data class Product(
         ): Either<Failure, Product> = when {
             name.isNullOrBlank() -> ErrorMessage("Name can not be empty got: $name").buildLeft()
             categoryName.isBlank() -> ErrorMessage("CategoryName can not be empty got: $categoryName").buildLeft()
+            categoryId.isBlank() -> ErrorMessage("CategoryId can not be empty got: $categoryId").buildLeft()
             else -> Product(
                 id = id,
                 categoryId = categoryId,
