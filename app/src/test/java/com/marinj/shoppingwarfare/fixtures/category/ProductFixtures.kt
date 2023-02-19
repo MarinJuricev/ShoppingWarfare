@@ -153,7 +153,6 @@ object FakeFailureProductRepository : ProductRepository {
         Unknown.buildLeft()
 }
 
-
 private const val PRODUCT_NAME = "productName"
 private const val CATEGORY_ID = "categoryId"
 private const val CATEGORY_NAME = "categoryName"

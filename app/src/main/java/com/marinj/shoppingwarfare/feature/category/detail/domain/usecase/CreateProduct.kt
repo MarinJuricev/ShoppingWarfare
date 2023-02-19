@@ -2,7 +2,6 @@ package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 
 import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.map
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
@@ -23,7 +22,6 @@ class CreateProduct @Inject constructor(
         categoryName = categoryName,
         name = productName,
     ).map { validProduct ->
-        Failure.Unknown.buildLeft()
-//        productRepository.upsertProduct(validProduct)
+        productRepository.upsertProduct(validProduct)
     }
 }
