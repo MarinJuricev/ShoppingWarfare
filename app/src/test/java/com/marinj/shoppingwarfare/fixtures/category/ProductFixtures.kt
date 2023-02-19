@@ -52,8 +52,8 @@ fun buildLocalCategoryProducts(
 
 fun buildProduct(
     providedProductId: String = "",
-    providedCategoryId: String = "",
-    providedCategoryName: String = "",
+    providedCategoryName: String = CATEGORY_NAME,
+    providedCategoryId: String = CATEGORY_ID,
     providedName: String = PRODUCT_NAME,
 ) = Product.of(
     id = providedProductId,
@@ -127,8 +127,6 @@ object FakeFailureProductApi : ProductApi {
     ): Either<Failure, Unit> = Unknown.buildLeft()
 }
 
-private const val PRODUCT_NAME = "productName"
-
 class FakeSuccessProductRepository(
     private val productListToObserve: List<Product> = listOf(buildProduct()),
 ) : ProductRepository {
@@ -142,3 +140,20 @@ class FakeSuccessProductRepository(
     override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
         Unit.buildRight()
 }
+
+object FakeFailureProductRepository : ProductRepository {
+    override fun observeProducts(productId: String): Flow<List<Product>> = flow {
+        throw Throwable()
+    }
+
+    override suspend fun upsertProduct(product: Product): Either<Failure, Unit> =
+        Unknown.buildLeft()
+
+    override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
+        Unknown.buildLeft()
+}
+
+
+private const val PRODUCT_NAME = "productName"
+private const val CATEGORY_ID = "categoryId"
+private const val CATEGORY_NAME = "categoryName"
