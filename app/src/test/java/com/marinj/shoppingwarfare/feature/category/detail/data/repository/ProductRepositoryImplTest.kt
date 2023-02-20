@@ -6,7 +6,6 @@ import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CATEGORY_ID_PARAM
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductDao
