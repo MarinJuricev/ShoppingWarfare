@@ -27,8 +27,8 @@ fun <V> Either<Failure, V>.takeRightOrNull(): V? =
     }
 
 inline fun <T, V> Either<Failure, T>.map(
-    mapAction: (T) -> V,
+    transform: (T) -> Either<Failure, V>,
 ): Either<Failure, V> = when (this) {
-    is Right -> mapAction(value).buildRight()
+    is Right -> transform(value)
     is Left -> this
 }
