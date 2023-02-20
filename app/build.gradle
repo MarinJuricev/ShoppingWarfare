@@ -9,7 +9,9 @@ plugins {
 
 android {
     compileSdk 33
-    buildToolsVersion "33"
+    buildToolsVersion = "33"
+
+    namespace 'com.marinj.shoppingwarfare'
 
     defaultConfig {
         applicationId "com.marinj.shoppingwarfare"
