@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
@@ -38,10 +38,10 @@ class AddToCartTest {
             val cartItem = mockk<CartItem>().apply {
                 every { id } returns ID
             }
-            val repositoryResult = Unit.buildRight()
+            val repositoryResult = Unit.right()
             coEvery {
                 cartRepository.getCartItemById(ID)
-            } coAnswers { Failure.Unknown.buildLeft() }
+            } coAnswers { Failure.Unknown.left() }
             coEvery {
                 cartRepository.upsertCartItem(cartItem)
             } coAnswers { repositoryResult }
@@ -62,10 +62,10 @@ class AddToCartTest {
                 isInBasket = false,
             )
             val updatedCartItem = existingCartItem.copy(quantity = UPDATED_QUANTITY)
-            val repositoryResult = Unit.buildRight()
+            val repositoryResult = Unit.right()
             coEvery {
                 cartRepository.getCartItemById(ID)
-            } coAnswers { existingCartItem.buildRight() }
+            } coAnswers { existingCartItem.right() }
             coEvery {
                 cartRepository.upsertCartItem(updatedCartItem)
             } coAnswers { repositoryResult }

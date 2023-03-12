@@ -27,6 +27,6 @@ class UndoCategoryDeletionTest {
 
         val actualResult = sut(category)
 
-        assertThat(actualResult).isEqualTo(Unit.buildRight())
+        assertThat(actualResult).isEqualTo(Unit.right())
     }
 }

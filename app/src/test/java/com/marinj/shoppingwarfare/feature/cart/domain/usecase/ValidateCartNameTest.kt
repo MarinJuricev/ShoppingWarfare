@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import org.junit.Before
 import org.junit.Test
 
@@ -22,7 +22,7 @@ class ValidateCartNameTest {
 
         val result = sut(cartName)
 
-        assertThat(result).isEqualTo(ErrorMessage("CartName can't be empty").buildLeft())
+        assertThat(result).isEqualTo(ErrorMessage("CartName can't be empty").left())
     }
 
     @Test
@@ -31,7 +31,7 @@ class ValidateCartNameTest {
 
         val result = sut(cartName)
 
-        assertThat(result).isEqualTo(ErrorMessage("CartName can't be empty").buildLeft())
+        assertThat(result).isEqualTo(ErrorMessage("CartName can't be empty").left())
     }
 
     @Test
@@ -40,6 +40,6 @@ class ValidateCartNameTest {
 
         val result = sut(cartName)
 
-        assertThat(result).isEqualTo(Unit.buildRight())
+        assertThat(result).isEqualTo(Unit.right())
     }
 }

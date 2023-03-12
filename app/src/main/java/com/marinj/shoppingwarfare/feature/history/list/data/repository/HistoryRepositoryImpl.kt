@@ -32,18 +32,18 @@ class HistoryRepositoryImpl @Inject constructor(
     ): Either<Failure, Unit> {
         val localHistoryItem = domainToLocalHistoryItemMapper.map(historyItem)
         return when (historyDao.upsertHistoryItem(localHistoryItem)) {
-            0L -> ErrorMessage("Error while adding new historyItem").buildLeft()
-            else -> Unit.buildRight()
+            0L -> ErrorMessage("Error while adding new historyItem").left()
+            else -> Unit.right()
         }
     }
 
     override suspend fun getHistoryItemById(id: String): Either<Failure, HistoryItem> {
         return when (val result = historyDao.getHistoryItemById(id)) {
-            null -> ErrorMessage("No historyItem present with the id: $id").buildLeft()
-            else -> localToDomainHistoryItemMapper.map(result).buildRight()
+            null -> ErrorMessage("No historyItem present with the id: $id").left()
+            else -> localToDomainHistoryItemMapper.map(result).right()
         }
     }
 
     override suspend fun dropHistory(): Either<Failure, Unit> =
-        historyDao.deleteHistory().buildRight()
+        historyDao.deleteHistory().right()
 }

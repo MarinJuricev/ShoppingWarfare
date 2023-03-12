@@ -14,7 +14,7 @@ class UiCategoryTest {
 
     @Test
     fun `toDomain SHOULD return Left WHEN title is empty`() {
-        val expectedResult = Failure.ErrorMessage("Title can not be empty or null got: ").buildLeft()
+        val expectedResult = Failure.ErrorMessage("Title can not be empty or null got: ").left()
         val uiCategory = buildUiCategory(providedTitle = "")
 
         val result = uiCategory.toDomain()
@@ -24,7 +24,7 @@ class UiCategoryTest {
 
     @Test
     fun `toDomain SHOULD return Left WHEN title is blank`() {
-        val expectedResult = Failure.ErrorMessage("Title can not be empty or null got:  ").buildLeft()
+        val expectedResult = Failure.ErrorMessage("Title can not be empty or null got:  ").left()
         val uiCategory = buildUiCategory(providedTitle = " ")
 
         val result = uiCategory.toDomain()
@@ -34,7 +34,7 @@ class UiCategoryTest {
 
     @Test
     fun `toDomain SHOULD return Right WHEN category validation passes `() {
-        val expectedResult = buildCategory(providedTitle = TITLE).buildRight()
+        val expectedResult = buildCategory(providedTitle = TITLE).right()
         val uiCategory = buildUiCategory(providedTitle = TITLE)
 
         val result = uiCategory.toDomain()

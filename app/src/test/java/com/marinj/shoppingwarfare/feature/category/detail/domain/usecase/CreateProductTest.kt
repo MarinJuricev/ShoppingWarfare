@@ -16,7 +16,7 @@ class CreateProductTest {
 
     @Test
     fun `invoke SHOULD return Left WHEN empty categoryId is provided`() = runTest {
-        val expectedResult = ErrorMessage("CategoryId can not be empty got: ").buildLeft()
+        val expectedResult = ErrorMessage("CategoryId can not be empty got: ").left()
         val sut = CreateProduct(
             uuidGenerator,
             FakeSuccessProductRepository(),
@@ -33,7 +33,7 @@ class CreateProductTest {
 
     @Test
     fun `invoke SHOULD return Right WHEN product is successfully created and repository returns Right`() = runTest {
-        val expectedResult = Unit.buildRight()
+        val expectedResult = Unit.right()
         val sut = CreateProduct(
             uuidGenerator,
             FakeSuccessProductRepository(),
@@ -50,7 +50,7 @@ class CreateProductTest {
 
     @Test
     fun `invoke SHOULD return Left WHEN product is successfully created and repository returns Left`() = runTest {
-        val expectedResult = Unknown.buildLeft()
+        val expectedResult = Unknown.left()
         val sut = CreateProduct(
             uuidGenerator,
             FakeFailureProductRepository,

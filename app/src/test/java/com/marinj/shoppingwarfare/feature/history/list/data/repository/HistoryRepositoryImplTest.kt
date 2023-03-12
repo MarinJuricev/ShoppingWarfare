@@ -70,7 +70,7 @@ class HistoryRepositoryImplTest {
             } coAnswers { daoResult }
 
             val actualResult = sut.upsertHistoryItem(historyItem)
-            val expectedResult = ErrorMessage("Error while adding new historyItem").buildLeft()
+            val expectedResult = ErrorMessage("Error while adding new historyItem").left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -88,7 +88,7 @@ class HistoryRepositoryImplTest {
         } coAnswers { daoResult }
 
         val actualResult = sut.upsertHistoryItem(historyItem)
-        val expectedResult = Unit.buildRight()
+        val expectedResult = Unit.right()
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }
@@ -103,7 +103,7 @@ class HistoryRepositoryImplTest {
             } coAnswers { daoResult }
 
             val actualResult = sut.dropHistory()
-            val expectedResult = daoResult.buildRight()
+            val expectedResult = daoResult.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -119,7 +119,7 @@ class HistoryRepositoryImplTest {
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
             val expectedResult = ErrorMessage(
                 "No historyItem present with the id: $HISTORY_ITEM_ID",
-            ).buildLeft()
+            ).left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -137,7 +137,7 @@ class HistoryRepositoryImplTest {
             } coAnswers { mapperResult }
 
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
-            val expectedResult = mapperResult.buildRight()
+            val expectedResult = mapperResult.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }

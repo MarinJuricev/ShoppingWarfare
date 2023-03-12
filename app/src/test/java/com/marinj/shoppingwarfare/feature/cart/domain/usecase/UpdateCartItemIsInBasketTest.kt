@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -27,7 +27,7 @@ class UpdateCartItemIsInBasketTest {
 
     @Test
     fun `invoke should return result from cartRepository updateCartItemIsInBasket`() = runTest {
-        val repositoryResult = Unit.buildRight()
+        val repositoryResult = Unit.right()
         coEvery {
             cartRepository.updateCartItemIsInBasket(CART_ITEM_ID, UPDATED_IS_IN_BASKET)
         } coAnswers { repositoryResult }

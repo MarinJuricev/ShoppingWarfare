@@ -19,15 +19,15 @@ data class Category private constructor(
             backgroundColor: Int?,
             titleColor: Int?,
         ): Either<Failure, Category> = when {
-            title.isNullOrBlank() -> ErrorMessage("Title can not be empty or null got: $title").buildLeft()
-            backgroundColor == null -> ErrorMessage("BackgroundColor can not be null").buildLeft()
-            titleColor == null -> ErrorMessage("TitleColor can not be null").buildLeft()
+            title.isNullOrBlank() -> ErrorMessage("Title can not be empty or null got: $title").left()
+            backgroundColor == null -> ErrorMessage("BackgroundColor can not be null").left()
+            titleColor == null -> ErrorMessage("TitleColor can not be null").left()
             else -> Category(
                 id,
                 title,
                 backgroundColor,
                 titleColor,
-            ).buildRight()
+            ).right()
         }
     }
 }

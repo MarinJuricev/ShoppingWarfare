@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
-import com.marinj.shoppingwarfare.core.result.Either
-import com.marinj.shoppingwarfare.core.result.Either.Left
+import arrow.core.Either
+import arrow.core.left
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.cart.domain.mapper.CartDataToHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
@@ -24,10 +24,8 @@ class CheckoutCart @Inject constructor(
         cartName: String,
         receiptPath: String?,
     ): Either<Failure, Unit> {
-        validateCartName(cartName).apply {
-            if (this is Left) {
-                return this
-            }
+        validateCartName(cartName).onLeft {
+            return it.left()
         }
 
         val (_, cartResult) = coroutineScope {

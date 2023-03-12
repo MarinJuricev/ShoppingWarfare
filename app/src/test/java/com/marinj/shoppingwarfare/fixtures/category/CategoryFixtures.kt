@@ -102,12 +102,12 @@ class FakeSuccessCategoryApi(
 
     override suspend fun addCategoryItem(categoryItem: RemoteCategory): Either<Failure, Unit> {
         remoteCategories.add(categoryItem)
-        return Unit.buildRight()
+        return Unit.right()
     }
 
     override suspend fun deleteCategoryItemById(categoryId: String): Either<Failure, Unit> {
         remoteCategories.removeIf { it.categoryId == categoryId }
-        return Unit.buildRight()
+        return Unit.right()
     }
 }
 
@@ -117,10 +117,10 @@ object FakeFailureCategoryApi : CategoryApi {
     }
 
     override suspend fun addCategoryItem(categoryItem: RemoteCategory) =
-        Unknown.buildLeft()
+        Unknown.left()
 
     override suspend fun deleteCategoryItemById(categoryId: String) =
-        Unknown.buildLeft()
+        Unknown.left()
 }
 
 class FakeSuccessCategoryRepository(
@@ -131,10 +131,10 @@ class FakeSuccessCategoryRepository(
     }
 
     override suspend fun upsertCategory(category: Category) =
-        Unit.buildRight()
+        Unit.right()
 
     override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> =
-        Unit.buildRight()
+        Unit.right()
 }
 
 class FakeSuccessObserveCategories(
@@ -154,25 +154,25 @@ object FakeFailureObserveCategories : ObserveCategories {
 object FakeSuccessDeleteCategory : DeleteCategory {
     override suspend fun invoke(
         categoryId: String,
-    ): Either<Failure, Unit> = Unit.buildRight()
+    ): Either<Failure, Unit> = Unit.right()
 }
 
 object FakeFailureDeleteCategory : DeleteCategory {
     override suspend fun invoke(
         categoryId: String,
-    ): Either<Failure, Unit> = Unknown.buildLeft()
+    ): Either<Failure, Unit> = Unknown.left()
 }
 
 object FakeSuccessUndoCategoryDeletion : UndoCategoryDeletion {
     override suspend fun invoke(
         category: Category,
-    ): Either<Failure, Unit> = Unit.buildRight()
+    ): Either<Failure, Unit> = Unit.right()
 }
 
 object FakeFailureUndoCategoryDeletion : UndoCategoryDeletion {
     override suspend fun invoke(
         category: Category,
-    ): Either<Failure, Unit> = Unknown.buildLeft()
+    ): Either<Failure, Unit> = Unknown.left()
 }
 
 private const val TITLE = "title"

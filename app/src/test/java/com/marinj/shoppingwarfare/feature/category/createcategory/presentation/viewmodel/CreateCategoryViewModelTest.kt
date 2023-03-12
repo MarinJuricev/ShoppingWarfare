@@ -83,7 +83,7 @@ class CreateCategoryViewModelTest {
             val createCategoryEffect = CreateCategoryViewFailure("Error")
             coEvery {
                 createCategory("", null, null)
-            } coAnswers { failure.buildLeft() }
+            } coAnswers { failure.left() }
             coEvery {
                 failureToCreateCategoryEffectMapper.map(failure)
             } coAnswers { createCategoryEffect }
@@ -102,7 +102,7 @@ class CreateCategoryViewModelTest {
             val createCategoryEffect = CreateCategoryViewSuccess
             coEvery {
                 createCategory("", null, null)
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             sut.onEvent(event)
 

@@ -26,7 +26,7 @@ class DeleteProductTest {
 
     @Test
     fun `invoke should return result from categoryDetailRepository`() = runTest {
-        val repositoryResult = Unit.buildRight()
+        val repositoryResult = Unit.right()
 
         coEvery {
             categoryDetailRepository.deleteProductById(PRODUCT_ID)

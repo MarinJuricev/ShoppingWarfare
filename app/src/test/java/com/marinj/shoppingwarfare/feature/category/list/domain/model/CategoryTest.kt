@@ -9,7 +9,7 @@ class CategoryTest {
 
     @Test
     fun `of SHOULD return Left WHEN title is null`() {
-        val expectedResult = ErrorMessage("Title can not be empty or null got: null").buildLeft()
+        val expectedResult = ErrorMessage("Title can not be empty or null got: null").left()
 
         val result = Category.of(
             id = ID,
@@ -23,7 +23,7 @@ class CategoryTest {
 
     @Test
     fun `of SHOULD return Left WHEN title is empty`() {
-        val expectedResult = ErrorMessage("Title can not be empty or null got: ").buildLeft()
+        val expectedResult = ErrorMessage("Title can not be empty or null got: ").left()
 
         val result = Category.of(
             id = ID,
@@ -37,7 +37,7 @@ class CategoryTest {
 
     @Test
     fun `of SHOULD return Left WHEN title is blank`() {
-        val expectedResult = ErrorMessage("Title can not be empty or null got:       ").buildLeft()
+        val expectedResult = ErrorMessage("Title can not be empty or null got:       ").left()
 
         val result = Category.of(
             id = ID,
@@ -51,7 +51,7 @@ class CategoryTest {
 
     @Test
     fun `of SHOULD return Left WHEN backgroundColor is null`() {
-        val expectedResult = ErrorMessage("BackgroundColor can not be null").buildLeft()
+        val expectedResult = ErrorMessage("BackgroundColor can not be null").left()
 
         val result = Category.of(
             id = ID,
@@ -65,7 +65,7 @@ class CategoryTest {
 
     @Test
     fun `of SHOULD return Left WHEN titleColor is null`() {
-        val expectedResult = ErrorMessage("TitleColor can not be null").buildLeft()
+        val expectedResult = ErrorMessage("TitleColor can not be null").left()
 
         val result = Category.of(
             id = ID,

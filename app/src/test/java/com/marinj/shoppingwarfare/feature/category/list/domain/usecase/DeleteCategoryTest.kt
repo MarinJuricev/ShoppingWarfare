@@ -23,7 +23,7 @@ class DeleteCategoryTest {
     fun `invoke SHOULD return result repository`() = runTest {
         val actualResult = sut(ID)
 
-        assertThat(actualResult).isEqualTo(Unit.buildRight())
+        assertThat(actualResult).isEqualTo(Unit.right())
     }
 }
 

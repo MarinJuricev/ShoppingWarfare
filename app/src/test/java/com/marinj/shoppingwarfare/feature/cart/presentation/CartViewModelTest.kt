@@ -134,7 +134,7 @@ class CartViewModelTest {
             }
             coEvery {
                 deleteCartItem(cartItemId = ID)
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             sut.onEvent(CartEvent.DeleteCartItem(cartItem))
 
@@ -150,7 +150,7 @@ class CartViewModelTest {
                 every { id } answers { ID }
                 every { name } answers { NAME }
             }
-            val failure = Failure.Unknown.buildLeft()
+            val failure = Failure.Unknown.left()
             coEvery {
                 deleteCartItem(cartItemId = ID)
             } coAnswers { failure }
@@ -175,7 +175,7 @@ class CartViewModelTest {
                     cartItemId = ID,
                     newQuantity = newQuantity,
                 )
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             sut.onEvent(
                 CartEvent.CartItemQuantityChanged(
@@ -202,7 +202,7 @@ class CartViewModelTest {
                     cartItemId = ID,
                     newQuantity = newQuantity,
                 )
-            } coAnswers { Failure.Unknown.buildLeft() }
+            } coAnswers { Failure.Unknown.left() }
 
             sut.onEvent(
                 CartEvent.CartItemQuantityChanged(
@@ -253,7 +253,7 @@ class CartViewModelTest {
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                     cartName = sut.viewState.value.cartName,
                 )
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             sut.onEvent(CartEvent.CheckoutClicked)
 
@@ -276,7 +276,7 @@ class CartViewModelTest {
                     receiptPath = sut.viewState.value.receiptStatus.receiptPath,
                     cartName = sut.viewState.value.cartName,
                 )
-            } coAnswers { checkoutFailure.buildLeft() }
+            } coAnswers { checkoutFailure.left() }
             every {
                 failureToStringMapper.map(checkoutFailure)
             } answers { ERROR_MESSAGE }
@@ -311,7 +311,7 @@ class CartViewModelTest {
                     cartItemId = ID,
                     updatedIsInBasket = !IS_IN_BASKET,
                 )
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             sut.onEvent(
                 CartEvent.ItemAddedToBasket(
@@ -337,7 +337,7 @@ class CartViewModelTest {
                     cartItemId = ID,
                     updatedIsInBasket = !IS_IN_BASKET,
                 )
-            } coAnswers { Failure.Unknown.buildLeft() }
+            } coAnswers { Failure.Unknown.left() }
 
             sut.onEvent(
                 CartEvent.ItemAddedToBasket(

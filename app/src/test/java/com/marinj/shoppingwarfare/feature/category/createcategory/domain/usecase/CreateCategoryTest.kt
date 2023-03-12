@@ -31,7 +31,7 @@ class CreateCategoryTest {
         val title = "title"
         val categoryColor = 1
         val titleColor = 2
-        val repositoryResult = Unit.buildRight()
+        val repositoryResult = Unit.right()
 
         val actualResult = sut(title, categoryColor, titleColor)
 
@@ -43,7 +43,7 @@ class CreateCategoryTest {
         val title = null
         val categoryColor = 1
         val titleColor = 2
-        val expectedResult = ErrorMessage("Title can not be empty or null got: null").buildLeft()
+        val expectedResult = ErrorMessage("Title can not be empty or null got: null").left()
 
         val actualResult = sut(title, categoryColor, titleColor)
 

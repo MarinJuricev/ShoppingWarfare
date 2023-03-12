@@ -10,7 +10,7 @@ internal class ProductTest {
 
     @Test
     fun `of SHOULD return Left WHEN title is null`() {
-        val expectedResult = ErrorMessage("Name can not be empty got: ").buildLeft()
+        val expectedResult = ErrorMessage("Name can not be empty got: ").left()
 
         val result = Product.of(
             id = "",
@@ -24,7 +24,7 @@ internal class ProductTest {
 
     @Test
     fun `of SHOULD return Left WHEN categoryName is empty`() {
-        val expectedResult = ErrorMessage("CategoryName can not be empty got: ").buildLeft()
+        val expectedResult = ErrorMessage("CategoryName can not be empty got: ").left()
 
         val result = Product.of(
             id = "",
@@ -38,7 +38,7 @@ internal class ProductTest {
 
     @Test
     fun `of SHOULD return Left WHEN categoryId is empty`() {
-        val expectedResult = ErrorMessage("CategoryId can not be empty got: ").buildLeft()
+        val expectedResult = ErrorMessage("CategoryId can not be empty got: ").left()
 
         val result = Product.of(
             id = "",
@@ -52,7 +52,7 @@ internal class ProductTest {
 
     @Test
     fun `of SHOULD return Left WHEN name is null`() {
-        val expectedResult = ErrorMessage("Name can not be empty got: null").buildLeft()
+        val expectedResult = ErrorMessage("Name can not be empty got: null").left()
 
         val result = Product.of(
             id = ID,
@@ -71,7 +71,7 @@ internal class ProductTest {
             categoryId = CATEGORY_ID,
             categoryName = CATEGORY_NAME,
             name = NAME,
-        ).buildRight()
+        ).right()
 
         val result = Product.of(
             id = ID,

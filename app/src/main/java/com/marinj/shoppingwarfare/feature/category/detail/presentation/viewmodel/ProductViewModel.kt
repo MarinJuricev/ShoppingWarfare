@@ -3,8 +3,6 @@ package com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmode
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.result.Either.Left
-import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProduct
@@ -62,6 +60,7 @@ class ProductViewModel @Inject constructor(
                 event.categoryName,
                 event.productName,
             )
+
             is OnProductDelete -> handleProductDeletion(event.product)
             is RestoreProductDeletion -> handleRestoreProductDeletion(event.product)
             is OnProductClicked -> handleProductClicked(event.product)
@@ -92,10 +91,10 @@ class ProductViewModel @Inject constructor(
         categoryName: String,
         productName: String,
     ) = viewModelScope.launch {
-        when (createProduct(categoryId, categoryName, productName)) {
-            is Right -> Timber.d("Product created with: $categoryId and $productName")
-            is Left -> _viewEffect.send(Error("Could not create $productName, try again later."))
-        }
+        createProduct(categoryId, categoryName, productName).fold(
+            ifLeft = { Timber.d("Product created with: $categoryId and $productName") },
+            ifRight = { _viewEffect.send(Error("Could not create $productName, try again later.")) },
+        )
     }
 
     private fun handleRestoreProductDeletion(product: Product) = viewModelScope.launch {
@@ -107,18 +106,18 @@ class ProductViewModel @Inject constructor(
     }
 
     private fun handleProductDeletion(product: Product) = viewModelScope.launch {
-        when (deleteProduct(product.id)) {
-            is Right -> _viewEffect.send(ProductDeleted(product))
-            is Left -> _viewEffect.send(Error("Could not delete ${product.name}, try again later."))
-        }
+        deleteProduct(productId = product.id).fold(
+            ifLeft = { _viewEffect.send(Error("Could not delete ${product.name}, try again later.")) },
+            ifRight = { _viewEffect.send(ProductDeleted(product)) },
+        )
     }
 
     private fun handleProductClicked(product: Product) = viewModelScope.launch {
         val cartItem = productToCartItemMapper.map(product)
-        when (addToCart(cartItem)) {
-            is Right -> _viewEffect.send(AddedToCart(product))
-            is Left -> _viewEffect.send(Error("Could not add ${product.name} to Cart, try again later."))
-        }
+        addToCart(cartItem).fold(
+            ifLeft = { _viewEffect.send(Error("Could not add ${product.name} to Cart, try again later.")) },
+            ifRight = { _viewEffect.send(AddedToCart(product)) },
+        )
     }
 
     private fun updateIsLoading(isLoading: Boolean) {

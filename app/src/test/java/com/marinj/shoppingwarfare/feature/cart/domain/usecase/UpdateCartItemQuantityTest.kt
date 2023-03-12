@@ -1,8 +1,8 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
+import arrow.core.left
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -29,7 +29,7 @@ class UpdateCartItemQuantityTest {
     @Test
     fun `invoke SHOULD trigger updateCartItemQuantity and return result from cartRepository`() =
         runTest {
-            val repositoryResult = Failure.Unknown.buildLeft()
+            val repositoryResult = Failure.Unknown.left()
             coEvery {
                 cartRepository.updateCartItemQuantity(ID, UPDATED_QUANTITY)
             } coAnswers { repositoryResult }

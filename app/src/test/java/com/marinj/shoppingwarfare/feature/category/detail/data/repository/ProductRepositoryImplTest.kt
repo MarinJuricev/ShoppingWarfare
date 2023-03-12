@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.detail.data.repository
 
 import app.cash.turbine.test
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductApi
@@ -72,7 +72,7 @@ class ProductRepositoryImplTest {
 
         val result = sut.upsertProduct(product)
 
-        assertThat(result).isEqualTo(Unit.buildRight())
+        assertThat(result).isEqualTo(Unit.right())
         assertThat(productApi.remoteProducts).isEqualTo(remoteProducts)
     }
 
@@ -89,7 +89,7 @@ class ProductRepositoryImplTest {
 
         val result = sut.upsertProduct(product)
 
-        assertThat(result).isEqualTo(Unknown.buildLeft())
+        assertThat(result).isEqualTo(Unknown.left())
     }
 
     @Test
@@ -101,7 +101,7 @@ class ProductRepositoryImplTest {
 
         val result = sut.deleteProductById(PRODUCT_ID)
 
-        assertThat(result).isEqualTo(Unit.buildRight())
+        assertThat(result).isEqualTo(Unit.right())
     }
 
     @Test
@@ -113,7 +113,7 @@ class ProductRepositoryImplTest {
 
         val result = sut.deleteProductById(PRODUCT_ID)
 
-        assertThat(result).isEqualTo(Unknown.buildLeft())
+        assertThat(result).isEqualTo(Unknown.left())
     }
 
     @Test

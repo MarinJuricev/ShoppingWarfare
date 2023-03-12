@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.domain.mapper.CartDataToHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
@@ -41,7 +41,7 @@ class CheckoutCartTest {
     fun `invoke SHOULD return result validateCartName when validateCartName returns Left`() =
         runTest {
             val cartItems = mockk<List<CartItem>>()
-            val validateResult = Failure.Unknown.buildLeft()
+            val validateResult = Failure.Unknown.left()
             coEvery {
                 validateCartName(CART_NAME)
             } coAnswers { validateResult }
@@ -56,7 +56,7 @@ class CheckoutCartTest {
         runTest {
             val cartItems = mockk<List<CartItem>>()
             val historyItem = mockk<HistoryItem>()
-            val historyRepositoryResult = Unit.buildRight()
+            val historyRepositoryResult = Unit.right()
             coEvery {
                 cartItemsToHistoryItemMapper.map(cartItems, CART_NAME, RECEIPT_PATH)
             } coAnswers { historyItem }
@@ -65,10 +65,10 @@ class CheckoutCartTest {
             } coAnswers { historyRepositoryResult }
             coEvery {
                 cartRepository.dropCurrentCart()
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
             coEvery {
                 validateCartName(CART_NAME)
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             val result = sut(cartItems, CART_NAME, RECEIPT_PATH)
 

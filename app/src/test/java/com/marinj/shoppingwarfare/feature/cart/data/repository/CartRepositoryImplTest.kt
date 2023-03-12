@@ -88,7 +88,7 @@ class CartRepositoryImplTest {
         } coAnswers { daoResult }
 
         val actualResult = sut.upsertCartItem(cartItem)
-        val expectedResult = ErrorMessage("Error while adding $CART_ITEM_NAME").buildLeft()
+        val expectedResult = ErrorMessage("Error while adding $CART_ITEM_NAME").left()
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }
@@ -107,7 +107,7 @@ class CartRepositoryImplTest {
             } coAnswers { daoResult }
 
             val actualResult = sut.upsertCartItem(cartItem)
-            val expectedResult = Unit.buildRight()
+            val expectedResult = Unit.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -121,7 +121,7 @@ class CartRepositoryImplTest {
             } coAnswers { Unit }
 
             val actualResult = sut.deleteCartItemById(cartItemId)
-            val expectedResult = Unit.buildRight()
+            val expectedResult = Unit.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -136,7 +136,7 @@ class CartRepositoryImplTest {
 
             val actualResult = sut.getCartItemById(cartItemId)
             val expectedResult =
-                ErrorMessage("No cartItem present with the id: $cartItemId").buildLeft()
+                ErrorMessage("No cartItem present with the id: $cartItemId").left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -155,7 +155,7 @@ class CartRepositoryImplTest {
             } coAnswers { cartItem }
 
             val actualResult = sut.getCartItemById(cartItemId)
-            val expectedResult = cartItem.buildRight()
+            val expectedResult = cartItem.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -170,7 +170,7 @@ class CartRepositoryImplTest {
             } coAnswers { daoResult }
 
             val actualResult = sut.dropCurrentCart()
-            val expectedResult = daoResult.buildRight()
+            val expectedResult = daoResult.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -185,7 +185,7 @@ class CartRepositoryImplTest {
             } coAnswers { daoResult }
 
             val result = sut.updateCartItemQuantity(CART_ID, NEW_QUANTITY)
-            val expectedResult = daoResult.buildRight()
+            val expectedResult = daoResult.right()
 
             assertThat(result).isEqualTo(expectedResult)
         }
@@ -200,7 +200,7 @@ class CartRepositoryImplTest {
             } coAnswers { daoResult }
 
             val result = sut.updateCartItemIsInBasket(CART_ID, NEW_UPDATED_IN_BASKET)
-            val expectedResult = daoResult.buildRight()
+            val expectedResult = daoResult.right()
 
             assertThat(result).isEqualTo(expectedResult)
         }

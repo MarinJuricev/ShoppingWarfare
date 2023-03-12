@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
+import arrow.core.Either
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,7 @@ class UpdateCartItemQuantityFakeTest {
         runTest {
             val actualResult = sut(ID, UPDATED_QUANTITY)
 
-            assertThat(actualResult).isEqualTo(Unit.buildRight())
+            assertThat(actualResult).isEqualTo(Unit.right())
         }
 
     private inner class FakeCartRepository : CartRepository {
@@ -37,7 +37,7 @@ class UpdateCartItemQuantityFakeTest {
         override suspend fun updateCartItemQuantity(
             cartItemId: String,
             newQuantity: Int,
-        ): Either<Failure, Unit> = Unit.buildRight()
+        ): Either<Failure, Unit> = Unit.right()
 
         override fun observeCartItems(): Flow<List<CartItem>> {
             TODO("Not yet implemented")

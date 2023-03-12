@@ -26,7 +26,7 @@ class GetHistoryItemByIdTest {
     @Test
     fun `invoke should return result from historyItemRepository getHistoryItemId`() =
         runTest {
-            val repositoryResult = Failure.Unknown.buildLeft()
+            val repositoryResult = Failure.Unknown.left()
             coEvery {
                 historyRepository.getHistoryItemById(HISTORY_ITEM_ID)
             } coAnswers { repositoryResult }

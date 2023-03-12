@@ -119,7 +119,7 @@ class ProductViewModelTest {
                     categoryName = CATEGORY_NAME,
                     productName = PRODUCT_NAME,
                 )
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             sut.onEvent(event)
 
@@ -142,7 +142,7 @@ class ProductViewModelTest {
                     categoryName = CATEGORY_NAME,
                     productName = PRODUCT_NAME,
                 )
-            } coAnswers { Unknown.buildLeft() }
+            } coAnswers { Unknown.left() }
 
             sut.onEvent(event)
 
@@ -160,7 +160,7 @@ class ProductViewModelTest {
             val event = OnProductDelete(product)
             coEvery {
                 deleteProduct(PRODUCT_ID)
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             sut.onEvent(event)
 
@@ -179,7 +179,7 @@ class ProductViewModelTest {
             val event = OnProductDelete(product)
             coEvery {
                 deleteProduct(PRODUCT_ID)
-            } coAnswers { Unknown.buildLeft() }
+            } coAnswers { Unknown.left() }
 
             sut.onEvent(event)
 
@@ -204,7 +204,7 @@ class ProductViewModelTest {
                     categoryName = CATEGORY_NAME,
                     productName = PRODUCT_NAME,
                 )
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
 
             sut.onEvent(event)
 
@@ -229,7 +229,7 @@ class ProductViewModelTest {
                     categoryName = CATEGORY_NAME,
                     productName = PRODUCT_NAME,
                 )
-            } coAnswers { Unknown.buildLeft() }
+            } coAnswers { Unknown.left() }
 
             sut.onEvent(event)
 
@@ -246,7 +246,7 @@ class ProductViewModelTest {
             val event = OnProductClicked(product)
             coEvery {
                 addToCart(cartItem)
-            } coAnswers { Unit.buildRight() }
+            } coAnswers { Unit.right() }
             coEvery {
                 productToCartItemMapper.map(product)
             } coAnswers { cartItem }
@@ -268,7 +268,7 @@ class ProductViewModelTest {
             val event = OnProductClicked(product)
             coEvery {
                 addToCart(cartItem)
-            } coAnswers { Unknown.buildLeft() }
+            } coAnswers { Unknown.left() }
             coEvery {
                 productToCartItemMapper.map(product)
             } coAnswers { cartItem }

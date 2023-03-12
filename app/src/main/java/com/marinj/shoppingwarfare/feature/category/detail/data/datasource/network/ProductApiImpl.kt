@@ -1,13 +1,14 @@
 package com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.google.firebase.firestore.FirebaseFirestore
 import com.marinj.shoppingwarfare.core.data.JsonConverter
 import com.marinj.shoppingwarfare.core.ext.addWarfareSnapshotListener
-import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.core.result.toLeft
+import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
+import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.RemoteProduct
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -46,11 +47,13 @@ class ProductApiImpl @Inject constructor(
             .set(product)
             .addOnSuccessListener {
                 if (continuation.isActive) {
-                    continuation.resume(Unit.buildRight())
+                    continuation.resume(Unit.right())
                 }
             }
             .addOnFailureListener { exception: Exception ->
-                continuation.resume(exception.toLeft())
+                continuation.resume(
+                    ErrorMessage("Failed to addProduct $product, cause: ${exception.message}").left(),
+                )
             }
     }
 
@@ -62,11 +65,11 @@ class ProductApiImpl @Inject constructor(
             .delete()
             .addOnSuccessListener {
                 if (continuation.isActive) {
-                    continuation.resume(Unit.buildRight())
+                    continuation.resume(Unit.right())
                 }
             }
             .addOnFailureListener {
-                continuation.resume(Failure.Unknown.buildLeft())
+                continuation.resume(Unknown.left())
             }
     }
 

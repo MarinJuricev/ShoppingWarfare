@@ -101,14 +101,14 @@ class FakeSuccessProductApi(
         product: RemoteProduct,
     ): Either<Failure, Unit> {
         remoteProducts.add(product)
-        return Unit.buildRight()
+        return Unit.right()
     }
 
     override suspend fun deleteProductById(
         id: String,
     ): Either<Failure, Unit> {
         remoteProducts.removeIf { it.productId == id }
-        return Unit.buildRight()
+        return Unit.right()
     }
 }
 
@@ -120,11 +120,11 @@ object FakeFailureProductApi : ProductApi {
 
     override suspend fun addProduct(
         product: RemoteProduct,
-    ): Either<Failure, Unit> = Unknown.buildLeft()
+    ): Either<Failure, Unit> = Unknown.left()
 
     override suspend fun deleteProductById(
         id: String,
-    ): Either<Failure, Unit> = Unknown.buildLeft()
+    ): Either<Failure, Unit> = Unknown.left()
 }
 
 class FakeSuccessProductRepository(
@@ -135,10 +135,10 @@ class FakeSuccessProductRepository(
     }
 
     override suspend fun upsertProduct(product: Product): Either<Failure, Unit> =
-        Unit.buildRight()
+        Unit.right()
 
     override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
-        Unit.buildRight()
+        Unit.right()
 }
 
 object FakeFailureProductRepository : ProductRepository {
@@ -147,10 +147,10 @@ object FakeFailureProductRepository : ProductRepository {
     }
 
     override suspend fun upsertProduct(product: Product): Either<Failure, Unit> =
-        Unknown.buildLeft()
+        Unknown.left()
 
     override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
-        Unknown.buildLeft()
+        Unknown.left()
 }
 
 private const val PRODUCT_NAME = "productName"

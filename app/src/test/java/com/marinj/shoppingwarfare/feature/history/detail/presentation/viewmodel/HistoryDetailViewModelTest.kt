@@ -47,7 +47,7 @@ class HistoryDetailViewModelTest {
         runTest {
             val event = OnGetHistoryDetail(HISTORY_ITEM_ID)
             val useCaseResult = mockk<HistoryItem>()
-            val useCaseResultRight = useCaseResult.buildRight()
+            val useCaseResultRight = useCaseResult.right()
             val mapperResult = mockk<UiHistoryItem>()
             coEvery {
                 getHistoryItemById(HISTORY_ITEM_ID)
@@ -71,7 +71,7 @@ class HistoryDetailViewModelTest {
         runTest {
             val event = OnGetHistoryDetail(HISTORY_ITEM_ID)
             val useCaseResult = Failure.Unknown
-            val useCaseResultRight = useCaseResult.buildLeft()
+            val useCaseResultRight = useCaseResult.left()
             val mapperResult = "ErrorMessage"
             coEvery {
                 getHistoryItemById(HISTORY_ITEM_ID)

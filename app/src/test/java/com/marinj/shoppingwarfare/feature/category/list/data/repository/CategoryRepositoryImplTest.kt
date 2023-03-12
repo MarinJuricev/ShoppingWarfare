@@ -89,7 +89,7 @@ class CategoryRepositoryImplTest {
 
         val result = sut.upsertCategory(category)
 
-        assertThat(result).isEqualTo(Unknown.buildLeft())
+        assertThat(result).isEqualTo(Unknown.left())
     }
 
     @Test
@@ -102,7 +102,7 @@ class CategoryRepositoryImplTest {
 
         val result = sut.upsertCategory(category)
 
-        assertThat(result).isEqualTo(Unit.buildRight())
+        assertThat(result).isEqualTo(Unit.right())
     }
 
     @Test
@@ -120,7 +120,7 @@ class CategoryRepositoryImplTest {
 
         val result = sut.deleteCategoryById(CATEGORY_ID)
 
-        assertThat(result).isEqualTo(Unit.buildRight())
+        assertThat(result).isEqualTo(Unit.right())
         assertThat(dao.localCategories).isEmpty()
         assertThat(api.remoteCategories).isEmpty()
     }

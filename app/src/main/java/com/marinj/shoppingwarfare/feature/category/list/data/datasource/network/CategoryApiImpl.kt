@@ -1,12 +1,11 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.datasource.network
 
+import arrow.core.left
+import arrow.core.right
 import com.google.firebase.firestore.FirebaseFirestore
 import com.marinj.shoppingwarfare.core.data.JsonConverter
 import com.marinj.shoppingwarfare.core.ext.addWarfareSnapshotListener
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.core.result.toLeft
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -50,11 +49,11 @@ class CategoryApiImpl @Inject constructor(
             .set(categoryItem)
             .addOnSuccessListener {
                 if (continuation.isActive) {
-                    continuation.resume(Unit.buildRight())
+                    continuation.resume(Unit.right())
                 }
             }
             .addOnFailureListener { exception: Exception ->
-                continuation.resume(exception.toLeft())
+                continuation.resume(exception.left())
             }
     }
 
@@ -67,11 +66,11 @@ class CategoryApiImpl @Inject constructor(
             .delete()
             .addOnSuccessListener {
                 if (continuation.isActive) {
-                    continuation.resume(Unit.buildRight())
+                    continuation.resume(Unit.right())
                 }
             }
             .addOnFailureListener {
-                continuation.resume(Unknown.buildLeft())
+                continuation.resume(Unknown.left())
             }
     }
 

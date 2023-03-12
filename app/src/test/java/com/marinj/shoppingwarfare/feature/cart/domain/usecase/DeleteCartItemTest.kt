@@ -26,7 +26,7 @@ class DeleteCartItemTest {
     @Test
     fun `invoke SHOULD return result from cartRepository deleteCartItemById`() = runTest {
         val id = "id"
-        val failure = Failure.Unknown.buildLeft()
+        val failure = Failure.Unknown.left()
         coEvery {
             cartRepository.deleteCartItemById(id)
         } coAnswers { failure }

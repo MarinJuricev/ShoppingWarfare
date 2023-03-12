@@ -4,8 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
-import com.marinj.shoppingwarfare.core.result.Either.Left
-import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
@@ -35,7 +33,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -78,6 +75,7 @@ class CartViewModel @Inject constructor(
                 event.cartItemToUpdate,
                 event.newQuantity,
             )
+
             is ReceiptCaptureSuccess -> handleReceiptCaptureSuccess(event.receiptPath)
             is CartNameUpdated -> handleCartNameUpdated(event.updatedCartName)
             is ItemAddedToBasket -> handleItemAddedToBasket(event.cartItem)
@@ -108,16 +106,14 @@ class CartViewModel @Inject constructor(
 
     private fun handleCheckoutClicked() = viewModelScope.launch {
         val viewState = viewState.value
-        when (
-            val result = checkoutCart(
-                cartItems = uiCartItemToCartItemMapper.map(viewState.uiCartItems),
-                cartName = viewState.cartName,
-                receiptPath = viewState.receiptStatus.receiptPath,
-            )
-        ) {
-            is Right -> _viewEffect.send(CartViewCheckoutCompleted)
-            is Left -> _viewEffect.send(Error(failureToStringMapper.map(result.error)))
-        }
+        checkoutCart(
+            cartItems = uiCartItemToCartItemMapper.map(viewState.uiCartItems),
+            cartName = viewState.cartName,
+            receiptPath = viewState.receiptStatus.receiptPath,
+        ).fold(
+            ifLeft = { _viewEffect.send(Error(failureToStringMapper.map(it))) },
+            ifRight = { _viewEffect.send(CartViewCheckoutCompleted) },
+        )
     }
 
     private suspend fun handleGetCartItemsError() {
@@ -126,20 +122,20 @@ class CartViewModel @Inject constructor(
     }
 
     private fun handleDeleteCartItem(uiCartItem: UiCartItem.Content) = viewModelScope.launch {
-        when (deleteCartItem(uiCartItem.id)) {
-            is Right -> _viewEffect.send(CartViewItemDeleted(uiCartItem.name))
-            is Left -> _viewEffect.send(Error("Failed to delete ${uiCartItem.name}, please try again later."))
-        }
+        deleteCartItem(uiCartItem.id).fold(
+            ifLeft = { _viewEffect.send(Error("Failed to delete ${uiCartItem.name}, please try again later.")) },
+            ifRight = { _viewEffect.send(CartViewItemDeleted(uiCartItem.name)) },
+        )
     }
 
     private fun handleCartItemQuantityChanged(
         uiCartItem: UiCartItem.Content,
         newQuantity: Int,
     ) = viewModelScope.launch {
-        when (updateCartItemQuantity(uiCartItem.id, newQuantity)) {
-            is Right -> Timber.d("${uiCartItem.name} successfully updated with $newQuantity quantity")
-            is Left -> _viewEffect.send(Error("Failed to update ${uiCartItem.name}, please try again later"))
-        }
+        updateCartItemQuantity(uiCartItem.id, newQuantity).fold(
+            ifLeft = { _viewEffect.send(Error("Failed to update ${uiCartItem.name}, please try again later")) },
+            ifRight = { Timber.d("${uiCartItem.name} successfully updated with $newQuantity quantity") },
+        )
     }
 
     private fun handleReceiptCaptureSuccess(receiptPath: String?) {
@@ -157,10 +153,10 @@ class CartViewModel @Inject constructor(
     private fun handleItemAddedToBasket(
         uiCartItem: UiCartItem.Content,
     ) = viewModelScope.launch {
-        when (updateCartItemIsInBasket(uiCartItem.id, !uiCartItem.isInBasket)) {
-            is Right -> Timber.d("${uiCartItem.name} successfully updated with ${!uiCartItem.isInBasket} isInBasket status")
-            is Left -> _viewEffect.send(Error("Failed to update ${uiCartItem.name}, please try again later"))
-        }
+        updateCartItemIsInBasket(uiCartItem.id, !uiCartItem.isInBasket).fold(
+            ifLeft = { _viewEffect.send(Error("Failed to update ${uiCartItem.name}, please try again later")) },
+            ifRight = { Timber.d("${uiCartItem.name} successfully updated with ${!uiCartItem.isInBasket} isInBasket status") },
+        )
     }
 
     private fun handleCartTabPositionUpdated(updatedCartTabPosition: Int) {

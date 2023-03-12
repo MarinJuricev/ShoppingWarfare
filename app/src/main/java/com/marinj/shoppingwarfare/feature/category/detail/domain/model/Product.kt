@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.model
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 
 data class Product(
     val id: String,
@@ -18,16 +18,18 @@ data class Product(
             categoryId: String,
             categoryName: String,
             name: String?,
-        ): Either<Failure, Product> = when {
-            name.isNullOrBlank() -> ErrorMessage("Name can not be empty got: $name").buildLeft()
-            categoryName.isBlank() -> ErrorMessage("CategoryName can not be empty got: $categoryName").buildLeft()
-            categoryId.isBlank() -> ErrorMessage("CategoryId can not be empty got: $categoryId").buildLeft()
-            else -> Product(
-                id = id,
-                categoryId = categoryId,
-                categoryName = categoryName,
-                name = name,
-            ).buildRight()
+        ): Either<Failure, Product> {
+            return when {
+                name.isNullOrBlank() -> ErrorMessage("Name can not be empty got: $name").left()
+                categoryName.isBlank() -> ErrorMessage("CategoryName can not be empty got: $categoryName").left()
+                categoryId.isBlank() -> ErrorMessage("CategoryId can not be empty got: $categoryId").left()
+                else -> Product(
+                    id = id,
+                    categoryId = categoryId,
+                    categoryName = categoryName,
+                    name = name,
+                ).right()
+            }
         }
     }
 }
