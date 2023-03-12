@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.repository
 
-import com.marinj.shoppingwarfare.core.result.takeRightOrNull
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
 import com.marinj.shoppingwarfare.feature.category.list.data.model.toRemote
@@ -29,7 +28,7 @@ class CategoryRepositoryImpl @Inject constructor(
 
     private fun categoriesFromLocal(): Flow<List<Category>> =
         categoryDao.observeCategories().map { localCategoryList ->
-            localCategoryList.mapNotNull { it.toDomain().takeRightOrNull() }
+            localCategoryList.mapNotNull { it.toDomain().getOrNull() }
         }
 
     override suspend fun upsertCategory(category: Category) =

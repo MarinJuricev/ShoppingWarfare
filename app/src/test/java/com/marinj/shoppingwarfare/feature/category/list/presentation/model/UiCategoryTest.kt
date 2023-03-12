@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation.model
 
 import androidx.compose.ui.graphics.Color
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory.Companion.toUi
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildUiCategory

@@ -1,8 +1,8 @@
 package com.marinj.shoppingwarfare.feature.history.detail.domain.usecase
 
+import arrow.core.left
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
 import io.mockk.coEvery
 import io.mockk.mockk

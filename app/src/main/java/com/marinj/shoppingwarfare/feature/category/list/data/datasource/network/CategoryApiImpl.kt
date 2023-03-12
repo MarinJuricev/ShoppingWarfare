@@ -5,6 +5,7 @@ import arrow.core.right
 import com.google.firebase.firestore.FirebaseFirestore
 import com.marinj.shoppingwarfare.core.data.JsonConverter
 import com.marinj.shoppingwarfare.core.ext.addWarfareSnapshotListener
+import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import kotlinx.coroutines.channels.awaitClose
@@ -53,7 +54,9 @@ class CategoryApiImpl @Inject constructor(
                 }
             }
             .addOnFailureListener { exception: Exception ->
-                continuation.resume(exception.left())
+                continuation.resume(
+                    Failure.ErrorMessage("Error while adding category item: ${exception.message}").left(),
+                )
             }
     }
 

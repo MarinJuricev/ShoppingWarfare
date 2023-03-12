@@ -1,6 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.list.domain.usecase
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 
 interface DeleteCategory {

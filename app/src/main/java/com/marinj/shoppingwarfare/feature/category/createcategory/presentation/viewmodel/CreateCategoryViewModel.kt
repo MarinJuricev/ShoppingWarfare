@@ -5,8 +5,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
-import com.marinj.shoppingwarfare.core.result.Either.Left
-import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.mapper.FailureToCreateCategoryEffectMapper
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
@@ -29,7 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateCategoryViewModel @Inject constructor(
-    private val createCategory: CreateCategoryImpl,
+    private val createCategory: CreateCategoryImpl, // TODO Inject the inteface...
     private val failureToCreateCategoryEffectMapper: FailureToCreateCategoryEffectMapper,
 ) : BaseViewModel<CreateCategoryEvent>() {
 
@@ -80,14 +78,10 @@ class CreateCategoryViewModel @Inject constructor(
         val categoryName = _createCategoryViewState.value.categoryName
         val categoryColor = _createCategoryViewState.value.backgroundColor
         val titleColor = _createCategoryViewState.value.titleColor
-        when (
-            val result =
-                createCategory(categoryName, categoryColor?.toArgb(), titleColor?.toArgb())
-        ) {
-            is Left -> _createCategoryEffect.send(
-                failureToCreateCategoryEffectMapper.map(result.error),
-            )
-            is Right -> _createCategoryEffect.send(CreateCategoryViewSuccess)
-        }
+
+        createCategory(categoryName, categoryColor?.toArgb(), titleColor?.toArgb()).fold(
+            ifLeft = { _createCategoryEffect.send(failureToCreateCategoryEffectMapper.map(it)) },
+            ifRight = { _createCategoryEffect.send(CreateCategoryViewSuccess) },
+        )
     }
 }

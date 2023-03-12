@@ -1,12 +1,11 @@
 package com.marinj.shoppingwarfare.fixtures.category
 
 import androidx.compose.ui.graphics.Color
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.core.result.takeRightOrNull
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
@@ -54,7 +53,7 @@ fun buildCategory(
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
     titleColor = providedTitleColor,
-).takeRightOrNull()!!
+).getOrNull()!!
 
 fun buildUiCategory(
     providedCategoryId: String = "",

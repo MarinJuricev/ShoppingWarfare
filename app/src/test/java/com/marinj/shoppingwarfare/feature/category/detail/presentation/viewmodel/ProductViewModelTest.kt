@@ -1,11 +1,11 @@
 package com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmodel
 
 import app.cash.turbine.test
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product

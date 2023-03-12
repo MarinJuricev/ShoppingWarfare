@@ -6,8 +6,6 @@ import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.Navigator
-import com.marinj.shoppingwarfare.core.result.Either.Left
-import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.navigation.CreateCategoryDestination
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.ProductDestination
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
@@ -66,6 +64,7 @@ class CategoryViewModel @Inject constructor(
                 event.categoryId,
                 event.categoryName,
             )
+
             is CategoryEvent.UndoCategoryDeletion -> handleUndoCategoryDeletion(event.uiCategory)
         }
     }
@@ -119,27 +118,28 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun handleDeleteCategory(uiCategory: UiCategory) = viewModelScope.launch {
-        when (deleteCategory(uiCategory.id)) {
-            is Left -> _viewEffect.send(Error("Error while deleting category."))
-            is Right -> _viewEffect.send(DeleteCategoryView(uiCategory))
-        }
+        deleteCategory(uiCategory.id).fold(
+            ifLeft = { _viewEffect.send(Error("Error while deleting category.")) },
+            ifRight = { _viewEffect.send(DeleteCategoryView(uiCategory)) },
+        )
     }
 
     private fun handleUndoCategoryDeletion(
         uiCategory: UiCategory,
     ) = viewModelScope.launch {
-        when (val result = uiCategory.toDomain()) {
-            is Left -> _viewEffect.send(Error(failureToStringMapper.map(result.error)))
-            is Right -> restoreCategory(result.value)
-        }
+        val result = uiCategory.toDomain().fold(
+            ifLeft = { _viewEffect.send(Error(failureToStringMapper.map(it))) },
+            ifRight = { restoreCategory(it) },
+        )
     }
 
     private suspend fun restoreCategory(
         category: Category,
     ) {
-        when (undoCategoryDeletion(category)) {
-            is Left -> _viewEffect.send(Error("Couldn't undo category deletion."))
-            is Right -> Timber.d("${category.title} successfully restored")
-        }
+        undoCategoryDeletion(category).fold(
+            ifLeft = { _viewEffect.send(Error("Couldn't undo category deletion.")) },
+            ifRight = { Timber.d("${category.title} successfully restored") },
+
+            )
     }
 }

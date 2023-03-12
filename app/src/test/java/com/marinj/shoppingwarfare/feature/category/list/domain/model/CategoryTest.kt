@@ -1,8 +1,8 @@
 package com.marinj.shoppingwarfare.feature.category.list.domain.model
 
+import arrow.core.left
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.core.result.buildLeft
 import org.junit.Test
 
 class CategoryTest {

@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.datasource.network
 
+import arrow.core.Either
 import com.marinj.shoppingwarfare.core.exception.SHWException
-import com.marinj.shoppingwarfare.core.result.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import kotlinx.coroutines.flow.Flow

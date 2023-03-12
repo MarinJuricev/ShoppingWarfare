@@ -1,6 +1,6 @@
 package com.marinj.shoppingwarfare.feature.history.detail.domain.usecase
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository

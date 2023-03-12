@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductRepository
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductRepository
 import kotlinx.coroutines.test.runTest

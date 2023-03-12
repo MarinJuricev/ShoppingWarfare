@@ -1,11 +1,10 @@
 package com.marinj.shoppingwarfare.fixtures.category
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
-import com.marinj.shoppingwarfare.core.result.takeRightOrNull
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalCategoryProducts
@@ -60,7 +59,7 @@ fun buildProduct(
     categoryId = providedCategoryId,
     categoryName = providedCategoryName,
     name = providedName,
-).takeRightOrNull()!!
+).getOrNull()!!
 
 class FakeSuccessProductDao(
     private val localProductsToEmit: List<LocalCategoryProducts> = emptyList(),

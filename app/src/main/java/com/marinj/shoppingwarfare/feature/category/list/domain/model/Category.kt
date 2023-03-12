@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.list.domain.model
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 
 data class Category private constructor(
     val id: String,

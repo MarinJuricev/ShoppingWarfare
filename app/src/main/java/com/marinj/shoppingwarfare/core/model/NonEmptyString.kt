@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.core.model
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 
 @JvmInline
 value class NonEmptyString private constructor(val value: String) {

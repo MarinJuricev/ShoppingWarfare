@@ -2,11 +2,11 @@ package com.marinj.shoppingwarfare.feature.category.createcategory.presentation.
 
 import androidx.compose.ui.graphics.Color
 import app.cash.turbine.test
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.mapper.FailureToCreateCategoryEffectMapper
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged

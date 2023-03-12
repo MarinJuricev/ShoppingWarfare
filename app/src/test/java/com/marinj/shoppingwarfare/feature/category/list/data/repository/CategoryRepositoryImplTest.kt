@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.repository
 
 import app.cash.turbine.test
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureCategoryApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryApi

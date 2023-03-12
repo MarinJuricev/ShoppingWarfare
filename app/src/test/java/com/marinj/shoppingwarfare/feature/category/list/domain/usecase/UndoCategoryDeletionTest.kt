@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.list.domain.usecase
 
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepository
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory

@@ -1,6 +1,6 @@
 package com.marinj.shoppingwarfare.feature.history.list.domain.repository
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import kotlinx.coroutines.flow.Flow

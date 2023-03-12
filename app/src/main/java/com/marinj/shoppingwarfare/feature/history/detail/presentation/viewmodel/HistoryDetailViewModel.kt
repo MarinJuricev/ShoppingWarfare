@@ -4,8 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
-import com.marinj.shoppingwarfare.core.result.Either.Left
-import com.marinj.shoppingwarfare.core.result.Either.Right
 import com.marinj.shoppingwarfare.feature.history.detail.domain.usecase.GetHistoryItemById
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnGetHistoryDetail
@@ -47,16 +45,17 @@ class HistoryDetailViewModel @Inject constructor(
     }
 
     private fun handleGetHistoryDetail(historyItemId: String) = viewModelScope.launch {
-        when (val result = getHistoryItemById(historyItemId)) {
-            is Right -> _viewState.update { viewState ->
-                viewState.copy(
-                    isLoading = false,
-                    uiHistoryItem = historyItemToUiHistoryItemMapper.map(result.value),
-                )
-            }
-            is Left -> _viewEffect.send(
-                Error(errorMessage = failureToStringMapper.map(result.error)),
+        getHistoryItemById(historyItemId).fold(
+            ifLeft = { _viewEffect.send(Error(errorMessage = failureToStringMapper.map(it))) },
+            ifRight = {
+                _viewState.update { viewState ->
+                    viewState.copy(
+                        isLoading = false,
+                        uiHistoryItem = historyItemToUiHistoryItemMapper.map(it),
+                    )
+                }
+            },
+
             )
-        }
     }
 }

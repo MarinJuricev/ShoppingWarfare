@@ -1,8 +1,8 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
+import arrow.core.left
 import com.google.common.truth.Truth
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.buildLeft
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.mockk.coEvery
 import io.mockk.mockk

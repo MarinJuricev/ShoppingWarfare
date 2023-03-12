@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.model
 
+import arrow.core.left
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import org.junit.Test
 
 internal class ProductTest {

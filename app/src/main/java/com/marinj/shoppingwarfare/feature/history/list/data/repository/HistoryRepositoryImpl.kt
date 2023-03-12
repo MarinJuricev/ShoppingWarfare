@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.history.list.data.repository
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.core.result.buildLeft
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDao
 import com.marinj.shoppingwarfare.feature.history.list.data.mapper.DomainToLocalHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.history.list.data.mapper.LocalToDomainHistoryItemMapper

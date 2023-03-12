@@ -1,6 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.repository
 
-import com.marinj.shoppingwarfare.core.result.Either
+import arrow.core.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import kotlinx.coroutines.flow.Flow

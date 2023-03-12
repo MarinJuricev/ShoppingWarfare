@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 
+import arrow.core.right
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.buildRight
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import io.mockk.coEvery
 import io.mockk.mockk
