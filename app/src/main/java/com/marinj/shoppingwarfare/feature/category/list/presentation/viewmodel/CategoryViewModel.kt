@@ -127,7 +127,7 @@ class CategoryViewModel @Inject constructor(
     private fun handleUndoCategoryDeletion(
         uiCategory: UiCategory,
     ) = viewModelScope.launch {
-        val result = uiCategory.toDomain().fold(
+        uiCategory.toDomain().fold(
             ifLeft = { _viewEffect.send(Error(failureToStringMapper.map(it))) },
             ifRight = { restoreCategory(it) },
         )
@@ -140,6 +140,6 @@ class CategoryViewModel @Inject constructor(
             ifLeft = { _viewEffect.send(Error("Couldn't undo category deletion.")) },
             ifRight = { Timber.d("${category.title} successfully restored") },
 
-            )
+        )
     }
 }

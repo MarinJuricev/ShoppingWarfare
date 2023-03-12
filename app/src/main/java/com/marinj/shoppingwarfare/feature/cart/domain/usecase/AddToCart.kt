@@ -11,7 +11,7 @@ class AddToCart @Inject constructor(
 ) {
 
     suspend operator fun invoke(cartItem: CartItem) = cartRepository.getCartItemById(cartItem.id).fold(
-        ifLeft = { cartRepository.upsertCartItem(cartItem)},
+        ifLeft = { cartRepository.upsertCartItem(cartItem) },
         ifRight = { increaseQuantityByOneForExistingCartItem(it) },
     )
 
