@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.model
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.takeRightOrNull
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
 import org.junit.Test
@@ -17,7 +16,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.takeRightOrNull()?.id).isEqualTo(ID)
+        assertThat(actualResult.getOrNull()?.id).isEqualTo(ID)
     }
 
     @Test
@@ -26,7 +25,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.takeRightOrNull()?.title).isEqualTo(TITLE)
+        assertThat(actualResult.getOrNull()?.title).isEqualTo(TITLE)
     }
 
     @Test
@@ -38,7 +37,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.takeRightOrNull()?.backgroundColor).isEqualTo(BACKGROUND_COLOR)
+        assertThat(actualResult.getOrNull()?.backgroundColor).isEqualTo(BACKGROUND_COLOR)
     }
 
     @Test
@@ -50,7 +49,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.takeRightOrNull()?.titleColor).isEqualTo(TITLE_COLOR)
+        assertThat(actualResult.getOrNull()?.titleColor).isEqualTo(TITLE_COLOR)
     }
 
     @Test

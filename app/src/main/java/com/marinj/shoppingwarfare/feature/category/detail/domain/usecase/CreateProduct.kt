@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 
 import arrow.core.Either
+import arrow.core.continuations.either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
@@ -15,12 +16,14 @@ class CreateProduct @Inject constructor(
         categoryId: String,
         categoryName: String,
         productName: String?,
-    ): Either<Failure, Unit> = Product.of(
-        id = uuidGenerator(),
-        categoryId = categoryId,
-        categoryName = categoryName,
-        name = productName,
-    ).map { validProduct ->
-        productRepository.upsertProduct(validProduct)
+    ): Either<Failure, Unit> = either {
+        val product = Product.of(
+            id = uuidGenerator(),
+            categoryId = categoryId,
+            categoryName = categoryName,
+            name = productName,
+        ).bind()
+
+        productRepository.upsertProduct(product).bind()
     }
 }

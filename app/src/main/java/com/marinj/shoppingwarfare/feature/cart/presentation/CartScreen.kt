@@ -36,7 +36,6 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @Composable

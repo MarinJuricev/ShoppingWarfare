@@ -92,8 +92,8 @@ class ProductViewModel @Inject constructor(
         productName: String,
     ) = viewModelScope.launch {
         createProduct(categoryId, categoryName, productName).fold(
-            ifLeft = { Timber.d("Product created with: $categoryId and $productName") },
-            ifRight = { _viewEffect.send(Error("Could not create $productName, try again later.")) },
+            ifLeft = { _viewEffect.send(Error("Could not create $productName, try again later.")) },
+            ifRight = { Timber.d("Product created with: $categoryId and $productName") },
         )
     }
 
