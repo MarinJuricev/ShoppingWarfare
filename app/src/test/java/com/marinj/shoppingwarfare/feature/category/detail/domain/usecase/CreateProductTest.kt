@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 
+import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.google.common.truth.Truth.assertThat
@@ -16,8 +17,9 @@ class CreateProductTest {
 
     @Test
     fun `invoke SHOULD return Left WHEN empty categoryId is provided`() = runTest {
+        Either.catch(uuidGenerator)
         val expectedResult = ErrorMessage("CategoryId can not be empty got: ").left()
-        val sut = CreateProduct(
+        val sut = CreateProductImpl(
             uuidGenerator,
             FakeSuccessProductRepository(),
         )
@@ -34,7 +36,7 @@ class CreateProductTest {
     @Test
     fun `invoke SHOULD return Right WHEN product is successfully created and repository returns Right`() = runTest {
         val expectedResult = Unit.right()
-        val sut = CreateProduct(
+        val sut = CreateProductImpl(
             uuidGenerator,
             FakeSuccessProductRepository(),
         )
@@ -51,7 +53,7 @@ class CreateProductTest {
     @Test
     fun `invoke SHOULD return Left WHEN product is successfully created and repository returns Left`() = runTest {
         val expectedResult = Unknown.left()
-        val sut = CreateProduct(
+        val sut = CreateProductImpl(
             uuidGenerator,
             FakeFailureProductRepository,
         )

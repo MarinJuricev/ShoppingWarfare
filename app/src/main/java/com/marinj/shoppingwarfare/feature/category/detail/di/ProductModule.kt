@@ -4,6 +4,8 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.networ
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApiImpl
 import com.marinj.shoppingwarfare.feature.category.detail.data.repository.ProductRepositoryImpl
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProduct
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProductImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,4 +24,9 @@ abstract class ProductModule {
     abstract fun bindProductApi(
         productApi: ProductApiImpl,
     ): ProductApi
+
+    @Binds
+    abstract fun bindCreateProduct(
+        createProductImpl: CreateProductImpl,
+    ): CreateProduct
 }

@@ -41,10 +41,9 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun upsertProduct(
         product: Product,
-    ): Either<Failure, Unit> =
-        product.toRemote().let { remoteProduct ->
-            productApi.addProduct(remoteProduct)
-        }
+    ): Either<Failure, Unit> = product.toRemote().let { remoteProduct ->
+        productApi.addProduct(remoteProduct)
+    }
 
     override suspend fun deleteProductById(
         productId: String,
