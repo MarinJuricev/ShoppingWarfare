@@ -6,6 +6,8 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.repository.Produc
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProductImpl
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProductImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,4 +31,9 @@ abstract class ProductModule {
     abstract fun bindCreateProduct(
         createProductImpl: CreateProductImpl,
     ): CreateProduct
+
+    @Binds
+    abstract fun bindDeleteProduct(
+        deleteProductImpl: DeleteProductImpl,
+    ): DeleteProduct
 }

@@ -10,7 +10,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProductImpl
-import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProductImpl
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper.ProductToCartItemMapper
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnCreateProduct
@@ -37,7 +37,7 @@ class ProductViewModelTest {
 
     private val observeProducts: ObserveProducts = mockk()
     private val createProduct: CreateProductImpl = mockk()
-    private val deleteProduct: DeleteProduct = mockk()
+    private val deleteProduct: DeleteProductImpl = mockk()
     private val productToCartItemMapper: ProductToCartItemMapper = mockk()
     private val addToCart: AddToCart = mockk()
 
