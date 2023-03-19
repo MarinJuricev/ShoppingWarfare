@@ -13,7 +13,7 @@ class DeleteProductTest {
     @Test
     fun `invoke should RETURN result from repository`() = runTest {
         val sut = DeleteProductImpl(
-            productRepository = FakeSuccessProductRepository()
+            productRepository = FakeSuccessProductRepository(),
         )
 
         val actualResult = sut(PRODUCT_ID)
@@ -24,7 +24,7 @@ class DeleteProductTest {
     @Test
     fun `invoke should RETURN failure from repository`() = runTest {
         val sut = DeleteProductImpl(
-            productRepository = FakeFailureProductRepository
+            productRepository = FakeFailureProductRepository,
         )
 
         val actualResult = sut(PRODUCT_ID)

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class DeleteProductImpl @Inject constructor(
     private val productRepository: ProductRepository,
-): DeleteProduct {
+) : DeleteProduct {
 
     override suspend operator fun invoke(
         productId: String,
