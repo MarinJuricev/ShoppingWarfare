@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -22,7 +22,7 @@ class ProductToCartItemMapperTest {
     }
 
     @Test
-    fun `map should map id`() {
+    fun `map should map id`() = runTest {
         val product = mockk<Product>(relaxed = true).apply {
             every { id } returns ID
         }
@@ -60,7 +60,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.quantity).isEqualTo(CartItem.DEFAULT_QUANTITY)
+        assertThat(actualResult.quantity).isEqualTo(DEFAULT_QUANTITY)
     }
 
     @Test
@@ -69,6 +69,9 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.isInBasket).isEqualTo(CartItem.DEFAULT_IS_IN_BASKET)
+        assertThat(actualResult.isInBasket).isEqualTo(DEFAULT_IS_IN_BASKET)
     }
 }
+
+private const val DEFAULT_QUANTITY = 1
+private const val DEFAULT_IS_IN_BASKET = false
