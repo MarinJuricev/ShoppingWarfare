@@ -9,9 +9,9 @@ import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 @JvmInline
 value class NonEmptyString private constructor(val value: String) {
     companion object {
-        fun of(value: String?): Either<Failure, NonEmptyString> = when {
-            value.isNullOrBlank() -> ErrorMessage("NonEmptyString can not be null or empty").left()
-            else -> NonEmptyString(value).right()
+        fun NonEmptyString(valueToValidate: String?): Either<Failure, NonEmptyString> = when {
+            valueToValidate.isNullOrBlank() -> ErrorMessage("NonEmptyString can not be null or empty").left()
+            else -> NonEmptyString(value = valueToValidate).right()
         }
     }
 }
