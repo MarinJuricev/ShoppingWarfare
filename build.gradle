@@ -2,7 +2,7 @@
 buildscript {
     ext {
         build_gradle_version = '7.4.2'
-        arrow_version = "1.1.5"
+        arrow_version = "1.2.0-RC"
         kotlin_gradle_plugin_version = '1.7.10'
         google_services_version = '4.3.13'
         appcompat_version = '1.5.1'
