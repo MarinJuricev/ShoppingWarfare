@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.core.model
 
 import arrow.core.left
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.model.NonEmptyString.Companion.NonEmptyString
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
@@ -38,10 +39,11 @@ class NonEmptyStringTest {
     @Test
     fun `of SHOULD return Right WHEN provided value passes validation`() {
         val someValue = "someValue"
-        val expectedResult = NonEmptyString(someValue)
 
         val result = NonEmptyString(valueToValidate = someValue)
 
-        assertThat(result).isEqualTo(expectedResult)
+        result.map { mappedValue ->
+            assertThat(mappedValue.value).isEqualTo(someValue)
+        }
     }
 }
