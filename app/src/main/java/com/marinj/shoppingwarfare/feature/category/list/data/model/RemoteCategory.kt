@@ -21,8 +21,8 @@ data class RemoteCategory(
 }
 
 fun Category.toRemote() = RemoteCategory(
-    categoryId = id,
-    title = title,
-    backgroundColor = backgroundColor,
-    titleColor = titleColor,
+    categoryId = id.value,
+    title = title.value,
+    backgroundColor = backgroundColor.value,
+    titleColor = titleColor.value,
 )

@@ -85,5 +85,5 @@ class UiCategoryTest {
 
 private const val ID = "id"
 private const val TITLE = "title"
-private const val BACKGROUND_COLOR = 0
-private const val TITLE_COLOR = 0
+private const val BACKGROUND_COLOR = 1
+private const val TITLE_COLOR = 1

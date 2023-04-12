@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.category.list.domain.model
 import arrow.core.left
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
+import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category.Companion.Category
 import org.junit.Test
 
 class CategoryTest {
@@ -11,7 +12,7 @@ class CategoryTest {
     fun `of SHOULD return Left WHEN title is null`() {
         val expectedResult = ErrorMessage("Title can not be empty or null got: null").left()
 
-        val result = Category.of(
+        val result = Category(
             id = ID,
             title = null,
             backgroundColor = BACKGROUND_COLOR,
@@ -25,7 +26,7 @@ class CategoryTest {
     fun `of SHOULD return Left WHEN title is empty`() {
         val expectedResult = ErrorMessage("Title can not be empty or null got: ").left()
 
-        val result = Category.of(
+        val result = Category(
             id = ID,
             title = "",
             backgroundColor = BACKGROUND_COLOR,
@@ -39,7 +40,7 @@ class CategoryTest {
     fun `of SHOULD return Left WHEN title is blank`() {
         val expectedResult = ErrorMessage("Title can not be empty or null got:       ").left()
 
-        val result = Category.of(
+        val result = Category(
             id = ID,
             title = "      ",
             backgroundColor = BACKGROUND_COLOR,
@@ -53,7 +54,7 @@ class CategoryTest {
     fun `of SHOULD return Left WHEN backgroundColor is null`() {
         val expectedResult = ErrorMessage("BackgroundColor can not be null").left()
 
-        val result = Category.of(
+        val result = Category(
             id = ID,
             title = TITLE,
             backgroundColor = null,
@@ -67,7 +68,7 @@ class CategoryTest {
     fun `of SHOULD return Left WHEN titleColor is null`() {
         val expectedResult = ErrorMessage("TitleColor can not be null").left()
 
-        val result = Category.of(
+        val result = Category(
             id = ID,
             title = TITLE,
             backgroundColor = BACKGROUND_COLOR,

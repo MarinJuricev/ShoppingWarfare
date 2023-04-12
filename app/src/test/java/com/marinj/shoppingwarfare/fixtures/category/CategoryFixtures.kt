@@ -11,6 +11,7 @@ import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
+import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category.Companion.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
@@ -44,11 +45,11 @@ fun buildLocalCategory(
 )
 
 fun buildCategory(
-    providedId: String = "",
+    providedId: String = ID,
     providedTitle: String = TITLE,
-    providedBackgroundColor: Int = 0,
-    providedTitleColor: Int = 0,
-) = Category.of(
+    providedBackgroundColor: Int = 1,
+    providedTitleColor: Int = 1,
+) = Category(
     id = providedId,
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
@@ -175,3 +176,4 @@ object FakeFailureUndoCategoryDeletion : UndoCategoryDeletion {
 }
 
 private const val TITLE = "title"
+private const val ID = "id"
