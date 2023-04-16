@@ -39,6 +39,17 @@ class ResourceColorTest {
     }
 
     @Test
+    fun `ResourceColor should return Left with tag WHEN valueToValidate is a negative number and tag is provided`() {
+        val valueToValidate = -1
+        val tag = "tag"
+        val expectedResult = ErrorMessage("$tag value must be a positive number, got: $valueToValidate").left()
+
+        val result = ResourceColor(valueToValidate = valueToValidate, tag = tag)
+
+        assertThat(result).isEqualTo(expectedResult)
+    }
+
+    @Test
     fun `ResourceColor should return Right WHEN valueToValidate passes the validation`() {
         val valueToValidate = 1
 

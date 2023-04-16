@@ -20,6 +20,6 @@ value class ResourceColor private constructor(val value: Int) {
             else -> ResourceColor(value = valueToValidate).right()
         }
 
-        private fun tagOrDefault(tag: String?): String = if (tag.isNullOrBlank()) "NonEmptyString" else tag
+        private fun tagOrDefault(tag: String?): String = if (tag.isNullOrBlank()) "ResourceColor" else tag
     }
 }
