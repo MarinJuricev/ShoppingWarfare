@@ -23,8 +23,8 @@ data class Category private constructor(
         ): Either<Failure, Category> = either {
             val mappedId = NonEmptyString(valueToValidate = id, tag = "id").bind()
             val mappedTitle = NonEmptyString(valueToValidate = title, "title").bind()
-            val mappedBackgroundColor = ResourceColor(valueToValidate = backgroundColor).bind()
-            val mappedTitleColor = ResourceColor(valueToValidate = titleColor).bind()
+            val mappedBackgroundColor = ResourceColor(valueToValidate = backgroundColor, "backgroundColor").bind()
+            val mappedTitleColor = ResourceColor(valueToValidate = titleColor, "titleColor").bind()
 
             Category(
                 mappedId,
