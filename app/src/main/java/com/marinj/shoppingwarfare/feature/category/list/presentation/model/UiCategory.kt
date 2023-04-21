@@ -15,7 +15,7 @@ data class UiCategory(
         id = id,
         title = title,
         backgroundColor = backgroundColor.toArgb(),
-        titleColor = backgroundColor.toArgb(),
+        titleColor = titleColor.toArgb(),
     )
 
     companion object {
