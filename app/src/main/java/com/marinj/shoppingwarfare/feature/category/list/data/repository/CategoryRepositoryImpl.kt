@@ -19,16 +19,16 @@ class CategoryRepositoryImpl @Inject constructor(
         categoriesFromLocal()
             .onStart { syncApiToLocal() }
 
+    private fun categoriesFromLocal(): Flow<List<Category>> =
+        categoryDao.observeCategories().map { localCategoryList ->
+            localCategoryList.mapNotNull { it.toDomain().getOrNull() }
+        }
+
     private fun syncApiToLocal() = categoryApi.observeCategories()
         .map { remoteCategories ->
             remoteCategories.map { remoteCategory ->
                 categoryDao.upsertCategory(remoteCategory.toLocal())
             }
-        }
-
-    private fun categoriesFromLocal(): Flow<List<Category>> =
-        categoryDao.observeCategories().map { localCategoryList ->
-            localCategoryList.mapNotNull { it.toDomain().getOrNull() }
         }
 
     override suspend fun upsertCategory(category: Category) =
