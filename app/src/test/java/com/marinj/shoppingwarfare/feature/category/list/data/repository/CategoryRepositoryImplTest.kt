@@ -32,7 +32,7 @@ class CategoryRepositoryImplTest {
         )
         val expectedResult = listOf(
             buildCategory(
-                providedId = CATEGORY_ID,
+                providedCategoryId = CATEGORY_ID,
                 providedTitle = TITLE,
             ),
         )
@@ -42,7 +42,9 @@ class CategoryRepositoryImplTest {
         )
 
         sut.observeCategories().test {
-            assertThat(awaitItem()).isEqualTo(expectedResult)
+            val item = awaitItem()
+
+            assertThat(item).isEqualTo(expectedResult)
             awaitComplete()
         }
     }
@@ -63,7 +65,7 @@ class CategoryRepositoryImplTest {
         )
         val expectedResult = listOf(
             buildCategory(
-                providedId = CATEGORY_ID,
+                providedCategoryId = CATEGORY_ID,
                 providedTitle = TITLE,
             ),
         )
@@ -81,7 +83,7 @@ class CategoryRepositoryImplTest {
 
     @Test
     fun `upsertCategory SHOULD return Left WHEN categoryApi returns Left`() = runTest {
-        val category = buildCategory(providedId = CATEGORY_ID)
+        val category = buildCategory(providedCategoryId = CATEGORY_ID)
         sut = CategoryRepositoryImpl(
             categoryDao = FakeSuccessCategoryDao(),
             categoryApi = FakeFailureCategoryApi,
@@ -94,7 +96,7 @@ class CategoryRepositoryImplTest {
 
     @Test
     fun `upsertCategory SHOULD return Right WHEN categoryApi returns Right`() = runTest {
-        val category = buildCategory(providedId = CATEGORY_ID)
+        val category = buildCategory(providedCategoryId = CATEGORY_ID)
         sut = CategoryRepositoryImpl(
             categoryDao = FakeSuccessCategoryDao(),
             categoryApi = FakeSuccessCategoryApi(),

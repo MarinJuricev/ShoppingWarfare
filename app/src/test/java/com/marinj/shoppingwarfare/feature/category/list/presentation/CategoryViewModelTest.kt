@@ -153,7 +153,7 @@ class CategoryViewModelTest {
             sut.onEvent(UndoCategoryDeletion(uiCategory))
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Title can not be empty or null got: "))
+                assertThat(awaitItem()).isEqualTo(Error("title can not be null or empty"))
             }
         }
 
@@ -206,7 +206,7 @@ class CategoryViewModelTest {
 
     private fun buildCategoryList(): List<Category> = listOf(
         buildCategory(
-            providedId = ID,
+            providedCategoryId = ID,
             providedTitle = TITLE,
             providedBackgroundColor = BACKGROUND_COLOR,
             providedTitleColor = TITLE_COLOR,

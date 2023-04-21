@@ -14,7 +14,7 @@ class UiCategoryTest {
 
     @Test
     fun `toDomain SHOULD return Left WHEN title is empty`() {
-        val expectedResult = Failure.ErrorMessage("Title can not be empty or null got: ").left()
+        val expectedResult = Failure.ErrorMessage("title can not be null or empty").left()
         val uiCategory = buildUiCategory(providedTitle = "")
 
         val result = uiCategory.toDomain()
@@ -24,7 +24,7 @@ class UiCategoryTest {
 
     @Test
     fun `toDomain SHOULD return Left WHEN title is blank`() {
-        val expectedResult = Failure.ErrorMessage("Title can not be empty or null got:  ").left()
+        val expectedResult = Failure.ErrorMessage("title can not be null or empty").left()
         val uiCategory = buildUiCategory(providedTitle = " ")
 
         val result = uiCategory.toDomain()
@@ -33,9 +33,15 @@ class UiCategoryTest {
     }
 
     @Test
-    fun `toDomain SHOULD return Right WHEN category validation passes `() {
-        val expectedResult = buildCategory(providedTitle = TITLE).right()
-        val uiCategory = buildUiCategory(providedTitle = TITLE)
+    fun `toDomain SHOULD return Right WHEN category validation passes`() {
+        val expectedResult = buildCategory(
+            providedBackgroundColor = BACKGROUND_COLOR,
+            providedTitleColor = TITLE_COLOR,
+        ).right()
+        val uiCategory = buildUiCategory(
+            providedBackgroundColor = BACKGROUND_COLOR,
+            providedTitleColor = TITLE_COLOR,
+        )
 
         val result = uiCategory.toDomain()
 
@@ -45,7 +51,7 @@ class UiCategoryTest {
     @Test
     fun `toUi SHOULD map Id`() {
         val expectedResult = ID
-        val category = buildCategory(providedId = ID)
+        val category = buildCategory(providedCategoryId = ID)
 
         val result = category.toUi()
 
@@ -75,7 +81,7 @@ class UiCategoryTest {
     @Test
     fun `toUi SHOULD map titleColor`() {
         val expectedResult = Color(TITLE_COLOR)
-        val category = buildCategory(providedBackgroundColor = TITLE_COLOR)
+        val category = buildCategory(providedTitleColor = TITLE_COLOR)
 
         val result = category.toUi()
 

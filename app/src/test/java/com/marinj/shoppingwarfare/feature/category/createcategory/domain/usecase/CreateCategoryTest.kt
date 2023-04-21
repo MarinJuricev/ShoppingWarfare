@@ -43,7 +43,7 @@ class CreateCategoryTest {
         val title = null
         val categoryColor = 1
         val titleColor = 2
-        val expectedResult = ErrorMessage("Title can not be empty or null got: null").left()
+        val expectedResult = ErrorMessage("title can not be null or empty").left()
 
         val actualResult = sut(title, categoryColor, titleColor)
 

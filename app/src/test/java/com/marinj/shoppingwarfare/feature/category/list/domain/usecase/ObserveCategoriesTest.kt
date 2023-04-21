@@ -11,7 +11,7 @@ import org.junit.Test
 class ObserveCategoriesTest {
 
     private val repositoryCategories = listOf(
-        buildCategory(providedId = CATEGORY_ID, providedTitle = TITLE),
+        buildCategory(providedCategoryId = CATEGORY_ID, providedTitle = TITLE),
     )
     private val categoryRepository = FakeSuccessCategoryRepository(
         repositoryCategories,

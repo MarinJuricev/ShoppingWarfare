@@ -1,6 +1,8 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.model
 
 import com.google.common.truth.Truth.assertThat
+import com.marinj.shoppingwarfare.core.model.NonEmptyString.Companion.NonEmptyString
+import com.marinj.shoppingwarfare.core.model.ResourceColor.Companion.ResourceColor
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
 import org.junit.Test
@@ -9,52 +11,47 @@ class LocalCategoryTest {
 
     @Test
     fun `toDomain SHOULD map id`() {
-        val localCategory = buildLocalCategory(
-            providedCategoryId = ID,
-            providedTitle = TITLE,
-        )
+        val expectedResult = NonEmptyString(valueToValidate = ID).getOrNull()
+        val localCategory = buildLocalCategory(providedCategoryId = ID)
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.getOrNull()?.id).isEqualTo(ID)
+        assertThat(actualResult.getOrNull()?.id).isEqualTo(expectedResult)
     }
 
     @Test
     fun `toDomain SHOULD map title`() {
+        val expectedResult = NonEmptyString(valueToValidate = TITLE).getOrNull()
         val localCategory = buildLocalCategory(providedTitle = TITLE)
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.getOrNull()?.title).isEqualTo(TITLE)
+        assertThat(actualResult.getOrNull()?.title).isEqualTo(expectedResult)
     }
 
     @Test
     fun `toDomain SHOULD map backgroundColor`() {
-        val localCategory = buildLocalCategory(
-            providedBackgroundColor = BACKGROUND_COLOR,
-            providedTitle = TITLE,
-        )
+        val expectedResult = ResourceColor(valueToValidate = BACKGROUND_COLOR).getOrNull()
+        val localCategory = buildLocalCategory(providedBackgroundColor = BACKGROUND_COLOR)
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.getOrNull()?.backgroundColor).isEqualTo(BACKGROUND_COLOR)
+        assertThat(actualResult.getOrNull()?.backgroundColor).isEqualTo(expectedResult)
     }
 
     @Test
     fun `toDomain SHOULD map titleColor`() {
-        val localCategory = buildLocalCategory(
-            providedTitleColor = TITLE_COLOR,
-            providedTitle = TITLE,
-        )
+        val expectedResult = ResourceColor(valueToValidate = TITLE_COLOR).getOrNull()
+        val localCategory = buildLocalCategory(providedTitleColor = TITLE_COLOR)
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.getOrNull()?.titleColor).isEqualTo(TITLE_COLOR)
+        assertThat(actualResult.getOrNull()?.titleColor).isEqualTo(expectedResult)
     }
 
     @Test
     fun `toLocal SHOULD map id`() {
-        val category = buildCategory(providedId = ID)
+        val category = buildCategory(providedCategoryId = ID)
 
         val actualResult = category.toLocal()
 
@@ -91,5 +88,5 @@ class LocalCategoryTest {
 
 private const val ID = "id"
 private const val TITLE = "title"
-private const val BACKGROUND_COLOR = 0
-private const val TITLE_COLOR = 1
+private const val BACKGROUND_COLOR = 1
+private const val TITLE_COLOR = 2
