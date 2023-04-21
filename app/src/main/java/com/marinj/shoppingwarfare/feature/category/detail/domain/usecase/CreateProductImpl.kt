@@ -1,6 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 
-import arrow.core.continuations.either
+import arrow.core.raise.either
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import javax.inject.Inject
