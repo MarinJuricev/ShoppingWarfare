@@ -21,10 +21,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 fun buildRemoteCategory(
-    providedCategoryId: String = "",
-    providedTitle: String = "",
-    providedBackgroundColor: Int = 0,
-    providedTitleColor: Int = 0,
+    providedCategoryId: String = ID,
+    providedTitle: String = TITLE,
+    providedBackgroundColor: Int = BACKGROUND_COLOR,
+    providedTitleColor: Int = TITLE_COLOR,
 ) = RemoteCategory(
     categoryId = providedCategoryId,
     title = providedTitle,
@@ -33,10 +33,10 @@ fun buildRemoteCategory(
 )
 
 fun buildLocalCategory(
-    providedCategoryId: String = "",
-    providedTitle: String = "",
-    providedBackgroundColor: Int = 0,
-    providedTitleColor: Int = 0,
+    providedCategoryId: String = ID,
+    providedTitle: String = TITLE,
+    providedBackgroundColor: Int = BACKGROUND_COLOR,
+    providedTitleColor: Int = TITLE_COLOR,
 ) = LocalCategory(
     categoryId = providedCategoryId,
     title = providedTitle,
@@ -45,22 +45,22 @@ fun buildLocalCategory(
 )
 
 fun buildCategory(
-    providedId: String = ID,
+    providedCategoryId: String = ID,
     providedTitle: String = TITLE,
-    providedBackgroundColor: Int = 1,
-    providedTitleColor: Int = 1,
+    providedBackgroundColor: Int = BACKGROUND_COLOR,
+    providedTitleColor: Int = TITLE_COLOR,
 ) = Category(
-    id = providedId,
+    id = providedCategoryId,
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
     titleColor = providedTitleColor,
 ).getOrNull()!!
 
 fun buildUiCategory(
-    providedCategoryId: String = "",
-    providedTitle: String = "",
-    providedBackgroundColor: Int = 0,
-    providedTitleColor: Int = 0,
+    providedCategoryId: String = ID,
+    providedTitle: String = TITLE,
+    providedBackgroundColor: Int = BACKGROUND_COLOR,
+    providedTitleColor: Int = TITLE_COLOR,
 ) = UiCategory(
     id = providedCategoryId,
     title = providedTitle,
@@ -116,11 +116,9 @@ object FakeFailureCategoryApi : CategoryApi {
         throw Throwable()
     }
 
-    override suspend fun addCategoryItem(categoryItem: RemoteCategory) =
-        Unknown.left()
+    override suspend fun addCategoryItem(categoryItem: RemoteCategory) = Unknown.left()
 
-    override suspend fun deleteCategoryItemById(categoryId: String) =
-        Unknown.left()
+    override suspend fun deleteCategoryItemById(categoryId: String) = Unknown.left()
 }
 
 class FakeSuccessCategoryRepository(
@@ -130,11 +128,9 @@ class FakeSuccessCategoryRepository(
         emit(categoryListToObserve)
     }
 
-    override suspend fun upsertCategory(category: Category) =
-        Unit.right()
+    override suspend fun upsertCategory(category: Category) = Unit.right()
 
-    override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> =
-        Unit.right()
+    override suspend fun deleteCategoryById(id: String): Either<Failure, Unit> = Unit.right()
 }
 
 class FakeSuccessObserveCategories(
@@ -177,3 +173,5 @@ object FakeFailureUndoCategoryDeletion : UndoCategoryDeletion {
 
 private const val TITLE = "title"
 private const val ID = "id"
+private const val BACKGROUND_COLOR = 1
+private const val TITLE_COLOR = 2
