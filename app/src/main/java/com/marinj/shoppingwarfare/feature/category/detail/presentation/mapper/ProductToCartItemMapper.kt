@@ -8,9 +8,9 @@ class ProductToCartItemMapper @Inject constructor() {
 
     fun map(origin: Product): CartItem = with(origin) {
         CartItem(
-            id = id,
-            name = name,
-            categoryName = categoryName,
+            id = id.value,
+            name = name.value,
+            categoryName = categoryName.value,
         )
     }
 }

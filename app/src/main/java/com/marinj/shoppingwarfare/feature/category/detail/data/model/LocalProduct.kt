@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.category.detail.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
+import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product.Companion.Product
 
 @Entity(tableName = "localProduct")
 data class LocalProduct(
@@ -12,7 +13,7 @@ data class LocalProduct(
     val categoryName: String,
     val name: String,
 ) {
-    fun toDomain() = Product.of(
+    fun toDomain() = Product(
         id = productId,
         categoryId = categoryProductId,
         categoryName = categoryName,
@@ -21,8 +22,8 @@ data class LocalProduct(
 }
 
 fun Product.toLocal() = LocalProduct(
-    productId = id,
-    categoryProductId = categoryId,
-    categoryName = categoryName,
-    name = name,
+    productId = id.value,
+    categoryProductId = categoryId.value,
+    categoryName = categoryName.value,
+    name = name.value,
 )

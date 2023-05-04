@@ -67,7 +67,7 @@ fun ProductCard(
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = product.name,
+                text = product.name.value,
                 style = MaterialTheme.typography.body1,
             )
         }

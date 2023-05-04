@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 
 import arrow.core.raise.either
-import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
+import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product.Companion.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class CreateProductImpl @Inject constructor(
         categoryName: String,
         productName: String?,
     ) = either {
-        val product = Product.of(
+        val product = Product(
             id = uuidGenerator(),
             categoryId = categoryId,
             categoryName = categoryName,

@@ -21,8 +21,8 @@ data class RemoteProduct(
 }
 
 fun Product.toRemote() = RemoteProduct(
-    productId = id,
-    categoryId = categoryId,
-    categoryName = categoryName,
-    name = name,
+    productId = id.value,
+    categoryId = categoryId.value,
+    categoryName = categoryName.value,
+    name = name.value,
 )

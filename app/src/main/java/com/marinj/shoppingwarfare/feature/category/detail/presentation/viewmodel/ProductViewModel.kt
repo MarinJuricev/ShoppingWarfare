@@ -99,14 +99,14 @@ class ProductViewModel @Inject constructor(
 
     private fun handleRestoreProductDeletion(product: Product) = viewModelScope.launch {
         handleCreateCategoryProduct(
-            categoryId = product.categoryId,
-            categoryName = product.categoryName,
-            productName = product.name,
+            categoryId = product.categoryId.value,
+            categoryName = product.categoryName.value,
+            productName = product.name.value,
         )
     }
 
     private fun handleProductDeletion(product: Product) = viewModelScope.launch {
-        deleteProduct(productId = product.id).fold(
+        deleteProduct(productId = product.id.value).fold(
             ifLeft = { _viewEffect.send(Error("Could not delete ${product.name}, try again later.")) },
             ifRight = { _viewEffect.send(ProductDeleted(product)) },
         )
