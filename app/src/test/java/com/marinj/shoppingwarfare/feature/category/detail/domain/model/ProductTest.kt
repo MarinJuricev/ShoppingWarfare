@@ -1,18 +1,18 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.model
 
 import arrow.core.left
-import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
+import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product.Companion.Product
 import org.junit.Test
 
 internal class ProductTest {
 
     @Test
-    fun `of SHOULD return Left WHEN title is null`() {
-        val expectedResult = ErrorMessage("Name can not be empty got: ").left()
+    fun `Product SHOULD return Left WHEN title is null`() {
+        val expectedResult = ErrorMessage("id can not be null or empty").left()
 
-        val result = Product.of(
+        val result = Product(
             id = "",
             categoryId = "",
             categoryName = "",
@@ -23,12 +23,12 @@ internal class ProductTest {
     }
 
     @Test
-    fun `of SHOULD return Left WHEN categoryName is empty`() {
-        val expectedResult = ErrorMessage("CategoryName can not be empty got: ").left()
+    fun `Product SHOULD return Left WHEN categoryName is empty`() {
+        val expectedResult = ErrorMessage("categoryName can not be null or empty").left()
 
-        val result = Product.of(
-            id = "",
-            categoryId = "",
+        val result = Product(
+            id = ID,
+            categoryId = CATEGORY_ID,
             categoryName = "",
             name = NAME,
         )
@@ -37,11 +37,11 @@ internal class ProductTest {
     }
 
     @Test
-    fun `of SHOULD return Left WHEN categoryId is empty`() {
-        val expectedResult = ErrorMessage("CategoryId can not be empty got: ").left()
+    fun `Product SHOULD return Left WHEN categoryId is empty`() {
+        val expectedResult = ErrorMessage("categoryId can not be null or empty").left()
 
-        val result = Product.of(
-            id = "",
+        val result = Product(
+            id = ID,
             categoryId = "",
             categoryName = CATEGORY_NAME,
             name = NAME,
@@ -51,10 +51,10 @@ internal class ProductTest {
     }
 
     @Test
-    fun `of SHOULD return Left WHEN name is null`() {
-        val expectedResult = ErrorMessage("Name can not be empty got: null").left()
+    fun `Product SHOULD return Left WHEN name is null`() {
+        val expectedResult = ErrorMessage("name can not be null or empty").left()
 
-        val result = Product.of(
+        val result = Product(
             id = ID,
             categoryId = CATEGORY_ID,
             categoryName = CATEGORY_NAME,
@@ -65,27 +65,19 @@ internal class ProductTest {
     }
 
     @Test
-    fun `of SHOULD return Right WHEN validation passes`() {
-        val expectedResult = Product(
-            id = ID,
-            categoryId = CATEGORY_ID,
-            categoryName = CATEGORY_NAME,
-            name = NAME,
-        ).right()
-
-        val result = Product.of(
+    fun `Product SHOULD return Right WHEN validation passes`() {
+        val result = Product(
             id = ID,
             categoryId = CATEGORY_ID,
             categoryName = CATEGORY_NAME,
             name = NAME,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        assertThat(result.isRight()).isTrue()
     }
 }
 
 private const val NAME = "name"
-
 private const val ID = "id"
 private const val CATEGORY_ID = "id"
 private const val CATEGORY_NAME = "categoryName"

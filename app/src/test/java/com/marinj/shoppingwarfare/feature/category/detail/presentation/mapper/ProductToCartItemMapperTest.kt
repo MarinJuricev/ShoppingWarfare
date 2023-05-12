@@ -1,31 +1,17 @@
 package com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
-import io.mockk.every
-import io.mockk.mockk
+import com.marinj.shoppingwarfare.fixtures.category.buildProduct
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
-
-private const val ID = "id"
-private const val NAME = "name"
-private const val CATEGORY_NAME = "fruits"
 
 class ProductToCartItemMapperTest {
 
-    private lateinit var sut: ProductToCartItemMapper
-
-    @Before
-    fun setUp() {
-        sut = ProductToCartItemMapper()
-    }
+    private val sut = ProductToCartItemMapper()
 
     @Test
     fun `map should map id`() = runTest {
-        val product = mockk<Product>(relaxed = true).apply {
-            every { id } returns ID
-        }
+        val product = buildProduct(providedProductId = ID)
 
         val actualResult = sut.map(product)
 
@@ -34,9 +20,7 @@ class ProductToCartItemMapperTest {
 
     @Test
     fun `map should map name`() {
-        val product = mockk<Product>(relaxed = true).apply {
-            every { name } returns NAME
-        }
+        val product = buildProduct(providedName = NAME)
 
         val actualResult = sut.map(product)
 
@@ -45,9 +29,7 @@ class ProductToCartItemMapperTest {
 
     @Test
     fun `map should map categoryName`() {
-        val product = mockk<Product>(relaxed = true).apply {
-            every { categoryName } returns CATEGORY_NAME
-        }
+        val product = buildProduct(providedName = NAME)
 
         val actualResult = sut.map(product)
 
@@ -56,7 +38,7 @@ class ProductToCartItemMapperTest {
 
     @Test
     fun `map should map quantity`() {
-        val product = mockk<Product>(relaxed = true)
+        val product = buildProduct(providedName = NAME)
 
         val actualResult = sut.map(product)
 
@@ -65,7 +47,7 @@ class ProductToCartItemMapperTest {
 
     @Test
     fun `map should map isInBasket`() {
-        val product = mockk<Product>(relaxed = true)
+        val product = buildProduct(providedName = NAME)
 
         val actualResult = sut.map(product)
 
@@ -75,3 +57,6 @@ class ProductToCartItemMapperTest {
 
 private const val DEFAULT_QUANTITY = 1
 private const val DEFAULT_IS_IN_BASKET = false
+private const val ID = "id"
+private const val NAME = "name"
+private const val CATEGORY_NAME = "fruits"

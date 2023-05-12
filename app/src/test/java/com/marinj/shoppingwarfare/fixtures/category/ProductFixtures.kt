@@ -11,6 +11,7 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalCatego
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.RemoteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
+import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product.Companion.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import kotlinx.coroutines.flow.Flow
@@ -50,11 +51,11 @@ fun buildLocalCategoryProducts(
 )
 
 fun buildProduct(
-    providedProductId: String = "",
+    providedProductId: String = PRODUCT_ID,
     providedCategoryName: String = CATEGORY_NAME,
     providedCategoryId: String = CATEGORY_ID,
     providedName: String = PRODUCT_NAME,
-) = Product.of(
+) = Product(
     id = providedProductId,
     categoryId = providedCategoryId,
     categoryName = providedCategoryName,
@@ -152,6 +153,7 @@ object FakeFailureProductRepository : ProductRepository {
         Unknown.left()
 }
 
+private const val PRODUCT_ID = "productId"
 private const val PRODUCT_NAME = "productName"
 private const val CATEGORY_ID = "categoryId"
 private const val CATEGORY_NAME = "categoryName"

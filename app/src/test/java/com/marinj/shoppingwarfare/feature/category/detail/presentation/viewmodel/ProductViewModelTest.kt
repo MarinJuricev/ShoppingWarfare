@@ -21,8 +21,8 @@ import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.Pro
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.AddedToCart
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.ProductDeleted
+import com.marinj.shoppingwarfare.fixtures.category.buildProduct
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -149,9 +149,7 @@ class ProductViewModelTest {
     @Test
     fun `should update viewEffect when OnProductDelete is provided and DeleteProduct returns Right`() =
         runTest {
-            val product = mockk<Product>().apply {
-                every { id } answers { PRODUCT_ID }
-            }
+            val product = buildProduct(providedProductId = PRODUCT_ID)
             val event = OnProductDelete(product)
             coEvery {
                 deleteProduct(PRODUCT_ID)
@@ -167,10 +165,10 @@ class ProductViewModelTest {
     @Test
     fun `should update viewEffect when OnProductDelete is provided and DeleteProduct returns Left`() =
         runTest {
-            val product = mockk<Product>().apply {
-                every { id } answers { PRODUCT_ID }
-                every { name } answers { PRODUCT_NAME }
-            }
+            val product = buildProduct(
+                providedProductId = PRODUCT_ID,
+                providedName = PRODUCT_NAME,
+            )
             val event = OnProductDelete(product)
             coEvery {
                 deleteProduct(PRODUCT_ID)
@@ -186,12 +184,12 @@ class ProductViewModelTest {
     @Test
     fun `should log when RestoreProductDeletion is provided and CreateProduct returns Right`() =
         runTest {
-            val product = mockk<Product>().apply {
-                every { id } answers { PRODUCT_ID }
-                every { categoryId } answers { CATEGORY_ID }
-                every { categoryName } answers { CATEGORY_NAME }
-                every { name } answers { PRODUCT_NAME }
-            }
+            val product = buildProduct(
+                providedProductId = PRODUCT_ID,
+                providedName = PRODUCT_NAME,
+                providedCategoryId = CATEGORY_ID,
+                providedCategoryName = CATEGORY_NAME,
+            )
             val event = RestoreProductDeletion(product)
             coEvery {
                 createProduct(
@@ -211,12 +209,12 @@ class ProductViewModelTest {
     @Test
     fun `should update viewEffect when RestoreProductDeletion is provided and CreateProduct returns Left`() =
         runTest {
-            val product = mockk<Product>().apply {
-                every { id } answers { PRODUCT_ID }
-                every { categoryId } answers { CATEGORY_ID }
-                every { categoryName } answers { CATEGORY_NAME }
-                every { name } answers { PRODUCT_NAME }
-            }
+            val product = buildProduct(
+                providedProductId = PRODUCT_ID,
+                providedName = PRODUCT_NAME,
+                providedCategoryId = CATEGORY_ID,
+                providedCategoryName = CATEGORY_NAME,
+            )
             val event = RestoreProductDeletion(product)
             coEvery {
                 createProduct(
@@ -256,9 +254,7 @@ class ProductViewModelTest {
     @Test
     fun `should update viewEffect when OnProductClicked is provided and AddToCart returns Left`() =
         runTest {
-            val product = mockk<Product>().apply {
-                every { name } answers { PRODUCT_NAME }
-            }
+            val product = buildProduct(providedName = PRODUCT_NAME)
             val cartItem = mockk<CartItem>()
             val event = OnProductClicked(product)
             coEvery {
