@@ -29,7 +29,7 @@ class ProductToCartItemMapperTest {
 
     @Test
     fun `map should map categoryName`() {
-        val product = buildProduct(providedName = NAME)
+        val product = buildProduct(providedCategoryName = CATEGORY_NAME)
 
         val actualResult = sut.map(product)
 

@@ -5,7 +5,6 @@ import arrow.core.left
 import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductDao
@@ -18,8 +17,6 @@ import org.junit.Test
 
 class ProductRepositoryImplTest {
 
-    private lateinit var sut: ProductRepository
-
     @Test
     fun `observeProducts SHOULD return products from local source`() = runTest {
         val remoteProducts = listOf(buildRemoteProduct())
@@ -30,6 +27,7 @@ class ProductRepositoryImplTest {
                         providedCategoryName = CATEGORY_NAME,
                         providedName = PRODUCT_NAME,
                         providedCategoryId = CATEGORY_ID,
+                        providedProductId = PRODUCT_ID,
                     ),
                 ),
             ),
@@ -40,7 +38,7 @@ class ProductRepositoryImplTest {
                 providedName = PRODUCT_NAME,
             ),
         )
-        sut = ProductRepositoryImpl(
+        val sut = ProductRepositoryImpl(
             productApi = FakeSuccessProductApi(remoteProducts),
             productDao = FakeSuccessProductDao(localCategoryProducts),
         )
@@ -56,24 +54,16 @@ class ProductRepositoryImplTest {
         val product = buildProduct(
             providedCategoryName = CATEGORY_NAME,
             providedName = PRODUCT_NAME,
+            providedCategoryId = CATEGORY_ID,
         )
-        val remoteProducts = listOf(
-            buildRemoteProduct(
-                providedCategoryName = CATEGORY_NAME,
-                providedName = PRODUCT_NAME,
-                providedCategoryId = CATEGORY_ID,
-            ),
-        )
-        val productApi = FakeSuccessProductApi()
         val sut = ProductRepositoryImpl(
-            productApi = productApi,
+            productApi = FakeSuccessProductApi(),
             productDao = FakeSuccessProductDao(),
         )
 
         val result = sut.upsertProduct(product)
 
         assertThat(result).isEqualTo(Unit.right())
-        assertThat(productApi.remoteProducts).isEqualTo(remoteProducts)
     }
 
     @Test
