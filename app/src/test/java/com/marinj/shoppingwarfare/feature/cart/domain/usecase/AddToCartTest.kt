@@ -23,11 +23,11 @@ class AddToCartTest {
 
     private val cartRepository: CartRepository = mockk()
 
-    private lateinit var sut: AddToCart
+    private lateinit var sut: AddToCartImpl
 
     @Before
     fun setUp() {
-        sut = AddToCart(
+        sut = AddToCartImpl(
             cartRepository,
         )
     }

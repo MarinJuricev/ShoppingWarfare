@@ -8,6 +8,8 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateP
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProductImpl
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProductImpl
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveProducts
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveProductsImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -36,4 +38,9 @@ abstract class ProductModule {
     abstract fun bindDeleteProduct(
         deleteProductImpl: DeleteProductImpl,
     ): DeleteProduct
+
+    @Binds
+    abstract fun bindObserveProducts(
+        observeProductsImpl: ObserveProductsImpl,
+    ): ObserveProducts
 }

@@ -9,8 +9,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-private const val CATEGORY_ID = "id"
-
 class ObserveProductsTest {
 
     private val products = listOf(
@@ -21,11 +19,11 @@ class ObserveProductsTest {
     )
     private val productRepository: ProductRepository = FakeSuccessProductRepository(products)
 
-    private lateinit var sut: ObserveProducts
+    private lateinit var sut: ObserveProductsImpl
 
     @Before
     fun setUp() {
-        sut = ObserveProducts(
+        sut = ObserveProductsImpl(
             productRepository,
         )
     }
@@ -41,3 +39,4 @@ class ObserveProductsTest {
 
 private const val CATEGORY_NAME = "categoryName"
 private const val PRODUCT_NAME = "name"
+private const val CATEGORY_ID = "id"

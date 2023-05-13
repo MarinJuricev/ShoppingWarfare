@@ -5,6 +5,8 @@ import arrow.core.left
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalCategoryProducts
@@ -13,10 +15,14 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.model.RemoteProdu
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product.Companion.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProduct
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
+import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveProducts
 import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 fun buildRemoteProduct(
     providedProductId: String = "",
@@ -151,6 +157,58 @@ object FakeFailureProductRepository : ProductRepository {
 
     override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
         Unknown.left()
+}
+
+class FakeSuccessObserveProducts(
+    private val productListToReturn: List<Product> = listOf(buildProduct()),
+) : ObserveProducts {
+    override fun invoke(categoryId: String): Flow<List<Product>> = flowOf(productListToReturn)
+
+}
+
+object FakeFailureObserveProducts : ObserveProducts {
+    override fun invoke(categoryId: String): Flow<List<Product>> = flow {
+        throw Throwable()
+    }
+
+}
+
+object FakeSuccessCreateProduct : CreateProduct {
+    override suspend fun invoke(
+        categoryId: String,
+        categoryName: String,
+        productName: String?,
+    ): Either<Failure, Unit> = Unit.right()
+
+}
+
+object FakeFailureCreateProduct : CreateProduct {
+    override suspend fun invoke(
+        categoryId: String,
+        categoryName: String,
+        productName: String?,
+    ): Either<Failure, Unit> = Unknown.left()
+
+}
+
+object FakeSuccessDeleteProduct : DeleteProduct {
+    override suspend fun invoke(productId: String) = Unit.right()
+
+}
+
+object FakeFailureDeleteProduct : DeleteProduct {
+    override suspend fun invoke(productId: String) = Unknown.left()
+
+}
+
+object FakeSuccessAddToCart : AddToCart {
+    override suspend fun invoke(cartItem: CartItem): Either<Failure, Unit> = Unit.right()
+
+}
+
+object FakeFailureAddToCart : AddToCart {
+    override suspend fun invoke(cartItem: CartItem): Either<Failure, Unit> = Unknown.left()
+
 }
 
 private const val PRODUCT_ID = "productId"

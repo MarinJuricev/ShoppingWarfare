@@ -17,7 +17,6 @@ class CreateProductTest {
 
     @Test
     fun `invoke SHOULD return Left WHEN empty categoryId is provided`() = runTest {
-        Either.catch(uuidGenerator)
         val expectedResult = ErrorMessage("CategoryId can not be empty got: ").left()
         val sut = CreateProductImpl(
             uuidGenerator,
