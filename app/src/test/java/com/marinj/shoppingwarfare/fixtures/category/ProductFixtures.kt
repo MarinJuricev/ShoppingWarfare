@@ -99,9 +99,7 @@ class FakeSuccessProductApi(
     val remoteProducts = mutableListOf<RemoteProduct>()
     override fun observeProductsForGivenCategoryId(
         categoryId: String,
-    ): Flow<List<RemoteProduct>> = flow {
-        emit(productsToEmit)
-    }
+    ): Flow<List<RemoteProduct>> = flowOf(productsToEmit)
 
     override suspend fun addProduct(
         product: RemoteProduct,
@@ -163,14 +161,12 @@ class FakeSuccessObserveProducts(
     private val productListToReturn: List<Product> = listOf(buildProduct()),
 ) : ObserveProducts {
     override fun invoke(categoryId: String): Flow<List<Product>> = flowOf(productListToReturn)
-
 }
 
 object FakeFailureObserveProducts : ObserveProducts {
     override fun invoke(categoryId: String): Flow<List<Product>> = flow {
         throw Throwable()
     }
-
 }
 
 object FakeSuccessCreateProduct : CreateProduct {
@@ -179,7 +175,6 @@ object FakeSuccessCreateProduct : CreateProduct {
         categoryName: String,
         productName: String?,
     ): Either<Failure, Unit> = Unit.right()
-
 }
 
 object FakeFailureCreateProduct : CreateProduct {
@@ -188,27 +183,22 @@ object FakeFailureCreateProduct : CreateProduct {
         categoryName: String,
         productName: String?,
     ): Either<Failure, Unit> = Unknown.left()
-
 }
 
 object FakeSuccessDeleteProduct : DeleteProduct {
     override suspend fun invoke(productId: String) = Unit.right()
-
 }
 
 object FakeFailureDeleteProduct : DeleteProduct {
     override suspend fun invoke(productId: String) = Unknown.left()
-
 }
 
 object FakeSuccessAddToCart : AddToCart {
     override suspend fun invoke(cartItem: CartItem): Either<Failure, Unit> = Unit.right()
-
 }
 
 object FakeFailureAddToCart : AddToCart {
     override suspend fun invoke(cartItem: CartItem): Either<Failure, Unit> = Unknown.left()
-
 }
 
 private const val PRODUCT_ID = "productId"
