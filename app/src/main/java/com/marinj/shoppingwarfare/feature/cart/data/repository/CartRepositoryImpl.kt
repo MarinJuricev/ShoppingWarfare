@@ -16,8 +16,6 @@ import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(
     private val cartDao: CartDao,
-    private val localToDomainCartItemMapper: LocalToDomainCartItemMapper,
-    private val domainToLocalCartItemMapper: DomainToLocalCartItemMapper,
 ) : CartRepository {
 
     override fun observeCartItems(): Flow<List<CartItem>> =

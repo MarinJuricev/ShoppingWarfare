@@ -4,13 +4,13 @@ import arrow.core.left
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
-import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class CartItemTest {
 
     @Test
-    fun `CartItem SHOULD return Left WHEN title is empty`() {
+    fun `CartItem SHOULD return Left WHEN title is empty`() = runTest{
         val expectedResult = ErrorMessage("id can not be null or empty").left()
 
         val result = CartItem(
