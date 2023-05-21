@@ -1,0 +1,23 @@
+
+#!/bin/sh
+
+# static analysis
+./gradlew ktlintCheck
+RESULT=$?
+if [ $RESULT -eq 1 ]; then
+  exit 1
+fi
+
+./gradlew detekt
+RESULT=$?
+if [ $RESULT -eq 1 ]; then
+  exit 1
+fi
+
+./gradlew testReleaseUnitTest
+RESULT=$?
+if [ $RESULT -eq 1 ]; then
+  exit 1
+fi
+
+exit 0
