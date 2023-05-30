@@ -5,54 +5,21 @@ import arrow.core.left
 import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
-import com.marinj.shoppingwarfare.feature.cart.data.mapper.DomainToLocalCartItemMapper
-import com.marinj.shoppingwarfare.feature.cart.data.mapper.LocalToDomainCartItemMapper
-import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
-import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
+import com.marinj.shoppingwarfare.feature.cart.FakeFailureCartDao
+import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCartDao
+import com.marinj.shoppingwarfare.feature.cart.buildCartItem
+import com.marinj.shoppingwarfare.feature.cart.buildLocalCartItem
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
-
-private const val CART_ITEM_NAME = "cartItemName"
-private const val CART_ID = "cartId"
-private const val NEW_QUANTITY = 5
-private const val NEW_UPDATED_IN_BASKET = true
 
 class CartRepositoryImplTest {
 
-    private val cartDao: CartDao = mockk()
-    private val localToDomainCartItemMapper: LocalToDomainCartItemMapper = mockk()
-    private val domainToLocalCartItemMapper: DomainToLocalCartItemMapper = mockk()
-
-    private lateinit var sut: CartRepository
-
-    @Before
-    fun setUp() {
-        sut = CartRepositoryImpl(
-            cartDao,
-            localToDomainCartItemMapper,
-            domainToLocalCartItemMapper,
-        )
-    }
-
     @Test
     fun `observeCartItems SHOULD return cartItems`() = runTest {
-        val cartItem = mockk<CartItem>()
+        val cartItem = buildCartItem().getOrNull()!!
         val cartItemList = listOf(cartItem)
-        val localCartItem = mockk<LocalCartItem>()
-        val localCartItemList = listOf(localCartItem)
-        coEvery {
-            localToDomainCartItemMapper.map(localCartItem)
-        } coAnswers { cartItem }
-        coEvery {
-            cartDao.observeCartItems()
-        } coAnswers { flow { emit(localCartItemList) } }
+        val localCartItems = listOf(buildLocalCartItem())
+        val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao(cartListToReturn = localCartItems))
 
         sut.observeCartItems().test {
             assertThat(awaitItem()).isEqualTo(cartItemList)
@@ -62,30 +29,19 @@ class CartRepositoryImplTest {
 
     @Test
     fun `observeCartItemsCount SHOULD return number of cartItems`() = runTest {
-        val numberOfCartItems = 5
-        coEvery {
-            cartDao.observeCartItemsCount()
-        } coAnswers { flow { emit(numberOfCartItems) } }
+        val localCartItems = listOf(buildLocalCartItem(), buildLocalCartItem())
+        val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao(cartListToReturn = localCartItems))
 
         sut.observeCartItemsCount().test {
-            assertThat(awaitItem()).isEqualTo(numberOfCartItems)
+            assertThat(awaitItem()).isEqualTo(localCartItems.size)
             awaitComplete()
         }
     }
 
     @Test
     fun `upsertCartItem SHOULD return LeftFailure when cartDao returns 0L`() = runTest {
-        val cartItem = mockk<CartItem>()
-        val localCartItem = mockk<LocalCartItem>().apply {
-            every { name } returns CART_ITEM_NAME
-        }
-        val daoResult = 0L
-        coEvery {
-            domainToLocalCartItemMapper.map(cartItem)
-        } coAnswers { localCartItem }
-        coEvery {
-            cartDao.upsertCartItem(localCartItem)
-        } coAnswers { daoResult }
+        val cartItem = buildCartItem(providedCategoryName = CART_ITEM_NAME).getOrNull()!!
+        val sut = CartRepositoryImpl(cartDao = FakeFailureCartDao)
 
         val actualResult = sut.upsertCartItem(cartItem)
         val expectedResult = ErrorMessage("Error while adding $CART_ITEM_NAME").left()
@@ -96,18 +52,11 @@ class CartRepositoryImplTest {
     @Test
     fun `upsertCartItem SHOULD return RightUnit when cartDao returns everything but 0L`() =
         runTest {
-            val cartItem = mockk<CartItem>()
-            val localCartItem = mockk<LocalCartItem>()
-            val daoResult = 1L
-            coEvery {
-                domainToLocalCartItemMapper.map(cartItem)
-            } coAnswers { localCartItem }
-            coEvery {
-                cartDao.upsertCartItem(localCartItem)
-            } coAnswers { daoResult }
+            val cartItem = buildCartItem(providedCategoryName = CART_ITEM_NAME).getOrNull()!!
+            val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao())
 
             val actualResult = sut.upsertCartItem(cartItem)
-            val expectedResult = Unit.right()
+            val expectedResult = ErrorMessage("Error while adding $CART_ITEM_NAME").left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -115,12 +64,9 @@ class CartRepositoryImplTest {
     @Test
     fun `deleteCartItemById SHOULD return RightUnit`() =
         runTest {
-            val cartItemId = "1"
-            coEvery {
-                cartDao.deleteCartItemById(cartItemId)
-            } coAnswers { Unit }
+            val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao())
 
-            val actualResult = sut.deleteCartItemById(cartItemId)
+            val actualResult = sut.deleteCartItemById(CART_ID)
             val expectedResult = Unit.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
@@ -129,14 +75,10 @@ class CartRepositoryImplTest {
     @Test
     fun `getCartItemById SHOULD return LeftFailure when cartDao returns null`() =
         runTest {
-            val cartItemId = "1"
-            coEvery {
-                cartDao.getCartItemById(cartItemId)
-            } coAnswers { null }
-
-            val actualResult = sut.getCartItemById(cartItemId)
+            val sut = CartRepositoryImpl(cartDao = FakeFailureCartDao)
+            val actualResult = sut.getCartItemById(CART_ID)
             val expectedResult =
-                ErrorMessage("No cartItem present with the id: $cartItemId").left()
+                ErrorMessage("No cartItem present with the id: $CART_ID}}").left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -144,48 +86,33 @@ class CartRepositoryImplTest {
     @Test
     fun `getCartItemById should return RightCartItem when cartDao returns LocalCartItem`() =
         runTest {
-            val cartItemId = "1"
-            val localCartItem = mockk<LocalCartItem>()
-            val cartItem = mockk<CartItem>()
-            coEvery {
-                cartDao.getCartItemById(cartItemId)
-            } coAnswers { localCartItem }
-            coEvery {
-                localToDomainCartItemMapper.map(localCartItem)
-            } coAnswers { cartItem }
-
-            val actualResult = sut.getCartItemById(cartItemId)
+            val localCartItem = buildLocalCartItem(providedId = CART_ID)
+            val cartItem = buildCartItem(providedId = CART_ID)
+            val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao(cartListToReturn = listOf(localCartItem)))
+            val actualResult = sut.getCartItemById(CART_ID)
             val expectedResult = cartItem.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
 
-    @Suppress("UNUSED_EXPRESSION")
     @Test
     fun `dropCurrentCart should return RightUnit when cartDao returns LocalCartItem`() =
         runTest {
-            val daoResult = Unit
-            coEvery {
-                cartDao.deleteCart()
-            } coAnswers { daoResult }
+            val expectedResult = Unit.right()
+            val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao())
 
             val actualResult = sut.dropCurrentCart()
-            val expectedResult = daoResult.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
 
-    @Suppress("UNUSED_EXPRESSION")
     @Test
     fun `updateCartItemQuantity should return result from categoryDao updateCartItemQuantity`() =
         runTest {
-            val daoResult = Unit
-            coEvery {
-                cartDao.updateCartItemQuantity(CART_ID, NEW_QUANTITY)
-            } coAnswers { daoResult }
+            val expectedResult = Unit.right()
+            val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao())
 
             val result = sut.updateCartItemQuantity(CART_ID, NEW_QUANTITY)
-            val expectedResult = daoResult.right()
 
             assertThat(result).isEqualTo(expectedResult)
         }
@@ -194,14 +121,15 @@ class CartRepositoryImplTest {
     @Test
     fun `updateCartItemIsInBasket should return result from categoryDao updateCartItemIsInBasket`() =
         runTest {
-            val daoResult = Unit
-            coEvery {
-                cartDao.updateCartItemIsInBasket(CART_ID, NEW_UPDATED_IN_BASKET)
-            } coAnswers { daoResult }
-
+            val expectedResult = Unit.right()
+            val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao())
             val result = sut.updateCartItemIsInBasket(CART_ID, NEW_UPDATED_IN_BASKET)
-            val expectedResult = daoResult.right()
 
             assertThat(result).isEqualTo(expectedResult)
         }
 }
+
+private const val CART_ITEM_NAME = "cartItemName"
+private const val CART_ID = "cartId"
+private const val NEW_QUANTITY = 5
+private const val NEW_UPDATED_IN_BASKET = true

@@ -6,8 +6,7 @@ import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
-import com.marinj.shoppingwarfare.feature.cart.data.mapper.DomainToLocalCartItemMapper
-import com.marinj.shoppingwarfare.feature.cart.data.mapper.LocalToDomainCartItemMapper
+import com.marinj.shoppingwarfare.feature.cart.data.model.toLocal
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
@@ -20,9 +19,7 @@ class CartRepositoryImpl @Inject constructor(
 
     override fun observeCartItems(): Flow<List<CartItem>> =
         cartDao.observeCartItems().map { localCartItems ->
-            localCartItems.map { localCartItem ->
-                localToDomainCartItemMapper.map(localCartItem)
-            }
+            localCartItems.mapNotNull { it.toDomain().getOrNull() }
         }
 
     override fun observeCartItemsCount(): Flow<Int?> =
@@ -39,7 +36,7 @@ class CartRepositoryImpl @Inject constructor(
     ): Either<Failure, Unit> = cartDao.updateCartItemIsInBasket(cartItemId, updatedIsInBasket).right()
 
     override suspend fun upsertCartItem(cartItem: CartItem): Either<Failure, Unit> {
-        val localCartItem = domainToLocalCartItemMapper.map(cartItem)
+        val localCartItem = cartItem.toLocal()
         return when (cartDao.upsertCartItem(localCartItem)) {
             0L -> ErrorMessage("Error while adding ${localCartItem.name}").left()
             else -> Unit.right()
@@ -52,7 +49,7 @@ class CartRepositoryImpl @Inject constructor(
     override suspend fun getCartItemById(id: String): Either<Failure, CartItem> {
         return when (val result = cartDao.getCartItemById(id)) {
             null -> ErrorMessage("No cartItem present with the id: $id").left()
-            else -> localToDomainCartItemMapper.map(result).right()
+            else -> result.toDomain()
         }
     }
 

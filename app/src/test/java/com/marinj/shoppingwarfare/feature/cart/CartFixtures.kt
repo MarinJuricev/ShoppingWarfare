@@ -55,6 +55,25 @@ class FakeSuccessCartDao(
     override suspend fun deleteCart() = Unit
 }
 
+object FakeFailureCartDao : CartDao {
+
+    override fun observeCartItems(): Flow<List<LocalCartItem>> = flowOf(emptyList())
+
+    override fun observeCartItemsCount(): Flow<Int?> = flowOf(0)
+
+    override suspend fun updateCartItemQuantity(id: String, newQuantity: Int) = Unit
+
+    override suspend fun updateCartItemIsInBasket(id: String, updatedIsInBasket: Boolean) = Unit
+
+    override suspend fun upsertCartItem(entity: LocalCartItem): Long = 0L
+
+    override suspend fun deleteCartItemById(id: String) = Unit
+
+    override suspend fun getCartItemById(id: String): LocalCartItem? = null
+
+    override suspend fun deleteCart() = Unit
+}
+
 private const val ID = "ID"
 private const val CATEGORY_NAME = "CATEGORY_NAME"
 private const val NAME = "NAME"
