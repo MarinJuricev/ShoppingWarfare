@@ -11,14 +11,14 @@ data class LocalCartItem(
     val cartItemId: String,
     val categoryName: String,
     val name: String,
-    val quantity: UInt,
+    val quantity: Int,
     val isInBasket: Boolean,
 ) {
     fun toDomain() = CartItem(
         id = cartItemId,
         categoryName = categoryName,
         name = name,
-        quantity = quantity,
+        quantity = quantity.toUInt(),
         isInBasket = isInBasket,
     )
 }
@@ -27,6 +27,6 @@ fun CartItem.toLocal() = LocalCartItem(
     cartItemId = id.value,
     categoryName = categoryName.value,
     name = name.value,
-    quantity = quantity,
+    quantity = quantity.toInt(),
     isInBasket = isInBasket,
 )
