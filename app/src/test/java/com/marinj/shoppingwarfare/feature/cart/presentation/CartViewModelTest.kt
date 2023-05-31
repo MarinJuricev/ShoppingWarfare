@@ -9,8 +9,8 @@ import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCartImpl
-import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
-import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItemImpl
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsImpl
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsInBasket
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
@@ -43,8 +43,8 @@ class CartViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val observeCartItems: ObserveCartItems = mockk()
-    private val deleteCartItem: DeleteCartItem = mockk()
+    private val observeCartItems: ObserveCartItemsImpl = mockk()
+    private val deleteCartItem: DeleteCartItemImpl = mockk()
     private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
     private val checkoutCart: CheckoutCartImpl = mockk()
     private val validateReceiptPath: ValidateReceiptPath = mockk()
