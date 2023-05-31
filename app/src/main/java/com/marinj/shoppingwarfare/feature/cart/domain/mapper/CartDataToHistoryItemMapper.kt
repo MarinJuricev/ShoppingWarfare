@@ -23,10 +23,10 @@ class CartDataToHistoryItemMapper @Inject constructor(
             historyCartItems = cartItems.map { cartItem ->
                 with(cartItem) {
                     HistoryCartItem(
-                        id = id,
-                        categoryName = categoryName,
-                        name = name,
-                        quantity = quantity,
+                        id = id.value,
+                        categoryName = categoryName.value,
+                        name = name.value,
+                        quantity = quantity.toInt(),
                     )
                 }
             },

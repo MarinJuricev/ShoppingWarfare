@@ -1,8 +1,13 @@
 package com.marinj.shoppingwarfare.feature.cart
 
+import arrow.core.Either
+import arrow.core.right
+import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
 import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
+import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
+import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -18,7 +23,7 @@ fun buildCartItem(
     name = providedName,
     quantity = providedQuantity,
     isInBasket = providedIsInBasket,
-)
+).getOrNull()!!
 
 fun buildLocalCartItem(
     providedId: String = ID,
@@ -30,7 +35,7 @@ fun buildLocalCartItem(
     cartItemId = providedId,
     categoryName = providedCategoryName,
     name = providedName,
-    quantity = providedQuantity,
+    quantity = providedQuantity.toInt(),
     isInBasket = providedIsInBasket,
 )
 
@@ -72,6 +77,29 @@ object FakeFailureCartDao : CartDao {
     override suspend fun getCartItemById(id: String): LocalCartItem? = null
 
     override suspend fun deleteCart() = Unit
+}
+
+class FakeSuccessCartRepository(
+    private val cartListToReturn: List<CartItem> = listOf(buildCartItem()),
+) : CartRepository {
+    override fun observeCartItems(): Flow<List<CartItem>> = flowOf(cartListToReturn)
+
+    override fun observeCartItemsCount(): Flow<Int?> = flowOf(cartListToReturn.size)
+
+    override suspend fun updateCartItemQuantity(cartItemId: String, newQuantity: Int): Either<Failure, Unit> =
+        Unit.right()
+
+    override suspend fun updateCartItemIsInBasket(cartItemId: String, updatedIsInBasket: Boolean): Either<Failure, Unit> =
+        Unit.right()
+
+    override suspend fun upsertCartItem(cartItem: CartItem): Either<Failure, Unit> = Unit.right()
+
+    override suspend fun deleteCartItemById(id: String): Either<Failure, Unit> = Unit.right()
+
+    override suspend fun getCartItemById(id: String): Either<Failure, CartItem> = buildCartItem().right()
+
+    override suspend fun dropCurrentCart(): Either<Failure, Unit> = Unit.right()
+
 }
 
 private const val ID = "ID"

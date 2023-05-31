@@ -16,7 +16,7 @@ class CartRepositoryImplTest {
 
     @Test
     fun `observeCartItems SHOULD return cartItems`() = runTest {
-        val cartItem = buildCartItem().getOrNull()!!
+        val cartItem = buildCartItem()
         val cartItemList = listOf(cartItem)
         val localCartItems = listOf(buildLocalCartItem())
         val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao(cartListToReturn = localCartItems))
@@ -40,7 +40,7 @@ class CartRepositoryImplTest {
 
     @Test
     fun `upsertCartItem SHOULD return LeftFailure when cartDao returns 0L`() = runTest {
-        val cartItem = buildCartItem(providedCategoryName = CART_ITEM_NAME).getOrNull()!!
+        val cartItem = buildCartItem(providedCategoryName = CART_ITEM_NAME)
         val sut = CartRepositoryImpl(cartDao = FakeFailureCartDao)
 
         val actualResult = sut.upsertCartItem(cartItem)
@@ -52,7 +52,7 @@ class CartRepositoryImplTest {
     @Test
     fun `upsertCartItem SHOULD return RightUnit when cartDao returns everything but 0L`() =
         runTest {
-            val cartItem = buildCartItem(providedCategoryName = CART_ITEM_NAME).getOrNull()!!
+            val cartItem = buildCartItem(providedCategoryName = CART_ITEM_NAME)
             val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao())
 
             val actualResult = sut.upsertCartItem(cartItem)
@@ -117,7 +117,6 @@ class CartRepositoryImplTest {
             assertThat(result).isEqualTo(expectedResult)
         }
 
-    @Suppress("UNUSED_EXPRESSION")
     @Test
     fun `updateCartItemIsInBasket should return result from categoryDao updateCartItemIsInBasket`() =
         runTest {

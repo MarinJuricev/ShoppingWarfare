@@ -9,7 +9,7 @@ import javax.inject.Inject
 class AddToCartImpl @Inject constructor(
     private val cartRepository: CartRepository,
 ) : AddToCart {
-    override suspend operator fun invoke(cartItem: CartItem) = cartRepository.getCartItemById(cartItem.id).fold(
+    override suspend operator fun invoke(cartItem: CartItem) = cartRepository.getCartItemById(cartItem.id.value).fold(
         ifLeft = { cartRepository.upsertCartItem(cartItem) },
         ifRight = { increaseQuantityByOneForExistingCartItem(it) },
     )

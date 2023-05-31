@@ -1,50 +1,23 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
-import arrow.core.left
 import arrow.core.right
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
-import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
+import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCartRepository
+import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
 
-private const val ID = "id"
-private const val NAME = "cartName"
-private const val CATEGORY_NAME = "fruits"
-private const val QUANTITY = 1
-private const val UPDATED_QUANTITY = 2
 
 class AddToCartTest {
-
-    private val cartRepository: CartRepository = mockk()
-
-    private lateinit var sut: AddToCartImpl
-
-    @Before
-    fun setUp() {
-        sut = AddToCartImpl(
-            cartRepository,
-        )
-    }
 
     @Test
     fun `invoke SHOULD return result from repository when getCartItemById returns Left`() =
         runTest {
-            val cartItem = mockk<CartItem>().apply {
-                every { id } returns ID
-            }
+            val cartItem = buildCartItem(providedId = ID)
+            val cartItems = listOf(cartItem)
             val repositoryResult = Unit.right()
-            coEvery {
-                cartRepository.getCartItemById(ID)
-            } coAnswers { Failure.Unknown.left() }
-            coEvery {
-                cartRepository.upsertCartItem(cartItem)
-            } coAnswers { repositoryResult }
+            val sut = AddToCartImpl(FakeSuccessCartRepository(cartItems))
 
             val actualResult = sut(cartItem)
 
@@ -54,24 +27,19 @@ class AddToCartTest {
     @Test
     fun `invoke SHOULD update the existing cartItem quantity by 1 when getCartItemById returns Right and return the repository result`() =
         runTest {
-            val existingCartItem = CartItem(
-                id = ID,
-                categoryName = NAME,
-                name = CATEGORY_NAME,
-                quantity = QUANTITY,
-                isInBasket = false,
+            val existingCartItem = buildCartItem(
+                providedId = ID,
+                providedQuantity = QUANTITY.toUInt(),
             )
-            val updatedCartItem = existingCartItem.copy(quantity = UPDATED_QUANTITY)
             val repositoryResult = Unit.right()
-            coEvery {
-                cartRepository.getCartItemById(ID)
-            } coAnswers { existingCartItem.right() }
-            coEvery {
-                cartRepository.upsertCartItem(updatedCartItem)
-            } coAnswers { repositoryResult }
+            val sut = AddToCartImpl(FakeSuccessCartRepository())
 
             val actualResult = sut(existingCartItem)
 
             assertThat(actualResult).isEqualTo(repositoryResult)
         }
 }
+
+private const val ID = "id"
+private const val QUANTITY = 1
+private const val UPDATED_QUANTITY = 2
