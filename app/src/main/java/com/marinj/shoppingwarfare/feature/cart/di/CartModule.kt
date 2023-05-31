@@ -6,6 +6,8 @@ import com.marinj.shoppingwarfare.feature.cart.data.repository.CartRepositoryImp
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCartImpl
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCartImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,4 +31,9 @@ abstract class CartModule {
     abstract fun bindAddToCart(
         addToCartImpl: AddToCartImpl,
     ): AddToCart
+
+    @Binds
+    abstract fun bindCheckoutCart(
+        checkoutCartImpl: CheckoutCartImpl
+    ): CheckoutCart
 }
