@@ -7,10 +7,10 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,11 +31,8 @@ class BadgeViewModel @Inject constructor(
         }
     }
 
-    private fun handleStartObservingBadgesCount() = viewModelScope.launch {
-        observeCartItemsCount().collect { newBadgeCount ->
-            _viewState.update { viewState ->
-                viewState.copy(cartBadgeCount = newBadgeCount)
-            }
-        }
-    }
+    private fun handleStartObservingBadgesCount() = observeCartItemsCount()
+        .onEach { newBadgeCount ->
+            _viewState.update { it.copy(cartBadgeCount = newBadgeCount) }
+        }.launchIn(viewModelScope)
 }

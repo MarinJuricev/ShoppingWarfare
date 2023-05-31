@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObservingBadgesCount
-import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCount
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCountImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
@@ -20,7 +20,7 @@ class BadgeViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val observeCartItemsCount: ObserveCartItemsCount = mockk()
+    private val observeCartItemsCount: ObserveCartItemsCountImpl = mockk()
 
     private lateinit var sut: BadgeViewModel
 
