@@ -14,6 +14,10 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCount
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCountImpl
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsImpl
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsInBasket
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsInBasketImpl
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantityImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -57,4 +61,15 @@ abstract class CartModule {
     abstract fun bindObserveCartCount(
         observeCartItemsCountImpl: ObserveCartItemsCountImpl,
     ): ObserveCartItemsCount
+
+
+    @Binds
+    abstract fun bindUpdateCartItemsIsInBasket(
+        updateCartItemIsInBasketImpl: UpdateCartItemIsInBasketImpl,
+    ): UpdateCartItemIsInBasket
+
+    @Binds
+    abstract fun bindUpdateCartItemQuantity(
+        updateCartItemQuantityImpl: UpdateCartItemQuantityImpl,
+    ): UpdateCartItemQuantity
 }

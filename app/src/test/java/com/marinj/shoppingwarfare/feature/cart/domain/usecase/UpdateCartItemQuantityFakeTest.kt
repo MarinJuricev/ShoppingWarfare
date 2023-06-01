@@ -15,11 +15,11 @@ class UpdateCartItemQuantityFakeTest {
 
     private val cartRepository: CartRepository = FakeCartRepository()
 
-    private lateinit var sut: UpdateCartItemQuantity
+    private lateinit var sut: UpdateCartItemQuantityImpl
 
     @Before
     fun setUp() {
-        sut = UpdateCartItemQuantity(
+        sut = UpdateCartItemQuantityImpl(
             cartRepository,
         )
     }

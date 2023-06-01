@@ -1,13 +1,11 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
-import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
-import javax.inject.Inject
+import arrow.core.Either
+import com.marinj.shoppingwarfare.core.result.Failure
 
-class UpdateCartItemIsInBasket @Inject constructor(
-    private val cartRepository: CartRepository,
-) {
+interface UpdateCartItemIsInBasket {
     suspend operator fun invoke(
         cartItemId: String,
         updatedIsInBasket: Boolean,
-    ) = cartRepository.updateCartItemIsInBasket(cartItemId, updatedIsInBasket)
+    ): Either<Failure, Unit>
 }

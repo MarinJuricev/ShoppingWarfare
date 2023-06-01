@@ -1,16 +1,11 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
-import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
-import javax.inject.Inject
+import arrow.core.Either
+import com.marinj.shoppingwarfare.core.result.Failure
 
-class UpdateCartItemQuantity @Inject constructor(
-    private val cartRepository: CartRepository,
-) {
+interface UpdateCartItemQuantity {
     suspend operator fun invoke(
         cartItemId: String,
         newQuantity: Int,
-    ) = cartRepository.updateCartItemQuantity(
-        cartItemId = cartItemId,
-        newQuantity = newQuantity,
-    )
+    ): Either<Failure, Unit>
 }

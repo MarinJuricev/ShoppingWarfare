@@ -11,8 +11,8 @@ import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCartImpl
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItemImpl
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsImpl
-import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsInBasket
-import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsInBasketImpl
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantityImpl
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ValidateReceiptPath
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemToUiCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.UiCartItemToCartItemMapper
@@ -45,13 +45,13 @@ class CartViewModelTest {
 
     private val observeCartItems: ObserveCartItemsImpl = mockk()
     private val deleteCartItem: DeleteCartItemImpl = mockk()
-    private val updateCartItemQuantity: UpdateCartItemQuantity = mockk()
+    private val updateCartItemQuantity: UpdateCartItemQuantityImpl = mockk()
     private val checkoutCart: CheckoutCartImpl = mockk()
     private val validateReceiptPath: ValidateReceiptPath = mockk()
     private val cartItemToUiCartItemMapper: CartItemToUiCartItemMapper = mockk()
     private val uiCartItemToCartItemMapper: UiCartItemToCartItemMapper = mockk()
     private val failureToStringMapper: FailureToStringMapper = mockk()
-    private val updateCartItemIsInBasket: UpdateCartItemIsInBasket = mockk()
+    private val updateCartItemIsInBasket: UpdateCartItemIsInBasketImpl = mockk()
 
     private lateinit var sut: CartViewModel
 

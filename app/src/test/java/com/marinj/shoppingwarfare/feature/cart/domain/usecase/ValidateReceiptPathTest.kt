@@ -2,17 +2,11 @@ package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
-import org.junit.Before
 import org.junit.Test
 
 class ValidateReceiptPathTest {
 
-    private lateinit var sut: ValidateReceiptPath
-
-    @Before
-    fun setUp() {
-        sut = ValidateReceiptPath()
-    }
+    private val sut = ValidateReceiptPath()
 
     @Test
     fun `invoke SHOULD return ReceiptStatusError when receiptPath is null`() {
