@@ -1,20 +1,26 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation.mapper
 
+import com.marinj.shoppingwarfare.core.model.NonEmptyString
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CartItemToUiCartItemMapper @Inject constructor() {
 
-    fun map(origin: List<CartItem>): List<UiCartItem> =
-        origin.groupBy { cartItem -> cartItem.categoryName }.flatMap { cartMap ->
-            val header = UiCartItem.Header(cartMap.key, cartMap.key)
+    suspend fun map(
+        origin: List<CartItem>,
+    ): List<UiCartItem> = withContext(Dispatchers.Default) {
+        origin.groupBy { cartItem -> cartItem.categoryName }.flatMap { cartMap: Map.Entry<NonEmptyString, List<CartItem>> ->
+            val header = Header(cartMap.key.value, cartMap.key.value)
             val content: List<UiCartItem> = cartMap.value.map { cartItem ->
-                UiCartItem.Content(
-                    id = cartItem.id,
-                    categoryName = cartItem.categoryName,
-                    name = cartItem.name,
-                    quantity = cartItem.quantity,
+                Content(
+                    id = cartItem.id.value,
+                    categoryName = cartItem.categoryName.value,
+                    name = cartItem.name.value,
+                    quantity = cartItem.quantity.toInt(),
                     isInBasket = cartItem.isInBasket,
                 )
             }
@@ -24,4 +30,5 @@ class CartItemToUiCartItemMapper @Inject constructor() {
                 addAll(content)
             }
         }
+    }
 }
