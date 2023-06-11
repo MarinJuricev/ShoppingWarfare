@@ -40,7 +40,7 @@ class CartRepositoryImplTest {
 
     @Test
     fun `upsertCartItem SHOULD return LeftFailure when cartDao returns 0L`() = runTest {
-        val cartItem = buildCartItem(providedCategoryName = CART_ITEM_NAME)
+        val cartItem = buildCartItem(providedName = CART_ITEM_NAME)
         val sut = CartRepositoryImpl(cartDao = FakeFailureCartDao)
 
         val actualResult = sut.upsertCartItem(cartItem)
@@ -54,9 +54,9 @@ class CartRepositoryImplTest {
         runTest {
             val cartItem = buildCartItem(providedCategoryName = CART_ITEM_NAME)
             val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao())
+            val expectedResult = Unit.right()
 
             val actualResult = sut.upsertCartItem(cartItem)
-            val expectedResult = ErrorMessage("Error while adding $CART_ITEM_NAME").left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -78,7 +78,7 @@ class CartRepositoryImplTest {
             val sut = CartRepositoryImpl(cartDao = FakeFailureCartDao)
             val actualResult = sut.getCartItemById(CART_ID)
             val expectedResult =
-                ErrorMessage("No cartItem present with the id: $CART_ID}}").left()
+                ErrorMessage("No cartItem present with the id: $CART_ID").left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
@@ -89,8 +89,9 @@ class CartRepositoryImplTest {
             val localCartItem = buildLocalCartItem(providedId = CART_ID)
             val cartItem = buildCartItem(providedId = CART_ID)
             val sut = CartRepositoryImpl(cartDao = FakeSuccessCartDao(cartListToReturn = listOf(localCartItem)))
-            val actualResult = sut.getCartItemById(CART_ID)
             val expectedResult = cartItem.right()
+
+            val actualResult = sut.getCartItemById(CART_ID)
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }

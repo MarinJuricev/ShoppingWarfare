@@ -10,7 +10,7 @@ import org.junit.Test
 class CartItemTest {
 
     @Test
-    fun `CartItem SHOULD return Left WHEN title is empty`() = runTest{
+    fun `CartItem SHOULD return Left WHEN id is empty`() = runTest{
         val expectedResult = ErrorMessage("id can not be null or empty").left()
 
         val result = CartItem(
@@ -25,8 +25,8 @@ class CartItemTest {
     }
 
     @Test
-    fun `CartItem SHOULD return Left WHEN categoryId is empty`() {
-        val expectedResult = ErrorMessage("categoryId can not be null or empty").left()
+    fun `CartItem SHOULD return Left WHEN categoryNAME is empty`() {
+        val expectedResult = ErrorMessage("categoryName can not be null or empty").left()
 
         val result = CartItem(
             id = ID,
@@ -64,9 +64,9 @@ class CartItemTest {
 
         assertThat(
             result.map {
-                assertThat(it.id).isEqualTo(ID)
-                assertThat(it.categoryName).isEqualTo(CATEGORY_NAME)
-                assertThat(it.name).isEqualTo(NAME)
+                assertThat(it.id.value).isEqualTo(ID)
+                assertThat(it.categoryName.value).isEqualTo(CATEGORY_NAME)
+                assertThat(it.name.value).isEqualTo(NAME)
                 assertThat(it.quantity).isEqualTo(1u)
                 assertThat(it.isInBasket).isFalse()
             }.isRight(),
@@ -85,9 +85,9 @@ class CartItemTest {
 
         assertThat(
             result.map {
-                assertThat(it.id).isEqualTo(ID)
-                assertThat(it.categoryName).isEqualTo(CATEGORY_NAME)
-                assertThat(it.name).isEqualTo(NAME)
+                assertThat(it.id.value).isEqualTo(ID)
+                assertThat(it.categoryName.value).isEqualTo(CATEGORY_NAME)
+                assertThat(it.name.value).isEqualTo(NAME)
                 assertThat(it.quantity).isEqualTo(QUANTITY)
                 assertThat(it.isInBasket).isTrue()
             }.isRight(),

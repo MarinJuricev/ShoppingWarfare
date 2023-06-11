@@ -55,7 +55,7 @@ class FakeSuccessCartDao(
 
     override suspend fun deleteCartItemById(id: String) = Unit
 
-    override suspend fun getCartItemById(id: String): LocalCartItem? = buildLocalCartItem()
+    override suspend fun getCartItemById(id: String): LocalCartItem? = cartListToReturn.first()
 
     override suspend fun deleteCart() = Unit
 }

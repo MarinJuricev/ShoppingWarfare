@@ -12,7 +12,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.id).isEqualTo(ID)
+        assertThat(actualResult.getOrNull()?.id?.value).isEqualTo(ID)
     }
 
     @Test
@@ -21,7 +21,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.categoryName).isEqualTo(CATEGORY_NAME)
+        assertThat(actualResult.getOrNull()?.categoryName?.value).isEqualTo(CATEGORY_NAME)
     }
 
     @Test
@@ -30,7 +30,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.name).isEqualTo(NAME)
+        assertThat(actualResult.getOrNull()?.name?.value).isEqualTo(NAME)
     }
 
     @Test
@@ -84,7 +84,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toLocal()
 
-        assertThat(actualResult.quantity).isEqualTo(QUANTITY)
+        assertThat(actualResult.quantity).isEqualTo(QUANTITY.toInt())
     }
 
     @Test

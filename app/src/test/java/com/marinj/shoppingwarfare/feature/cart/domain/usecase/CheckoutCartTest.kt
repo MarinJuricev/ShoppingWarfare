@@ -11,8 +11,7 @@ import com.marinj.shoppingwarfare.feature.history.FakeSuccessHistoryRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-private const val RECEIPT_PATH = "receiptPath"
-private const val CART_NAME = "cartName"
+
 
 class CheckoutCartTest {
 
@@ -21,7 +20,7 @@ class CheckoutCartTest {
         runTest {
             val cartItems = listOf(buildCartItem())
             val sut = buildSut()
-            val expectedResult = ErrorMessage("Placeholder").left()
+            val expectedResult = ErrorMessage("cartName can not be null or empty").left()
 
             val result = sut(cartItems, "", RECEIPT_PATH)
 
@@ -52,3 +51,5 @@ class CheckoutCartTest {
 
 private const val UUID = "uuid"
 private const val TIMESTAMP = 1L
+private const val RECEIPT_PATH = "receiptPath"
+private const val CART_NAME = "cartName"
