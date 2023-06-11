@@ -15,7 +15,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.id).isEqualTo(ID)
+        assertThat(actualResult.getOrNull()?.id?.value).isEqualTo(ID)
     }
 
     @Test
@@ -24,7 +24,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.name).isEqualTo(NAME)
+        assertThat(actualResult.getOrNull()?.name?.value).isEqualTo(NAME)
     }
 
     @Test
@@ -33,7 +33,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.categoryName).isEqualTo(CATEGORY_NAME)
+        assertThat(actualResult.getOrNull()?.categoryName?.value).isEqualTo(CATEGORY_NAME)
     }
 
     @Test
@@ -42,7 +42,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.quantity).isEqualTo(DEFAULT_QUANTITY)
+        assertThat(actualResult.getOrNull()?.quantity?.toInt()).isEqualTo(DEFAULT_QUANTITY)
     }
 
     @Test
@@ -51,7 +51,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.isInBasket).isEqualTo(DEFAULT_IS_IN_BASKET)
+        assertThat(actualResult.getOrNull()?.isInBasket).isEqualTo(DEFAULT_IS_IN_BASKET)
     }
 }
 

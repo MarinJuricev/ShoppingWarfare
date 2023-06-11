@@ -64,45 +64,45 @@ class LocalCartItemTest {
     fun `toLocal SHOULD map id`() {
         val sut = buildCartItem(providedId = ID)
 
-        val actualResult = sut.getOrNull()?.toLocal()
+        val actualResult = sut.toLocal()
 
-        assertThat(actualResult?.cartItemId).isEqualTo(ID)
+        assertThat(actualResult.cartItemId).isEqualTo(ID)
     }
 
     @Test
     fun `toLocal SHOULD map name`() {
         val sut = buildCartItem(providedName = NAME)
 
-        val actualResult = sut.getOrNull()?.toLocal()
+        val actualResult = sut.toLocal()
 
-        assertThat(actualResult?.name).isEqualTo(NAME)
+        assertThat(actualResult.name).isEqualTo(NAME)
     }
 
     @Test
     fun `toLocal SHOULD map quantity`() {
         val sut = buildCartItem(providedQuantity = QUANTITY)
 
-        val actualResult = sut.getOrNull()?.toLocal()
+        val actualResult = sut.toLocal()
 
-        assertThat(actualResult?.quantity).isEqualTo(QUANTITY)
+        assertThat(actualResult.quantity).isEqualTo(QUANTITY)
     }
 
     @Test
     fun `toLocal SHOULD map isInBasket`() {
         val sut = buildCartItem(providedIsInBasket = IS_IN_BASKET)
 
-        val actualResult = sut.getOrNull()?.toLocal()
+        val actualResult = sut.toLocal()
 
-        assertThat(actualResult?.isInBasket).isEqualTo(IS_IN_BASKET)
+        assertThat(actualResult.isInBasket).isEqualTo(IS_IN_BASKET)
     }
 
     @Test
     fun `toLocal SHOULD map isInBasket with default value WHEN it is not provided`() {
         val sut = buildCartItem()
 
-        val actualResult = sut.getOrNull()?.toLocal()
+        val actualResult = sut.toLocal()
 
-        assertThat(actualResult?.isInBasket).isFalse()
+        assertThat(actualResult.isInBasket).isFalse()
     }
 }
 
