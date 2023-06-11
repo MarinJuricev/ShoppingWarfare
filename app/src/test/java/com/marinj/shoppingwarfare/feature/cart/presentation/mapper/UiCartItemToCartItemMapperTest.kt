@@ -2,12 +2,10 @@ package com.marinj.shoppingwarfare.feature.cart.presentation.mapper
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Content
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Header
 import org.junit.Before
 import org.junit.Test
-
 
 class UiCartItemToCartItemMapperTest {
 

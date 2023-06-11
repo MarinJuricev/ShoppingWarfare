@@ -11,8 +11,6 @@ import com.marinj.shoppingwarfare.feature.history.FakeSuccessHistoryRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-
-
 class CheckoutCartTest {
 
     @Test

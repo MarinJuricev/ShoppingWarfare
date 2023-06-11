@@ -7,7 +7,6 @@ import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-
 class ObserveCartItemsCountTest {
 
     @Test

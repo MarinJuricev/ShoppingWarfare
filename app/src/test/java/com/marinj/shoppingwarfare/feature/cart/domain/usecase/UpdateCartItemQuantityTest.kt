@@ -6,7 +6,6 @@ import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCartRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-
 class UpdateCartItemQuantityTest {
 
     @Test

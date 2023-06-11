@@ -10,7 +10,7 @@ import org.junit.Test
 class CartItemTest {
 
     @Test
-    fun `CartItem SHOULD return Left WHEN id is empty`() = runTest{
+    fun `CartItem SHOULD return Left WHEN id is empty`() = runTest {
         val expectedResult = ErrorMessage("id can not be null or empty").left()
 
         val result = CartItem(

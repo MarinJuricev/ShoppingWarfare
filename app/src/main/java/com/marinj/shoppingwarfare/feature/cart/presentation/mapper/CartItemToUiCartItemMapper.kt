@@ -3,7 +3,8 @@ package com.marinj.shoppingwarfare.feature.cart.presentation.mapper
 import com.marinj.shoppingwarfare.core.model.NonEmptyString
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.*
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Content
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Header
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

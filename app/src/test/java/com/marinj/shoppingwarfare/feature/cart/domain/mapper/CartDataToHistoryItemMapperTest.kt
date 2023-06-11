@@ -7,7 +7,6 @@ import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartI
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-
 class CartDataToHistoryItemMapperTest {
 
     private val sut = CartDataToHistoryItemMapper(

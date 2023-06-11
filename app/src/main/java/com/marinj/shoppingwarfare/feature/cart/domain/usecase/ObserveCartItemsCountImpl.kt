@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class ObserveCartItemsCountImpl @Inject constructor(
     private val cartRepository: CartRepository,
-) : ObserveCartItemsCount{
+) : ObserveCartItemsCount {
 
     override operator fun invoke(): Flow<Int?> =
         cartRepository.observeCartItemsCount()

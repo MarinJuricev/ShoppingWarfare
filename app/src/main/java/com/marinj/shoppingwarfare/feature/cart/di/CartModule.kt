@@ -62,7 +62,6 @@ abstract class CartModule {
         observeCartItemsCountImpl: ObserveCartItemsCountImpl,
     ): ObserveCartItemsCount
 
-
     @Binds
     abstract fun bindUpdateCartItemsIsInBasket(
         updateCartItemIsInBasketImpl: UpdateCartItemIsInBasketImpl,

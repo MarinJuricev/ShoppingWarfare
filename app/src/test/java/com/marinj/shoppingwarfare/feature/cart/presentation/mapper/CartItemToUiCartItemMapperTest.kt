@@ -2,15 +2,10 @@ package com.marinj.shoppingwarfare.feature.cart.presentation.mapper
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.*
-import io.mockk.every
-import io.mockk.mockk
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Content
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Header
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
-
 
 class CartItemToUiCartItemMapperTest {
 

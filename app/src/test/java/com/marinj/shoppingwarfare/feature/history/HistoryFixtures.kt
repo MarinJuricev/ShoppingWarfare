@@ -29,10 +29,10 @@ fun buildHistoryCartItem(
     providedName: String = NAME,
     quantity: Int = QUANTITY,
 ) = HistoryCartItem(
-    id = "congue",
-    categoryName = "Pansy Quinn",
-    name = "Elaine Bright",
-    quantity = 9210,
+    id = providedId,
+    categoryName = providedCategoryName,
+    name = providedName,
+    quantity = quantity,
 )
 
 class FakeSuccessHistoryRepository(
@@ -45,7 +45,6 @@ class FakeSuccessHistoryRepository(
     override suspend fun getHistoryItemById(id: String): Either<Failure, HistoryItem> = buildHistoryItem().right()
 
     override suspend fun dropHistory(): Either<Failure, Unit> = Unit.right()
-
 }
 
 private const val ID = "id"

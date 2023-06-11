@@ -4,10 +4,8 @@ import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCartRepository
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
-import io.mockk.coEvery
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-
 
 class AddToCartTest {
 
@@ -42,4 +40,3 @@ class AddToCartTest {
 
 private const val ID = "id"
 private const val QUANTITY = 1
-private const val UPDATED_QUANTITY = 2

@@ -21,4 +21,3 @@ class UpdateCartItemIsInBasketTest {
 
 private const val CART_ITEM_ID = "id"
 private const val UPDATED_IS_IN_BASKET = true
-

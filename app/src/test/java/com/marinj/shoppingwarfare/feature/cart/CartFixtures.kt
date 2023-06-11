@@ -99,7 +99,6 @@ class FakeSuccessCartRepository(
     override suspend fun getCartItemById(id: String): Either<Failure, CartItem> = buildCartItem().right()
 
     override suspend fun dropCurrentCart(): Either<Failure, Unit> = Unit.right()
-
 }
 
 private const val ID = "ID"
