@@ -1,16 +1,13 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation.mapper
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
+import com.marinj.shoppingwarfare.feature.cart.buildCartItem
+import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Content
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Header
 import org.junit.Before
 import org.junit.Test
 
-private const val CATEGORY_NAME = "categoryName"
-private const val ID = "id"
-private const val NAME = "name`"
-private const val QUANTITY = 5
-private const val IS_IN_BASKET = false
 
 class UiCartItemToCartItemMapperTest {
 
@@ -24,27 +21,33 @@ class UiCartItemToCartItemMapperTest {
     @Test
     fun `map should return list of cartItems`() {
         val origin = listOf(
-            UiCartItem.Header(id = CATEGORY_NAME, categoryName = CATEGORY_NAME),
-            UiCartItem.Content(
+            Header(id = CATEGORY_NAME, categoryName = CATEGORY_NAME),
+            Content(
                 id = ID,
                 name = NAME,
                 categoryName = CATEGORY_NAME,
                 quantity = QUANTITY,
                 isInBasket = IS_IN_BASKET,
+            ),
+        )
+        val expectedResult = listOf(
+            buildCartItem(
+                providedId = ID,
+                providedCategoryName = CATEGORY_NAME,
+                providedName = NAME,
+                providedQuantity = QUANTITY.toUInt(),
+                providedIsInBasket = IS_IN_BASKET,
             ),
         )
 
         val result = sut.map(origin)
-        val expectedResult = listOf(
-            CartItem(
-                id = ID,
-                name = NAME,
-                categoryName = CATEGORY_NAME,
-                quantity = QUANTITY,
-                isInBasket = IS_IN_BASKET,
-            ),
-        )
 
         assertThat(result).isEqualTo(expectedResult)
     }
 }
+
+private const val CATEGORY_NAME = "categoryName"
+private const val ID = "id"
+private const val NAME = "name`"
+private const val QUANTITY = 5
+private const val IS_IN_BASKET = false
