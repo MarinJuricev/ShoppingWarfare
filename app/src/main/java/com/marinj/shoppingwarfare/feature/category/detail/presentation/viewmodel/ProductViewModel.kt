@@ -1,8 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import arrow.core.getOrElse
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
+import com.marinj.shoppingwarfare.core.result.foldToString
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProduct
@@ -113,7 +115,10 @@ class ProductViewModel @Inject constructor(
     }
 
     private fun handleProductClicked(product: Product) = viewModelScope.launch {
-        val cartItem = productToCartItemMapper.map(product)
+        val cartItem = productToCartItemMapper.map(product).getOrElse { failure ->
+            _viewEffect.send(Error(failure.foldToString()))
+            return@launch
+        }
         addToCart(cartItem).fold(
             ifLeft = { _viewEffect.send(Error("Could not add ${product.name} to Cart, try again later.")) },
             ifRight = { _viewEffect.send(AddedToCart(product)) },
