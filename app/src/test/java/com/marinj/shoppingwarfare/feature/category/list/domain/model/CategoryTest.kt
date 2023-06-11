@@ -9,7 +9,7 @@ import org.junit.Test
 class CategoryTest {
 
     @Test
-    fun `of SHOULD return Left WHEN title is null`() {
+    fun `Category SHOULD return Left WHEN title is null`() {
         val expectedResult = ErrorMessage("title can not be null or empty").left()
 
         val result = Category(
@@ -23,7 +23,7 @@ class CategoryTest {
     }
 
     @Test
-    fun `of SHOULD return Left WHEN title is empty`() {
+    fun `Category SHOULD return Left WHEN title is empty`() {
         val expectedResult = ErrorMessage("title can not be null or empty").left()
 
         val result = Category(
@@ -37,7 +37,7 @@ class CategoryTest {
     }
 
     @Test
-    fun `of SHOULD return Left WHEN title is blank`() {
+    fun `Category SHOULD return Left WHEN title is blank`() {
         val expectedResult = ErrorMessage("title can not be null or empty").left()
 
         val result = Category(
@@ -51,7 +51,7 @@ class CategoryTest {
     }
 
     @Test
-    fun `of SHOULD return Left WHEN backgroundColor is null`() {
+    fun `Category SHOULD return Left WHEN backgroundColor is null`() {
         val expectedResult = ErrorMessage("backgroundColor can not be null").left()
 
         val result = Category(
@@ -65,7 +65,7 @@ class CategoryTest {
     }
 
     @Test
-    fun `of SHOULD return Left WHEN titleColor is null`() {
+    fun `Category SHOULD return Left WHEN titleColor is null`() {
         val expectedResult = ErrorMessage("backgroundColor value must be a positive number, got: 0").left()
 
         val result = Category(
