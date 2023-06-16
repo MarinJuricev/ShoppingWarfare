@@ -30,7 +30,6 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.model.Categ
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun CategoryScreen(
