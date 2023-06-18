@@ -3,8 +3,10 @@ package com.marinj.shoppingwarfare.feature.history
 import arrow.core.Either
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.feature.history.list.data.model.LocalHistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
+import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem.Companion.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -21,7 +23,7 @@ fun buildHistoryItem(
     timestamp = providedTimeStamp,
     cartName = providedCartName,
     historyCartItems = providedHistoryCartItems,
-)
+).getOrNull()!!
 
 fun buildHistoryCartItem(
     providedId: String = HISTORY_CART_ITEM_ID,
@@ -33,6 +35,20 @@ fun buildHistoryCartItem(
     categoryName = providedCategoryName,
     name = providedName,
     quantity = quantity,
+)
+
+fun buildLocalHistoryItem(
+    providedItemId: String = ID,
+    providedReceiptPath: String? = RECEIPT_PATH,
+    providedTimeStamp: Long = TIME_STAMP,
+    providedCartName: String = CART_NAME,
+    providedHistoryCartItems: List<HistoryCartItem> = listOf(buildHistoryCartItem()),
+) = LocalHistoryItem(
+    historyItemId = providedItemId,
+    receiptPath = providedReceiptPath,
+    timestamp = providedTimeStamp,
+    cartName = providedCartName,
+    historyCartItems = providedHistoryCartItems,
 )
 
 class FakeSuccessHistoryRepository(
