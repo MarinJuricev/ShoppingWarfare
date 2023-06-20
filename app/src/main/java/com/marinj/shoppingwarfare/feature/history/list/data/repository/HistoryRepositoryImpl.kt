@@ -6,8 +6,7 @@ import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDao
-import com.marinj.shoppingwarfare.feature.history.list.data.mapper.DomainToLocalHistoryItemMapper
-import com.marinj.shoppingwarfare.feature.history.list.data.mapper.LocalToDomainHistoryItemMapper
+import com.marinj.shoppingwarfare.feature.history.list.data.model.toLocal
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,31 +15,26 @@ import javax.inject.Inject
 
 class HistoryRepositoryImpl @Inject constructor(
     private val historyDao: HistoryDao,
-    private val localToDomainHistoryItemMapper: LocalToDomainHistoryItemMapper,
-    private val domainToLocalHistoryItemMapper: DomainToLocalHistoryItemMapper,
 ) : HistoryRepository {
 
     override fun observeHistoryItems(): Flow<List<HistoryItem>> =
         historyDao.observeHistoryItems().map { localHistoryItems ->
-            localHistoryItems.map { localHistoryItem ->
-                localToDomainHistoryItemMapper.map(localHistoryItem)
+            localHistoryItems.mapNotNull { localHistoryItem ->
+                localHistoryItem.toDomain().getOrNull()
             }
         }
 
     override suspend fun upsertHistoryItem(
         historyItem: HistoryItem,
-    ): Either<Failure, Unit> {
-        val localHistoryItem = domainToLocalHistoryItemMapper.map(historyItem)
-        return when (historyDao.upsertHistoryItem(localHistoryItem)) {
-            0L -> ErrorMessage("Error while adding new historyItem").left()
-            else -> Unit.right()
-        }
+    ): Either<Failure, Unit> = when (historyDao.upsertHistoryItem(historyItem.toLocal())) {
+        0L -> ErrorMessage("Error while adding new historyItem").left()
+        else -> Unit.right()
     }
 
     override suspend fun getHistoryItemById(id: String): Either<Failure, HistoryItem> {
         return when (val result = historyDao.getHistoryItemById(id)) {
             null -> ErrorMessage("No historyItem present with the id: $id").left()
-            else -> localToDomainHistoryItemMapper.map(result).right()
+            else -> result.toDomain()
         }
     }
 
