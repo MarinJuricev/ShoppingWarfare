@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.history.list.data.model
 
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.history.buildHistoryCartItem
+import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import com.marinj.shoppingwarfare.feature.history.buildLocalHistoryItem
 import org.junit.Test
 
@@ -51,6 +52,61 @@ class LocalHistoryItemTest {
         val result = sut.toDomain()
 
         assertThat(result.getOrNull()?.historyCartItems).isEqualTo(historyCartItems)
+    }
+
+    @Test
+    fun `toLocal SHOULD map id`() {
+        val sut = buildHistoryItem(providedId = ID)
+
+        val result = sut.toLocal()
+
+        assertThat(result.historyItemId).isEqualTo(ID)
+    }
+
+    @Test
+    fun `toLocal SHOULD map receiptPath`() {
+        val sut = buildHistoryItem(providedReceiptPath = RECEIPT_PATH)
+
+        val result = sut.toLocal()
+
+        assertThat(result.receiptPath).isEqualTo(RECEIPT_PATH)
+    }
+
+    @Test
+    fun `toLocal SHOULD map receiptPath to null WHEN providedReceiptPath is null`() {
+        val sut = buildHistoryItem(providedReceiptPath = null)
+
+        val result = sut.toLocal()
+
+        assertThat(result.receiptPath).isNull()
+    }
+
+    @Test
+    fun `map should map timestamp`() {
+        val sut = buildHistoryItem(providedTimeStamp = TIMESTAMP)
+
+        val result = sut.toLocal()
+
+        assertThat(result.timestamp).isEqualTo(TIMESTAMP)
+    }
+
+    @Test
+    fun `map SHOULD map cartName`() {
+        val sut = buildHistoryItem(providedCartName = CART_NAME)
+
+        val result = sut.toLocal()
+
+        assertThat(result.cartName).isEqualTo(CART_NAME)
+    }
+
+    @Test
+    fun `map should map historyCartItems`() {
+        val historyCartItems = listOf(buildHistoryCartItem())
+        val sut = buildHistoryItem(providedHistoryCartItems = historyCartItems)
+
+        val result = sut.toLocal()
+
+        assertThat(result.historyCartItems).isEqualTo(historyCartItems)
     }
 }
 
