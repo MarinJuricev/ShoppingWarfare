@@ -9,6 +9,7 @@ import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartI
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem.Companion.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
+import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -48,6 +49,20 @@ fun buildLocalHistoryItem(
     historyItemId = providedItemId,
     receiptPath = providedReceiptPath,
     timestamp = providedTimeStamp,
+    cartName = providedCartName,
+    historyCartItems = providedHistoryCartItems,
+)
+
+fun buildUiHistoryItem(
+    providedId: String = ID,
+    providedReceiptPath: String? = RECEIPT_PATH,
+    providedDate: String = DATE,
+    providedCartName: String = CART_NAME,
+    providedHistoryCartItems: List<HistoryCartItem> = listOf(buildHistoryCartItem()),
+) = UiHistoryItem(
+    id = providedId,
+    receiptPath = providedReceiptPath,
+    date = providedDate,
     cartName = providedCartName,
     historyCartItems = providedHistoryCartItems,
 )
@@ -94,3 +109,4 @@ private const val HISTORY_CART_ITEM_ID = "historyCartItemId"
 private const val CATEGORY_NAME = "categoryName"
 private const val NAME = "name"
 private const val QUANTITY = 1
+private const val DATE = "date"

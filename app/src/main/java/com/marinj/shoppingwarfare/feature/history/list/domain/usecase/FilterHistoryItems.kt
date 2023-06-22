@@ -8,16 +8,15 @@ class FilterHistoryItems @Inject constructor() {
     operator fun invoke(
         listToFilter: List<UiHistoryItem>,
         searchQuery: String,
-    ): List<UiHistoryItem> {
-        return if (searchQuery.isBlank()) {
+    ): List<UiHistoryItem> = when {
+        searchQuery.isBlank() -> listToFilter
+        else ->
             listToFilter
-        } else {
-            listToFilter.filter { uiHistoryItem ->
-                uiHistoryItem.cartName.startsWith(
-                    searchQuery,
-                    ignoreCase = true,
-                )
-            }
-        }
+                .filter { uiHistoryItem ->
+                    uiHistoryItem.cartName.startsWith(
+                        searchQuery,
+                        ignoreCase = true,
+                    )
+                }
     }
 }
