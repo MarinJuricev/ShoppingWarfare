@@ -10,4 +10,3 @@ class ObserveHistoryItemsImpl @Inject constructor(
 ) : ObserveHistoryItems {
     override fun invoke(): Flow<List<HistoryItem>> = historyRepository.observeHistoryItems()
 }
-

@@ -33,5 +33,4 @@ abstract class HistoryModule {
     abstract fun bindGetHistoryItemById(
         getHistoryItemByIdImpl: GetHistoryItemByIdImpl,
     ): GetHistoryItemById
-
 }

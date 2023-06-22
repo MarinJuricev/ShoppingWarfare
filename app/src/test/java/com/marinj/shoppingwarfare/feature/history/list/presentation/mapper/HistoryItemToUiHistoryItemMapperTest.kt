@@ -1,14 +1,8 @@
 package com.marinj.shoppingwarfare.feature.history.list.presentation.mapper
 
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.history.buildHistoryCartItem
 import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
-import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
-import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
-import io.mockk.every
-import io.mockk.mockk
-import org.junit.Before
 import org.junit.Test
 
 private const val ID = "id"

@@ -7,7 +7,6 @@ import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-
 class GetHistoryItemByIdTest {
 
     @Test

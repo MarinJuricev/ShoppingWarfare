@@ -9,7 +9,6 @@ import com.marinj.shoppingwarfare.feature.history.FakeFailureHistoryDao
 import com.marinj.shoppingwarfare.feature.history.FakeSuccessHistoryDao
 import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import com.marinj.shoppingwarfare.feature.history.buildLocalHistoryItem
-import com.marinj.shoppingwarfare.feature.history.list.data.model.LocalHistoryItem
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -82,7 +81,6 @@ class HistoryRepositoryImplTest {
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
-
 
     @Test
     fun `getHistoryItemById should return Right HistoryItem WHEN historyDao getHistoryItemById returns localHistoryItem`() =

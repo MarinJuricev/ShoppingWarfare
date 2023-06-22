@@ -76,7 +76,6 @@ class FakeSuccessHistoryDao(
     override suspend fun deleteHistory() = Unit
 }
 
-
 object FakeFailureHistoryDao : HistoryDao {
     override fun observeHistoryItems(): Flow<List<LocalHistoryItem>> = flowOf(emptyList())
 
