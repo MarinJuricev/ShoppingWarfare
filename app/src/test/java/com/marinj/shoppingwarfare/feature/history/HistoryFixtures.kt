@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.history
 import arrow.core.Either
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDao
 import com.marinj.shoppingwarfare.feature.history.list.data.model.LocalHistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
@@ -61,6 +62,29 @@ class FakeSuccessHistoryRepository(
     override suspend fun getHistoryItemById(id: String): Either<Failure, HistoryItem> = buildHistoryItem().right()
 
     override suspend fun dropHistory(): Either<Failure, Unit> = Unit.right()
+}
+
+class FakeSuccessHistoryDao(
+    private val historyItemsToReturn: List<LocalHistoryItem> = listOf(buildLocalHistoryItem()),
+) : HistoryDao {
+    override fun observeHistoryItems(): Flow<List<LocalHistoryItem>> = flowOf(historyItemsToReturn)
+
+    override suspend fun upsertHistoryItem(entity: LocalHistoryItem): Long = 1L
+
+    override suspend fun getHistoryItemById(id: String) = buildLocalHistoryItem()
+
+    override suspend fun deleteHistory() = Unit
+}
+
+
+object FakeFailureHistoryDao : HistoryDao {
+    override fun observeHistoryItems(): Flow<List<LocalHistoryItem>> = flowOf(emptyList())
+
+    override suspend fun upsertHistoryItem(entity: LocalHistoryItem): Long = 0L
+
+    override suspend fun getHistoryItemById(id: String) = null
+
+    override suspend fun deleteHistory() = Unit
 }
 
 private const val ID = "id"

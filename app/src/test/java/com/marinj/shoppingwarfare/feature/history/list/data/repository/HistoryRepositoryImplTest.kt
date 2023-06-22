@@ -5,139 +5,93 @@ import arrow.core.left
 import arrow.core.right
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
-import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDao
-import com.marinj.shoppingwarfare.feature.history.list.data.mapper.DomainToLocalHistoryItemMapper
-import com.marinj.shoppingwarfare.feature.history.list.data.mapper.LocalToDomainHistoryItemMapper
+import com.marinj.shoppingwarfare.feature.history.FakeFailureHistoryDao
+import com.marinj.shoppingwarfare.feature.history.FakeSuccessHistoryDao
+import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
+import com.marinj.shoppingwarfare.feature.history.buildLocalHistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.data.model.LocalHistoryItem
-import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
-import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
-import io.mockk.coEvery
-import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
 
 private const val HISTORY_ITEM_ID = "historyItemId"
 
 class HistoryRepositoryImplTest {
 
-    private val historyDao: HistoryDao = mockk()
-    private val localToDomainHistoryItemMapper: LocalToDomainHistoryItemMapper = mockk()
-    private val domainToLocalHistoryItemMapper: DomainToLocalHistoryItemMapper = mockk()
-
-    private lateinit var sut: HistoryRepository
-
-    @Before
-    fun setUp() {
-        sut = HistoryRepositoryImpl(
-            historyDao,
-            localToDomainHistoryItemMapper,
-            domainToLocalHistoryItemMapper,
-        )
-    }
-
     @Test
     fun `observeHistoryItems SHOULD return historyItems`() = runTest {
-        val historyItem = mockk<HistoryItem>()
-        val historyItemList = listOf(historyItem)
-        val localHistoryItem = mockk<LocalHistoryItem>()
-        val localHistoryItemList = listOf(localHistoryItem)
-        coEvery {
-            localToDomainHistoryItemMapper.map(localHistoryItem)
-        } coAnswers { historyItem }
-        coEvery {
-            historyDao.observeHistoryItems()
-        } coAnswers { flow { emit(localHistoryItemList) } }
+        val historyItems = listOf(buildLocalHistoryItem())
+        val sut = HistoryRepositoryImpl(
+            historyDao = FakeSuccessHistoryDao(historyItems),
+        )
 
         sut.observeHistoryItems().test {
-            assertThat(awaitItem()).isEqualTo(historyItemList)
+            assertThat(awaitItem()).isEqualTo(historyItems.map(LocalHistoryItem::toDomain))
             awaitComplete()
         }
     }
 
     @Test
-    fun `upsertHistoryItem SHOULD return LeftFailure when historyDao returns 0L`() =
+    fun `upsertHistoryItem SHOULD return Left Failure WHEN historyDao returns 0L`() =
         runTest {
-            val historyItem = mockk<HistoryItem>()
-            val localHistoryItem = mockk<LocalHistoryItem>()
-            val daoResult = 0L
-            coEvery {
-                domainToLocalHistoryItemMapper.map(historyItem)
-            } coAnswers { localHistoryItem }
-            coEvery {
-                historyDao.upsertHistoryItem(localHistoryItem)
-            } coAnswers { daoResult }
+            val historyItem = buildHistoryItem()
+            val sut = HistoryRepositoryImpl(
+                historyDao = FakeFailureHistoryDao,
+            )
+            val expectedResult = ErrorMessage("Error while adding new historyItem").left()
 
             val actualResult = sut.upsertHistoryItem(historyItem)
-            val expectedResult = ErrorMessage("Error while adding new historyItem").left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
 
     @Test
-    fun `upsertHistoryItem SHOULD return RightUnit when historyDao returns 1L`() = runTest {
-        val historyItem = mockk<HistoryItem>()
-        val localHistoryItem = mockk<LocalHistoryItem>()
-        val daoResult = 1L
-        coEvery {
-            domainToLocalHistoryItemMapper.map(historyItem)
-        } coAnswers { localHistoryItem }
-        coEvery {
-            historyDao.upsertHistoryItem(localHistoryItem)
-        } coAnswers { daoResult }
+    fun `upsertHistoryItem SHOULD return Right Unit WHEN historyDao returns 1L`() = runTest {
+        val historyItem = buildHistoryItem()
+        val sut = HistoryRepositoryImpl(
+            historyDao = FakeSuccessHistoryDao(),
+        )
+        val expectedResult = Unit.right()
 
         val actualResult = sut.upsertHistoryItem(historyItem)
-        val expectedResult = Unit.right()
 
         assertThat(actualResult).isEqualTo(expectedResult)
     }
 
-    @Suppress("UNUSED_EXPRESSION")
     @Test
-    fun `dropHistory should return RightUnit when historyDao returns LocalHistoryItem`() =
+    fun `dropHistory should return Right Unit WHEN historyDao returns LocalHistoryItem`() =
         runTest {
-            val daoResult = Unit
-            coEvery {
-                historyDao.deleteHistory()
-            } coAnswers { daoResult }
+            val sut = HistoryRepositoryImpl(
+                historyDao = FakeSuccessHistoryDao(),
+            )
+            val expectedResult = Unit.right()
 
             val actualResult = sut.dropHistory()
-            val expectedResult = daoResult.right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
 
     @Test
-    fun `getHistoryItemById should return LeftErrorMessage when historyDao getHistoryItemById returns null`() =
+    fun `getHistoryItemById should return Left WHEN historyDao getHistoryItemById returns null`() =
         runTest {
-            val daoResult = null
-            coEvery {
-                historyDao.getHistoryItemById(HISTORY_ITEM_ID)
-            } coAnswers { daoResult }
+            val sut = HistoryRepositoryImpl(
+                historyDao = FakeFailureHistoryDao,
+            )
+            val expectedResult = ErrorMessage("Error while fetching historyItem").left()
 
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
-            val expectedResult = ErrorMessage(
-                "No historyItem present with the id: $HISTORY_ITEM_ID",
-            ).left()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
 
-    @Test
-    fun `getHistoryItemById should return RightHistoryItem when historyDao getHistoryItemById returns localHistoryItem`() =
-        runTest {
-            val daoResult = mockk<LocalHistoryItem>()
-            val mapperResult = mockk<HistoryItem>()
-            coEvery {
-                historyDao.getHistoryItemById(HISTORY_ITEM_ID)
-            } coAnswers { daoResult }
-            coEvery {
-                localToDomainHistoryItemMapper.map(daoResult)
-            } coAnswers { mapperResult }
 
+    @Test
+    fun `getHistoryItemById should return Right HistoryItem WHEN historyDao getHistoryItemById returns localHistoryItem`() =
+        runTest {
+            val sut = HistoryRepositoryImpl(
+                historyDao = FakeSuccessHistoryDao(),
+            )
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
-            val expectedResult = mapperResult.right()
+            val expectedResult = buildLocalHistoryItem()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }
