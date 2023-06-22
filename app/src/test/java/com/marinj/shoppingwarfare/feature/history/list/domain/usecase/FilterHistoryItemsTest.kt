@@ -22,7 +22,7 @@ class FilterHistoryItemsTest {
     }
 
     @Test
-    fun `invoke should return the provided list when searchQuery is blank`() {
+    fun `invoke SHOULD return the provided list WHEN searchQuery is blank`() {
         val uiHistoryItem = buildUiHistoryItem()
         val uiHistoryItems = listOf(uiHistoryItem)
 
@@ -35,7 +35,7 @@ class FilterHistoryItemsTest {
     }
 
     @Test
-    fun `invoke should return the filtered list when searchQuery is not blank`() {
+    fun `invoke SHOULD return the filtered list WHEN searchQuery is not blank`() {
         val firstUiHistoryItem = buildUiHistoryItem(providedCartName = FIRST_CART_NAME)
         val secondUiHistoryItem = buildUiHistoryItem(providedCartName = SECOND_CART_NAME)
         val uiHistoryItems = listOf(firstUiHistoryItem, secondUiHistoryItem)
