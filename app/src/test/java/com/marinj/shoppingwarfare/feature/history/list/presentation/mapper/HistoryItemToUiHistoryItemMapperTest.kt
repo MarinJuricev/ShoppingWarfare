@@ -1,6 +1,9 @@
 package com.marinj.shoppingwarfare.feature.history.list.presentation.mapper
 
 import com.google.common.truth.Truth.assertThat
+import com.marinj.shoppingwarfare.feature.cart.buildCartItem
+import com.marinj.shoppingwarfare.feature.history.buildHistoryCartItem
+import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import io.mockk.every
@@ -16,18 +19,11 @@ private const val CART_NAME = "cartName"
 
 class HistoryItemToUiHistoryItemMapperTest {
 
-    private lateinit var sut: HistoryItemToUiHistoryItemMapper
-
-    @Before
-    fun setUp() {
-        sut = HistoryItemToUiHistoryItemMapper()
-    }
+    private val sut = HistoryItemToUiHistoryItemMapper()
 
     @Test
     fun `map SHOULD map id`() {
-        val origin = mockk<HistoryItem>(relaxed = true).apply {
-            every { id } returns ID
-        }
+        val origin = buildHistoryItem(providedId = ID)
 
         val result = sut.map(origin)
 
@@ -36,9 +32,7 @@ class HistoryItemToUiHistoryItemMapperTest {
 
     @Test
     fun `map SHOULD map receiptPath`() {
-        val origin = mockk<HistoryItem>(relaxed = true).apply {
-            every { receiptPath } returns RECEIPT_PATH
-        }
+        val origin = buildHistoryItem(providedReceiptPath = RECEIPT_PATH)
 
         val result = sut.map(origin)
 
@@ -47,9 +41,7 @@ class HistoryItemToUiHistoryItemMapperTest {
 
     @Test
     fun `map should map date`() {
-        val origin = mockk<HistoryItem>(relaxed = true).apply {
-            every { timestamp } returns TIMESTAMP
-        }
+        val origin = buildHistoryItem(providedTimeStamp = TIMESTAMP)
 
         val result = sut.map(origin)
 
@@ -58,9 +50,7 @@ class HistoryItemToUiHistoryItemMapperTest {
 
     @Test
     fun `map should map cartName`() {
-        val origin = mockk<HistoryItem>(relaxed = true).apply {
-            every { cartName } returns CART_NAME
-        }
+        val origin = buildHistoryItem(providedCartName = CART_NAME)
 
         val result = sut.map(origin)
 
@@ -69,10 +59,8 @@ class HistoryItemToUiHistoryItemMapperTest {
 
     @Test
     fun `map should map historyCartItems`() {
-        val cartItems = mockk<List<HistoryCartItem>>()
-        val origin = mockk<HistoryItem>(relaxed = true).apply {
-            every { historyCartItems } returns cartItems
-        }
+        val cartItems = listOf(buildHistoryCartItem())
+        val origin = buildHistoryItem(providedHistoryCartItems = cartItems)
 
         val result = sut.map(origin)
 

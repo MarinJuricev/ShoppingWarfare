@@ -25,7 +25,7 @@ class HistoryRepositoryImplTest {
         )
 
         sut.observeHistoryItems().test {
-            assertThat(awaitItem()).isEqualTo(historyItems.map(LocalHistoryItem::toDomain))
+            assertThat(awaitItem()).isEqualTo(historyItems.mapNotNull { it.toDomain().getOrNull() })
             awaitComplete()
         }
     }
@@ -76,7 +76,7 @@ class HistoryRepositoryImplTest {
             val sut = HistoryRepositoryImpl(
                 historyDao = FakeFailureHistoryDao,
             )
-            val expectedResult = ErrorMessage("Error while fetching historyItem").left()
+            val expectedResult = ErrorMessage("No historyItem present with the id: historyItemId").left()
 
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
 
@@ -91,7 +91,7 @@ class HistoryRepositoryImplTest {
                 historyDao = FakeSuccessHistoryDao(),
             )
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
-            val expectedResult = buildLocalHistoryItem()
+            val expectedResult = buildHistoryItem().right()
 
             assertThat(actualResult).isEqualTo(expectedResult)
         }

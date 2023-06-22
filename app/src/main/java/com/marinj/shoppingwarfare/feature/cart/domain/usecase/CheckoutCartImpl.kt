@@ -1,9 +1,11 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
 import arrow.core.Either
+import arrow.core.left
 import arrow.core.raise.either
 import com.marinj.shoppingwarfare.core.model.NonEmptyString.Companion.NonEmptyString
 import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.cart.domain.mapper.CartDataToHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
@@ -32,7 +34,8 @@ class CheckoutCartImpl @Inject constructor(
                     cartItems = cartItems,
                     cartName = validatedCartName.value,
                     receiptPath = receiptPath,
-                )
+                ).getOrNull() ?: return@async ErrorMessage("Failed to map cart items to history item").left()
+
                 historyRepository.upsertHistoryItem(historyItem)
             }
             val cartResult = async { cartRepository.dropCurrentCart() }

@@ -14,10 +14,10 @@ class HistoryItemToUiHistoryItemMapper @Inject constructor() {
     fun map(origin: HistoryItem): UiHistoryItem {
         return with(origin) {
             UiHistoryItem(
-                id = id,
-                receiptPath = receiptPath,
+                id = id.value,
+                receiptPath = receiptPath?.value,
                 date = formatDate(timestamp),
-                cartName = cartName,
+                cartName = cartName.value,
                 historyCartItems = historyCartItems,
             )
         }

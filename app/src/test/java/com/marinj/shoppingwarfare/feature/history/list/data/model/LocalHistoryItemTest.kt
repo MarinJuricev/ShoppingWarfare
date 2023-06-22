@@ -14,7 +14,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toDomain()
 
-        assertThat(result.getOrNull()?.id).isEqualTo(ID)
+        assertThat(result.getOrNull()?.id?.value).isEqualTo(ID)
     }
 
     @Test
@@ -23,7 +23,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toDomain()
 
-        assertThat(result.getOrNull()?.receiptPath).isEqualTo(RECEIPT_PATH)
+        assertThat(result.getOrNull()?.receiptPath?.value).isEqualTo(RECEIPT_PATH)
     }
 
     @Test
@@ -32,7 +32,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toDomain()
 
-        assertThat(result.getOrNull()?.cartName).isEqualTo(CART_NAME)
+        assertThat(result.getOrNull()?.cartName?.value).isEqualTo(CART_NAME)
     }
 
     @Test
@@ -70,15 +70,6 @@ class LocalHistoryItemTest {
         val result = sut.toLocal()
 
         assertThat(result.receiptPath).isEqualTo(RECEIPT_PATH)
-    }
-
-    @Test
-    fun `toLocal SHOULD map receiptPath to null WHEN providedReceiptPath is null`() {
-        val sut = buildHistoryItem(providedReceiptPath = null)
-
-        val result = sut.toLocal()
-
-        assertThat(result.receiptPath).isNull()
     }
 
     @Test

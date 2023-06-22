@@ -1,8 +1,11 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.mapper
 
+import arrow.core.Either
+import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
+import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem.Companion.HistoryItem
 import javax.inject.Inject
 
 class CartDataToHistoryItemMapper @Inject constructor(
@@ -14,22 +17,20 @@ class CartDataToHistoryItemMapper @Inject constructor(
         cartItems: List<CartItem>,
         cartName: String,
         receiptPath: String?,
-    ): HistoryItem {
-        return HistoryItem(
-            id = uuidGenerator(),
-            receiptPath = receiptPath,
-            cartName = cartName,
-            timestamp = timeStampGenerator(),
-            historyCartItems = cartItems.map { cartItem ->
-                with(cartItem) {
-                    HistoryCartItem(
-                        id = id.value,
-                        categoryName = categoryName.value,
-                        name = name.value,
-                        quantity = quantity.toInt(),
-                    )
-                }
-            },
-        )
-    }
+    ): Either<Failure, HistoryItem> = HistoryItem(
+        id = uuidGenerator(),
+        receiptPath = receiptPath,
+        cartName = cartName,
+        timestamp = timeStampGenerator(),
+        historyCartItems = cartItems.map { cartItem ->
+            with(cartItem) {
+                HistoryCartItem(
+                    id = id.value,
+                    categoryName = categoryName.value,
+                    name = name.value,
+                    quantity = quantity.toInt(),
+                )
+            }
+        },
+    )
 }

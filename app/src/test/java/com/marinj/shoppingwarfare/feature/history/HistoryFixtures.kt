@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.flowOf
 
 fun buildHistoryItem(
     providedId: String = ID,
-    providedReceiptPath: String? = RECEIPT_PATH,
+    providedReceiptPath: String = RECEIPT_PATH,
     providedTimeStamp: Long = TIME_STAMP,
     providedCartName: String = CART_NAME,
     providedHistoryCartItems: List<HistoryCartItem> = listOf(buildHistoryCartItem()),

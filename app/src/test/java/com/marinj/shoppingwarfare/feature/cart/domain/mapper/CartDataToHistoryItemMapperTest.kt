@@ -20,7 +20,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.id).isEqualTo(UUID)
+        assertThat(result.getOrNull()?.id?.value).isEqualTo(UUID)
     }
 
     @Test
@@ -29,7 +29,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.receiptPath).isEqualTo(RECEIPT_PATH)
+        assertThat(result.getOrNull()?.receiptPath?.value).isEqualTo(RECEIPT_PATH)
     }
 
     @Test
@@ -38,7 +38,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.cartName).isEqualTo(CART_NAME)
+        assertThat(result.getOrNull()?.cartName?.value).isEqualTo(CART_NAME)
     }
 
     @Test
@@ -47,7 +47,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.timestamp).isEqualTo(TIMESTAMP)
+        assertThat(result.getOrNull()?.timestamp).isEqualTo(TIMESTAMP)
     }
 
     @Test
@@ -71,7 +71,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.historyCartItems).isEqualTo(expectedResult)
+        assertThat(result.getOrNull()?.historyCartItems).isEqualTo(expectedResult)
     }
 }
 
