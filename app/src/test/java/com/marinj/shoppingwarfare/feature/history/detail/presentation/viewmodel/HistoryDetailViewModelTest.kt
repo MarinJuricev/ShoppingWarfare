@@ -7,7 +7,7 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.feature.history.detail.domain.usecase.GetHistoryItemById
+import com.marinj.shoppingwarfare.feature.history.detail.domain.usecase.GetHistoryItemByIdImpl
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnGetHistoryDetail
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
@@ -27,7 +27,7 @@ class HistoryDetailViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val getHistoryItemById: GetHistoryItemById = mockk()
+    private val getHistoryItemById: GetHistoryItemByIdImpl = mockk()
     private val historyItemToUiHistoryItemMapper: HistoryItemToUiHistoryItemMapper = mockk()
     private val failureToStringMapper: FailureToStringMapper = mockk()
 

@@ -8,7 +8,7 @@ import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.navigation.HistoryDetailNavigation
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.usecase.FilterHistoryItems
-import com.marinj.shoppingwarfare.feature.history.list.domain.usecase.ObserveHistoryItems
+import com.marinj.shoppingwarfare.feature.history.list.domain.usecase.ObserveHistoryItemsImpl
 import com.marinj.shoppingwarfare.feature.history.list.presentation.mapper.HistoryItemToUiHistoryItemMapper
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryEvent
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryEvent.OnGetHistoryItems
@@ -31,7 +31,7 @@ class HistoryViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val observeHistoryItems: ObserveHistoryItems = mockk()
+    private val observeHistoryItems: ObserveHistoryItemsImpl = mockk()
     private val historyItemToUiHistoryItemMapper: HistoryItemToUiHistoryItemMapper = mockk()
     private val filterHistoryItems: FilterHistoryItems = mockk()
     private val navigator: Navigator = mockk()
