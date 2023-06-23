@@ -1,8 +1,11 @@
 package com.marinj.shoppingwarfare.feature.history
 
 import arrow.core.Either
+import arrow.core.left
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.feature.history.detail.domain.usecase.GetHistoryItemById
 import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDao
 import com.marinj.shoppingwarfare.feature.history.list.data.model.LocalHistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
@@ -99,6 +102,16 @@ object FakeFailureHistoryDao : HistoryDao {
     override suspend fun getHistoryItemById(id: String) = null
 
     override suspend fun deleteHistory() = Unit
+}
+
+class FakeSuccessGetHistoryItemById(
+    private val historyItemToReturn: HistoryItem = buildHistoryItem(),
+) : GetHistoryItemById {
+    override suspend fun invoke(historyItemId: String) = historyItemToReturn.right()
+}
+
+object FakeFailureGetHistoryItemById : GetHistoryItemById {
+    override suspend fun invoke(historyItemId: String) = Unknown.left()
 }
 
 private const val ID = "id"
