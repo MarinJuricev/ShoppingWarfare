@@ -4,6 +4,8 @@ import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApiImpl
 import com.marinj.shoppingwarfare.feature.category.list.data.repository.CategoryRepositoryImpl
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategory
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategoryImpl
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategoryImpl
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
@@ -43,4 +45,9 @@ abstract class CategoryModule {
     abstract fun bindUndoCategoryDeletion(
         undoCategoryDeletion: UndoCategoryDeletionImpl,
     ): UndoCategoryDeletion
+
+    @Binds
+    abstract fun bindCreateCategory(
+        createCategory: CreateCategoryImpl,
+    ): CreateCategory
 }

@@ -13,6 +13,7 @@ import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategor
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category.Companion.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.DeleteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.ObserveCategories
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCategoryDeletion
@@ -169,6 +170,16 @@ object FakeFailureUndoCategoryDeletion : UndoCategoryDeletion {
     override suspend fun invoke(
         category: Category,
     ): Either<Failure, Unit> = Unknown.left()
+}
+
+object FakeSuccessCreateCategory : CreateCategory {
+    override suspend fun invoke(title: String?, backgroundColor: Int?, titleColor: Int?) = Unit.right()
+
+}
+
+object FakeFailureCreateCategory : CreateCategory {
+    override suspend fun invoke(title: String?, backgroundColor: Int?, titleColor: Int?) = Unknown.left()
+
 }
 
 private const val TITLE = "title"
