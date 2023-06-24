@@ -98,6 +98,7 @@ class HistoryViewModelTest {
         val sut = buildSut(
             observeHistoryItems = FakeSuccessObserveHistoryItems(),
         )
+        sut.onEvent(OnGetHistoryItems)
         sut.onEvent(event)
 
         sut.viewState.test {
@@ -109,18 +110,17 @@ class HistoryViewModelTest {
     fun `should trigger navigator when OnHistoryItemClick is provided`() = runTest {
         val uiHistoryItem = buildUiHistoryItem(providedId = ID)
         val event = OnHistoryItemClick(uiHistoryItem)
-        val sut = buildSut(
-            observeHistoryItems = FakeSuccessObserveHistoryItems(),
-        )
-        sut.onEvent(event)
-
         val expectedDestination = Destination(
             HistoryDetailNavigation.run {
                 createHistoryDetailRoute(historyItemId = ID)
             },
         )
+        val sut = buildSut(
+            observeHistoryItems = FakeSuccessObserveHistoryItems(),
+        )
 
         navigator.receivedEvents.test {
+            sut.onEvent(event)
             assertThat(awaitItem()).isEqualTo(expectedDestination)
         }
     }
