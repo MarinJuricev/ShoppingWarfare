@@ -12,8 +12,10 @@ import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartI
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem.Companion.HistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.repository.HistoryRepository
+import com.marinj.shoppingwarfare.feature.history.list.domain.usecase.ObserveHistoryItems
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 fun buildHistoryItem(
@@ -112,6 +114,16 @@ class FakeSuccessGetHistoryItemById(
 
 object FakeFailureGetHistoryItemById : GetHistoryItemById {
     override suspend fun invoke(historyItemId: String) = Unknown.left()
+}
+
+class FakeSuccessObserveHistoryItems(
+    private val historyItemsToReturn: List<HistoryItem> = listOf(buildHistoryItem()),
+) : ObserveHistoryItems {
+    override fun invoke(): Flow<List<HistoryItem>> = flowOf(historyItemsToReturn)
+}
+
+object FakeFailureObserveHistoryItems : ObserveHistoryItems {
+    override fun invoke(): Flow<List<HistoryItem>> = flow { throw Throwable() }
 }
 
 private const val ID = "id"
