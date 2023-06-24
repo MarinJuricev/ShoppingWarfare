@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObservingBadgesCount
+import com.marinj.shoppingwarfare.feature.cart.FakeSuccessObserveCartItemsCount
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCountImpl
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -13,39 +14,25 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-private const val NUMBER_OF_CART_ITEMS = 5
 
 class BadgeViewModelTest {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val observeCartItemsCount: ObserveCartItemsCountImpl = mockk()
-
-    private lateinit var sut: BadgeViewModel
-
-    @Before
-    fun setUp() {
-        sut = BadgeViewModel(
-            observeCartItemsCount,
-        )
-    }
-
     @Test
     fun `onEvent SHOULD update cartBadgeCount when StartObservingBadgesCount is provided`() =
         runTest {
-            val cartItemsCountFlow = flow {
-                emit(NUMBER_OF_CART_ITEMS)
-            }
-            coEvery {
-                observeCartItemsCount()
-            } coAnswers { cartItemsCountFlow }
-
-            sut.onEvent(StartObservingBadgesCount)
+            val sut = BadgeViewModel(
+                observeCartItemsCount = FakeSuccessObserveCartItemsCount(NUMBER_OF_CART_ITEMS),
+            )
             val expectedResult = BadgeViewState(cartBadgeCount = NUMBER_OF_CART_ITEMS)
+            sut.onEvent(StartObservingBadgesCount)
 
             sut.viewState.test {
                 assertThat(awaitItem()).isEqualTo(expectedResult)
             }
         }
 }
+
+private const val NUMBER_OF_CART_ITEMS = 5

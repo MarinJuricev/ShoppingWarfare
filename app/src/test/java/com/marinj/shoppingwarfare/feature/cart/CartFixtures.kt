@@ -8,6 +8,8 @@ import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCount
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCountImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -101,8 +103,15 @@ class FakeSuccessCartRepository(
     override suspend fun dropCurrentCart(): Either<Failure, Unit> = Unit.right()
 }
 
+class FakeSuccessObserveCartItemsCount(
+    private val numberOfItems: Int = NUMBER_OF_CART_ITEMS,
+): ObserveCartItemsCount {
+    override fun invoke(): Flow<Int?> = flowOf(numberOfItems)
+}
+
 private const val ID = "ID"
 private const val CATEGORY_NAME = "CATEGORY_NAME"
 private const val NAME = "NAME"
 private const val QUANTITY = 1u
 private const val IS_IN_BASKET = false
+private const val NUMBER_OF_CART_ITEMS = 1

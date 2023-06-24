@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.core.viewmodel.badge
 import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
+import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObservingBadgesCount
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +28,7 @@ class BadgeViewModel @Inject constructor(
 
     override fun onEvent(event: BadgeEvent) {
         when (event) {
-            BadgeEvent.StartObservingBadgesCount -> handleStartObservingBadgesCount()
+            StartObservingBadgesCount -> handleStartObservingBadgesCount()
         }
     }
 
