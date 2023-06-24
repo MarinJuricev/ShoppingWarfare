@@ -174,12 +174,10 @@ object FakeFailureUndoCategoryDeletion : UndoCategoryDeletion {
 
 object FakeSuccessCreateCategory : CreateCategory {
     override suspend fun invoke(title: String?, backgroundColor: Int?, titleColor: Int?) = Unit.right()
-
 }
 
 object FakeFailureCreateCategory : CreateCategory {
     override suspend fun invoke(title: String?, backgroundColor: Int?, titleColor: Int?) = Unknown.left()
-
 }
 
 private const val TITLE = "title"

@@ -9,7 +9,6 @@ import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCount
-import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCountImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -105,7 +104,7 @@ class FakeSuccessCartRepository(
 
 class FakeSuccessObserveCartItemsCount(
     private val numberOfItems: Int = NUMBER_OF_CART_ITEMS,
-): ObserveCartItemsCount {
+) : ObserveCartItemsCount {
     override fun invoke(): Flow<Int?> = flowOf(numberOfItems)
 }
 

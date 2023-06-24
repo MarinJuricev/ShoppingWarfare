@@ -75,7 +75,6 @@ class HistoryViewModelTest {
             }
         }
 
-
     @Test
     fun `should update searchText when OnSearchUpdated is provided`() = runTest {
         val newSearchText = "newSearchText"

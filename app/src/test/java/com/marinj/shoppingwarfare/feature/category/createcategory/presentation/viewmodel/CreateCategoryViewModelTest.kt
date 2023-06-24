@@ -24,7 +24,6 @@ class CreateCategoryViewModelTest {
 
     private val failureToStringMapper = FailureToStringMapper()
 
-
     @Test
     fun `SHOULD update categoryName WHEN OnCategoryNameChanged is provided`() = runTest {
         val categoryText = "categoryText"

@@ -5,15 +5,9 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObservingBadgesCount
 import com.marinj.shoppingwarfare.feature.cart.FakeSuccessObserveCartItemsCount
-import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCountImpl
-import io.mockk.coEvery
-import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
 
 class BadgeViewModelTest {
 

@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
-import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.feature.history.FakeFailureGetHistoryItemById
 import com.marinj.shoppingwarfare.feature.history.FakeSuccessGetHistoryItemById
 import com.marinj.shoppingwarfare.feature.history.buildUiHistoryItem
@@ -14,7 +13,6 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.mapper.Histo
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-
 
 class HistoryDetailViewModelTest {
 
