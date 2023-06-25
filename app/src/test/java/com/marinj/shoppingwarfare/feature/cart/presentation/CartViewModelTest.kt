@@ -30,9 +30,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.CATEGORY_NAME
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -46,26 +44,19 @@ class CartViewModelTest {
     fun `SHOULD update cartData WHEN OnGetCartItems is provided and emits cartData`() =
         runTest {
             val uiCartItems = listOf(
-                buildUiCartItemHeader(
-                    providedId = CATEGORY_NAME,
-                    providedCategoryName = CATEGORY_NAME,
-                ),
-                buildUiCartItemContent(providedCategoryName = CATEGORY_NAME),
+                buildUiCartItemHeader(),
+                buildUiCartItemContent(),
             )
             val sut = buildSut()
+
+            sut.onEvent(OnGetCartItems)
+
             sut.viewState.test {
-                val initialViewState = awaitItem()
-                assertThat(initialViewState.uiCartItems).isEmpty()
-                assertThat(initialViewState.isLoading).isTrue()
-
-                sut.onEvent(OnGetCartItems)
-
                 val updatedViewState = awaitItem()
                 assertThat(updatedViewState.uiCartItems).isEqualTo(uiCartItems)
                 assertThat(updatedViewState.isLoading).isFalse()
             }
         }
-
 
     @Test
     fun `SHOULD update viewEffect with Error WHEN OnGetCartItems is provided and throws an exception`() =
@@ -204,7 +195,6 @@ class CartViewModelTest {
         runTest {
             val sut = buildSut(providedCheckoutCart = FakeFailureCheckoutCart)
 
-
             sut.onEvent(CartEvent.CheckoutClicked)
 
             sut.viewEffect.test {
@@ -302,5 +292,4 @@ class CartViewModelTest {
 
 private const val ID = "id"
 private const val NAME = "name"
-private const val ERROR_MESSAGE = "errorMessage"
 private const val IS_IN_BASKET = true

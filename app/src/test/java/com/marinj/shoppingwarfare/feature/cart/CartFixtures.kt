@@ -50,11 +50,11 @@ fun buildLocalCartItem(
 )
 
 fun buildUiCartItemHeader(
-    providedId: String = ID,
+    providedId: String = CATEGORY_NAME,
     providedCategoryName: String = CATEGORY_NAME,
 ) = UiCartItem.Header(
     id = providedId,
-    categoryName = providedCategoryName
+    categoryName = providedCategoryName,
 )
 fun buildUiCartItemContent(
     providedId: String = ID,
@@ -63,7 +63,7 @@ fun buildUiCartItemContent(
     providedQuantity: Int = QUANTITY.toInt(),
     providedIsInBasket: Boolean = IS_IN_BASKET,
 ) = UiCartItem.Content(
-    id = ID,
+    id = providedId,
     name = providedName,
     categoryName = providedCategoryName,
     quantity = providedQuantity,
