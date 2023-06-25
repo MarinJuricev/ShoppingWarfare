@@ -97,7 +97,6 @@ dependencies {
     implementation "io.arrow-kt:arrow-core:$arrow_version"
 
     testImplementation "junit:junit:$junit_version"
-    testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "com.google.truth:truth:$truth_version"
     testImplementation "app.cash.turbine:turbine:$turbine_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version"
