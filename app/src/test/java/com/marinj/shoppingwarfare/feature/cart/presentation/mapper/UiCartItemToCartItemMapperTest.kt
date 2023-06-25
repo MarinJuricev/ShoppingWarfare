@@ -4,17 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Content
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Header
-import org.junit.Before
 import org.junit.Test
 
 class UiCartItemToCartItemMapperTest {
 
-    private lateinit var sut: UiCartItemToCartItemMapper
-
-    @Before
-    fun setUp() {
-        sut = UiCartItemToCartItemMapper()
-    }
+    private val sut = UiCartItemToCartItemMapper()
 
     @Test
     fun `map should return list of cartItems`() {

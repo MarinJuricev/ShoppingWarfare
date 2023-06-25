@@ -1,15 +1,24 @@
 package com.marinj.shoppingwarfare.feature.cart
 
 import arrow.core.Either
+import arrow.core.left
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
+import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
 import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItems
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.ObserveCartItemsCount
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsInBasket
+import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 fun buildCartItem(
@@ -37,6 +46,27 @@ fun buildLocalCartItem(
     categoryName = providedCategoryName,
     name = providedName,
     quantity = providedQuantity.toInt(),
+    isInBasket = providedIsInBasket,
+)
+
+fun buildUiCartItemHeader(
+    providedId: String = ID,
+    providedCategoryName: String = CATEGORY_NAME,
+) = UiCartItem.Header(
+    id = providedId,
+    categoryName = providedCategoryName
+)
+fun buildUiCartItemContent(
+    providedId: String = ID,
+    providedCategoryName: String = CATEGORY_NAME,
+    providedName: String = NAME,
+    providedQuantity: Int = QUANTITY.toInt(),
+    providedIsInBasket: Boolean = IS_IN_BASKET,
+) = UiCartItem.Content(
+    id = ID,
+    name = providedName,
+    categoryName = providedCategoryName,
+    quantity = providedQuantity,
     isInBasket = providedIsInBasket,
 )
 
@@ -106,6 +136,56 @@ class FakeSuccessObserveCartItemsCount(
     private val numberOfItems: Int = NUMBER_OF_CART_ITEMS,
 ) : ObserveCartItemsCount {
     override fun invoke(): Flow<Int?> = flowOf(numberOfItems)
+}
+
+class FakeSuccessObserveCartItems(
+    private val cartListToReturn: List<CartItem> = listOf(buildCartItem()),
+) : ObserveCartItems {
+    override fun invoke(): Flow<List<CartItem>> = flowOf(cartListToReturn)
+}
+
+object FakeFailureObserveCartItems : ObserveCartItems {
+    override fun invoke(): Flow<List<CartItem>> = flow { throw Throwable() }
+}
+
+object FakeSuccessDeleteCartItem : DeleteCartItem {
+    override suspend fun invoke(cartItemId: String) = Unit.right()
+}
+
+object FakeFailureDeleteCartItem : DeleteCartItem {
+    override suspend fun invoke(cartItemId: String) = Unknown.left()
+}
+
+object FakeSuccessUpdateCartItemQuantity : UpdateCartItemQuantity {
+    override suspend fun invoke(cartItemId: String, newQuantity: Int) = Unit.right()
+}
+
+object FakeFailureUpdateCartItemQuantity : UpdateCartItemQuantity {
+    override suspend fun invoke(cartItemId: String, newQuantity: Int) = Unknown.left()
+}
+
+object FakeSuccessUpdateCartItemIsInBasket : UpdateCartItemIsInBasket {
+    override suspend fun invoke(cartItemId: String, updatedIsInBasket: Boolean) = Unit.right()
+}
+
+object FakeFailureUpdateCartItemIsInBasket : UpdateCartItemIsInBasket {
+    override suspend fun invoke(cartItemId: String, updatedIsInBasket: Boolean) = Unknown.left()
+}
+
+object FakeSuccessCheckoutCart : CheckoutCart {
+    override suspend fun invoke(
+        cartItems: List<CartItem>,
+        cartName: String,
+        receiptPath: String?,
+    ) = Unit.right()
+}
+
+object FakeFailureCheckoutCart : CheckoutCart {
+    override suspend fun invoke(
+        cartItems: List<CartItem>,
+        cartName: String,
+        receiptPath: String?,
+    ) = Unknown.left()
 }
 
 private const val ID = "ID"
