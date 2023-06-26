@@ -4,7 +4,7 @@ plugins {
     id "org.jetbrains.kotlin.kapt"
     id "dagger.hilt.android.plugin"
     id 'com.google.gms.google-services'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.20'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
 }
 
 android {

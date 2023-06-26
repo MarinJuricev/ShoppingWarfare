@@ -3,14 +3,14 @@ buildscript {
     ext {
         build_gradle_version = '7.4.2'
         arrow_version = "1.2.0-RC"
-        kotlin_gradle_plugin_version = '1.7.10'
+        kotlin_gradle_plugin_version = '1.8.21'
         google_services_version = '4.3.13'
         appcompat_version = '1.5.1'
-        hilt_version = '2.42'
+        hilt_version = '2.46.1'
         hilt_navigation_compose_version = '1.0.0'
         compose_activity_version = '1.6.0'
-        compose_version = '1.3.0-beta03'
-        compose_compiler_version = '1.3.1'
+        compose_version = '1.4.3'
+        compose_compiler_version = '1.4.7'
         compose_navigation_version = '2.5.2'
         compose_constraint_layout_version = '1.0.1'
         material_version = '1.6.1'
