@@ -1,0 +1,10 @@
+TODOs:
+
+Migrate to version.catalogues,
+Migrate to a design system,
+Migrate to Material 3,
+Moduralize,
+Kotlin Kotlin Compiler Plugin,
+Remove Android specific dependencies,
+Write out a BE for the app and remove Firebase ( we could use the Firebase internally for auth or w/e )
+KMM
