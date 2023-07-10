@@ -18,6 +18,6 @@ jobs:
       - name: detekt
         run: ./gradlew detekt
       - name: Build android app
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
       - name: Run Unit Tests
-        run: ./gradlew testReleaseUnitTest
+        run: ./gradlew testReleaseUnitTest --stacktrace
