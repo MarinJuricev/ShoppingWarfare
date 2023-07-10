@@ -8,8 +8,8 @@ plugins {
 }
 
 android {
-    compileSdk 33
-    buildToolsVersion = "33"
+    compileSdk libs.versions.compileSdk.get().toInteger()
+    buildToolsVersion = libs.versions.buildTools.get()
 
     namespace 'com.marinj.shoppingwarfare'
 
@@ -91,6 +91,7 @@ dependencies {
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
     implementation libs.firebase.firestore
+    implementation libs.firebase.perf
 
     implementation libs.kotlinx.serialization.json
 
