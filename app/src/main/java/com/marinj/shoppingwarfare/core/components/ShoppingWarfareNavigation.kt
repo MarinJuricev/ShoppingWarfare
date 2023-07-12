@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.util.fastForEach
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.rememberNavController
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.NavigateBack
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.NavigateUp
@@ -30,7 +30,7 @@ import com.marinj.shoppingwarfare.feature.user.presentation.navigation.buildUser
 @Composable
 fun ShoppingWarfareNavigation(
     navigator: Navigator,
-    navController: NavHostController = rememberAnimatedNavController(),
+    navController: NavHostController = rememberNavController(),
     topBarViewModel: TopBarViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = Unit) {
@@ -81,7 +81,7 @@ fun ShoppingWarfareNavigation(
             }
         },
     ) { innerPadding ->
-        AnimatedNavHost(
+        NavHost(
             navController = navController,
             startDestination = CATEGORY_ROOT,
             Modifier.padding(innerPadding),

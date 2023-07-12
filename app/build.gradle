@@ -43,7 +43,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion libs.versions.compose.get()
+        kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
     }
 }
 
@@ -63,7 +63,6 @@ dependencies {
     debugImplementation libs.androidx.compose.ui.tooling
     implementation libs.androidx.navigation.compose
 
-    implementation libs.accompanist.navigation.animation
     implementation libs.accompanist.permissions
 
     implementation libs.hilt.android
