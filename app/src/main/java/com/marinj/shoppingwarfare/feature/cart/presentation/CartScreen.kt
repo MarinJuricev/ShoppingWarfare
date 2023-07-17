@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetScaffoldState
@@ -88,8 +89,8 @@ fun CartScreen(
             }
         },
         sheetPeekHeight = 0.dp,
-    ) {
-        Column {
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
             CartTabs(
                 selectedTabPosition = viewState.selectedTabPosition,
                 cartTabs = viewState.cartTabs,
