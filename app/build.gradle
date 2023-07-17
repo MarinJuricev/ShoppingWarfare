@@ -9,7 +9,7 @@ plugins {
 
 android {
     compileSdk libs.versions.compileSdk.get().toInteger()
-    buildToolsVersion = libs.versions.buildTools.get()
+    buildToolsVersion libs.versions.buildTools.get()
 
     namespace 'com.marinj.shoppingwarfare'
 
@@ -28,7 +28,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation project(":design-system")
+
     implementation libs.androidx.appcompat
     implementation libs.androidx.activity.compose
 
