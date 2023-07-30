@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.unit.sp
 
-object SWTypography {
+internal object SWTypography {
 
     private val DISPLAY = TextStyle(fontFamily = FontFamily.Default)
     private val HEADLINE = TextStyle(fontFamily = FontFamily.Default)
