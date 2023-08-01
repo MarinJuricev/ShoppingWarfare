@@ -29,6 +29,14 @@ android {
         jvmTarget = "17"
     }
     buildToolsVersion = libs.versions.buildTools.get()
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    }
 }
 
 dependencies {
