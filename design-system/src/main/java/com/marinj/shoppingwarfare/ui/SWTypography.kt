@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.ui.text
+package com.marinj.shoppingwarfare.ui
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily

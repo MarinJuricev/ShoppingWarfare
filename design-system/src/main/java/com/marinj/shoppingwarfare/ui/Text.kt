@@ -1,4 +1,4 @@
-package com.marinj.shoppingwarfare.ui.text
+package com.marinj.shoppingwarfare.ui
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
