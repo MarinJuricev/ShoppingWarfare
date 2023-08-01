@@ -11,13 +11,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 
 @Composable
-@Preview
-fun DisplayLarge(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextDisplayLarge(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -38,8 +35,8 @@ fun DisplayLarge(
 }
 
 @Composable
-fun DisplayMedium(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextDisplayMedium(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -60,9 +57,8 @@ fun DisplayMedium(
 }
 
 @Composable
-@Preview
-fun DisplaySmall(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextDisplaySmall(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -83,9 +79,8 @@ fun DisplaySmall(
 }
 
 @Composable
-@Preview
-fun HeadlineLarge(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextHeadlineLarge(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -106,9 +101,8 @@ fun HeadlineLarge(
 }
 
 @Composable
-@Preview
-fun HeadlineMedium(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextHeadlineMedium(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -129,9 +123,8 @@ fun HeadlineMedium(
 }
 
 @Composable
-@Preview
-fun HeadlineSmall(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextHeadlineSmall(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -152,9 +145,8 @@ fun HeadlineSmall(
 }
 
 @Composable
-@Preview
-fun TitleLarge(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextTitleLarge(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -175,9 +167,8 @@ fun TitleLarge(
 }
 
 @Composable
-@Preview
-fun TitleMedium(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextTitleMedium(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -198,9 +189,8 @@ fun TitleMedium(
 }
 
 @Composable
-@Preview
-fun TitleSmall(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextTitleSmall(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -221,9 +211,8 @@ fun TitleSmall(
 }
 
 @Composable
-@Preview
-fun BodyLarge(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextBodyLarge(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -244,9 +233,8 @@ fun BodyLarge(
 }
 
 @Composable
-@Preview
-fun BodyMedium(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextBodyMedium(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -267,9 +255,8 @@ fun BodyMedium(
 }
 
 @Composable
-@Preview
-fun BodySmall(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextBodySmall(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -290,9 +277,8 @@ fun BodySmall(
 }
 
 @Composable
-@Preview
-fun LabelLarge(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextLabelLarge(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -313,9 +299,8 @@ fun LabelLarge(
 }
 
 @Composable
-@Preview
-fun LabelMedium(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextLabelMedium(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -336,9 +321,8 @@ fun LabelMedium(
 }
 
 @Composable
-@Preview
-fun LabelSmall(
-    @PreviewParameter(TextConfigProvider::class) text: String,
+fun TextLabelSmall(
+    text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Black,
@@ -358,7 +342,6 @@ fun LabelSmall(
     )
 }
 
-// TODO: Provide a preview for this
 @Composable
 fun SpannedText(
     fullText: String,
@@ -366,7 +349,7 @@ fun SpannedText(
     modifier: Modifier = Modifier,
     spannedStyle: TextStyle = SWTypography.BodyMedium,
     textStyle: TextStyle = SWTypography.BodyMedium,
-    spannedTextColor: Color = Color.Black,
+    spannedTextColor: Color = Color.Red,
     textColor: Color = Color.Black,
 ) {
     val spanStyle = remember(spannedTextColor, spannedStyle) {
@@ -405,8 +388,100 @@ fun SpannedText(
     )
 }
 
-private class TextConfigProvider : PreviewParameterProvider<String> {
-    override val values: Sequence<String> = sequenceOf(
-        "Primary text", "Secondary text", "Tertiary text", "Disabled text",
+@Composable
+@Preview
+fun TextDisplayLargePreview() {
+    TextDisplayLarge(text = "TextDisplayLarge")
+}
+@Composable
+@Preview
+fun TextDisplayMediumPreview() {
+    TextDisplayMedium(text = "TextDisplayMedium")
+}
+
+@Composable
+@Preview
+fun TextDisplaySmallPreview() {
+    TextDisplaySmall(text = "TextDisplaySmall")
+}
+
+@Composable
+@Preview
+fun TextHeadlineLargePreview() {
+    TextHeadlineLarge(text = "TextHeadlineLarge")
+}
+
+@Composable
+@Preview
+fun TextHeadlineMediumPreview() {
+    TextHeadlineMedium(text = "TextHeadlineMedium")
+}
+
+@Composable
+@Preview
+fun TextHeadlineSmallPreview() {
+    TextHeadlineSmall(text = "TextHeadlineSmall")
+}
+
+@Composable
+@Preview
+fun TextTitleLargePreview() {
+    TextTitleLarge(text = "TextTitleLarge")
+}
+
+@Composable
+@Preview
+fun TextTitleMediumPreview() {
+    TextTitleMedium(text = "TextTitleMedium")
+}
+
+@Composable
+@Preview
+fun TextTitleSmallPreview() {
+    TextTitleSmall(text = "TextTitleSmall")
+}
+
+@Composable
+@Preview
+fun TextBodyLargePreview() {
+    TextBodyLarge(text = "TextBodyLarge")
+}
+
+@Composable
+@Preview
+fun TextBodyMediumPreview() {
+    TextBodyMedium(text = "TextBodyMedium")
+}
+
+@Composable
+@Preview
+fun TextBodySmallPreview() {
+    TextBodySmall(text = "TextBodySmall")
+}
+
+@Composable
+@Preview
+fun TextLabelLargePreview() {
+    TextLabelLarge(text = "TextLabelLarge")
+}
+
+@Composable
+@Preview
+fun TextLabelMediumPreview() {
+    TextLabelMedium(text = "TextLabelMedium")
+}
+
+@Composable
+@Preview
+fun TextLabelSmallPreview() {
+    TextLabelSmall(text = "TextLabelSmall")
+}
+
+@Composable
+@Preview
+fun SpannedTextPreview() {
+    SpannedText(
+        fullText = "SpannedText",
+        spannedTexts = listOf("Spanned"),
     )
 }
