@@ -91,7 +91,7 @@ fun TextHeadlineLarge(
     Text(
         text = text,
         modifier = modifier,
-        style = SWTypography.DisplayLarge,
+        style = SWTypography.HeadlineLarge,
         textAlign = textAlign,
         color = color,
         softWrap = softWrap,
@@ -389,96 +389,96 @@ fun SpannedText(
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextDisplayLargePreview() {
     TextDisplayLarge(text = "TextDisplayLarge")
 }
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextDisplayMediumPreview() {
     TextDisplayMedium(text = "TextDisplayMedium")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextDisplaySmallPreview() {
     TextDisplaySmall(text = "TextDisplaySmall")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextHeadlineLargePreview() {
     TextHeadlineLarge(text = "TextHeadlineLarge")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextHeadlineMediumPreview() {
     TextHeadlineMedium(text = "TextHeadlineMedium")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextHeadlineSmallPreview() {
     TextHeadlineSmall(text = "TextHeadlineSmall")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextTitleLargePreview() {
     TextTitleLarge(text = "TextTitleLarge")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextTitleMediumPreview() {
     TextTitleMedium(text = "TextTitleMedium")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextTitleSmallPreview() {
     TextTitleSmall(text = "TextTitleSmall")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextBodyLargePreview() {
     TextBodyLarge(text = "TextBodyLarge")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextBodyMediumPreview() {
     TextBodyMedium(text = "TextBodyMedium")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextBodySmallPreview() {
     TextBodySmall(text = "TextBodySmall")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextLabelLargePreview() {
     TextLabelLarge(text = "TextLabelLarge")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextLabelMediumPreview() {
     TextLabelMedium(text = "TextLabelMedium")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun TextLabelSmallPreview() {
     TextLabelSmall(text = "TextLabelSmall")
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 internal fun SpannedTextPreview() {
     SpannedText(
         fullText = "SpannedText",
