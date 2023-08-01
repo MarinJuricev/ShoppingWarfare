@@ -390,96 +390,96 @@ fun SpannedText(
 
 @Composable
 @Preview
-fun TextDisplayLargePreview() {
+internal fun TextDisplayLargePreview() {
     TextDisplayLarge(text = "TextDisplayLarge")
 }
 @Composable
 @Preview
-fun TextDisplayMediumPreview() {
+internal fun TextDisplayMediumPreview() {
     TextDisplayMedium(text = "TextDisplayMedium")
 }
 
 @Composable
 @Preview
-fun TextDisplaySmallPreview() {
+internal fun TextDisplaySmallPreview() {
     TextDisplaySmall(text = "TextDisplaySmall")
 }
 
 @Composable
 @Preview
-fun TextHeadlineLargePreview() {
+internal fun TextHeadlineLargePreview() {
     TextHeadlineLarge(text = "TextHeadlineLarge")
 }
 
 @Composable
 @Preview
-fun TextHeadlineMediumPreview() {
+internal fun TextHeadlineMediumPreview() {
     TextHeadlineMedium(text = "TextHeadlineMedium")
 }
 
 @Composable
 @Preview
-fun TextHeadlineSmallPreview() {
+internal fun TextHeadlineSmallPreview() {
     TextHeadlineSmall(text = "TextHeadlineSmall")
 }
 
 @Composable
 @Preview
-fun TextTitleLargePreview() {
+internal fun TextTitleLargePreview() {
     TextTitleLarge(text = "TextTitleLarge")
 }
 
 @Composable
 @Preview
-fun TextTitleMediumPreview() {
+internal fun TextTitleMediumPreview() {
     TextTitleMedium(text = "TextTitleMedium")
 }
 
 @Composable
 @Preview
-fun TextTitleSmallPreview() {
+internal fun TextTitleSmallPreview() {
     TextTitleSmall(text = "TextTitleSmall")
 }
 
 @Composable
 @Preview
-fun TextBodyLargePreview() {
+internal fun TextBodyLargePreview() {
     TextBodyLarge(text = "TextBodyLarge")
 }
 
 @Composable
 @Preview
-fun TextBodyMediumPreview() {
+internal fun TextBodyMediumPreview() {
     TextBodyMedium(text = "TextBodyMedium")
 }
 
 @Composable
 @Preview
-fun TextBodySmallPreview() {
+internal fun TextBodySmallPreview() {
     TextBodySmall(text = "TextBodySmall")
 }
 
 @Composable
 @Preview
-fun TextLabelLargePreview() {
+internal fun TextLabelLargePreview() {
     TextLabelLarge(text = "TextLabelLarge")
 }
 
 @Composable
 @Preview
-fun TextLabelMediumPreview() {
+internal fun TextLabelMediumPreview() {
     TextLabelMedium(text = "TextLabelMedium")
 }
 
 @Composable
 @Preview
-fun TextLabelSmallPreview() {
+internal fun TextLabelSmallPreview() {
     TextLabelSmall(text = "TextLabelSmall")
 }
 
 @Composable
 @Preview
-fun SpannedTextPreview() {
+internal fun SpannedTextPreview() {
     SpannedText(
         fullText = "SpannedText",
         spannedTexts = listOf("Spanned"),
