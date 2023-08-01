@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -37,6 +38,15 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
+
+    kotlin {
+        sourceSets.main {
+            kotlin.srcDir("build/generated/ksp/main/kotlin")
+        }
+        sourceSets.test {
+            kotlin.srcDir("build/generated/ksp/test/kotlin")
+        }
+    }
 }
 
 dependencies {
@@ -46,6 +56,9 @@ dependencies {
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.compiler)
+
+    implementation(libs.showkase)
+    ksp(libs.showkase.processor)
 
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.window)

@@ -42,6 +42,8 @@ coroutines-test = "1.6.0"
 core-ktx = "1.9.0"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
+showkase = "1.0.0-beta18"
+ksp = "1.9.0-1.0.11"
 
 [libraries]
 arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
@@ -86,6 +88,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 detekt-cli = { group = "io.gitlab.arturbosch.detekt", name = "detekt-cli", version.ref = "detekt" }
 ktlint = { group = "com.pinterest", name = "ktlint", version.ref = "ktlint" }
+showkase = { group = "com.airbnb.android", name = "showkase", version.ref = "showkase" }
+showkase-processor = { group = "com.airbnb.android", name = "showkase-processor", version.ref = "showkase" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -106,3 +110,4 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
