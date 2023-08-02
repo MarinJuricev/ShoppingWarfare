@@ -5,6 +5,7 @@ plugins {
     id "dagger.hilt.android.plugin"
     id "com.google.gms.google-services"
     id "org.jetbrains.kotlin.plugin.serialization"
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -40,6 +41,7 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        buildConfig true
         compose true
     }
     composeOptions {
@@ -74,7 +76,7 @@ dependencies {
 
     implementation libs.room.runtime
     implementation libs.room.ktx
-    kapt libs.room.compiler
+    ksp libs.room.compiler
 
     implementation libs.constraintlayout.compose
 
