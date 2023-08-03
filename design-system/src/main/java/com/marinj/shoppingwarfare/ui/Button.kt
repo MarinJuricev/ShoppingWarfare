@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 
-
 @Composable
 fun PrimaryOutlinedButton(
     text: String,
@@ -134,7 +133,6 @@ fun TertiaryElevatedButton(
         Text(text = text)
     }
 }
-
 
 @Composable
 fun PrimaryTextButton(

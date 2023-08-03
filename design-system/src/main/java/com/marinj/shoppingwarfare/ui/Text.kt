@@ -393,6 +393,7 @@ fun SpannedText(
 internal fun TextDisplayLargePreview() {
     TextDisplayLarge(text = "TextDisplayLarge")
 }
+
 @Composable
 @Preview(showBackground = true)
 internal fun TextDisplayMediumPreview() {
