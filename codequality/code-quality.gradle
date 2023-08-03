@@ -3,12 +3,12 @@ configurations {
 }
 
 tasks.register("detekt", JavaExec) {
-    main = "io.gitlab.arturbosch.detekt.cli.Main"
+    mainClass = "io.gitlab.arturbosch.detekt.cli.Main"
     classpath = configurations.detekt
 
     def input = "$projectDir"
     def config = "$rootDir/codequality/detekt.yml"
-    def exclude = ".*/build/.*,.*/resources/.*"
+    def exclude = "**/build/**,.*/resources/.*"
     def params = ['-i', input, '-c', config, '-ex', exclude]
 
     args(params)
@@ -33,11 +33,13 @@ dependencies {
     // ktlint will pick them up
 }
 
-task ktlintCheck(type: JavaExec, group: "verification") {
+tasks.register('ktlintCheck', JavaExec) {
     description = "Check Kotlin code style."
     classpath = configurations.ktlint
     mainClass = "com.pinterest.ktlint.Main"
-    args ("src/**/*.kt", "--editorconfig=.editorconfig" , "--experimental")
+    // Fixes a known ktlint issue https://github.com/pinterest/ktlint/issues/1195
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
+    args("src/**/*.kt", "--editorconfig=.editorconfig", "--experimental")
     // to generate report in checkstyle format prepend following args:
     // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
     // to add a baseline to check against prepend following args:
@@ -45,9 +47,11 @@ task ktlintCheck(type: JavaExec, group: "verification") {
     // see https://github.com/pinterest/ktlint#usage for more
 }
 
-task ktlintFormat(type: JavaExec, group: "formatting") {
+tasks.register('ktlintFormat', JavaExec) {
     description = "Fix Kotlin code style deviations."
     classpath = configurations.ktlint
     mainClass = "com.pinterest.ktlint.Main"
-    args ("-F", "src/**/*.kt", "--editorconfig=.editorconfig" , "--experimental")
+    // Fixes a known ktlint issue https://github.com/pinterest/ktlint/issues/1195
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
+    args("-F", "src/**/*.kt", "--editorconfig=.editorconfig", "--experimental")
 }
