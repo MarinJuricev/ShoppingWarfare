@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.marinj.shoppingwarfare"
+    namespace = "com.marinj.shoppingwarfare.designsystem"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
