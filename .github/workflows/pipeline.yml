@@ -28,7 +28,7 @@ jobs:
       - name: Putting data
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > /home/runner/work/<Project-Name>/<Project-Name>/app/google-services.json
+        run: echo $DATA > /home/runner/ShoppingWarfareAndroid/ShoppingWarfareAndroid/app/google-services.json
       - name: Build android app
         run: ./gradlew assembleDebug --stacktrace
       - name: Run Unit Tests
@@ -46,6 +46,6 @@ jobs:
       - name: Putting data
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > /home/runner/work/<Project-Name>/<Project-Name>/app/google-services.json
+        run: echo $DATA > /home/runner/ShoppingWarfareAndroid/ShoppingWarfareAndroid/app/google-services.json
       - name: Run Unit Tests
         run: ./gradlew testReleaseUnitTest --stacktrace
