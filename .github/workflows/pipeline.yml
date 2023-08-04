@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   static_analysis:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: set up JDK 11
@@ -16,24 +16,36 @@ jobs:
       - name: detekt
         run: ./gradlew detekt
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      - name: Create file
+        run: cat /home/runner/work/ShoppingWarfareAndroid/ShoppingWarfareAndroid/app/google-services.json | base64
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/<Project-Name>/<Project-Name>/app/google-services.json
       - name: Build android app
         run: ./gradlew assembleDebug --stacktrace
       - name: Run Unit Tests
         run: ./gradlew testReleaseUnitTest --stacktrace
   test:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      - name: Create file
+        run: cat /home/runner/work/ShoppingWarfareAndroid/ShoppingWarfareAndroid/app/google-services.json | base64
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/<Project-Name>/<Project-Name>/app/google-services.json
       - name: Run Unit Tests
         run: ./gradlew testReleaseUnitTest --stacktrace
