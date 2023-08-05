@@ -33,7 +33,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -83,20 +85,18 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    private fun handleGetCartItems() = viewModelScope.launch {
-        observeCartItems()
-            .onStart { updateIsLoading(isLoading = true) }
-            .catch { handleGetCartItemsError() }
-            .map { cartItems -> cartItemToUiCartItemMapper.map(cartItems) }
-            .collect { cartItems ->
-                _viewState.update { viewState ->
-                    viewState.copy(
-                        uiCartItems = cartItems,
-                        isLoading = false,
-                    )
-                }
+    private fun handleGetCartItems() = observeCartItems()
+        .onStart { updateIsLoading(isLoading = true) }
+        .catch { handleGetCartItemsError() }
+        .map(cartItemToUiCartItemMapper::map)
+        .onEach { cartItems ->
+            _viewState.update { viewState ->
+                viewState.copy(
+                    uiCartItems = cartItems,
+                    isLoading = false,
+                )
             }
-    }
+        }.launchIn(viewModelScope)
 
     private fun handleReceiptCaptureError() {
         _viewState.update { viewState ->
