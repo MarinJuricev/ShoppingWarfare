@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryDetailTopBar
@@ -21,7 +20,7 @@ import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.Hist
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.viewmodel.HistoryDetailViewModel
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
-import kotlinx.coroutines.flow.collect
+import com.marinj.shoppingwarfare.ui.ShoppingWarfareEmptyScreen
 
 @Composable
 fun HistoryDetailScreen(

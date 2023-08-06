@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R.string
-import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
 import com.marinj.shoppingwarfare.core.ext.openAppSystemSettings
@@ -36,6 +35,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
+import com.marinj.shoppingwarfare.ui.ShoppingWarfareEmptyScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

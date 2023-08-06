@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R.string
-import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.ext.expandOrCollapse
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
@@ -34,6 +33,7 @@ import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.Pro
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmodel.ProductViewModel
+import com.marinj.shoppingwarfare.ui.ShoppingWarfareEmptyScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.marinj.shoppingwarfare.R
-import com.marinj.shoppingwarfare.core.components.ShoppingWarfareEmptyScreen
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicator
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
@@ -30,6 +29,7 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.model.Categ
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
+import com.marinj.shoppingwarfare.ui.ShoppingWarfareEmptyScreen
 
 @Composable
 fun CategoryScreen(
@@ -84,14 +84,16 @@ fun CategoryScreen(
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when {
-                viewState.isLoading -> ShoppingWarfareLoadingIndicator()
                 viewState.categories.isEmpty() ->
                     ShoppingWarfareEmptyScreen(message = stringResource(R.string.empty_category_message))
-                viewState.categories.isNotEmpty() -> CategoryGrid(
+                else -> CategoryGrid(
                     categoryList = viewState.categories,
                     onCategoryEvent = categoryViewModel::onEvent,
                 )
             }
+
+            if(viewState.isLoading)
+                ShoppingWarfareLoadingIndicator()
         }
     }
 }
