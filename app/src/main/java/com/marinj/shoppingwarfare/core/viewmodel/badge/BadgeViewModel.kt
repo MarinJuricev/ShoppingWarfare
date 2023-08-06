@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -19,12 +20,15 @@ class BadgeViewModel @Inject constructor(
     private val observeCartItemsCount: ObserveCartItemsCount,
 ) : BaseViewModel<BadgeEvent>() {
 
-    private val _viewState = MutableStateFlow(BadgeViewState())
-    val viewState = _viewState.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
-        initialValue = BadgeViewState(),
-    )
+    private val badgeCount = MutableStateFlow<Int?>(null)
+
+    val viewState = badgeCount
+        .mapLatest { updatedBadgeCount -> BadgeViewState(cartBadgeCount = updatedBadgeCount) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
+            initialValue = BadgeViewState(),
+        )
 
     override fun onEvent(event: BadgeEvent) {
         when (event) {
@@ -34,6 +38,6 @@ class BadgeViewModel @Inject constructor(
 
     private fun handleStartObservingBadgesCount() = observeCartItemsCount()
         .onEach { newBadgeCount ->
-            _viewState.update { it.copy(cartBadgeCount = newBadgeCount) }
+            badgeCount.update { newBadgeCount }
         }.launchIn(viewModelScope)
 }

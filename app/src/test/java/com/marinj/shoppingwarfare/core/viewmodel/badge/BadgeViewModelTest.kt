@@ -21,6 +21,7 @@ class BadgeViewModelTest {
                 observeCartItemsCount = FakeSuccessObserveCartItemsCount(NUMBER_OF_CART_ITEMS),
             )
             val expectedResult = BadgeViewState(cartBadgeCount = NUMBER_OF_CART_ITEMS)
+
             sut.onEvent(StartObservingBadgesCount)
 
             sut.viewState.test {
