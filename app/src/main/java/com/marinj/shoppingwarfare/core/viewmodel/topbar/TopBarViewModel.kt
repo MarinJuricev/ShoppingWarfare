@@ -11,21 +11,27 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBa
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.ProductTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
 
-    private val _viewState = MutableStateFlow<TopBarViewState>(NoSearchBarTopBarViewState())
-    val viewState = _viewState.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
-        initialValue = NoSearchBarTopBarViewState(),
-    )
+    // Instead of using a MutableStateFlow, we use a MutableSharedFlow with an extraBufferCapacity to keep updates that are
+    // not collected yet from the downstream.
+    private val _viewState = MutableSharedFlow<TopBarViewState>(replay = 1, extraBufferCapacity = 10)
+    val viewState = _viewState
+        .buffer()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
+            initialValue = NoSearchBarTopBarViewState(),
+        )
 
     override fun onEvent(event: TopBarEvent) {
         when (event) {
@@ -40,67 +46,81 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
     }
 
     private fun handleCategoryTopBar(event: CategoryTopBar) {
-        _viewState.update {
-            NoSearchBarTopBarViewState(
-                title = event.title,
-                icon = event.icon,
-                onActionClick = event.onActionClick,
+        viewModelScope.launch {
+            _viewState.emit(
+                NoSearchBarTopBarViewState(
+                    title = event.title,
+                    icon = event.icon,
+                    onActionClick = event.onActionClick,
+                ),
             )
         }
     }
 
     private fun handleCreateCategoryTopBar(event: CreateCategoryTopBar) {
-        _viewState.update {
-            NoSearchBarTopBarViewState(
-                title = event.title,
-                subTitle = event.subTitle,
+        viewModelScope.launch {
+            _viewState.emit(
+                NoSearchBarTopBarViewState(
+                    title = event.title,
+                    subTitle = event.subTitle,
+                ),
             )
         }
     }
 
     private fun handleCategoryDetailTopBar(event: ProductTopBar) {
-        _viewState.update {
-            NoSearchBarTopBarViewState(
-                title = event.title,
-                subTitle = event.subTitle,
-                icon = event.icon,
-                onActionClick = event.onActionClick,
+        viewModelScope.launch {
+            _viewState.emit(
+                NoSearchBarTopBarViewState(
+                    title = event.title,
+                    subTitle = event.subTitle,
+                    icon = event.icon,
+                    onActionClick = event.onActionClick,
+                ),
             )
         }
     }
 
     private fun handleCartTopBar(event: CartTopBar) {
-        _viewState.update {
-            NoSearchBarTopBarViewState(
-                isTopBarVisible = event.isVisible,
+        viewModelScope.launch {
+            _viewState.emit(
+                NoSearchBarTopBarViewState(
+                    isTopBarVisible = event.isVisible,
+                ),
             )
         }
     }
 
     private fun handleHistoryTopBar(event: HistoryTopBar) {
-        _viewState.update {
-            SearchTopBarViewState(
-                searchText = event.searchTextUpdated,
-                isSearchEnabled = event.isSearchEnabled,
-                onTextChange = event.onTextChange,
-                onActionClick = event.onActionClick,
+        viewModelScope.launch {
+            _viewState.emit(
+                SearchTopBarViewState(
+                    searchText = event.searchTextUpdated,
+                    isSearchEnabled = event.isSearchEnabled,
+                    onTextChange = event.onTextChange,
+                    onActionClick = event.onActionClick,
+                ),
             )
         }
     }
 
     private fun handleHistoryDetailTopBar(event: HistoryDetailTopBar) {
-        _viewState.update {
-            NoSearchBarTopBarViewState(
-                title = event.title,
-                subTitle = event.subTitle,
+        viewModelScope.launch {
+            _viewState.emit(
+                NoSearchBarTopBarViewState(
+                    title = event.title,
+                    subTitle = event.subTitle,
+                ),
             )
         }
     }
 
     private fun handleUserTopBar(event: UserTopBar) {
-        _viewState.update {
-            NoSearchBarTopBarViewState(
-                isTopBarVisible = event.isVisible,
+        viewModelScope.launch {
+            _viewState.emit(
+                NoSearchBarTopBarViewState(
+                    isTopBarVisible = event.isVisible,
+                ),
             )
         }
     }
