@@ -5,7 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareNavigation
 import com.marinj.shoppingwarfare.core.navigation.Navigator
-import com.marinj.shoppingwarfare.core.theme.ShoppingWarfareTheme
+import com.marinj.shoppingwarfare.ui.SWTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupShoppingWarfareSplash()
         setContent {
-            ShoppingWarfareTheme {
+            SWTheme {
                 ShoppingWarfareNavigation(
                     navigator = navigator,
                 )
