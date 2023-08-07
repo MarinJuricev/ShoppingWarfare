@@ -14,9 +14,6 @@ value class ResourceColor private constructor(val value: Int) {
             tag: String? = null,
         ): Either<Failure, ResourceColor> = when {
             valueToValidate == null -> ErrorMessage("${tagOrDefault(tag)} can not be null").left()
-            valueToValidate <= 0 -> ErrorMessage(
-                "${tagOrDefault(tag)} value must be a positive number, got: $valueToValidate",
-            ).left()
             else -> ResourceColor(value = valueToValidate).right()
         }
 

@@ -66,7 +66,7 @@ class CategoryTest {
 
     @Test
     fun `Category SHOULD return Left WHEN titleColor is null`() {
-        val expectedResult = ErrorMessage("backgroundColor value must be a positive number, got: 0").left()
+        val expectedResult = ErrorMessage("titleColor can not be null").left()
 
         val result = Category(
             id = ID,
