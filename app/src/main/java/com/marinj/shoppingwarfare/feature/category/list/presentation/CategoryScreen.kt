@@ -110,8 +110,9 @@ private fun CategoryScreen(
                 )
             }
 
-            if (viewState.isLoading)
+            if (viewState.isLoading) {
                 ShoppingWarfareLoadingIndicator()
+            }
         }
     }
 }
