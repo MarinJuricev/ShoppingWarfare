@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -23,11 +24,13 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicato
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CategoryTopBar
 import com.marinj.shoppingwarfare.feature.category.list.presentation.components.CategoryGrid
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.GetCategories
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.NavigateToCreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.UndoCategoryDeletion
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.DeleteCategoryView
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewState
 import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
 import com.marinj.shoppingwarfare.ui.ShoppingWarfareEmptyScreen
 
@@ -36,9 +39,9 @@ fun CategoryScreen(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
     setupTopBar: (TopBarEvent) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
+    context: Context = LocalContext.current,
 ) {
     val viewState by categoryViewModel.viewState.collectAsState()
-    val context = LocalContext.current
 
     LaunchedEffect(
         key1 = Unit,
@@ -74,11 +77,25 @@ fun CategoryScreen(
                         categoryViewModel.onEvent(UndoCategoryDeletion(categoryEffect.uiCategory))
                     }
                 }
+
                 is Error -> scaffoldState.snackbarHostState.showSnackbar(categoryEffect.errorMessage)
             }
         }
     }
 
+    CategoryScreen(
+        viewState = viewState,
+        onEvent = categoryViewModel::onEvent,
+        scaffoldState = scaffoldState,
+    )
+}
+
+@Composable
+private fun CategoryScreen(
+    viewState: CategoryViewState,
+    onEvent: (CategoryEvent) -> Unit,
+    scaffoldState: ScaffoldState,
+) {
     Scaffold(
         scaffoldState = scaffoldState,
     ) { paddingValues ->
@@ -86,13 +103,14 @@ fun CategoryScreen(
             when {
                 viewState.categories.isEmpty() ->
                     ShoppingWarfareEmptyScreen(message = stringResource(R.string.empty_category_message))
+
                 else -> CategoryGrid(
                     categoryList = viewState.categories,
-                    onCategoryEvent = categoryViewModel::onEvent,
+                    onCategoryEvent = onEvent,
                 )
             }
 
-            if(viewState.isLoading)
+            if (viewState.isLoading)
                 ShoppingWarfareLoadingIndicator()
         }
     }

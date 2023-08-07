@@ -1,9 +1,15 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation.navigation
 
+import androidx.compose.material.SnackbarResult
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.BottomNavigationItem
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.CreateCategoryScreen
@@ -13,6 +19,10 @@ import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigatio
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CATEGORY_NAME_PARAM
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.ProductDestination
 import com.marinj.shoppingwarfare.feature.category.list.presentation.CategoryScreen
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect
+import com.marinj.shoppingwarfare.feature.category.list.presentation.viewmodel.CategoryViewModel
+import kotlinx.coroutines.flow.collect
 
 const val CATEGORY_ROOT = "categoryRoot"
 
