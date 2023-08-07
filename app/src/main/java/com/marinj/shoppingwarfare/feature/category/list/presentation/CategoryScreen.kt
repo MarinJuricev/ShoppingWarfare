@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation
 
 import android.content.Context
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -100,14 +101,17 @@ private fun CategoryScreen(
         scaffoldState = scaffoldState,
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            when {
-                viewState.categories.isEmpty() ->
-                    ShoppingWarfareEmptyScreen(message = stringResource(R.string.empty_category_message))
-
-                else -> CategoryGrid(
-                    categoryList = viewState.categories,
-                    onCategoryEvent = onEvent,
-                )
+            AnimatedContent(
+                targetState = viewState.categories.isEmpty(),
+                label = "CategoryScreen",
+            ) {
+                when (it) {
+                    true -> ShoppingWarfareEmptyScreen(message = stringResource(R.string.empty_category_message))
+                    false -> CategoryGrid(
+                        categoryList = viewState.categories,
+                        onCategoryEvent = onEvent,
+                    )
+                }
             }
 
             if (viewState.isLoading) {
