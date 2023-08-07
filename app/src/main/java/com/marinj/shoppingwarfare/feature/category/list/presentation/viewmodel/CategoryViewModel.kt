@@ -27,6 +27,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -45,8 +46,18 @@ class CategoryViewModel @Inject constructor(
     private val navigator: Navigator,
 ) : BaseViewModel<CategoryEvent>() {
 
-    private val _viewState = MutableStateFlow(CategoryViewState())
-    val viewState = _viewState.stateIn(
+    private val isLoading = MutableStateFlow(true)
+    private val categories = MutableStateFlow(emptyList<UiCategory>())
+
+    val viewState = combine(
+        isLoading,
+        categories,
+    ) { isLoading, categories ->
+        CategoryViewState(
+            isLoading = isLoading,
+            categories = categories,
+        )
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
         initialValue = CategoryViewState(),
@@ -71,18 +82,14 @@ class CategoryViewModel @Inject constructor(
 
     private fun handleGetGroceries() = viewModelScope.launch {
         observeCategories()
-            .onStart { updateIsLoading(isLoading = true) }
+            .onStart { isLoading.update { true } }
             .catch { handleGetCategoriesError() }
             .map { categoryList ->
                 categoryList.map { category -> category.toUi() }
             }
             .collect { uiCategoryList ->
-                _viewState.update { viewState ->
-                    viewState.copy(
-                        categories = uiCategoryList,
-                        isLoading = false,
-                    )
-                }
+                isLoading.update { false }
+                categories.update { uiCategoryList }
             }
     }
 
@@ -91,16 +98,8 @@ class CategoryViewModel @Inject constructor(
     }
 
     private suspend fun handleGetCategoriesError() {
-        updateIsLoading(isLoading = false)
+        isLoading.update { false }
         _viewEffect.send(Error("Failed to fetch Categories, try again later."))
-    }
-
-    private fun updateIsLoading(isLoading: Boolean) {
-        _viewState.update { viewState ->
-            viewState.copy(
-                isLoading = isLoading,
-            )
-        }
     }
 
     private fun handleNavigateToCategoryDetail(
@@ -139,7 +138,6 @@ class CategoryViewModel @Inject constructor(
         undoCategoryDeletion(category).fold(
             ifLeft = { _viewEffect.send(Error("Couldn't undo category deletion.")) },
             ifRight = { Timber.d("${category.title} successfully restored") },
-
         )
     }
 }

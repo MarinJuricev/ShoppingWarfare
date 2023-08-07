@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation.navigation
 
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

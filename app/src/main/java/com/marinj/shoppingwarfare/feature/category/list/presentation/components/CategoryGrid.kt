@@ -17,7 +17,7 @@ fun CategoryGrid(
     onCategoryEvent: (CategoryEvent) -> Unit,
 ) {
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-        items(categoryList) { uiCategory ->
+        items(categoryList, key = { category -> category.id }) { uiCategory ->
             CategoryCard(
                 modifier = Modifier
                     .padding(16.dp)
