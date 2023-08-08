@@ -23,8 +23,6 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -68,9 +66,9 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
                     targetState = topBarViewState,
                     transitionSpec = {
                         (
-                                fadeIn(animationSpec = tween(1_000, delayMillis = 90)) +
-                                        scaleIn(initialScale = 0.92f, animationSpec = tween(1_000, delayMillis = 90))
-                                )
+                            fadeIn(animationSpec = tween(1_000, delayMillis = 90)) +
+                                scaleIn(initialScale = 0.92f, animationSpec = tween(1_000, delayMillis = 90))
+                            )
                             .togetherWith(fadeOut(animationSpec = tween(90)))
                     },
                     label = "topBarActions",
