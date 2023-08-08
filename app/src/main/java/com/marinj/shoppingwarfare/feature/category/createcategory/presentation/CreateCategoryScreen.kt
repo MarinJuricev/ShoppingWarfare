@@ -25,12 +25,14 @@ import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.components.ColorPicker
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnTitleColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewState
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.viewmodel.CreateCategoryViewModel
 import com.marinj.shoppingwarfare.ui.PrimaryElevatedButton
 import com.marinj.shoppingwarfare.ui.SWCard
@@ -44,8 +46,8 @@ fun CreateCategoryScreen(
     setupTopBar: (TopBarEvent) -> Unit,
     createCategoryViewModel: CreateCategoryViewModel = hiltViewModel(),
 ) {
-    val viewState by createCategoryViewModel.createCategoryViewState.collectAsState()
     var snackBarState by remember { mutableStateOf<SnackBarState?>(null) }
+    val viewState by createCategoryViewModel.createCategoryViewState.collectAsState()
     val currentContext = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
@@ -69,6 +71,19 @@ fun CreateCategoryScreen(
         }
     }
 
+    CreateCategoryScreen(
+        viewState = viewState,
+        onEvent = createCategoryViewModel::onEvent,
+        snackBarState = snackBarState,
+    )
+}
+
+@Composable
+private fun CreateCategoryScreen(
+    viewState: CreateCategoryViewState,
+    onEvent: (CreateCategoryEvent) -> Unit,
+    snackBarState: SnackBarState?,
+) {
     SWScaffold(
         snackBarState = snackBarState,
     ) { paddingValues ->
@@ -87,7 +102,7 @@ fun CreateCategoryScreen(
                     value = viewState.categoryName,
                     singleLine = true,
                     label = { Text(stringResource(string.category_name)) },
-                    onValueChange = { createCategoryViewModel.onEvent(OnCategoryNameChanged(it)) },
+                    onValueChange = { onEvent(OnCategoryNameChanged(it)) },
                 )
                 ColorPicker(
                     modifier = Modifier
@@ -96,7 +111,7 @@ fun CreateCategoryScreen(
                         .padding(top = 24.dp),
                     title = stringResource(string.category_background_color),
                     onColorChanged = {
-                        createCategoryViewModel.onEvent(OnBackgroundColorChanged(it))
+                        onEvent(OnBackgroundColorChanged(it))
                     },
                     selectedColor = viewState.backgroundColor,
                     colors = viewState.availableColors,
@@ -108,7 +123,7 @@ fun CreateCategoryScreen(
                         .padding(top = 24.dp),
                     title = stringResource(string.category_title_color),
                     onColorChanged = {
-                        createCategoryViewModel.onEvent(OnTitleColorChanged(it))
+                        onEvent(OnTitleColorChanged(it))
                     },
                     selectedColor = viewState.titleColor,
                     colors = viewState.availableColors,
@@ -116,7 +131,7 @@ fun CreateCategoryScreen(
                 PrimaryElevatedButton(
                     modifier = Modifier.padding(top = 24.dp),
                     text = stringResource(string.create_category),
-                    onClick = { createCategoryViewModel.onEvent(OnCreateCategoryClicked) },
+                    onClick = { onEvent(OnCreateCategoryClicked) },
                 )
             }
         }
