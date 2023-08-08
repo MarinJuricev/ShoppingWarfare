@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.core.components
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Badge
 import androidx.compose.material.BadgedBox
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -14,6 +13,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.marinj.shoppingwarfare.ui.SWNavigationItem
+import com.marinj.shoppingwarfare.ui.TextBodyMedium
 
 @Composable
 fun RowScope.ShoppingWarfareBadgedBottomNavigationItem(
@@ -22,18 +23,20 @@ fun RowScope.ShoppingWarfareBadgedBottomNavigationItem(
     badgeCount: Int?,
     navController: NavHostController,
 ) {
-    BottomNavigationItem(
+    SWNavigationItem(
         icon = {
-            BadgedBox(badge = {
-                badgeCount?.let { count ->
-                    Badge {
-                        Text(
-                            text = count.toString(),
-                            color = MaterialTheme.colors.surface,
-                        )
+            BadgedBox(
+                badge = {
+                    badgeCount?.let { count ->
+                        Badge {
+                            TextBodyMedium(
+                                text = count.toString(),
+                                color = MaterialTheme.colors.surface,
+                            )
+                        }
                     }
-                }
-            }) {
+                },
+            ) {
                 Icon(
                     painter = painterResource(screen.iconId),
                     contentDescription = screen.route,
@@ -44,7 +47,6 @@ fun RowScope.ShoppingWarfareBadgedBottomNavigationItem(
         selected = currentDestination?.hierarchy?.any {
             it.route?.contains(screen.route) ?: false
         } == true,
-        alwaysShowLabel = false,
         onClick = {
             navController.navigate(screen.route) {
                 // Pop up to the start destination of the graph to

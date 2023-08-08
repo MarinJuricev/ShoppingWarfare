@@ -1,8 +1,6 @@
 package com.marinj.shoppingwarfare.core.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,6 +24,8 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.navigation.
 import com.marinj.shoppingwarfare.feature.category.list.presentation.navigation.buildCategoryGraph
 import com.marinj.shoppingwarfare.feature.history.list.presentation.navigation.buildHistoryGraph
 import com.marinj.shoppingwarfare.feature.user.presentation.navigation.buildUserGraph
+import com.marinj.shoppingwarfare.ui.SWNavigationMenu
+import com.marinj.shoppingwarfare.ui.SWScaffold
 
 @Composable
 fun ShoppingWarfareNavigation(
@@ -46,12 +46,12 @@ fun ShoppingWarfareNavigation(
         }
     }
 
-    Scaffold(
+    SWScaffold(
         topBar = {
             ShoppingWarfareTopBar(topBarViewModel.viewState.collectAsState().value)
         },
         bottomBar = {
-            BottomNavigation {
+            SWNavigationMenu {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
