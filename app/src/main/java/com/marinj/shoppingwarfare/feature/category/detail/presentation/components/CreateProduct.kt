@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnCreateProduct
+import com.marinj.shoppingwarfare.ui.SWTextField
 
 @Composable
 fun CreateProduct(
@@ -34,6 +35,7 @@ fun CreateProduct(
     onProductEvent: (ProductEvent) -> Unit,
 ) {
     var categoryItemName by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.fillMaxHeight(0.25f),
         verticalArrangement = Arrangement.Center,
@@ -49,7 +51,7 @@ fun CreateProduct(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            OutlinedTextField(
+            SWTextField(
                 value = categoryItemName,
                 onValueChange = { updatedCategoryItemName ->
                     categoryItemName = updatedCategoryItemName
