@@ -123,7 +123,7 @@ fun ProductScreen(
                     string.empty_category_detail_message,
                 ),
             )
-            viewState.products.isNotEmpty() -> ProductList(
+            else -> ProductList(
                 viewState.products,
                 productViewModel::onEvent,
             )

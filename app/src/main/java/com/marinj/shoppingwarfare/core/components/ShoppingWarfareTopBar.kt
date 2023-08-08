@@ -23,8 +23,6 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -38,6 +36,7 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.NoSearchBarTopBarViewState
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.SearchTopBarViewState
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewState
+import com.marinj.shoppingwarfare.ui.SWTextField
 import com.marinj.shoppingwarfare.ui.SWTopAppBar
 import com.marinj.shoppingwarfare.ui.TextBodyLarge
 import com.marinj.shoppingwarfare.ui.TextBodyMedium
@@ -84,21 +83,17 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
                         }
 
                         is SearchTopBarViewState -> targetState.searchText?.let { searchText ->
-                            OutlinedTextField(
+                            SWTextField(
                                 modifier = Modifier.fillMaxWidth(0.8f),
                                 value = searchText(),
                                 singleLine = true,
-                                placeholder = {
+                                label = {
                                     TextBodyMedium(
                                         text = stringResource(id = R.string.history_search),
                                         color = Color.Gray,
                                     )
                                 },
                                 onValueChange = targetState.onTextChange,
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    backgroundColor = Color.White,
-                                    textColor = MaterialTheme.colors.onSurface,
-                                ),
                             )
                         }
                     }
