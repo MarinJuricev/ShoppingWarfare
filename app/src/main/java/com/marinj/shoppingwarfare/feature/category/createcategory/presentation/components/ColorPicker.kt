@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.ui.TextBodyMedium
 
 @Composable
 fun ColorPicker(
@@ -32,7 +32,7 @@ fun ColorPicker(
     colors: List<Color>,
 ) {
     Column(modifier = modifier) {
-        Text(title, textAlign = TextAlign.Center)
+        TextBodyMedium(title, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.padding(vertical = 4.dp))
         LazyVerticalGrid(
             columns = GridCells.Adaptive(36.dp),

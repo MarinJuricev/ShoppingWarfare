@@ -44,25 +44,22 @@ fun CategoryScreen(
 ) {
     val viewState by categoryViewModel.viewState.collectAsState()
 
-    LaunchedEffect(
-        key1 = Unit,
-        block = {
-            categoryViewModel.onEvent(GetCategories)
-            setupTopBar(
-                CategoryTopBar(
-                    onActionClick = {
-                        categoryViewModel.onEvent(NavigateToCreateCategory)
-                    },
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = stringResource(id = R.string.create_category),
-                        tint = Color.White,
-                    )
+    LaunchedEffect(key1 = Unit) {
+        categoryViewModel.onEvent(GetCategories)
+        setupTopBar(
+            CategoryTopBar(
+                onActionClick = {
+                    categoryViewModel.onEvent(NavigateToCreateCategory)
                 },
-            )
-        },
-    )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.create_category),
+                    tint = Color.White,
+                )
+            },
+        )
+    }
 
     LaunchedEffect(key1 = categoryViewModel.viewEffect) {
         categoryViewModel.viewEffect.collect { categoryEffect ->
