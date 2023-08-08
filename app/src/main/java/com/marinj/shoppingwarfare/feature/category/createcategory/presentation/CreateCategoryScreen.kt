@@ -6,17 +6,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,18 +32,20 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.viewmodel.CreateCategoryViewModel
-import kotlinx.coroutines.flow.collect
-
-const val CREATE_CATEGORY_ROUTE = "createCategory"
+import com.marinj.shoppingwarfare.ui.PrimaryElevatedButton
+import com.marinj.shoppingwarfare.ui.SWCard
+import com.marinj.shoppingwarfare.ui.SWScaffold
+import com.marinj.shoppingwarfare.ui.SWTextField
+import com.marinj.shoppingwarfare.ui.SnackBarState
 
 @Composable
 fun CreateCategoryScreen(
     navigateBack: () -> Unit,
     setupTopBar: (TopBarEvent) -> Unit,
     createCategoryViewModel: CreateCategoryViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val viewState by createCategoryViewModel.createCategoryViewState.collectAsState()
+    var snackBarState by remember { mutableStateOf<SnackBarState?>(null) }
     val currentContext = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
@@ -55,28 +54,27 @@ fun CreateCategoryScreen(
 
     LaunchedEffect(key1 = createCategoryViewModel.createCategoryEffect) {
         createCategoryViewModel.createCategoryEffect.collect { viewEffect ->
-            when (viewEffect) {
-                CreateCategoryViewSuccess -> scaffoldState.snackbarHostState.showSnackbar(
-                    message = currentContext.getString(R.string.success),
-                    actionLabel = currentContext.getString(R.string.navigate_back),
+            snackBarState = when (viewEffect) {
+                CreateCategoryViewSuccess -> SnackBarState(
+                    message = currentContext.getString(string.success),
+                    actionLabel = currentContext.getString(string.navigate_back),
+                    action = navigateBack,
                 )
-                is CreateCategoryViewEffect.CreateCategoryViewFailure -> scaffoldState.snackbarHostState.showSnackbar(
+
+                is CreateCategoryViewEffect.CreateCategoryViewFailure -> SnackBarState(
                     message = viewEffect.errorMessage,
                     actionLabel = currentContext.getString(R.string.dismiss),
                 )
-            }.also {
-                if (viewEffect is CreateCategoryViewSuccess) {
-                    navigateBack()
-                }
             }
         }
     }
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-    ) {
-        Card(
+    SWScaffold(
+        snackBarState = snackBarState,
+    ) { paddingValues ->
+        SWCard(
             modifier = Modifier
+                .padding(paddingValues)
                 .fillMaxSize()
                 .wrapContentSize(),
         ) {
@@ -85,13 +83,12 @@ fun CreateCategoryScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                OutlinedTextField(
+                SWTextField(
                     value = viewState.categoryName,
-                    maxLines = 1,
-                    label = { Text(stringResource(R.string.category_name)) },
+                    singleLine = true,
+                    label = { Text(stringResource(string.category_name)) },
                     onValueChange = { createCategoryViewModel.onEvent(OnCategoryNameChanged(it)) },
                 )
-                // TODO  Later down the line allow the user to select a picture for the category
                 ColorPicker(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
@@ -116,12 +113,11 @@ fun CreateCategoryScreen(
                     selectedColor = viewState.titleColor,
                     colors = viewState.availableColors,
                 )
-                Button(
+                PrimaryElevatedButton(
                     modifier = Modifier.padding(top = 24.dp),
+                    text = stringResource(string.create_category),
                     onClick = { createCategoryViewModel.onEvent(OnCreateCategoryClicked) },
-                ) {
-                    Text(stringResource(R.string.create_category))
-                }
+                )
             }
         }
     }

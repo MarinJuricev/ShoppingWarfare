@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
+import com.marinj.shoppingwarfare.ui.TextBodyMedium
 
 @Composable
 fun ColorPicker(
@@ -32,7 +33,7 @@ fun ColorPicker(
     colors: List<Color>,
 ) {
     Column(modifier = modifier) {
-        Text(title, textAlign = TextAlign.Center)
+        TextBodyMedium(title, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.padding(vertical = 4.dp))
         LazyVerticalGrid(
             columns = GridCells.Adaptive(36.dp),
