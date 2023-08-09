@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
@@ -29,6 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateCategoryViewModel @Inject constructor(
     private val createCategory: CreateCategory,
+    private val navigator: Navigator,
     private val failureToStringMapper: FailureToStringMapper,
 ) : BaseViewModel<CreateCategoryEvent>() {
 
@@ -48,6 +51,7 @@ class CreateCategoryViewModel @Inject constructor(
             is OnBackgroundColorChanged -> handleBackgroundColorChanged(event.selectedColor)
             is OnTitleColorChanged -> handleTitleColorChanged(event.selectedColor)
             OnCreateCategoryClicked -> handleCategoryClicked()
+            CreateCategoryEvent.OnBackClicked -> viewModelScope.launch { navigator.emitDestination(NavigationEvent.NavigateUp) }
         }
     }
 

@@ -4,8 +4,11 @@ import androidx.lifecycle.viewModelScope
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.NavigateUp
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.history.detail.domain.usecase.GetHistoryItemById
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent
+import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnBackClicked
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnGetHistoryDetail
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailViewEffect
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailViewEffect.Error
@@ -26,6 +29,7 @@ class HistoryDetailViewModel @Inject constructor(
     private val getHistoryItemById: GetHistoryItemById,
     private val historyItemToUiHistoryItemMapper: HistoryItemToUiHistoryItemMapper,
     private val failureToStringMapper: FailureToStringMapper,
+    private val navigator: Navigator,
 ) : BaseViewModel<HistoryDetailEvent>() {
 
     private val _viewState = MutableStateFlow(HistoryDetailViewState())
@@ -41,6 +45,7 @@ class HistoryDetailViewModel @Inject constructor(
     override fun onEvent(event: HistoryDetailEvent) {
         when (event) {
             is OnGetHistoryDetail -> handleGetHistoryDetail(event.historyItemId)
+            OnBackClicked -> viewModelScope.launch { navigator.emitDestination(NavigateUp) }
         }
     }
 
@@ -56,6 +61,6 @@ class HistoryDetailViewModel @Inject constructor(
                 }
             },
 
-        )
+            )
     }
 }

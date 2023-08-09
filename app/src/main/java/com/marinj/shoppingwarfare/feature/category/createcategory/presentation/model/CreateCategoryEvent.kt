@@ -7,4 +7,5 @@ sealed interface CreateCategoryEvent {
     data class OnBackgroundColorChanged(val selectedColor: Color) : CreateCategoryEvent
     data class OnTitleColorChanged(val selectedColor: Color) : CreateCategoryEvent
     object OnCreateCategoryClicked : CreateCategoryEvent
+    object OnBackClicked : CreateCategoryEvent
 }

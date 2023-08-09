@@ -14,4 +14,6 @@ sealed interface ProductEvent {
     data class OnProductClicked(val product: Product) : ProductEvent
     data class OnProductDelete(val product: Product) : ProductEvent
     data class RestoreProductDeletion(val product: Product) : ProductEvent
+
+    object OnBackClicked : ProductEvent
 }

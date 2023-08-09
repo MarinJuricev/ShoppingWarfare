@@ -21,11 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 fun SWTopAppBar(
     title: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit = {},
+    navigationIcon: @Composable () -> Unit = {},
     containerColor: Color = MaterialTheme.colorScheme.primary,
 ) {
     TopAppBar(
         title = title,
         actions = actions,
+        navigationIcon = navigationIcon,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor,
         ),

@@ -9,10 +9,12 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.togetherWith
@@ -23,9 +25,11 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -66,9 +70,9 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
                     targetState = topBarViewState,
                     transitionSpec = {
                         (
-                            fadeIn(animationSpec = tween(1_000, delayMillis = 90)) +
-                                scaleIn(initialScale = 0.92f, animationSpec = tween(1_000, delayMillis = 90))
-                            )
+                                fadeIn(animationSpec = tween(1_000, delayMillis = 90)) +
+                                        scaleIn(initialScale = 0.92f, animationSpec = tween(1_000, delayMillis = 90))
+                                )
                             .togetherWith(fadeOut(animationSpec = tween(90)))
                     },
                     label = "topBarActions",
@@ -96,6 +100,19 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
                                 onValueChange = targetState.onTextChange,
                             )
                         }
+                    }
+                }
+            },
+            navigationIcon = {
+                AnimatedVisibility(
+                    // TODO: This is messy : /, get rid of the concept of NoSearchBarTopBar... just provide a slot API based API for all of the components that we support
+                    visible = topBarViewState is NoSearchBarTopBarViewState && topBarViewState.navigationIcon != null,
+                    enter = expandHorizontally(animationSpec = topBarSpring),
+                    exit = shrinkHorizontally(animationSpec = topBarSpring),
+                ) {
+                    when (topBarViewState) {
+                        is NoSearchBarTopBarViewState -> topBarViewState.navigationIcon?.invoke()
+                        is SearchTopBarViewState -> {}
                     }
                 }
             },

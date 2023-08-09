@@ -26,6 +26,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.CreateCategoryTopBar
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.components.ColorPicker
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackClicked
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
@@ -34,6 +35,7 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewState
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.viewmodel.CreateCategoryViewModel
+import com.marinj.shoppingwarfare.ui.BackIcon
 import com.marinj.shoppingwarfare.ui.PrimaryElevatedButton
 import com.marinj.shoppingwarfare.ui.SWCard
 import com.marinj.shoppingwarfare.ui.SWScaffold
@@ -51,7 +53,13 @@ fun CreateCategoryScreen(
     val currentContext = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
-        setupTopBar(CreateCategoryTopBar())
+        setupTopBar(
+            CreateCategoryTopBar {
+                BackIcon {
+                    createCategoryViewModel.onEvent(OnBackClicked)
+                }
+            },
+        )
     }
 
     LaunchedEffect(key1 = createCategoryViewModel.createCategoryEffect) {

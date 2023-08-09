@@ -16,10 +16,12 @@ import com.marinj.shoppingwarfare.core.components.ShoppingWarfareLoadingIndicato
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryDetailTopBar
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.components.HistoryDetailInfo
+import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnBackClicked
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnGetHistoryDetail
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.viewmodel.HistoryDetailViewModel
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
+import com.marinj.shoppingwarfare.ui.BackIcon
 import com.marinj.shoppingwarfare.ui.ShoppingWarfareEmptyScreen
 
 @Composable
@@ -32,7 +34,13 @@ fun HistoryDetailScreen(
     val viewState by historyDetailViewModel.viewState.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
-        setupTopBar(HistoryDetailTopBar())
+        setupTopBar(
+            HistoryDetailTopBar {
+                BackIcon {
+                    historyDetailViewModel.onEvent(OnBackClicked)
+                }
+            },
+        )
         historyDetailViewModel.onEvent(OnGetHistoryDetail(historyItemId))
     }
 
@@ -52,6 +60,7 @@ fun HistoryDetailScreen(
             viewState.isLoading -> ShoppingWarfareLoadingIndicator()
             viewState.uiHistoryItem == UiHistoryItem.DEFAULT ->
                 ShoppingWarfareEmptyScreen(stringResource(R.string.history_detail_empty_message))
+
             else -> HistoryDetailInfo(viewState.uiHistoryItem)
         }
     }
