@@ -3,10 +3,13 @@ package com.marinj.shoppingwarfare.feature.history.detail.presentation.viewmodel
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
+import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.NavigateUp
 import com.marinj.shoppingwarfare.feature.history.FakeFailureGetHistoryItemById
 import com.marinj.shoppingwarfare.feature.history.FakeSuccessGetHistoryItemById
 import com.marinj.shoppingwarfare.feature.history.buildUiHistoryItem
+import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnGetHistoryDetail
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.list.presentation.mapper.HistoryItemToUiHistoryItemMapper
@@ -21,6 +24,7 @@ class HistoryDetailViewModelTest {
 
     private val historyItemToUiHistoryItemMapper = HistoryItemToUiHistoryItemMapper()
     private val failureToStringMapper = FailureToStringMapper()
+    private val navigator = FakeNavigator
 
     @Test
     fun `onEvent SHOULD update uiHistoryItem when OnGetHistoryDetail is provided and getHistoryItemId returns Right`() =
@@ -30,6 +34,7 @@ class HistoryDetailViewModelTest {
                 getHistoryItemById = FakeSuccessGetHistoryItemById(),
                 historyItemToUiHistoryItemMapper = historyItemToUiHistoryItemMapper,
                 failureToStringMapper = failureToStringMapper,
+                navigator = navigator,
             )
 
             sut.onEvent(event)
@@ -54,6 +59,7 @@ class HistoryDetailViewModelTest {
                 getHistoryItemById = FakeFailureGetHistoryItemById,
                 historyItemToUiHistoryItemMapper = historyItemToUiHistoryItemMapper,
                 failureToStringMapper = failureToStringMapper,
+                navigator = navigator,
             )
 
             sut.onEvent(event)
@@ -62,6 +68,22 @@ class HistoryDetailViewModelTest {
                 assertThat(awaitItem()).isEqualTo(Error("Unknown Error Occurred, please try again later"))
             }
         }
+
+    @Test
+    fun `SHOULD emit navigateUp WHEN OnBackClicked is provided`() = runTest {
+        val event = HistoryDetailEvent.OnBackClicked
+        val sut = HistoryDetailViewModel(
+            getHistoryItemById = FakeFailureGetHistoryItemById,
+            historyItemToUiHistoryItemMapper = historyItemToUiHistoryItemMapper,
+            failureToStringMapper = failureToStringMapper,
+            navigator = navigator,
+        )
+
+        navigator.receivedEvents.test {
+            sut.onEvent(event)
+            assertThat(awaitItem()).isEqualTo(NavigateUp)
+        }
+    }
 }
 
 private const val HISTORY_ITEM_ID = "historyItemId"

@@ -9,10 +9,12 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.togetherWith
@@ -96,6 +98,19 @@ fun ShoppingWarfareTopBar(topBarViewState: TopBarViewState) {
                                 onValueChange = targetState.onTextChange,
                             )
                         }
+                    }
+                }
+            },
+            navigationIcon = {
+                AnimatedVisibility(
+                    // TODO: This is messy : /, get rid of the concept of NoSearchBarTopBar... just provide a slot API based API for all of the components that we support
+                    visible = topBarViewState is NoSearchBarTopBarViewState && topBarViewState.navigationIcon != null,
+                    enter = expandHorizontally(animationSpec = topBarSpring),
+                    exit = shrinkHorizontally(animationSpec = topBarSpring),
+                ) {
+                    when (topBarViewState) {
+                        is NoSearchBarTopBarViewState -> topBarViewState.navigationIcon?.invoke()
+                        is SearchTopBarViewState -> {}
                     }
                 }
             },

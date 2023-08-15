@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.NavigateUp
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.result.foldToString
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
@@ -13,6 +15,7 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.Observe
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper.ProductToCartItemMapper
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.CategoryDetailViewState
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnBackClicked
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnCreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnGetProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnProductClicked
@@ -42,6 +45,7 @@ class ProductViewModel @Inject constructor(
     private val deleteProduct: DeleteProduct,
     private val productToCartItemMapper: ProductToCartItemMapper,
     private val addToCart: AddToCart,
+    private val navigator: Navigator,
 ) : BaseViewModel<ProductEvent>() {
 
     private val _viewState = MutableStateFlow(CategoryDetailViewState())
@@ -66,6 +70,7 @@ class ProductViewModel @Inject constructor(
             is OnProductDelete -> handleProductDeletion(event.product)
             is RestoreProductDeletion -> handleRestoreProductDeletion(event.product)
             is OnProductClicked -> handleProductClicked(event.product)
+            OnBackClicked -> viewModelScope.launch { navigator.emitDestination(NavigateUp) }
         }
     }
 

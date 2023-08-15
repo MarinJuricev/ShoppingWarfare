@@ -4,13 +4,17 @@ import androidx.compose.ui.graphics.Color
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
+import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewFailure
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryViewEffect.CreateCategoryViewSuccess
+import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureCreateCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCreateCategory
 import kotlinx.coroutines.test.runTest
@@ -22,16 +26,11 @@ class CreateCategoryViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val failureToStringMapper = FailureToStringMapper()
-
     @Test
     fun `SHOULD update categoryName WHEN OnCategoryNameChanged is provided`() = runTest {
         val categoryText = "categoryText"
         val event = OnCategoryNameChanged(categoryText)
-        val sut = CreateCategoryViewModel(
-            createCategory = FakeSuccessCreateCategory,
-            failureToStringMapper = failureToStringMapper,
-        )
+        val sut = buildSut()
 
         sut.onEvent(event)
 
@@ -45,10 +44,7 @@ class CreateCategoryViewModelTest {
         runTest {
             val selectedColor = Color.Magenta
             val event = OnBackgroundColorChanged(selectedColor)
-            val sut = CreateCategoryViewModel(
-                createCategory = FakeSuccessCreateCategory,
-                failureToStringMapper = failureToStringMapper,
-            )
+            val sut = buildSut()
 
             sut.onEvent(event)
 
@@ -61,10 +57,7 @@ class CreateCategoryViewModelTest {
     fun `should update titleColor when OnTitleColorChanged is provided`() = runTest {
         val selectedColor = Color.Magenta
         val event = CreateCategoryEvent.OnTitleColorChanged(selectedColor)
-        val sut = CreateCategoryViewModel(
-            createCategory = FakeSuccessCreateCategory,
-            failureToStringMapper = failureToStringMapper,
-        )
+        val sut = buildSut()
 
         sut.onEvent(event)
 
@@ -78,9 +71,8 @@ class CreateCategoryViewModelTest {
         runTest {
             val event = OnCreateCategoryClicked
             val createCategoryEffect = CreateCategoryViewFailure("Unknown Error Occurred, please try again later")
-            val sut = CreateCategoryViewModel(
-                createCategory = FakeFailureCreateCategory,
-                failureToStringMapper = failureToStringMapper,
+            val sut = buildSut(
+                providedCreateCategory = FakeFailureCreateCategory,
             )
 
             sut.onEvent(event)
@@ -95,10 +87,7 @@ class CreateCategoryViewModelTest {
         runTest {
             val event = OnCreateCategoryClicked
             val createCategoryEffect = CreateCategoryViewSuccess
-            val sut = CreateCategoryViewModel(
-                createCategory = FakeSuccessCreateCategory,
-                failureToStringMapper = failureToStringMapper,
-            )
+            val sut = buildSut()
 
             sut.onEvent(event)
 
@@ -106,4 +95,29 @@ class CreateCategoryViewModelTest {
                 assertThat(awaitItem()).isEqualTo(createCategoryEffect)
             }
         }
+
+    @Test
+    fun `SHOULD emit navigateUp WHEN OnBackClicked is provided`() = runTest {
+        val event = CreateCategoryEvent.OnBackClicked
+        val navigator = FakeNavigator
+        val sut = buildSut(
+            providedNavigator = navigator,
+        )
+
+        navigator.receivedEvents.test {
+            sut.onEvent(event)
+            assertThat(awaitItem()).isEqualTo(NavigationEvent.NavigateUp)
+        }
+    }
+    private fun buildSut(
+        providedCreateCategory: CreateCategory = FakeSuccessCreateCategory,
+        providedNavigator: Navigator = FakeNavigator,
+        providedFailureToStringMapper: FailureToStringMapper = FailureToStringMapper(),
+    ): CreateCategoryViewModel {
+        return CreateCategoryViewModel(
+            createCategory = providedCreateCategory,
+            navigator = providedNavigator,
+            failureToStringMapper = providedFailureToStringMapper,
+        )
+    }
 }

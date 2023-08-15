@@ -3,11 +3,15 @@ package com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmode
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
+import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
+import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
+import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper.ProductToCartItemMapper
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnCreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnGetProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnProductClicked
@@ -208,6 +212,20 @@ class ProductViewModelTest {
                 assertThat(awaitItem()).isEqualTo(Error("Could not add NonEmptyString(value=product) to Cart, try again later."))
             }
         }
+
+    @Test
+    fun `SHOULD emit navigateUp WHEN OnBackClicked is provided`() = runTest {
+        val event = ProductEvent.OnBackClicked
+        val navigator = FakeNavigator
+        val sut = buildSut(
+            providedNavigator = navigator,
+        )
+
+        navigator.receivedEvents.test {
+            sut.onEvent(event)
+            assertThat(awaitItem()).isEqualTo(NavigationEvent.NavigateUp)
+        }
+    }
 }
 
 private fun buildSut(
@@ -215,12 +233,14 @@ private fun buildSut(
     providedCreateProduct: CreateProduct = FakeSuccessCreateProduct,
     providedDeleteProduct: DeleteProduct = FakeSuccessDeleteProduct,
     providedAddToCart: AddToCart = FakeSuccessAddToCart,
+    providedNavigator: Navigator = FakeNavigator,
 ): ProductViewModel = ProductViewModel(
     observeProducts = providedObserveProducts,
     createProduct = providedCreateProduct,
     deleteProduct = providedDeleteProduct,
     addToCart = providedAddToCart,
     productToCartItemMapper = ProductToCartItemMapper(),
+    navigator = providedNavigator,
 )
 
 private const val CATEGORY_ID = "categoryId"

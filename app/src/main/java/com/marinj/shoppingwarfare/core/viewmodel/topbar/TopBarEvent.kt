@@ -14,6 +14,7 @@ sealed interface TopBarEvent {
     data class CreateCategoryTopBar(
         @StringRes val title: Int = R.string.category,
         @StringRes val subTitle: Int = R.string.create_category,
+        val navigationIcon: @Composable () -> Unit,
     ) : TopBarEvent
 
     data class ProductTopBar(
@@ -21,6 +22,7 @@ sealed interface TopBarEvent {
         @StringRes val subTitle: Int = R.string.category_detail,
         val onActionClick: () -> Unit,
         val icon: @Composable () -> Unit,
+        val navigationIcon: @Composable () -> Unit,
     ) : TopBarEvent
 
     data class CartTopBar(
@@ -37,6 +39,7 @@ sealed interface TopBarEvent {
     data class HistoryDetailTopBar(
         @StringRes val title: Int = R.string.history,
         @StringRes val subTitle: Int = R.string.history_detail,
+        val navigationIcon: @Composable () -> Unit,
     ) : TopBarEvent
 
     data class UserTopBar(

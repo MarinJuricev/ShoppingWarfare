@@ -27,17 +27,17 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.ProductTopBar
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.components.CreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.components.ProductList
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnBackClicked
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnGetProducts
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.RestoreProductDeletion
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductViewEffect.ProductDeleted
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmodel.ProductViewModel
+import com.marinj.shoppingwarfare.ui.BackIcon
 import com.marinj.shoppingwarfare.ui.ShoppingWarfareEmptyScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
-const val CATEGORY_NAME = "categoryName"
 
 @Composable
 fun ProductScreen(
@@ -66,6 +66,11 @@ fun ProductScreen(
                         tint = Color.White,
                     )
                 },
+                navigationIcon = {
+                    BackIcon {
+                        productViewModel.onEvent(OnBackClicked)
+                    }
+                },
             ),
         )
         productViewModel.onEvent(OnGetProducts(categoryId))
@@ -78,6 +83,7 @@ fun ProductScreen(
                     message = viewEffect.errorMessage,
                     actionLabel = currentContext.getString(string.dismiss),
                 )
+
                 is ProductDeleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
                         string.deleted_item,
@@ -85,6 +91,7 @@ fun ProductScreen(
                     ),
                     actionLabel = currentContext.getString(string.undo),
                 )
+
                 is ProductViewEffect.AddedToCart -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
                         string.cart_item_added,
@@ -123,6 +130,7 @@ fun ProductScreen(
                     string.empty_category_detail_message,
                 ),
             )
+
             else -> ProductList(
                 viewState.products,
                 productViewModel::onEvent,
