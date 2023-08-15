@@ -66,7 +66,7 @@ fun ProductScreen(
                         tint = Color.White,
                     )
                 },
-                backIcon = {
+                navigationIcon = {
                     BackIcon {
                         productViewModel.onEvent(OnBackClicked)
                     }

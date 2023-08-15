@@ -20,8 +20,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-private const val SEARCH_TEXT = "search"
-
 class TopBarViewModelTest {
 
     @get:Rule
@@ -59,12 +57,16 @@ class TopBarViewModelTest {
     @Test
     fun `onEvent SHOULD update viewState to match createCategoryTopBar when CreateCategoryTopBar is provided`() =
         runTest {
-            val event = CreateCategoryTopBar()
+            val navigationIcon: @Composable () -> Unit = {}
+            val event = CreateCategoryTopBar(
+                navigationIcon = navigationIcon,
+            )
 
             sut.onEvent(event)
             val expectedResult = NoSearchBarTopBarViewState(
                 title = R.string.category,
                 subTitle = R.string.create_category,
+                navigationIcon = navigationIcon,
             )
 
             sut.viewState.test {
@@ -76,10 +78,12 @@ class TopBarViewModelTest {
     fun `onEvent SHOULD update viewState to match categoryDetailTopBar when CategoryDetailTopBar is provided`() =
         runTest {
             val icon: @Composable () -> Unit = {}
+            val navigationIcon: @Composable () -> Unit = {}
             val onActionClicked = {}
             val event = ProductTopBar(
                 onActionClick = onActionClicked,
                 icon = icon,
+                navigationIcon = navigationIcon,
             )
 
             sut.onEvent(event)
@@ -88,6 +92,7 @@ class TopBarViewModelTest {
                 subTitle = R.string.category_detail,
                 icon = icon,
                 onActionClick = onActionClicked,
+                navigationIcon = navigationIcon,
             )
 
             sut.viewState.test {
@@ -154,12 +159,16 @@ class TopBarViewModelTest {
     @Test
     fun `onEvent SHOULD update viewState to match historyDetailTopBar when HistoryDetailTopBar is provided`() =
         runTest {
-            val event = HistoryDetailTopBar()
+            val navigationIcon: @Composable () -> Unit = {}
+            val event = HistoryDetailTopBar(
+                navigationIcon = navigationIcon,
+            )
 
             sut.onEvent(event)
             val expectedResult = NoSearchBarTopBarViewState(
                 title = R.string.history,
                 subTitle = R.string.history_detail,
+                navigationIcon = navigationIcon,
             )
 
             sut.viewState.test {
@@ -167,3 +176,5 @@ class TopBarViewModelTest {
             }
         }
 }
+
+private const val SEARCH_TEXT = "search"

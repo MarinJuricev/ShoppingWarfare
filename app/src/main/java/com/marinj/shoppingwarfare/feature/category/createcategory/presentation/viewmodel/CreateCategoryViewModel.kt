@@ -9,6 +9,7 @@ import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent
+import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackClicked
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnBackgroundColorChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCategoryNameChanged
 import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.model.CreateCategoryEvent.OnCreateCategoryClicked
@@ -51,7 +52,7 @@ class CreateCategoryViewModel @Inject constructor(
             is OnBackgroundColorChanged -> handleBackgroundColorChanged(event.selectedColor)
             is OnTitleColorChanged -> handleTitleColorChanged(event.selectedColor)
             OnCreateCategoryClicked -> handleCategoryClicked()
-            CreateCategoryEvent.OnBackClicked -> viewModelScope.launch { navigator.emitDestination(NavigationEvent.NavigateUp) }
+            OnBackClicked -> viewModelScope.launch { navigator.emitDestination(NavigationEvent.NavigateUp) }
         }
     }
 

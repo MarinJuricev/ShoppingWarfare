@@ -62,7 +62,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
                 NoSearchBarTopBarViewState(
                     title = event.title,
                     subTitle = event.subTitle,
-                    navigationIcon = event.backIcon,
+                    navigationIcon = event.navigationIcon,
                 ),
             )
         }
@@ -76,7 +76,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
                     subTitle = event.subTitle,
                     icon = event.icon,
                     onActionClick = event.onActionClick,
-                    navigationIcon = event.backIcon,
+                    navigationIcon = event.navigationIcon,
                 ),
             )
         }
@@ -111,7 +111,7 @@ class TopBarViewModel @Inject constructor() : BaseViewModel<TopBarEvent>() {
                 NoSearchBarTopBarViewState(
                     title = event.title,
                     subTitle = event.subTitle,
-                    navigationIcon = event.backIcon,
+                    navigationIcon = event.navigationIcon,
                 ),
             )
         }

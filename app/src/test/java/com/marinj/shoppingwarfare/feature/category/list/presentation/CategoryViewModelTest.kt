@@ -6,7 +6,7 @@ import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
-import com.marinj.shoppingwarfare.feature.category.detail.presentation.CATEGORY_NAME
+import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.CATEGORY_NAME_PARAM
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.navigation.ProductDestination.createCategoryDetailRoute
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryEvent.DeleteCategory
@@ -85,14 +85,14 @@ class CategoryViewModelTest {
                 navigator,
             )
             val expectedEvent = Destination(
-                createCategoryDetailRoute(categoryId = ID, categoryName = CATEGORY_NAME),
+                createCategoryDetailRoute(categoryId = ID, categoryName = CATEGORY_NAME_PARAM),
             )
 
             navigator.receivedEvents.test {
                 sut.onEvent(
                     NavigateToCategoryDetail(
                         categoryId = ID,
-                        categoryName = CATEGORY_NAME,
+                        categoryName = CATEGORY_NAME_PARAM,
                     ),
                 )
 
