@@ -22,12 +22,15 @@ class ProductApiImpl @Inject constructor(
 ) : ProductApi {
     override fun observeProductsForGivenCategoryId(
         categoryId: String,
-    ) = callbackFlow<List<RemoteProduct>> {
+    ) = callbackFlow {
         val subscription = fireStore
-            .getProductDocument(categoryId)
+            .getProductCollection(categoryId)
             .addWarfareSnapshotListener(
-                onDataSuccess = { documents ->
-                    jsonConverter.decode<RemoteProduct>(documents)
+                onDataSuccess = { collection ->
+                    collection
+                        .mapNotNull { document ->
+                            document.data?.let { jsonConverter.decode<RemoteProduct>(it) }
+                        }.let(::trySend)
                 },
                 onError = { throwable ->
                     throw throwable
@@ -43,8 +46,8 @@ class ProductApiImpl @Inject constructor(
         product: RemoteProduct,
     ): Either<Failure, Unit> = suspendCancellableCoroutine { continuation ->
         fireStore
-            .getProductDocument(product.categoryId)
-            .set(product)
+            .getProductCollection(product.categoryId)
+            .add(product)
             .addOnSuccessListener {
                 if (continuation.isActive) {
                     continuation.resume(Unit.right())
@@ -61,7 +64,8 @@ class ProductApiImpl @Inject constructor(
         id: String,
     ): Either<Failure, Unit> = suspendCancellableCoroutine { continuation ->
         fireStore
-            .getProductDocument(categoryId = id)
+            .getProductCollection(categoryId = id)
+            .document(id)
             .delete()
             .addOnSuccessListener {
                 if (continuation.isActive) {
@@ -73,10 +77,12 @@ class ProductApiImpl @Inject constructor(
             }
     }
 
-    private fun FirebaseFirestore.getProductDocument(
+    private fun FirebaseFirestore.getProductCollection(
         categoryId: String,
     ) = collection(CATEGORY_COLLECTION)
         .document(categoryId)
+        .collection(PRODUCT_COLLECTION)
 }
 
 private const val CATEGORY_COLLECTION = "category"
+private const val PRODUCT_COLLECTION = "products"
