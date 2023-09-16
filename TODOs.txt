@@ -6,5 +6,6 @@ Migrate to Material 3,
 Moduralize,
 Kotlin Kotlin Compiler Plugin,
 Remove Android specific dependencies,
+Use the KSP Dagger Compiler Plugin,
 Write out a BE for the app and remove Firebase ( we could use the Firebase internally for auth or w/e )
 KMM
