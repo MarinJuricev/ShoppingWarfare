@@ -30,7 +30,7 @@ fun buildRemoteProduct(
     providedCategoryName: String = "",
     providedName: String = "",
 ) = RemoteProduct(
-    productId = providedProductId,
+    id = providedProductId,
     categoryId = providedCategoryId,
     categoryName = providedCategoryName,
     name = providedName,
@@ -42,8 +42,8 @@ fun buildLocalProduct(
     providedCategoryName: String = "",
     providedName: String = "",
 ) = LocalProduct(
-    productId = providedProductId,
-    categoryProductId = providedCategoryId,
+    id = providedProductId,
+    categoryId = providedCategoryId,
     categoryName = providedCategoryName,
     name = providedName,
 )
@@ -88,7 +88,7 @@ class FakeSuccessProductDao(
     }
 
     override suspend fun deleteProductById(productId: String) {
-        localProducts.removeIf { it.productId == productId }
+        localProducts.removeIf { it.id == productId }
     }
 }
 
@@ -108,10 +108,10 @@ class FakeSuccessProductApi(
         return Unit.right()
     }
 
-    override suspend fun deleteProductById(
-        id: String,
+    override suspend fun deleteProduct(
+        product: RemoteProduct,
     ): Either<Failure, Unit> {
-        remoteProducts.removeIf { it.productId == id }
+        remoteProducts.removeIf { it.id == product.id }
         return Unit.right()
     }
 }
@@ -126,8 +126,8 @@ object FakeFailureProductApi : ProductApi {
         product: RemoteProduct,
     ): Either<Failure, Unit> = Unknown.left()
 
-    override suspend fun deleteProductById(
-        id: String,
+    override suspend fun deleteProduct(
+        product: RemoteProduct,
     ): Either<Failure, Unit> = Unknown.left()
 }
 
@@ -141,7 +141,7 @@ class FakeSuccessProductRepository(
     override suspend fun upsertProduct(product: Product): Either<Failure, Unit> =
         Unit.right()
 
-    override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
+    override suspend fun deleteProduct(product: Product): Either<Failure, Unit> =
         Unit.right()
 }
 
@@ -153,7 +153,7 @@ object FakeFailureProductRepository : ProductRepository {
     override suspend fun upsertProduct(product: Product): Either<Failure, Unit> =
         Unknown.left()
 
-    override suspend fun deleteProductById(productId: String): Either<Failure, Unit> =
+    override suspend fun deleteProduct(product: Product): Either<Failure, Unit> =
         Unknown.left()
 }
 
@@ -186,11 +186,11 @@ object FakeFailureCreateProduct : CreateProduct {
 }
 
 object FakeSuccessDeleteProduct : DeleteProduct {
-    override suspend fun invoke(productId: String) = Unit.right()
+    override suspend fun invoke(product: Product) = Unit.right()
 }
 
 object FakeFailureDeleteProduct : DeleteProduct {
-    override suspend fun invoke(productId: String) = Unknown.left()
+    override suspend fun invoke(product: Product) = Unknown.left()
 }
 
 object FakeSuccessAddToCart : AddToCart {

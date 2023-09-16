@@ -8,22 +8,22 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product.C
 @Entity(tableName = "localProduct")
 data class LocalProduct(
     @PrimaryKey
-    val productId: String,
-    val categoryProductId: String,
+    val id: String,
+    val categoryId: String,
     val categoryName: String,
     val name: String,
 ) {
     fun toDomain() = Product(
-        id = productId,
-        categoryId = categoryProductId,
+        id = id,
+        categoryId = categoryId,
         categoryName = categoryName,
         name = name,
     )
 }
 
 fun Product.toLocal() = LocalProduct(
-    productId = id.value,
-    categoryProductId = categoryId.value,
+    id = id.value,
+    categoryId = categoryId.value,
     categoryName = categoryName.value,
     name = name.value,
 )

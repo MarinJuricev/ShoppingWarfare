@@ -7,9 +7,12 @@ import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.networ
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
@@ -17,9 +20,12 @@ class ProductRepositoryImpl @Inject constructor(
     private val productDao: ProductDao,
 ) : ProductRepository {
 
-    override fun observeProducts(productId: String) =
-        productsFromLocal(productId)
-            .onStart { syncApiToLocal(productId) }
+    override fun observeProducts(productId: String) = combine(
+        syncApiToLocal(productId),
+        productsFromLocal(productId),
+    ) { _, productsFromLocal ->
+        productsFromLocal
+    }
 
     private fun productsFromLocal(
         productId: String,
@@ -41,13 +47,17 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun upsertProduct(
         product: Product,
-    ): Either<Failure, Unit> = product.toRemote().let { remoteProduct ->
-        productApi.addProduct(remoteProduct)
-    }
+    ): Either<Failure, Unit> = product
+        .toRemote()
+        .let { productApi.addProduct(it) }
 
-    override suspend fun deleteProductById(
-        productId: String,
-    ): Either<Failure, Unit> = productApi.deleteProductById(productId).also {
-        productDao.deleteProductById(productId)
+    override suspend fun deleteProduct(
+        product: Product,
+    ): Either<Failure, Unit> = coroutineScope {
+        val apiDeferred: Deferred<Either<Failure, Unit>> = async { productApi.deleteProduct(product.toRemote()) }
+        val localDeferred: Deferred<Unit> = async { productDao.deleteProductById(product.id.value) }
+
+        localDeferred.await() // We ignore the  result of the local operation, we only care about the RemoteAPI result
+        apiDeferred.await()
     }
 }

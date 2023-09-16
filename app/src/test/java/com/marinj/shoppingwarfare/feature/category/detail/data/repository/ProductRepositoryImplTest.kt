@@ -84,24 +84,26 @@ class ProductRepositoryImplTest {
 
     @Test
     fun `deleteProductById SHOULD return Right when productApi returns Right`() = runTest {
+        val product = buildProduct()
         val sut = ProductRepositoryImpl(
             productApi = FakeSuccessProductApi(),
             productDao = FakeSuccessProductDao(),
         )
 
-        val result = sut.deleteProductById(PRODUCT_ID)
+        val result = sut.deleteProduct(product)
 
         assertThat(result).isEqualTo(Unit.right())
     }
 
     @Test
     fun `deleteProductById SHOULD return Left when productApi returns Left`() = runTest {
+        val product = buildProduct()
         val sut = ProductRepositoryImpl(
             productApi = FakeFailureProductApi,
             productDao = FakeSuccessProductDao(),
         )
 
-        val result = sut.deleteProductById(PRODUCT_ID)
+        val result = sut.deleteProduct(product)
 
         assertThat(result).isEqualTo(Unknown.left())
     }
@@ -112,6 +114,7 @@ class ProductRepositoryImplTest {
             providedProductId = PRODUCT_ID,
             providedCategoryName = CATEGORY_NAME,
             providedName = PRODUCT_NAME,
+            providedCategoryId = CATEGORY_ID,
         )
         val localCategoryProducts = listOf(
             buildLocalCategoryProducts(
@@ -126,7 +129,7 @@ class ProductRepositoryImplTest {
 
         dao.upsertProduct(localProduct)
         assertThat(dao.localProducts).isEqualTo(listOf(localProduct))
-        sut.deleteProductById(PRODUCT_ID)
+        sut.deleteProduct(localProduct.toDomain().getOrNull()!!)
         assertThat(dao.localProducts).isEmpty()
     }
 }

@@ -29,7 +29,9 @@ class ProductApiImpl @Inject constructor(
                 onDataSuccess = { collection ->
                     collection
                         .mapNotNull { document ->
-                            document.data?.let { jsonConverter.decode<RemoteProduct>(it) }
+                            document.data
+                                ?.let { jsonConverter.decode<RemoteProduct>(it) }
+                                ?.copy(id = document.id)
                         }.let(::trySend)
                 },
                 onError = { throwable ->
@@ -60,12 +62,12 @@ class ProductApiImpl @Inject constructor(
             }
     }
 
-    override suspend fun deleteProductById(
-        id: String,
+    override suspend fun deleteProduct(
+        product: RemoteProduct,
     ): Either<Failure, Unit> = suspendCancellableCoroutine { continuation ->
         fireStore
-            .getProductCollection(categoryId = id)
-            .document(id)
+            .getProductCollection(categoryId = product.categoryId)
+            .document(product.id)
             .delete()
             .addOnSuccessListener {
                 if (continuation.isActive) {
