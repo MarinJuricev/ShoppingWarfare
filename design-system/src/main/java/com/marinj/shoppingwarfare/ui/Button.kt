@@ -1,5 +1,7 @@
 package com.marinj.shoppingwarfare.ui
 
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonDefaults.elevatedButtonColors
 import androidx.compose.material3.ButtonDefaults.filledTonalButtonColors
@@ -13,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -31,6 +34,24 @@ fun PrimaryOutlinedButton(
     ) {
         Text(text = text)
     }
+}
+
+@Composable
+fun PrimaryOutlinedButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = CircleShape,
+    content: @Composable RowScope.() -> Unit,
+) {
+    OutlinedButton(
+        modifier = modifier,
+        onClick = onClick,
+        colors = outlinedButtonColors(),
+        shape = shape,
+        enabled = enabled,
+        content = content,
+    )
 }
 
 @Composable

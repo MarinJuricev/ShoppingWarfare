@@ -6,28 +6,31 @@ import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductRepository
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductRepository
+import com.marinj.shoppingwarfare.fixtures.category.buildProduct
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class DeleteProductTest {
     @Test
     fun `invoke should RETURN result from repository`() = runTest {
+        val product = buildProduct(providedProductId = PRODUCT_ID)
         val sut = DeleteProductImpl(
             productRepository = FakeSuccessProductRepository(),
         )
 
-        val actualResult = sut(PRODUCT_ID)
+        val actualResult = sut(product)
 
         assertThat(actualResult).isEqualTo(Unit.right())
     }
 
     @Test
     fun `invoke should RETURN failure from repository`() = runTest {
+        val product = buildProduct(providedProductId = PRODUCT_ID)
         val sut = DeleteProductImpl(
             productRepository = FakeFailureProductRepository,
         )
 
-        val actualResult = sut(PRODUCT_ID)
+        val actualResult = sut(product)
 
         assertThat(actualResult).isEqualTo(Unknown.left())
     }

@@ -87,7 +87,7 @@ fun ProductScreen(
                 is ProductDeleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
                         string.deleted_item,
-                        viewEffect.product.name,
+                        viewEffect.product.name.value,
                     ),
                     actionLabel = currentContext.getString(string.undo),
                 )
@@ -95,7 +95,7 @@ fun ProductScreen(
                 is ProductViewEffect.AddedToCart -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = currentContext.getString(
                         string.cart_item_added,
-                        viewEffect.product.name,
+                        viewEffect.product.name.value,
                     ),
                 )
             }.also { snackBarResult ->

@@ -15,5 +15,5 @@ interface ProductApi {
 
     suspend fun addProduct(product: RemoteProduct): Either<Failure, Unit>
 
-    suspend fun deleteProductById(id: String): Either<Failure, Unit>
+    suspend fun deleteProduct(product: RemoteProduct): Either<Failure, Unit>
 }

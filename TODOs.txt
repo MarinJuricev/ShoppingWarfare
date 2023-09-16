@@ -1,10 +1,15 @@
 TODOs:
 
+Add Github Actions for deploying to Firebase Distribution
 Migrate to a design system,
 Use a single snackbar state ?
 Migrate to Material 3,
 Moduralize,
 Kotlin Kotlin Compiler Plugin,
 Remove Android specific dependencies,
+Use the KSP Dagger Compiler Plugin,
 Write out a BE for the app and remove Firebase ( we could use the Firebase internally for auth or w/e )
 KMM
+ - Try out the SKIE Touchlab plugin
+ - Decompose / Voyager for shared navigation logic ?
+ - A bespoke viewModel layer with custom CFlow or something like NativeCoroutines ( depends on the impression of the SKIE plugin )
