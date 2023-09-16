@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
@@ -20,12 +20,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R.string
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnCreateProduct
+import com.marinj.shoppingwarfare.ui.PrimaryOutlinedButton
 import com.marinj.shoppingwarfare.ui.SWTextField
+import com.marinj.shoppingwarfare.ui.TextHeadlineSmall
 
 @Composable
 fun CreateProduct(
@@ -39,10 +40,9 @@ fun CreateProduct(
         modifier = Modifier.fillMaxHeight(0.25f),
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(
+        TextHeadlineSmall(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = stringResource(id = string.create_product),
-            style = MaterialTheme.typography.h5.copy(textDecoration = TextDecoration.Underline),
             textAlign = TextAlign.Center,
         )
         Row(
@@ -57,8 +57,9 @@ fun CreateProduct(
                 },
                 label = { Text(stringResource(string.product_name)) },
             )
-            OutlinedButton(
+            PrimaryOutlinedButton(
                 modifier = Modifier.padding(8.dp),
+                shape = RoundedCornerShape(50.dp),
                 onClick = {
                     onProductEvent(OnCreateProduct(categoryId, categoryName, categoryItemName))
                 },
