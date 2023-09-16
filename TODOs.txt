@@ -1,5 +1,6 @@
 TODOs:
 
+Add Github Actions for deploying to Firebase Distribution
 Migrate to a design system,
 Use a single snackbar state ?
 Migrate to Material 3,
