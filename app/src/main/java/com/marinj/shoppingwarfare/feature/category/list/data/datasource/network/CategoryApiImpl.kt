@@ -23,13 +23,13 @@ class CategoryApiImpl @Inject constructor(
         val subscription = fireStore
             .getCategoryCollection()
             .addWarfareSnapshotListener(
-                onDataSuccess = { documents ->
-                    documents.mapNotNull { document ->
+                onDataSuccess = { collection ->
+                    collection.mapNotNull { document ->
                         document.data?.let {
                             jsonConverter.decode<RemoteCategory>(it)
                                 ?.copy(categoryId = document.id)
                         }
-                    }.let { trySend(it) }
+                    }.let(::trySend)
                 },
                 onError = { throwable ->
                     throw throwable
