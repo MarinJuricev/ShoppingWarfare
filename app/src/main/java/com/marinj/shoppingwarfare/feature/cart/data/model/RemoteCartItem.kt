@@ -11,14 +11,14 @@ data class RemoteCartItem(
     val categoryName: String,
     val name: String,
     val quantity: Int,
-    val isInBasket: Boolean,
+    val inBasket: Boolean,
 ) {
     fun toLocal() = LocalCartItem(
         cartItemId = cartItemId,
         categoryName = categoryName,
         name = name,
         quantity = quantity,
-        isInBasket = isInBasket,
+        isInBasket = inBasket,
     )
 }
 
@@ -27,5 +27,5 @@ fun CartItem.toRemote() = RemoteCartItem(
     categoryName = categoryName.value,
     name = name.value,
     quantity = quantity.toInt(),
-    isInBasket = isInBasket,
+    inBasket = isInBasket,
 )
