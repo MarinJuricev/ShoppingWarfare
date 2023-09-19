@@ -20,6 +20,7 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.UndoCateg
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 fun buildRemoteCategory(
     providedCategoryId: String = ID,
@@ -97,9 +98,7 @@ class FakeSuccessCategoryApi(
 
     val remoteCategories = mutableListOf<RemoteCategory>()
 
-    override fun observeCategories() = flow {
-        emit(categoryListToEmit)
-    }
+    override fun observeCategories() = flowOf(categoryListToEmit)
 
     override suspend fun addCategoryItem(categoryItem: RemoteCategory): Either<Failure, Unit> {
         remoteCategories.add(categoryItem)
@@ -125,9 +124,7 @@ object FakeFailureCategoryApi : CategoryApi {
 class FakeSuccessCategoryRepository(
     private val categoryListToObserve: List<Category> = listOf(buildCategory()),
 ) : CategoryRepository {
-    override fun observeCategories() = flow {
-        emit(categoryListToObserve)
-    }
+    override fun observeCategories() = flowOf(categoryListToObserve)
 
     override suspend fun upsertCategory(category: Category) = Unit.right()
 
