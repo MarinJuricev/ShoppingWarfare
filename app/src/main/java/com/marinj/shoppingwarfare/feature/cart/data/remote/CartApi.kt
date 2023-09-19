@@ -14,5 +14,4 @@ interface CartApi {
     suspend fun updateCartItemIsInBasket(cartItemId: String, updatedIsInBasket: Boolean): Either<Failure, Unit>
     suspend fun deleteCartItemById(id: String): Either<Failure, Unit>
     suspend fun deleteCart(): Either<Failure, Unit>
-
 }

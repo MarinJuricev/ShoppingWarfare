@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import arrow.core.left
 import arrow.core.right
 import com.google.common.truth.Truth.assertThat
-import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.core.result.Failure.*
+import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
+import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.feature.cart.FakeFailureCartApi
 import com.marinj.shoppingwarfare.feature.cart.FakeFailureCartDao
 import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCartApi

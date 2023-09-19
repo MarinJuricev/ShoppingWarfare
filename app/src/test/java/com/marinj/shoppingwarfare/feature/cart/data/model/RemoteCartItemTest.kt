@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.cart.data.model
 
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
-import com.marinj.shoppingwarfare.feature.cart.buildLocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.buildRemoteCartItem
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -93,7 +92,7 @@ class RemoteCartItemTest {
     }
 
     @Test
-    fun `toRemote SHOULD map name`(){
+    fun `toRemote SHOULD map name`() {
         val expectedResult = NAME
         val sut = buildCartItem(
             providedName = expectedResult,

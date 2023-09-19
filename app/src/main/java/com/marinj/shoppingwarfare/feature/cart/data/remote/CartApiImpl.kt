@@ -76,8 +76,9 @@ class CartApiImpl @Inject constructor(
             .document(cartItemId)
             .update(CART_IS_IN_BASKET, updatedIsInBasket)
             .addOnSuccessListener {
-                if (continuation.isActive)
+                if (continuation.isActive) {
                     continuation.resume(Unit.right())
+                }
             }
             .addOnFailureListener { exception: Exception ->
                 continuation.resume(

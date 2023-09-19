@@ -178,7 +178,6 @@ class FakeSuccessCartApi(
         Unit.right()
 
     override suspend fun deleteCart(): Either<Failure, Unit> = Unit.right()
-
 }
 
 object FakeFailureCartApi : CartApi {
@@ -204,7 +203,6 @@ object FakeFailureCartApi : CartApi {
         Unknown.left()
 
     override suspend fun deleteCart(): Either<Failure, Unit> = Unknown.left()
-
 }
 
 class FakeSuccessObserveCartItemsCount(
