@@ -6,6 +6,7 @@ import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
+import com.marinj.shoppingwarfare.feature.cart.data.model.toLocal
 import com.marinj.shoppingwarfare.feature.cart.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.cart.data.remote.CartApi
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
@@ -45,20 +46,19 @@ class CartRepositoryImpl @Inject constructor(
     override suspend fun updateCartItemQuantity(
         cartItemId: String,
         newQuantity: Int,
-    ): Either<Failure, Unit> =
-//        cartDao.updateCartItemQuantity(cartItemId, newQuantity).right().also {
-        cartApi.updateCartItemQuantity(cartItemId, newQuantity)
-//        }
+    ): Either<Failure, Unit> = cartApi.updateCartItemQuantity(cartItemId, newQuantity)
+        .onRight { cartDao.updateCartItemQuantity(cartItemId, newQuantity).right() }
 
     override suspend fun updateCartItemIsInBasket(
         cartItemId: String,
         updatedIsInBasket: Boolean,
     ): Either<Failure, Unit> =
         cartApi.updateCartItemIsInBasket(cartItemId, updatedIsInBasket)
-//        cartDao.updateCartItemIsInBasket(cartItemId, updatedIsInBasket).right()
+            .onRight { cartDao.updateCartItemIsInBasket(cartItemId, updatedIsInBasket).right() }
 
     override suspend fun upsertCartItem(cartItem: CartItem): Either<Failure, Unit> =
         cartApi.addCartItem(cartItem.toRemote())
+            .onRight { cartDao.upsertCartItem(cartItem.toLocal()) }
 
     override suspend fun deleteCartItemById(id: String): Either<Failure, Unit> =
         cartApi.deleteCartItemById(id)
@@ -73,5 +73,5 @@ class CartRepositoryImpl @Inject constructor(
 
     override suspend fun dropCurrentCart(): Either<Failure, Unit> =
         cartApi.deleteCart()
-            .onLeft { cartDao.deleteCart() }
+            .onRight { cartDao.deleteCart() }
 }
