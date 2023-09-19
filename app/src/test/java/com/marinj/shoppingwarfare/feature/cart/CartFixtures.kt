@@ -7,6 +7,7 @@ import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
 import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
+import com.marinj.shoppingwarfare.feature.cart.data.model.RemoteCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
@@ -49,6 +50,20 @@ fun buildLocalCartItem(
     isInBasket = providedIsInBasket,
 )
 
+fun buildRemoteCartItem(
+    providedId: String = ID,
+    providedCategoryName: String = CATEGORY_NAME,
+    providedName: String = NAME,
+    providedQuantity: UInt = QUANTITY,
+    providedIsInBasket: Boolean = IS_IN_BASKET,
+) = RemoteCartItem(
+    cartItemId = providedId,
+    categoryName = providedCategoryName,
+    name = providedName,
+    quantity = providedQuantity.toInt(),
+    inBasket = providedIsInBasket,
+)
+
 fun buildUiCartItemHeader(
     providedId: String = CATEGORY_NAME,
     providedCategoryName: String = CATEGORY_NAME,
@@ -56,6 +71,7 @@ fun buildUiCartItemHeader(
     id = providedId,
     categoryName = providedCategoryName,
 )
+
 fun buildUiCartItemContent(
     providedId: String = ID,
     providedCategoryName: String = CATEGORY_NAME,
