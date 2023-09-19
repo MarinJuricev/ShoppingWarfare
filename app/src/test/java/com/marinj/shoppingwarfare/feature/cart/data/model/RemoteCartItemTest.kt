@@ -29,7 +29,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toLocal()
 
-        assertEquals(expectedResult, actual.cartItemId)
+        assertEquals(expectedResult, actual.categoryName)
     }
 
     @Test
@@ -53,7 +53,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toLocal()
 
-        assertEquals(expectedResult, actual.quantity)
+        assertEquals(expectedResult.toInt(), actual.quantity)
     }
 
     @Test
