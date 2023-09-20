@@ -1,7 +1,8 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    id "org.jetbrains.kotlin.kapt"
     id "dagger.hilt.android.plugin"
     id "com.google.gms.google-services"
     id "org.jetbrains.kotlin.plugin.serialization"
@@ -70,7 +71,7 @@ dependencies {
     implementation libs.accompanist.permissions
 
     implementation libs.hilt.android
-    kapt libs.hilt.compiler
+    ksp libs.hilt.compiler
     implementation libs.hilt.navigation.compose
 
 
@@ -107,7 +108,7 @@ dependencies {
 }
 
 //TODO Check after each dependency update do we still need these compilerArguments
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
         freeCompilerArgs += "-opt-in=androidx.compose.material.ExperimentalMaterialApi"
         freeCompilerArgs += "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
