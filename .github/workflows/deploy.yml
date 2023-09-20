@@ -14,6 +14,8 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
+      - name: Generate google-services.json
+        run: touch ./app/google-services.json && echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > ./app/google-services.json
       - name: build release
         run: ./gradlew assembleRelease
       - name: upload artifact to Firebase App Distribution
