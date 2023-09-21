@@ -13,6 +13,21 @@ android {
     compileSdk libs.versions.compileSdk.get().toInteger()
     buildToolsVersion libs.versions.buildTools.get()
 
+    signingConfigs {
+        debug {
+            storeFile rootProject.file('signing/debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+        release {
+            storeFile rootProject.file('signing/release.jks')
+            keyAlias 'ShoppingWarfare'
+            keyPassword System.getenv("SHOPPING_WARFARE_KEY_PASSWORD")
+            storePassword System.getenv("SHOPPING_WARFARE_STORE_PASSWORD")
+        }
+    }
+
     namespace 'com.marinj.shoppingwarfare'
 
     defaultConfig {
