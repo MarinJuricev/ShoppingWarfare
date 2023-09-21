@@ -64,4 +64,5 @@ dependencies {
     implementation(libs.androidx.compose.material3.window)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.ui.tooling.preview)
 }
