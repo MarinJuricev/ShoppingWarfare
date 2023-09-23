@@ -1,7 +1,6 @@
 TODOs:
 
 CartViewModel has a flaky test.... investigate that
-Migrate to a design system,
 Migrate to .kts build scripts,
 Migrate from addOnSuccess & addOnFailure listeners to addOnCompleteListener ? ( is it even worth it, less lambda allocations, but we plan to migrate to our own BE anyway... )
 Use a single snackbar state ?

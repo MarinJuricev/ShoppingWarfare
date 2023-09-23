@@ -63,9 +63,11 @@ fun CartScreen(
                         cartEffect.cartItemName,
                     ),
                 )
+
                 is Error -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     message = cartEffect.errorMessage,
                 )
+
                 CartViewEffect.CartViewCheckoutCompleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
                     context.getString(string.cart_success_message),
                 )
@@ -102,16 +104,19 @@ fun CartScreen(
                     .fillMaxWidth(),
             ) {
                 when {
-                    viewState.isLoading -> ShoppingWarfareLoadingIndicator()
                     viewState.uiCartItems.isEmpty() -> ShoppingWarfareEmptyScreen(
                         message = stringResource(
                             string.empty_cart_message,
                         ),
                     )
-                    viewState.uiCartItems.isNotEmpty() -> CartItemList(
+                    else -> CartItemList(
                         uiCartItems = viewState.uiCartItems,
                         onCartEvent = cartViewModel::onEvent,
                     )
+                }
+
+                if (viewState.isLoading) {
+                    ShoppingWarfareLoadingIndicator()
                 }
             }
             CartCheckoutInfo(

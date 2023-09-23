@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,6 +17,8 @@ import com.marinj.shoppingwarfare.core.theme.textColor
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryEvent
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryEvent.OnHistoryItemClick
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
+import com.marinj.shoppingwarfare.ui.TextBodyLarge
+import com.marinj.shoppingwarfare.ui.TextBodyMedium
 
 @Composable
 fun HistoryItemCard(
@@ -37,11 +38,11 @@ fun HistoryItemCard(
         ) {
             Column {
                 HistoryItemDescriptionText(description = stringResource(id = R.string.cart_name))
-                HistoryItemBodyText(bodyText = historyItem.cartName)
+                TextBodyLarge(text = historyItem.cartName)
             }
             Column {
                 HistoryItemDescriptionText(description = stringResource(id = R.string.history_item_date))
-                HistoryItemBodyText(bodyText = historyItem.date)
+                TextBodyLarge(text = historyItem.date)
             }
         }
     }
@@ -49,17 +50,8 @@ fun HistoryItemCard(
 
 @Composable
 fun HistoryItemDescriptionText(description: String) {
-    Text(
+    TextBodyMedium(
         text = description,
-        style = MaterialTheme.typography.body2,
         color = MaterialTheme.textColor(),
-    )
-}
-
-@Composable
-fun HistoryItemBodyText(bodyText: String) {
-    Text(
-        text = bodyText,
-        style = MaterialTheme.typography.body1,
     )
 }
