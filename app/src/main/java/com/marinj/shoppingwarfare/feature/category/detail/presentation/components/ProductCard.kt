@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,13 +23,16 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnProductClicked
 import com.marinj.shoppingwarfare.feature.category.detail.presentation.model.ProductEvent.OnProductDelete
+import com.marinj.shoppingwarfare.ui.SWCard
+import com.marinj.shoppingwarfare.ui.TextBodyLarge
+import com.marinj.shoppingwarfare.ui.TextBodyMedium
 
 @Composable
 fun ProductCard(
     product: Product,
     onCategoryDetailEvent: (ProductEvent) -> Unit,
 ) {
-    Card(
+    SWCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 4.dp, vertical = 8.dp),
@@ -45,9 +46,8 @@ fun ProductCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text(
+                TextBodyMedium(
                     text = stringResource(R.string.product_name),
-                    style = MaterialTheme.typography.body2,
                     color = MaterialTheme.textColor(),
                 )
                 Icon(
@@ -66,10 +66,7 @@ fun ProductCard(
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = product.name.value,
-                style = MaterialTheme.typography.body1,
-            )
+            TextBodyLarge(text = product.name.value)
         }
     }
 }

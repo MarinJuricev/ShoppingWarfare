@@ -53,14 +53,18 @@ fun HistoryScreen(
             contentAlignment = Alignment.Center,
         ) {
             when {
-                viewState.isLoading -> ShoppingWarfareLoadingIndicator()
                 viewState.historyItems.isEmpty() -> ShoppingWarfareEmptyScreen(
                     message = stringResource(R.string.empty_history_message),
                 )
-                viewState.historyItems.isNotEmpty() -> HistoryList(
+
+                else -> HistoryList(
                     historyItems = viewState.historyItems,
                     onHistoryEvent = historyViewModel::onEvent,
                 )
+            }
+
+            if (viewState.isLoading) {
+                ShoppingWarfareLoadingIndicator()
             }
         }
     }

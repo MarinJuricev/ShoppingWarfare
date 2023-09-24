@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -19,6 +18,7 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
+import com.marinj.shoppingwarfare.ui.TextBodyLarge
 
 @ExperimentalMaterialApi
 @Composable
@@ -35,6 +35,7 @@ fun CartReceiptStatus(
                 ReceiptStatus.Error -> MaterialTheme.colors.error
                 is ReceiptStatus.Taken -> MaterialTheme.colors.primary
             },
+            label = "receiptStatusColor",
         )
         ShoppingWarfareIconButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -47,7 +48,7 @@ fun CartReceiptStatus(
                 contentDescription = stringResource(R.string.camera_permission_denied),
             )
         }
-        Text(
+        TextBodyLarge(
             text = when (viewState.receiptStatus) {
                 ReceiptStatus.Empty -> stringResource(R.string.no_receipt_added)
                 ReceiptStatus.Error -> stringResource(R.string.receipt_error)
@@ -55,7 +56,6 @@ fun CartReceiptStatus(
             },
             textAlign = TextAlign.Center,
             color = receiptStatusColor,
-            style = MaterialTheme.typography.body1,
         )
     }
 }

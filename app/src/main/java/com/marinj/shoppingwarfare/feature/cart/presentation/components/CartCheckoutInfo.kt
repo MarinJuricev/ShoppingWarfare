@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,6 +24,9 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartNameUpdated
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CheckoutClicked
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
+import com.marinj.shoppingwarfare.ui.PrimaryOutlinedButton
+import com.marinj.shoppingwarfare.ui.PrimaryTextButton
+import com.marinj.shoppingwarfare.ui.SWTextField
 
 @Composable
 fun CartCheckoutInfo(
@@ -53,7 +54,7 @@ fun CartCheckoutInfo(
                     .fillMaxHeight()
                     .verticalScroll(scrollState),
             ) {
-                OutlinedTextField(
+                SWTextField(
                     label = { Text(stringResource(id = R.string.cart_name)) },
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     value = viewState.cartName,
@@ -63,7 +64,7 @@ fun CartCheckoutInfo(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row {
-                    Button(
+                    PrimaryOutlinedButton(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .weight(1f),
@@ -72,15 +73,14 @@ fun CartCheckoutInfo(
                     ) {
                         Text(text = stringResource(id = R.string.share_cart))
                     }
-                    Button(
+                    PrimaryTextButton(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .weight(1f),
                         enabled = viewState.uiCartItems.isNotEmpty(),
+                        text = stringResource(id = R.string.checkout),
                         onClick = { onCartEvent(CheckoutClicked) },
-                    ) {
-                        Text(text = stringResource(id = R.string.checkout))
-                    }
+                    )
                 }
             }
             CartReceiptStatus(
