@@ -1,8 +1,10 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.base.BaseViewModel
 import com.marinj.shoppingwarfare.core.base.TIMEOUT_DELAY
+import com.marinj.shoppingwarfare.core.ext.combine
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.DeleteCartItem
@@ -21,6 +23,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.Item
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureError
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureSuccess
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartTab
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewCheckoutCompleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
@@ -57,8 +60,29 @@ class CartViewModel @Inject constructor(
     private val uiCartItemToCartItemMapper: UiCartItemToCartItemMapper,
 ) : BaseViewModel<CartEvent>() {
 
-    private val _viewState = MutableStateFlow(CartViewState())
-    val viewState = _viewState.stateIn(
+    private val isLoading = MutableStateFlow(true)
+    private val receiptStatus = MutableStateFlow<ReceiptStatus>(ReceiptStatus.Empty)
+    private val cartName = MutableStateFlow("")
+    private val isPremiumUser = MutableStateFlow(false)
+    private val selectedTabPosition = MutableStateFlow(0)
+    private val cartTabs = MutableStateFlow(
+        listOf(
+            CartTab(0, R.string.pending_tab),
+            CartTab(1, R.string.approved_tab),
+        ),
+    )
+    private val uiCartItems = MutableStateFlow(emptyList<UiCartItem>())
+
+    val viewState = combine(
+        isLoading,
+        receiptStatus,
+        cartName,
+        isPremiumUser,
+        selectedTabPosition,
+        cartTabs,
+        uiCartItems,
+        ::CartViewState,
+    ).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
         initialValue = CartViewState(),
@@ -70,7 +94,7 @@ class CartViewModel @Inject constructor(
     override fun onEvent(event: CartEvent) {
         when (event) {
             OnGetCartItems -> handleGetCartItems()
-            ReceiptCaptureError -> handleReceiptCaptureError()
+            ReceiptCaptureError -> receiptStatus.update { ReceiptStatus.Error }
             CheckoutClicked -> handleCheckoutClicked()
             is CartEvent.DeleteCartItem -> handleDeleteCartItem(event.cartItem)
             is CartItemQuantityChanged -> handleCartItemQuantityChanged(
@@ -78,31 +102,21 @@ class CartViewModel @Inject constructor(
                 event.newQuantity,
             )
 
-            is ReceiptCaptureSuccess -> handleReceiptCaptureSuccess(event.receiptPath)
-            is CartNameUpdated -> handleCartNameUpdated(event.updatedCartName)
+            is ReceiptCaptureSuccess -> receiptStatus.update { validateReceiptPath(event.receiptPath) }
+            is CartNameUpdated -> cartName.update { event.updatedCartName }
             is ItemAddedToBasket -> handleItemAddedToBasket(event.cartItem)
-            is CartTabPositionUpdated -> handleCartTabPositionUpdated(event.updatedCartTabPosition)
+            is CartTabPositionUpdated -> selectedTabPosition.update { event.updatedCartTabPosition }
         }
     }
 
     private fun handleGetCartItems() = observeCartItems()
-        .onStart { updateIsLoading(isLoading = true) }
+        .onStart { isLoading.update { true } }
         .catch { handleGetCartItemsError() }
         .map(cartItemToUiCartItemMapper::map)
         .onEach { cartItems ->
-            _viewState.update { viewState ->
-                viewState.copy(
-                    uiCartItems = cartItems,
-                    isLoading = false,
-                )
-            }
+            uiCartItems.update { cartItems }
+            isLoading.update { false }
         }.launchIn(viewModelScope)
-
-    private fun handleReceiptCaptureError() {
-        _viewState.update { viewState ->
-            viewState.copy(receiptStatus = ReceiptStatus.Error)
-        }
-    }
 
     private fun handleCheckoutClicked() = viewModelScope.launch {
         val viewState = viewState.value
@@ -117,7 +131,7 @@ class CartViewModel @Inject constructor(
     }
 
     private suspend fun handleGetCartItemsError() {
-        updateIsLoading(false)
+        isLoading.update { false }
         _viewEffect.send(Error("Failed to fetch cart items, please try again later."))
     }
 
@@ -138,18 +152,6 @@ class CartViewModel @Inject constructor(
         )
     }
 
-    private fun handleReceiptCaptureSuccess(receiptPath: String?) {
-        _viewState.update { viewState ->
-            viewState.copy(receiptStatus = validateReceiptPath(receiptPath))
-        }
-    }
-
-    private fun handleCartNameUpdated(updatedCartName: String) {
-        _viewState.update { viewState ->
-            viewState.copy(cartName = updatedCartName)
-        }
-    }
-
     private fun handleItemAddedToBasket(
         uiCartItem: UiCartItem.Content,
     ) = viewModelScope.launch {
@@ -157,17 +159,5 @@ class CartViewModel @Inject constructor(
             ifLeft = { _viewEffect.send(Error("Failed to update ${uiCartItem.name}, please try again later")) },
             ifRight = { Timber.d("${uiCartItem.name} successfully updated with ${!uiCartItem.isInBasket} isInBasket status") },
         )
-    }
-
-    private fun handleCartTabPositionUpdated(updatedCartTabPosition: Int) {
-        _viewState.update { viewState ->
-            viewState.copy(selectedTabPosition = updatedCartTabPosition)
-        }
-    }
-
-    private fun updateIsLoading(isLoading: Boolean) {
-        _viewState.update { viewState ->
-            viewState.copy(isLoading = isLoading)
-        }
     }
 }
