@@ -21,7 +21,7 @@ import com.marinj.shoppingwarfare.feature.category.list.presentation.model.Categ
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewEffect.Error
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.CategoryViewState
 import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory
-import com.marinj.shoppingwarfare.feature.category.list.presentation.model.UiCategory.Companion.toUi
+import com.marinj.shoppingwarfare.feature.category.list.presentation.model.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,9 +84,7 @@ class CategoryViewModel @Inject constructor(
         observeCategories()
             .onStart { isLoading.update { true } }
             .catch { handleGetCategoriesError() }
-            .map { categoryList ->
-                categoryList.map { category -> category.toUi() }
-            }
+            .map { categoryList -> categoryList.map(Category::toUi) }
             .collect { uiCategoryList ->
                 isLoading.update { false }
                 categories.update { uiCategoryList }

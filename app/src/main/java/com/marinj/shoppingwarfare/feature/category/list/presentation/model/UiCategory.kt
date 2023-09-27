@@ -17,13 +17,10 @@ data class UiCategory(
         backgroundColor = backgroundColor.toArgb(),
         titleColor = titleColor.toArgb(),
     )
-
-    companion object {
-        fun Category.toUi() = UiCategory(
-            id = id.value,
-            title = title.value,
-            backgroundColor = Color(backgroundColor.value),
-            titleColor = Color(titleColor.value),
-        )
-    }
 }
+fun Category.toUi() = UiCategory(
+    id = id.value,
+    title = title.value,
+    backgroundColor = Color(backgroundColor.value),
+    titleColor = Color(titleColor.value),
+)
