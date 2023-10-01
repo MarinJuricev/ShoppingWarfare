@@ -1,11 +1,7 @@
 TODOs:
 
-CartViewModel has a flaky test.... investigate that
-Migrate to .kts build scripts,
-Migrate from addOnSuccess & addOnFailure listeners to addOnCompleteListener ? ( is it even worth it, less lambda allocations, but we plan to migrate to our own BE anyway... )
 Use a single snackbar state ?
 Migrate to Kotest and Junit5
-Migrate to Material 3,
 Moduralize,
 Remove Android specific dependencies,
 Write out a BE for the app and remove Firebase ( we could use the Firebase internally for auth or w/e )
