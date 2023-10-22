@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class ValidateReceiptPathTest {
@@ -15,7 +15,7 @@ class ValidateReceiptPathTest {
         val result = sut(receiptPath = receiptPath)
         val expectedResult = ReceiptStatus.Error
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -25,7 +25,7 @@ class ValidateReceiptPathTest {
         val result = sut(receiptPath = receiptPath)
         val expectedResult = ReceiptStatus.Error
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -35,7 +35,7 @@ class ValidateReceiptPathTest {
         val result = sut(receiptPath = receiptPath)
         val expectedResult = ReceiptStatus.Error
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -45,6 +45,6 @@ class ValidateReceiptPathTest {
         val result = sut(receiptPath = receiptPath)
         val expectedResult = ReceiptStatus.Taken(receiptPath)
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 }

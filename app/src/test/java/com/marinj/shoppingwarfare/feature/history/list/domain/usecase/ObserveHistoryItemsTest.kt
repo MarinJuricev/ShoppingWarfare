@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.history.list.domain.usecase
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.history.FakeSuccessHistoryRepository
 import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -18,7 +18,7 @@ class ObserveHistoryItemsTest {
             )
 
             sut().test {
-                assertThat(awaitItem()).isEqualTo(historyItems)
+                awaitItem() shouldBe historyItems
                 awaitComplete()
             }
         }

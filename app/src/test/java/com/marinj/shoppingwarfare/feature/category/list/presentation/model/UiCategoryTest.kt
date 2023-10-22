@@ -3,10 +3,10 @@ package com.marinj.shoppingwarfare.feature.category.list.presentation.model
 import androidx.compose.ui.graphics.Color
 import arrow.core.left
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildUiCategory
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class UiCategoryTest {
@@ -18,7 +18,7 @@ class UiCategoryTest {
 
         val result = uiCategory.toDomain()
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -28,7 +28,7 @@ class UiCategoryTest {
 
         val result = uiCategory.toDomain()
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -44,7 +44,7 @@ class UiCategoryTest {
 
         val result = uiCategory.toDomain()
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -54,7 +54,7 @@ class UiCategoryTest {
 
         val result = category.toUi()
 
-        assertThat(result.id).isEqualTo(expectedResult)
+        result.id shouldBe expectedResult
     }
 
     @Test
@@ -64,7 +64,7 @@ class UiCategoryTest {
 
         val result = category.toUi()
 
-        assertThat(result.title).isEqualTo(expectedResult)
+        result.title shouldBe expectedResult
     }
 
     @Test
@@ -74,7 +74,7 @@ class UiCategoryTest {
 
         val result = category.toUi()
 
-        assertThat(result.backgroundColor).isEqualTo(expectedResult)
+        result.backgroundColor shouldBe expectedResult
     }
 
     @Test
@@ -84,7 +84,7 @@ class UiCategoryTest {
 
         val result = category.toUi()
 
-        assertThat(result.titleColor).isEqualTo(expectedResult)
+        result.titleColor shouldBe expectedResult
     }
 }
 

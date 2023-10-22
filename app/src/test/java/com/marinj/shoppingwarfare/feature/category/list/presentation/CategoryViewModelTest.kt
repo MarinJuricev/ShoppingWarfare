@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.list.presentation
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
@@ -25,6 +24,8 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessObserveCategories
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessUndoCategoryDeletion
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildUiCategory
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -52,8 +53,8 @@ class CategoryViewModelTest {
 
         sut.viewState.test {
             val updatedViewState = awaitItem()
-            assertThat(updatedViewState.categories).isEqualTo(expectedResult)
-            assertThat(updatedViewState.isLoading).isFalse()
+            updatedViewState.categories shouldBe expectedResult
+            updatedViewState.isLoading.shouldBeFalse()
         }
     }
 
@@ -70,7 +71,7 @@ class CategoryViewModelTest {
         sut.onEvent(GetCategories)
 
         sut.viewEffect.test {
-            assertThat(awaitItem()).isEqualTo(Error("Failed to fetch Categories, try again later."))
+            awaitItem() shouldBe Error("Failed to fetch Categories, try again later.")
         }
     }
 
@@ -96,7 +97,7 @@ class CategoryViewModelTest {
                     ),
                 )
 
-                assertThat(awaitItem()).isEqualTo(expectedEvent)
+                awaitItem() shouldBe expectedEvent
             }
         }
 
@@ -115,7 +116,7 @@ class CategoryViewModelTest {
             sut.onEvent(DeleteCategory(uiCategory))
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(DeleteCategoryView(uiCategory))
+                awaitItem() shouldBe DeleteCategoryView(uiCategory)
             }
         }
 
@@ -134,7 +135,7 @@ class CategoryViewModelTest {
             sut.onEvent(DeleteCategory(uiCategory))
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Error while deleting category."))
+                awaitItem() shouldBe Error("Error while deleting category.")
             }
         }
 
@@ -153,7 +154,7 @@ class CategoryViewModelTest {
             sut.onEvent(UndoCategoryDeletion(uiCategory))
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("title can not be null or empty"))
+                awaitItem() shouldBe Error("title can not be null or empty")
             }
         }
 
@@ -172,7 +173,7 @@ class CategoryViewModelTest {
             sut.onEvent(UndoCategoryDeletion(uiCategory))
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Couldn't undo category deletion."))
+                awaitItem() shouldBe Error("Couldn't undo category deletion.")
             }
         }
 

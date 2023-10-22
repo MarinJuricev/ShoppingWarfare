@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.core.viewmodel.badge
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObservingBadgesCount
 import com.marinj.shoppingwarfare.feature.cart.FakeSuccessObserveCartItemsCount
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -25,7 +25,7 @@ class BadgeViewModelTest {
             sut.onEvent(StartObservingBadgesCount)
 
             sut.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expectedResult)
+                awaitItem() shouldBe expectedResult
             }
         }
 }

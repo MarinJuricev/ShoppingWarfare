@@ -2,11 +2,11 @@ package com.marinj.shoppingwarfare.feature.category.createcategory.domain.usecas
 
 import arrow.core.left
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategoryImpl
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepository
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +35,7 @@ class CreateCategoryTest {
 
         val actualResult = sut(title, categoryColor, titleColor)
 
-        assertThat(actualResult).isEqualTo(repositoryResult)
+        actualResult shouldBe repositoryResult
     }
 
     @Test
@@ -47,7 +47,7 @@ class CreateCategoryTest {
 
         val actualResult = sut(title, categoryColor, titleColor)
 
-        assertThat(actualResult).isEqualTo(expectedResult)
+        actualResult shouldBe expectedResult
     }
 }
 

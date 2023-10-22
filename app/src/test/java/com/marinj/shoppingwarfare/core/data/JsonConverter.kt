@@ -1,6 +1,6 @@
 package com.marinj.shoppingwarfare.core.data
 
-import com.google.common.truth.Truth.assertThat
+import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
 import org.junit.Test
 
@@ -27,7 +27,7 @@ class MoshiJsonConverterTest {
             age = AGE,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -39,7 +39,7 @@ class MoshiJsonConverterTest {
 
         val result = sut.decode<JsonConverterTest>(origin)
 
-        assertThat(result).isNull()
+        result shouldBe null
     }
 
     @Test
@@ -57,7 +57,7 @@ class MoshiJsonConverterTest {
             age = AGE,
         )
 
-        assertThat(result).isEqualTo(listOf(expectedResult))
+        result shouldBe listOf(expectedResult)
     }
 
     @Test
@@ -71,7 +71,7 @@ class MoshiJsonConverterTest {
 
         val result = sut.decode<List<JsonConverterTest>>(origin)
 
-        assertThat(result).isNull()
+        result shouldBe null
     }
 
     @Test
@@ -89,7 +89,7 @@ class MoshiJsonConverterTest {
             age = AGE,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -103,7 +103,7 @@ class MoshiJsonConverterTest {
 
         val result = sut.decode<List<JsonConverterTest>>(origin)
 
-        assertThat(result).isNull()
+        result shouldBe null
     }
 
     @Test
@@ -112,7 +112,7 @@ class MoshiJsonConverterTest {
 
         val result = sut.decode<List<JsonConverterTest>>(origin)
 
-        assertThat(result).isNull()
+        result shouldBe null
     }
 }
 

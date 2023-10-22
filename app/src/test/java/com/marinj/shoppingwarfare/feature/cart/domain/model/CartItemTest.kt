@@ -1,9 +1,11 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.model
 
 import arrow.core.left
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem.Companion.CartItem
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -21,7 +23,7 @@ class CartItemTest {
             isInBasket = null,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -36,7 +38,7 @@ class CartItemTest {
             isInBasket = null,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -51,7 +53,7 @@ class CartItemTest {
             isInBasket = null,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -62,15 +64,14 @@ class CartItemTest {
             name = NAME,
         )
 
-        assertThat(
-            result.map {
-                assertThat(it.id.value).isEqualTo(ID)
-                assertThat(it.categoryName.value).isEqualTo(CATEGORY_NAME)
-                assertThat(it.name.value).isEqualTo(NAME)
-                assertThat(it.quantity).isEqualTo(1u)
-                assertThat(it.isInBasket).isFalse()
-            }.isRight(),
-        ).isTrue()
+        result.map {
+            it.id.value shouldBe ID
+            it.categoryName.value shouldBe CATEGORY_NAME
+            it.name.value shouldBe NAME
+            it.quantity shouldBe 1u
+            it.isInBasket.shouldBeFalse()
+        }.isRight()
+            .shouldBeTrue()
     }
 
     @Test
@@ -83,15 +84,14 @@ class CartItemTest {
             isInBasket = IS_IN_BASKET,
         )
 
-        assertThat(
-            result.map {
-                assertThat(it.id.value).isEqualTo(ID)
-                assertThat(it.categoryName.value).isEqualTo(CATEGORY_NAME)
-                assertThat(it.name.value).isEqualTo(NAME)
-                assertThat(it.quantity).isEqualTo(QUANTITY)
-                assertThat(it.isInBasket).isTrue()
-            }.isRight(),
-        ).isTrue()
+        result.map {
+            it.id.value shouldBe ID
+            it.categoryName.value shouldBe CATEGORY_NAME
+            it.name.value shouldBe NAME
+            it.quantity shouldBe QUANTITY
+            it.isInBasket.shouldBeTrue()
+        }.isRight()
+            .shouldBeTrue()
     }
 }
 

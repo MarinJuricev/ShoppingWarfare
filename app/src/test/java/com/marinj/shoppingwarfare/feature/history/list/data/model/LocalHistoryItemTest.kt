@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.history.list.data.model
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.history.buildHistoryCartItem
 import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import com.marinj.shoppingwarfare.feature.history.buildLocalHistoryItem
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class LocalHistoryItemTest {
@@ -14,7 +14,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toDomain()
 
-        assertThat(result.getOrNull()?.id?.value).isEqualTo(ID)
+        result.getOrNull()?.id?.value shouldBe ID
     }
 
     @Test
@@ -23,7 +23,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toDomain()
 
-        assertThat(result.getOrNull()?.receiptPath?.value).isEqualTo(RECEIPT_PATH)
+        result.getOrNull()?.receiptPath?.value shouldBe RECEIPT_PATH
     }
 
     @Test
@@ -32,7 +32,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toDomain()
 
-        assertThat(result.getOrNull()?.cartName?.value).isEqualTo(CART_NAME)
+        result.getOrNull()?.cartName?.value shouldBe CART_NAME
     }
 
     @Test
@@ -41,7 +41,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toDomain()
 
-        assertThat(result.getOrNull()?.timestamp).isEqualTo(TIMESTAMP)
+        result.getOrNull()?.timestamp shouldBe TIMESTAMP
     }
 
     @Test
@@ -51,7 +51,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toDomain()
 
-        assertThat(result.getOrNull()?.historyCartItems).isEqualTo(historyCartItems)
+        result.getOrNull()?.historyCartItems shouldBe historyCartItems
     }
 
     @Test
@@ -60,7 +60,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toLocal()
 
-        assertThat(result.historyItemId).isEqualTo(ID)
+        result.historyItemId shouldBe ID
     }
 
     @Test
@@ -69,7 +69,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toLocal()
 
-        assertThat(result.receiptPath).isEqualTo(RECEIPT_PATH)
+        result.receiptPath shouldBe RECEIPT_PATH
     }
 
     @Test
@@ -78,7 +78,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toLocal()
 
-        assertThat(result.timestamp).isEqualTo(TIMESTAMP)
+        result.timestamp shouldBe TIMESTAMP
     }
 
     @Test
@@ -87,7 +87,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toLocal()
 
-        assertThat(result.cartName).isEqualTo(CART_NAME)
+        result.cartName shouldBe CART_NAME
     }
 
     @Test
@@ -97,7 +97,7 @@ class LocalHistoryItemTest {
 
         val result = sut.toLocal()
 
-        assertThat(result.historyCartItems).isEqualTo(historyCartItems)
+        result.historyCartItems shouldBe historyCartItems
     }
 }
 

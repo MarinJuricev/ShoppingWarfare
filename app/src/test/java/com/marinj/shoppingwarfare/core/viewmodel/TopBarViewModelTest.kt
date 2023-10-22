@@ -2,7 +2,6 @@ package com.marinj.shoppingwarfare.core.viewmodel
 
 import androidx.compose.runtime.Composable
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.NoSearchBarTopBarViewState
@@ -15,6 +14,7 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.HistoryTopBa
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.ProductTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -50,7 +50,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expectedResult)
+                awaitItem() shouldBe expectedResult
             }
         }
 
@@ -70,7 +70,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expectedResult)
+                awaitItem() shouldBe expectedResult
             }
         }
 
@@ -96,7 +96,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expectedResult)
+                awaitItem() shouldBe expectedResult
             }
         }
 
@@ -111,7 +111,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expectedResult)
+                awaitItem() shouldBe expectedResult
             }
         }
 
@@ -137,7 +137,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expectedResult)
+                awaitItem() shouldBe expectedResult
             }
         }
 
@@ -152,7 +152,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expectedResult)
+                awaitItem() shouldBe expectedResult
             }
         }
 
@@ -172,7 +172,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expectedResult)
+                awaitItem() shouldBe expectedResult
             }
         }
 }

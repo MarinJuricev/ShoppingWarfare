@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.detail.presentation.mapper
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.fixtures.category.buildProduct
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -15,7 +15,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.getOrNull()?.id?.value).isEqualTo(ID)
+        actualResult.getOrNull()?.id?.value shouldBe ID
     }
 
     @Test
@@ -24,7 +24,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.getOrNull()?.name?.value).isEqualTo(NAME)
+        actualResult.getOrNull()?.name?.value shouldBe NAME
     }
 
     @Test
@@ -33,7 +33,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.getOrNull()?.categoryName?.value).isEqualTo(CATEGORY_NAME)
+        actualResult.getOrNull()?.categoryName?.value shouldBe CATEGORY_NAME
     }
 
     @Test
@@ -42,7 +42,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.getOrNull()?.quantity?.toInt()).isEqualTo(DEFAULT_QUANTITY)
+        actualResult.getOrNull()?.quantity?.toInt() shouldBe DEFAULT_QUANTITY
     }
 
     @Test
@@ -51,7 +51,7 @@ class ProductToCartItemMapperTest {
 
         val actualResult = sut.map(product)
 
-        assertThat(actualResult.getOrNull()?.isInBasket).isEqualTo(DEFAULT_IS_IN_BASKET)
+        actualResult.getOrNull()?.isInBasket shouldBe DEFAULT_IS_IN_BASKET
     }
 }
 

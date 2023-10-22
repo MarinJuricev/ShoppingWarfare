@@ -1,8 +1,8 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCartRepository
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -16,7 +16,7 @@ class UpdateCartItemQuantityTest {
 
             val actualResult = sut(ID, UPDATED_QUANTITY)
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 }
 

@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.core.model
 
 import arrow.core.left
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.model.NonEmptyString.Companion.NonEmptyString
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class NonEmptyStringTest {
@@ -14,7 +14,7 @@ class NonEmptyStringTest {
 
         val result = NonEmptyString(valueToValidate = null)
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -23,7 +23,7 @@ class NonEmptyStringTest {
 
         val result = NonEmptyString(valueToValidate = null, tag = TAG)
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -32,7 +32,7 @@ class NonEmptyStringTest {
 
         val result = NonEmptyString(valueToValidate = "")
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -41,7 +41,7 @@ class NonEmptyStringTest {
 
         val result = NonEmptyString(valueToValidate = "         ")
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -51,7 +51,7 @@ class NonEmptyStringTest {
         val result = NonEmptyString(valueToValidate = someValue)
 
         result.map { mappedValue ->
-            assertThat(mappedValue.value).isEqualTo(someValue)
+            mappedValue.value shouldBe someValue
         }
     }
 }

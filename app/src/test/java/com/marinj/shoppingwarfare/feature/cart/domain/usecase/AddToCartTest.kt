@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCartRepository
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -19,7 +19,7 @@ class AddToCartTest {
 
             val actualResult = sut(cartItem)
 
-            assertThat(actualResult).isEqualTo(repositoryResult)
+            actualResult shouldBe repositoryResult
         }
 
     @Test
@@ -34,7 +34,7 @@ class AddToCartTest {
 
             val actualResult = sut(existingCartItem)
 
-            assertThat(actualResult).isEqualTo(repositoryResult)
+            actualResult shouldBe repositoryResult
         }
 }
 

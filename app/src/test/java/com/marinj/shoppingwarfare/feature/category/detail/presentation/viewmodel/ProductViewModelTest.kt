@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.category.detail.presentation.viewmodel
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent
@@ -29,6 +28,10 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCreateProduct
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessDeleteProduct
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessObserveProducts
 import com.marinj.shoppingwarfare.fixtures.category.buildProduct
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -50,14 +53,14 @@ class ProductViewModelTest {
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
-                assertThat(initialViewState.products).isEmpty()
-                assertThat(initialViewState.isLoading).isTrue()
+                initialViewState.products.shouldBeEmpty()
+                initialViewState.isLoading.shouldBeTrue()
 
                 sut.onEvent(OnGetProducts(CATEGORY_ID))
 
                 val viewState = awaitItem()
-                assertThat(viewState.products).isEqualTo(productList)
-                assertThat(viewState.isLoading).isFalse()
+                viewState.products shouldBe productList
+                viewState.isLoading.shouldBeFalse()
             }
         }
 
@@ -68,16 +71,16 @@ class ProductViewModelTest {
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
-                assertThat(initialViewState.products).isEmpty()
-                assertThat(initialViewState.isLoading).isTrue()
+                initialViewState.products.shouldBeEmpty()
+                initialViewState.isLoading.shouldBeTrue()
 
                 sut.onEvent(OnGetProducts(CATEGORY_ID))
 
                 val viewState = awaitItem()
 
-                assertThat(viewState.isLoading).isFalse()
+                viewState.isLoading.shouldBeFalse()
                 sut.viewEffect.test {
-                    assertThat(awaitItem()).isEqualTo(Error("Failed to fetch category items, try again later."))
+                    awaitItem() shouldBe Error("Failed to fetch category items, try again later.")
                 }
             }
         }
@@ -112,7 +115,7 @@ class ProductViewModelTest {
             sut.onEvent(event)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Could not create $PRODUCT_NAME, try again later."))
+                awaitItem() shouldBe Error("Could not create $PRODUCT_NAME, try again later.")
             }
         }
 
@@ -126,7 +129,7 @@ class ProductViewModelTest {
             sut.onEvent(event)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(ProductDeleted(product))
+                awaitItem() shouldBe ProductDeleted(product)
             }
         }
 
@@ -143,7 +146,7 @@ class ProductViewModelTest {
             sut.onEvent(event)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Could not delete NonEmptyString(value=product), try again later."))
+                awaitItem() shouldBe Error("Could not delete NonEmptyString(value=product), try again later.")
             }
         }
 
@@ -181,7 +184,7 @@ class ProductViewModelTest {
             sut.onEvent(event)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Could not create $PRODUCT_NAME, try again later."))
+                awaitItem() shouldBe Error("Could not create $PRODUCT_NAME, try again later.")
             }
         }
 
@@ -195,7 +198,7 @@ class ProductViewModelTest {
             sut.onEvent(event)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(AddedToCart(product))
+                awaitItem() shouldBe AddedToCart(product)
             }
         }
 
@@ -209,7 +212,7 @@ class ProductViewModelTest {
             sut.onEvent(event)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Could not add NonEmptyString(value=product) to Cart, try again later."))
+                awaitItem() shouldBe Error("Could not add NonEmptyString(value=product) to Cart, try again later.")
             }
         }
 
@@ -223,7 +226,7 @@ class ProductViewModelTest {
 
         navigator.receivedEvents.test {
             sut.onEvent(event)
-            assertThat(awaitItem()).isEqualTo(NavigationEvent.NavigateUp)
+            awaitItem() shouldBe NavigationEvent.NavigateUp
         }
     }
 }

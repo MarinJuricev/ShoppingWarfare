@@ -2,11 +2,11 @@ package com.marinj.shoppingwarfare.feature.category.detail.domain.usecase
 
 import arrow.core.left
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductRepository
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductRepository
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -28,7 +28,7 @@ class CreateProductTest {
             productName = PRODUCT_NAME,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -45,7 +45,7 @@ class CreateProductTest {
             productName = PRODUCT_NAME,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -62,7 +62,7 @@ class CreateProductTest {
             productName = PRODUCT_NAME,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 }
 

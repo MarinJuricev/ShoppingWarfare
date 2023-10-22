@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.core.mapper
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
+import io.kotest.matchers.shouldBe
 import org.junit.Before
 import org.junit.Test
 
@@ -21,7 +21,7 @@ class FailureToStringMapperTest {
 
         val actualResult = sut.map(origin)
 
-        assertThat(actualResult).isEqualTo(errorMessage)
+        actualResult shouldBe errorMessage
     }
 
     @Test
@@ -31,6 +31,6 @@ class FailureToStringMapperTest {
         val actualResult = sut.map(origin)
         val expectedResult = "Unknown Error Occurred, please try again later"
 
-        assertThat(actualResult).isEqualTo(expectedResult)
+        actualResult shouldBe expectedResult
     }
 }

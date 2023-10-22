@@ -3,12 +3,12 @@ package com.marinj.shoppingwarfare.feature.history.list.data.repository
 import app.cash.turbine.test
 import arrow.core.left
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.history.FakeFailureHistoryDao
 import com.marinj.shoppingwarfare.feature.history.FakeSuccessHistoryDao
 import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import com.marinj.shoppingwarfare.feature.history.buildLocalHistoryItem
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -24,7 +24,7 @@ class HistoryRepositoryImplTest {
         )
 
         sut.observeHistoryItems().test {
-            assertThat(awaitItem()).isEqualTo(historyItems.mapNotNull { it.toDomain().getOrNull() })
+            awaitItem() shouldBe historyItems.mapNotNull { it.toDomain().getOrNull() }
             awaitComplete()
         }
     }
@@ -40,7 +40,7 @@ class HistoryRepositoryImplTest {
 
             val actualResult = sut.upsertHistoryItem(historyItem)
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 
     @Test
@@ -53,7 +53,7 @@ class HistoryRepositoryImplTest {
 
         val actualResult = sut.upsertHistoryItem(historyItem)
 
-        assertThat(actualResult).isEqualTo(expectedResult)
+        actualResult shouldBe expectedResult
     }
 
     @Test
@@ -66,7 +66,7 @@ class HistoryRepositoryImplTest {
 
             val actualResult = sut.dropHistory()
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 
     @Test
@@ -79,7 +79,7 @@ class HistoryRepositoryImplTest {
 
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 
     @Test
@@ -91,6 +91,6 @@ class HistoryRepositoryImplTest {
             val actualResult = sut.getHistoryItemById(HISTORY_ITEM_ID)
             val expectedResult = buildHistoryItem().right()
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 }

@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.history.list.domain.model
 
 import arrow.core.left
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem.Companion.HistoryItem
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class HistoryItemTest {
@@ -20,7 +20,7 @@ class HistoryItemTest {
             historyCartItems = emptyList(),
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -35,7 +35,7 @@ class HistoryItemTest {
             historyCartItems = emptyList(),
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -50,7 +50,7 @@ class HistoryItemTest {
             historyCartItems = emptyList(),
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 }
 

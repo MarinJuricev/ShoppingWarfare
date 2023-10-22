@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.cart.data.repository
 import app.cash.turbine.test
 import arrow.core.left
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.feature.cart.FakeFailureCartApi
@@ -14,6 +13,7 @@ import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.buildLocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
 import com.marinj.shoppingwarfare.feature.cart.data.remote.CartApi
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -27,7 +27,7 @@ class CartRepositoryImplTest {
         val sut = buildSut(cartDao = FakeSuccessCartDao(cartListToReturn = localCartItems))
 
         sut.observeCartItems().test {
-            assertThat(awaitItem()).isEqualTo(cartItemList)
+            awaitItem() shouldBe cartItemList
             awaitComplete()
         }
     }
@@ -38,7 +38,7 @@ class CartRepositoryImplTest {
         val sut = buildSut(cartDao = FakeSuccessCartDao(cartListToReturn = localCartItems))
 
         sut.observeCartItemsCount().test {
-            assertThat(awaitItem()).isEqualTo(localCartItems.size)
+            awaitItem() shouldBe localCartItems.size
             awaitComplete()
         }
     }
@@ -54,7 +54,7 @@ class CartRepositoryImplTest {
         val actualResult = sut.upsertCartItem(cartItem)
         val expectedResult = Unknown.left()
 
-        assertThat(actualResult).isEqualTo(expectedResult)
+        actualResult shouldBe expectedResult
     }
 
     @Test
@@ -66,7 +66,7 @@ class CartRepositoryImplTest {
 
             val actualResult = sut.upsertCartItem(cartItem)
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 
     @Test
@@ -77,7 +77,7 @@ class CartRepositoryImplTest {
             val actualResult = sut.deleteCartItemById(CART_ID)
             val expectedResult = Unit.right()
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 
     @Test
@@ -88,7 +88,7 @@ class CartRepositoryImplTest {
             val expectedResult =
                 ErrorMessage("No cartItem present with the id: $CART_ID").left()
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 
     @Test
@@ -101,7 +101,7 @@ class CartRepositoryImplTest {
 
             val actualResult = sut.getCartItemById(CART_ID)
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 
     @Test
@@ -112,7 +112,7 @@ class CartRepositoryImplTest {
 
             val actualResult = sut.dropCurrentCart()
 
-            assertThat(actualResult).isEqualTo(expectedResult)
+            actualResult shouldBe expectedResult
         }
 
     @Test
@@ -123,7 +123,7 @@ class CartRepositoryImplTest {
 
             val result = sut.updateCartItemQuantity(CART_ID, NEW_QUANTITY)
 
-            assertThat(result).isEqualTo(expectedResult)
+            result shouldBe expectedResult
         }
 
     @Test
@@ -133,7 +133,7 @@ class CartRepositoryImplTest {
             val sut = buildSut(cartDao = FakeSuccessCartDao())
             val result = sut.updateCartItemIsInBasket(CART_ID, NEW_UPDATED_IN_BASKET)
 
-            assertThat(result).isEqualTo(expectedResult)
+            result shouldBe expectedResult
         }
 
     private fun buildSut(
