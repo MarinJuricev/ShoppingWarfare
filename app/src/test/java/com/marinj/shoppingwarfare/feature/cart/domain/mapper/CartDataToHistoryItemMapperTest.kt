@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.domain.mapper
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -20,7 +20,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.getOrNull()?.id?.value).isEqualTo(UUID)
+        result.getOrNull()?.id?.value shouldBe UUID
     }
 
     @Test
@@ -29,7 +29,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.getOrNull()?.receiptPath?.value).isEqualTo(RECEIPT_PATH)
+        result.getOrNull()?.receiptPath?.value shouldBe RECEIPT_PATH
     }
 
     @Test
@@ -38,7 +38,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.getOrNull()?.cartName?.value).isEqualTo(CART_NAME)
+        result.getOrNull()?.cartName?.value shouldBe CART_NAME
     }
 
     @Test
@@ -47,7 +47,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.getOrNull()?.timestamp).isEqualTo(TIMESTAMP)
+        result.getOrNull()?.timestamp shouldBe TIMESTAMP
     }
 
     @Test
@@ -71,7 +71,7 @@ class CartDataToHistoryItemMapperTest {
 
         val result = sut.map(cartItems, CART_NAME, RECEIPT_PATH)
 
-        assertThat(result.getOrNull()?.historyCartItems).isEqualTo(expectedResult)
+        result.getOrNull()?.historyCartItems shouldBe expectedResult
     }
 }
 

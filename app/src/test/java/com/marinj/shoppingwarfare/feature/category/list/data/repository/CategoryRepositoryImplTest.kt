@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.category.list.data.repository
 import app.cash.turbine.test
 import arrow.core.left
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureCategoryApi
@@ -12,6 +11,8 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryDao
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildRemoteCategory
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -44,7 +45,7 @@ class CategoryRepositoryImplTest {
         sut.observeCategories().test {
             val item = awaitItem()
 
-            assertThat(item).isEqualTo(expectedResult)
+            item shouldBe expectedResult
             awaitComplete()
         }
     }
@@ -76,7 +77,7 @@ class CategoryRepositoryImplTest {
         )
 
         sut.observeCategories().test {
-            assertThat(awaitItem()).isEqualTo(expectedResult)
+            awaitItem() shouldBe expectedResult
             awaitComplete()
         }
     }
@@ -91,7 +92,7 @@ class CategoryRepositoryImplTest {
 
         val result = sut.upsertCategory(category)
 
-        assertThat(result).isEqualTo(Unknown.left())
+        result shouldBe Unknown.left()
     }
 
     @Test
@@ -104,7 +105,7 @@ class CategoryRepositoryImplTest {
 
         val result = sut.upsertCategory(category)
 
-        assertThat(result).isEqualTo(Unit.right())
+        result shouldBe Unit.right()
     }
 
     @Test
@@ -122,9 +123,9 @@ class CategoryRepositoryImplTest {
 
         val result = sut.deleteCategoryById(CATEGORY_ID)
 
-        assertThat(result).isEqualTo(Unit.right())
-        assertThat(dao.localCategories).isEmpty()
-        assertThat(api.remoteCategories).isEmpty()
+        result shouldBe Unit.right()
+        dao.localCategories.shouldBeEmpty()
+        api.remoteCategories.shouldBeEmpty()
     }
 }
 

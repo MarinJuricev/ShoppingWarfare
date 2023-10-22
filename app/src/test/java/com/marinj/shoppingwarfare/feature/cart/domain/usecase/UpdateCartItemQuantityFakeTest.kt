@@ -2,10 +2,10 @@ package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
 import arrow.core.Either
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -29,7 +29,7 @@ class UpdateCartItemQuantityFakeTest {
         runTest {
             val actualResult = sut(ID, UPDATED_QUANTITY)
 
-            assertThat(actualResult).isEqualTo(Unit.right())
+            actualResult shouldBe Unit.right()
         }
 
     private inner class FakeCartRepository : CartRepository {

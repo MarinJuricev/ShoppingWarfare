@@ -1,9 +1,12 @@
 package com.marinj.shoppingwarfare.core.mapper
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.ext.getOrEmpty
 import com.marinj.shoppingwarfare.core.ext.getOrFalse
 import com.marinj.shoppingwarfare.core.ext.getOrZero
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldBeEmpty
 import org.junit.Test
 
 class MapExtKtTest {
@@ -14,7 +17,7 @@ class MapExtKtTest {
 
         val result = sut.getOrEmpty(KEY)
 
-        assertThat(result).isEqualTo("value")
+        result shouldBe "value"
     }
 
     @Test
@@ -23,7 +26,7 @@ class MapExtKtTest {
 
         val result = sut.getOrEmpty("randomKey")
 
-        assertThat(result).isEmpty()
+        result.shouldBeEmpty()
     }
 
     @Test
@@ -32,7 +35,7 @@ class MapExtKtTest {
 
         val result = sut.getOrZero(KEY)
 
-        assertThat(result).isEqualTo(1)
+        result shouldBe 1
     }
 
     @Test
@@ -41,7 +44,7 @@ class MapExtKtTest {
 
         val result = sut.getOrZero("randomKey")
 
-        assertThat(result).isEqualTo(0)
+        result shouldBe 0
     }
 
     @Test
@@ -50,7 +53,7 @@ class MapExtKtTest {
 
         val result = sut.getOrFalse(KEY)
 
-        assertThat(result).isTrue()
+        result.shouldBeTrue()
     }
 
     @Test
@@ -59,7 +62,7 @@ class MapExtKtTest {
 
         val result = sut.getOrFalse("randomKey")
 
-        assertThat(result).isFalse()
+        result.shouldBeFalse()
     }
 }
 

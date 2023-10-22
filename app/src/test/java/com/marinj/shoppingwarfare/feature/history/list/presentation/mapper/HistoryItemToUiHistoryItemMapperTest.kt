@@ -1,8 +1,8 @@
 package com.marinj.shoppingwarfare.feature.history.list.presentation.mapper
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.history.buildHistoryCartItem
 import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 private const val ID = "id"
@@ -21,7 +21,7 @@ class HistoryItemToUiHistoryItemMapperTest {
 
         val result = sut.map(origin)
 
-        assertThat(result.id).isEqualTo(ID)
+        result.id shouldBe ID
     }
 
     @Test
@@ -30,7 +30,7 @@ class HistoryItemToUiHistoryItemMapperTest {
 
         val result = sut.map(origin)
 
-        assertThat(result.receiptPath).isEqualTo(RECEIPT_PATH)
+        result.receiptPath shouldBe RECEIPT_PATH
     }
 
     @Test
@@ -39,7 +39,7 @@ class HistoryItemToUiHistoryItemMapperTest {
 
         val result = sut.map(origin)
 
-        assertThat(result.date).isEqualTo(CONVERTED_TIMESTAMP)
+        result.date shouldBe CONVERTED_TIMESTAMP
     }
 
     @Test
@@ -48,7 +48,7 @@ class HistoryItemToUiHistoryItemMapperTest {
 
         val result = sut.map(origin)
 
-        assertThat(result.cartName).isEqualTo(CART_NAME)
+        result.cartName shouldBe CART_NAME
     }
 
     @Test
@@ -58,6 +58,6 @@ class HistoryItemToUiHistoryItemMapperTest {
 
         val result = sut.map(origin)
 
-        assertThat(result.historyCartItems).isEqualTo(cartItems)
+        result.historyCartItems shouldBe cartItems
     }
 }

@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.category.list.domain.model
 
 import arrow.core.left
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category.Companion.Category
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class CategoryTest {
@@ -19,7 +19,7 @@ class CategoryTest {
             titleColor = TITLE_COLOR,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -33,7 +33,7 @@ class CategoryTest {
             titleColor = TITLE_COLOR,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -47,7 +47,7 @@ class CategoryTest {
             titleColor = TITLE_COLOR,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -61,7 +61,7 @@ class CategoryTest {
             titleColor = TITLE_COLOR,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -75,7 +75,7 @@ class CategoryTest {
             titleColor = null,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 }
 

@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.history.detail.presentation.viewmodel
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
@@ -13,6 +12,8 @@ import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.Hist
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnGetHistoryDetail
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.list.presentation.mapper.HistoryItemToUiHistoryItemMapper
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -42,12 +43,12 @@ class HistoryDetailViewModelTest {
             sut.viewState.test {
                 val updatedViewState = awaitItem()
 
-                assertThat(updatedViewState.isLoading).isFalse()
-                assertThat(updatedViewState.uiHistoryItem).isEqualTo(
-                    buildUiHistoryItem(
-                        providedDate = "1970-01-01",
-                    ),
-                )
+                updatedViewState.isLoading.shouldBeFalse()
+                updatedViewState.uiHistoryItem shouldBe
+                        buildUiHistoryItem(
+                            providedDate = "1970-01-01",
+                        )
+
             }
         }
 
@@ -65,7 +66,7 @@ class HistoryDetailViewModelTest {
             sut.onEvent(event)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Unknown Error Occurred, please try again later"))
+                awaitItem() shouldBe Error("Unknown Error Occurred, please try again later")
             }
         }
 
@@ -81,7 +82,7 @@ class HistoryDetailViewModelTest {
 
         navigator.receivedEvents.test {
             sut.onEvent(event)
-            assertThat(awaitItem()).isEqualTo(NavigateUp)
+            awaitItem() shouldBe NavigateUp
         }
     }
 }

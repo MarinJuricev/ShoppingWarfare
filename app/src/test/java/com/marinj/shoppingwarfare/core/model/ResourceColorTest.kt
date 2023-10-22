@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.core.model
 
 import arrow.core.left
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.model.ResourceColor.Companion.ResourceColor
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class ResourceColorTest {
@@ -15,7 +15,7 @@ class ResourceColorTest {
 
         val result = ResourceColor(valueToValidate = valueToValidate)
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -25,7 +25,7 @@ class ResourceColorTest {
         val result = ResourceColor(valueToValidate = valueToValidate)
 
         result.map { mappedValued ->
-            assertThat(mappedValued.value).isEqualTo(valueToValidate)
+            mappedValued.value shouldBe valueToValidate
         }
     }
 }

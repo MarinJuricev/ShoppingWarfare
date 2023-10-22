@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.feature.cart.FakeFailureCheckoutCart
@@ -31,6 +30,10 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
 import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -53,8 +56,8 @@ class CartViewModelTest {
 
             sut.viewState.test {
                 val updatedViewState = awaitItem()
-                assertThat(updatedViewState.uiCartItems).isEqualTo(uiCartItems)
-                assertThat(updatedViewState.isLoading).isFalse()
+                updatedViewState.uiCartItems shouldBe uiCartItems
+                updatedViewState.isLoading.shouldBeFalse()
             }
         }
 
@@ -65,16 +68,16 @@ class CartViewModelTest {
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
-                assertThat(initialViewState.uiCartItems).isEmpty()
-                assertThat(initialViewState.isLoading).isTrue()
+                initialViewState.uiCartItems.shouldBeEmpty()
+                initialViewState.isLoading.shouldBeTrue()
 
                 sut.onEvent(OnGetCartItems)
 
-                assertThat(awaitItem().isLoading).isFalse()
+                awaitItem().isLoading.shouldBeFalse()
             }
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Failed to fetch cart items, please try again later."))
+                awaitItem() shouldBe Error("Failed to fetch cart items, please try again later.")
             }
         }
 
@@ -90,7 +93,7 @@ class CartViewModelTest {
             sut.onEvent(CartEvent.DeleteCartItem(uiCartItem))
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(CartViewItemDeleted(NAME))
+                awaitItem() shouldBe CartViewItemDeleted(NAME)
             }
         }
 
@@ -105,7 +108,7 @@ class CartViewModelTest {
             sut.onEvent(CartEvent.DeleteCartItem(uiCartItem))
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Failed to delete $NAME, please try again later."))
+                awaitItem() shouldBe Error("Failed to delete $NAME, please try again later.")
             }
         }
 
@@ -149,7 +152,7 @@ class CartViewModelTest {
             )
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Failed to update $NAME, please try again later"))
+                awaitItem() shouldBe Error("Failed to update $NAME, please try again later")
             }
         }
 
@@ -160,7 +163,7 @@ class CartViewModelTest {
             sut.onEvent(CartEvent.ReceiptCaptureError)
 
             sut.viewState.test {
-                assertThat(awaitItem().receiptStatus).isEqualTo(ReceiptStatus.Error)
+                awaitItem().receiptStatus shouldBe ReceiptStatus.Error
             }
         }
 
@@ -174,7 +177,7 @@ class CartViewModelTest {
             sut.onEvent(CartEvent.ReceiptCaptureSuccess(receiptPath))
 
             sut.viewState.test {
-                assertThat(awaitItem().receiptStatus).isEqualTo(expectedResult)
+                awaitItem().receiptStatus shouldBe expectedResult
             }
         }
 
@@ -186,7 +189,7 @@ class CartViewModelTest {
             sut.onEvent(CartEvent.CheckoutClicked)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(CartViewCheckoutCompleted)
+                awaitItem() shouldBe CartViewCheckoutCompleted
             }
         }
 
@@ -198,7 +201,7 @@ class CartViewModelTest {
             sut.onEvent(CartEvent.CheckoutClicked)
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Unknown Error Occurred, please try again later"))
+                awaitItem() shouldBe Error("Unknown Error Occurred, please try again later")
             }
         }
 
@@ -210,7 +213,7 @@ class CartViewModelTest {
         sut.onEvent(CartEvent.CartNameUpdated(newCartName))
 
         sut.viewState.test {
-            assertThat(awaitItem().cartName).isEqualTo(newCartName)
+            awaitItem().cartName shouldBe newCartName
         }
     }
 
@@ -251,7 +254,7 @@ class CartViewModelTest {
             )
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Failed to update $NAME, please try again later"))
+                awaitItem() shouldBe Error("Failed to update $NAME, please try again later")
             }
         }
 
@@ -263,7 +266,7 @@ class CartViewModelTest {
         sut.onEvent(CartEvent.CartTabPositionUpdated(newCartTabPosition))
 
         sut.viewState.test {
-            assertThat(awaitItem().selectedTabPosition).isEqualTo(newCartTabPosition)
+            awaitItem().selectedTabPosition shouldBe newCartTabPosition
         }
     }
 

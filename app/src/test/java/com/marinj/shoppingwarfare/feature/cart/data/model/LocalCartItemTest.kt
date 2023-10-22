@@ -1,8 +1,10 @@
 package com.marinj.shoppingwarfare.feature.cart.data.model
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.buildLocalCartItem
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class LocalCartItemTest {
@@ -12,7 +14,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.id?.value).isEqualTo(ID)
+        actualResult.getOrNull()?.id?.value shouldBe ID
     }
 
     @Test
@@ -21,7 +23,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.categoryName?.value).isEqualTo(CATEGORY_NAME)
+        actualResult.getOrNull()?.categoryName?.value shouldBe CATEGORY_NAME
     }
 
     @Test
@@ -30,7 +32,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.name?.value).isEqualTo(NAME)
+        actualResult.getOrNull()?.name?.value shouldBe NAME
     }
 
     @Test
@@ -39,7 +41,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.quantity).isEqualTo(QUANTITY)
+        actualResult.getOrNull()?.quantity shouldBe QUANTITY
     }
 
     @Test
@@ -48,7 +50,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.isInBasket).isFalse()
+        actualResult.getOrNull()?.isInBasket?.shouldBeFalse()
     }
 
     @Test
@@ -57,7 +59,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toDomain()
 
-        assertThat(actualResult.getOrNull()?.isInBasket).isTrue()
+        actualResult.getOrNull()?.isInBasket?.shouldBeTrue()
     }
 
     @Test
@@ -66,7 +68,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toLocal()
 
-        assertThat(actualResult.cartItemId).isEqualTo(ID)
+        actualResult.cartItemId shouldBe ID
     }
 
     @Test
@@ -75,7 +77,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toLocal()
 
-        assertThat(actualResult.name).isEqualTo(NAME)
+        actualResult.name shouldBe NAME
     }
 
     @Test
@@ -84,7 +86,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toLocal()
 
-        assertThat(actualResult.quantity).isEqualTo(QUANTITY.toInt())
+        actualResult.quantity shouldBe QUANTITY.toInt()
     }
 
     @Test
@@ -93,7 +95,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toLocal()
 
-        assertThat(actualResult.isInBasket).isEqualTo(IS_IN_BASKET)
+        actualResult.isInBasket shouldBe IS_IN_BASKET
     }
 
     @Test
@@ -102,7 +104,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toLocal()
 
-        assertThat(actualResult.isInBasket).isFalse()
+        actualResult.isInBasket.shouldBeFalse()
     }
 }
 

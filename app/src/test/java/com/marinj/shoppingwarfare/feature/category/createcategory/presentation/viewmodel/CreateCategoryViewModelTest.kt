@@ -2,7 +2,6 @@ package com.marinj.shoppingwarfare.feature.category.createcategory.presentation.
 
 import androidx.compose.ui.graphics.Color
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
@@ -17,6 +16,7 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureCreateCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCreateCategory
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +35,7 @@ class CreateCategoryViewModelTest {
         sut.onEvent(event)
 
         sut.createCategoryViewState.test {
-            assertThat(awaitItem().categoryName).isEqualTo(categoryText)
+            awaitItem().categoryName shouldBe categoryText
         }
     }
 
@@ -49,7 +49,7 @@ class CreateCategoryViewModelTest {
             sut.onEvent(event)
 
             sut.createCategoryViewState.test {
-                assertThat(awaitItem().backgroundColor).isEqualTo(selectedColor)
+                awaitItem().backgroundColor shouldBe selectedColor
             }
         }
 
@@ -62,7 +62,7 @@ class CreateCategoryViewModelTest {
         sut.onEvent(event)
 
         sut.createCategoryViewState.test {
-            assertThat(awaitItem().titleColor).isEqualTo(selectedColor)
+            awaitItem().titleColor shouldBe selectedColor
         }
     }
 
@@ -78,7 +78,7 @@ class CreateCategoryViewModelTest {
             sut.onEvent(event)
 
             sut.createCategoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(createCategoryEffect)
+                awaitItem() shouldBe createCategoryEffect
             }
         }
 
@@ -92,7 +92,7 @@ class CreateCategoryViewModelTest {
             sut.onEvent(event)
 
             sut.createCategoryEffect.test {
-                assertThat(awaitItem()).isEqualTo(createCategoryEffect)
+                awaitItem() shouldBe createCategoryEffect
             }
         }
 
@@ -106,9 +106,10 @@ class CreateCategoryViewModelTest {
 
         navigator.receivedEvents.test {
             sut.onEvent(event)
-            assertThat(awaitItem()).isEqualTo(NavigationEvent.NavigateUp)
+            awaitItem() shouldBe NavigationEvent.NavigateUp
         }
     }
+
     private fun buildSut(
         providedCreateCategory: CreateCategory = FakeSuccessCreateCategory,
         providedNavigator: Navigator = FakeNavigator,

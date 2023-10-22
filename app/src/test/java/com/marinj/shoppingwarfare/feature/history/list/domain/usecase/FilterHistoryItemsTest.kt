@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.history.list.domain.usecase
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.history.buildUiHistoryItem
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class FilterHistoryItemsTest {
@@ -18,7 +18,7 @@ class FilterHistoryItemsTest {
             searchQuery = "",
         )
 
-        assertThat(result).isEqualTo(uiHistoryItems)
+        result shouldBe uiHistoryItems
     }
 
     @Test
@@ -31,7 +31,7 @@ class FilterHistoryItemsTest {
             searchQuery = "     ",
         )
 
-        assertThat(result).isEqualTo(uiHistoryItems)
+        result shouldBe uiHistoryItems
     }
 
     @Test
@@ -46,7 +46,7 @@ class FilterHistoryItemsTest {
         )
         val expectedResult = listOf(firstUiHistoryItem)
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 }
 

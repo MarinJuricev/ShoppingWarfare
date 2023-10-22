@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation.mapper
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Content
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Header
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -24,7 +24,7 @@ class CartItemToUiCartItemMapperTest {
         val result = sut.map(listOf(cartItem))
         val expectedResult = Header(id = CATEGORY_NAME, categoryName = CATEGORY_NAME)
 
-        assertThat(result.first()).isEqualTo(expectedResult)
+        result.first() shouldBe expectedResult
     }
 
     @Test
@@ -46,7 +46,7 @@ class CartItemToUiCartItemMapperTest {
             isInBasket = IS_IN_BASKET,
         )
 
-        assertThat(result[1]).isEqualTo(expectedResult)
+        result[1] shouldBe expectedResult
     }
 }
 

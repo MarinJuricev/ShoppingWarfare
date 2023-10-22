@@ -1,9 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.detail.domain.model
 
 import arrow.core.left
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product.Companion.Product
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 internal class ProductTest {
@@ -19,7 +20,7 @@ internal class ProductTest {
             name = "",
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -33,7 +34,7 @@ internal class ProductTest {
             name = NAME,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -47,7 +48,7 @@ internal class ProductTest {
             name = NAME,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -61,7 +62,7 @@ internal class ProductTest {
             name = null,
         )
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 
     @Test
@@ -73,7 +74,7 @@ internal class ProductTest {
             name = NAME,
         )
 
-        assertThat(result.isRight()).isTrue()
+        result.isRight().shouldBeTrue()
     }
 }
 

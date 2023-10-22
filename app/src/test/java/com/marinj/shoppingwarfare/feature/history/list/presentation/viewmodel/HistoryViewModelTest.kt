@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.history.list.presentation.viewmodel
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.fixture.FakeNavigator
 import com.marinj.shoppingwarfare.core.navigation.NavigationEvent.Destination
@@ -18,6 +17,10 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.model.Histor
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryEvent.OnSearchTriggered
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryEvent.OnSearchUpdated
 import com.marinj.shoppingwarfare.feature.history.list.presentation.model.HistoryViewEffect.Error
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -40,16 +43,16 @@ class HistoryViewModelTest {
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
-                assertThat(initialViewState.historyItems).isEmpty()
-                assertThat(initialViewState.nonFilteredHistoryItems).isEmpty()
-                assertThat(initialViewState.isLoading).isTrue()
+                initialViewState.historyItems.shouldBeEmpty()
+                initialViewState.nonFilteredHistoryItems.shouldBeEmpty()
+                initialViewState.isLoading.shouldBeTrue()
 
                 sut.onEvent(OnGetHistoryItems)
 
                 val updatedViewState = awaitItem()
-                assertThat(updatedViewState.historyItems).isEqualTo(uiHistoryItems)
-                assertThat(updatedViewState.nonFilteredHistoryItems).isEqualTo(uiHistoryItems)
-                assertThat(updatedViewState.isLoading).isFalse()
+                updatedViewState.historyItems shouldBe uiHistoryItems
+                updatedViewState.nonFilteredHistoryItems shouldBe uiHistoryItems
+                updatedViewState.isLoading.shouldBeFalse()
             }
         }
 
@@ -62,16 +65,16 @@ class HistoryViewModelTest {
 
             sut.viewState.test {
                 val initialViewState = awaitItem()
-                assertThat(initialViewState.historyItems).isEmpty()
-                assertThat(initialViewState.isLoading).isTrue()
+                initialViewState.historyItems.shouldBeEmpty()
+                initialViewState.isLoading.shouldBeTrue()
 
                 sut.onEvent(OnGetHistoryItems)
 
-                assertThat(awaitItem().isLoading).isFalse()
+                awaitItem().isLoading.shouldBeFalse()
             }
 
             sut.viewEffect.test {
-                assertThat(awaitItem()).isEqualTo(Error("Failed to history items, please try again later."))
+                awaitItem() shouldBe Error("Failed to history items, please try again later.")
             }
         }
 
@@ -85,7 +88,7 @@ class HistoryViewModelTest {
         sut.onEvent(event)
 
         sut.viewState.test {
-            assertThat(awaitItem().searchText).isEqualTo(newSearchText)
+            awaitItem().searchText shouldBe newSearchText
         }
     }
 
@@ -101,7 +104,7 @@ class HistoryViewModelTest {
         sut.onEvent(event)
 
         sut.viewState.test {
-            assertThat(awaitItem().historyItems).isEqualTo(filteredList)
+            awaitItem().historyItems shouldBe filteredList
         }
     }
 
@@ -120,7 +123,7 @@ class HistoryViewModelTest {
 
         navigator.receivedEvents.test {
             sut.onEvent(event)
-            assertThat(awaitItem()).isEqualTo(expectedDestination)
+            awaitItem() shouldBe expectedDestination
         }
     }
 

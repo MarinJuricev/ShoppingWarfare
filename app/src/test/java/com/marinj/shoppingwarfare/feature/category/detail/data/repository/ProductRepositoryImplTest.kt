@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.feature.category.detail.data.repository
 import app.cash.turbine.test
 import arrow.core.left
 import arrow.core.right
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductApi
@@ -12,6 +11,8 @@ import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategoryProducts
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalProduct
 import com.marinj.shoppingwarfare.fixtures.category.buildProduct
 import com.marinj.shoppingwarfare.fixtures.category.buildRemoteProduct
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -44,7 +45,7 @@ class ProductRepositoryImplTest {
         )
 
         sut.observeProducts(PRODUCT_ID).test {
-            assertThat(awaitItem()).isEqualTo(expectedResult)
+            awaitItem() shouldBe expectedResult
             awaitComplete()
         }
     }
@@ -63,7 +64,7 @@ class ProductRepositoryImplTest {
 
         val result = sut.upsertProduct(product)
 
-        assertThat(result).isEqualTo(Unit.right())
+        result shouldBe Unit.right()
     }
 
     @Test
@@ -79,7 +80,7 @@ class ProductRepositoryImplTest {
 
         val result = sut.upsertProduct(product)
 
-        assertThat(result).isEqualTo(Unknown.left())
+        result shouldBe Unknown.left()
     }
 
     @Test
@@ -92,7 +93,7 @@ class ProductRepositoryImplTest {
 
         val result = sut.deleteProduct(product)
 
-        assertThat(result).isEqualTo(Unit.right())
+        result shouldBe Unit.right()
     }
 
     @Test
@@ -105,7 +106,7 @@ class ProductRepositoryImplTest {
 
         val result = sut.deleteProduct(product)
 
-        assertThat(result).isEqualTo(Unknown.left())
+        result shouldBe Unknown.left()
     }
 
     @Test
@@ -128,9 +129,9 @@ class ProductRepositoryImplTest {
         )
 
         dao.upsertProduct(localProduct)
-        assertThat(dao.localProducts).isEqualTo(listOf(localProduct))
+        dao.localProducts shouldBe listOf(localProduct)
         sut.deleteProduct(localProduct.toDomain().getOrNull()!!)
-        assertThat(dao.localProducts).isEmpty()
+        dao.localProducts.shouldBeEmpty()
     }
 }
 

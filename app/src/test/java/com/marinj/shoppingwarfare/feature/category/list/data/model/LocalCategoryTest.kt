@@ -1,10 +1,10 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.model
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.core.model.NonEmptyString.Companion.NonEmptyString
 import com.marinj.shoppingwarfare.core.model.ResourceColor.Companion.ResourceColor
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class LocalCategoryTest {
@@ -16,7 +16,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.getOrNull()?.id).isEqualTo(expectedResult)
+        actualResult.getOrNull()?.id shouldBe expectedResult
     }
 
     @Test
@@ -26,7 +26,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.getOrNull()?.title).isEqualTo(expectedResult)
+        actualResult.getOrNull()?.title shouldBe expectedResult
     }
 
     @Test
@@ -36,7 +36,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.getOrNull()?.backgroundColor).isEqualTo(expectedResult)
+        actualResult.getOrNull()?.backgroundColor shouldBe expectedResult
     }
 
     @Test
@@ -46,7 +46,7 @@ class LocalCategoryTest {
 
         val actualResult = localCategory.toDomain()
 
-        assertThat(actualResult.getOrNull()?.titleColor).isEqualTo(expectedResult)
+        actualResult.getOrNull()?.titleColor shouldBe expectedResult
     }
 
     @Test
@@ -55,7 +55,7 @@ class LocalCategoryTest {
 
         val actualResult = category.toLocal()
 
-        assertThat(actualResult.categoryId).isEqualTo(ID)
+        actualResult.categoryId shouldBe ID
     }
 
     @Test
@@ -64,7 +64,7 @@ class LocalCategoryTest {
 
         val actualResult = category.toLocal()
 
-        assertThat(actualResult.title).isEqualTo(TITLE)
+        actualResult.title shouldBe TITLE
     }
 
     @Test
@@ -73,7 +73,7 @@ class LocalCategoryTest {
 
         val actualResult = category.toLocal()
 
-        assertThat(actualResult.backgroundColor).isEqualTo(BACKGROUND_COLOR)
+        actualResult.backgroundColor shouldBe BACKGROUND_COLOR
     }
 
     @Test
@@ -82,7 +82,7 @@ class LocalCategoryTest {
 
         val actualResult = category.toLocal()
 
-        assertThat(actualResult.titleColor).isEqualTo(TITLE_COLOR)
+        actualResult.titleColor shouldBe TITLE_COLOR
     }
 }
 

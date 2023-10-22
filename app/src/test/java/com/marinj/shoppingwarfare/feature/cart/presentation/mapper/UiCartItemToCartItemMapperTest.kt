@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation.mapper
 
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Content
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Header
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 class UiCartItemToCartItemMapperTest {
@@ -34,7 +34,7 @@ class UiCartItemToCartItemMapperTest {
 
         val result = sut.map(origin)
 
-        assertThat(result).isEqualTo(expectedResult)
+        result shouldBe expectedResult
     }
 }
 

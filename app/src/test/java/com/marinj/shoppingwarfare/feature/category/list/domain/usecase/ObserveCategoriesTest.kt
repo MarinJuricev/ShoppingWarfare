@@ -1,9 +1,9 @@
 package com.marinj.shoppingwarfare.feature.category.list.domain.usecase
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepository
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +29,7 @@ class ObserveCategoriesTest {
     @Test
     fun `invoke should return result from repository`() = runTest {
         sut().test {
-            assertThat(awaitItem()).isEqualTo(repositoryCategories)
+            awaitItem() shouldBe repositoryCategories
             awaitComplete()
         }
     }
