@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "8.3.0-alpha06"
+androidGradlePlugin = "8.3.0-alpha09"
 androidxAppCompat = "1.6.1"
 androidXArchTesting = "2.2.0"
 accompanist = "0.26.3-beta"
@@ -36,7 +36,6 @@ kotlinx-datetime = "0.3.1"
 firebase-bom = "32.2.3"
 kotlinx-serialization = "1.4.1"
 junit = "4.13.2"
-truth = "1.1.3"
 kotest = "5.7.2"
 coroutines-test = "1.7.1"
 core-ktx = "1.12.0"
@@ -81,7 +80,6 @@ firebase-perf = { group = "com.google.firebase", name = "firebase-perf-ktx" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertion = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
