@@ -45,10 +45,9 @@ class HistoryDetailViewModelTest {
 
                 updatedViewState.isLoading.shouldBeFalse()
                 updatedViewState.uiHistoryItem shouldBe
-                        buildUiHistoryItem(
-                            providedDate = "1970-01-01",
-                        )
-
+                    buildUiHistoryItem(
+                        providedDate = "1970-01-01",
+                    )
             }
         }
 

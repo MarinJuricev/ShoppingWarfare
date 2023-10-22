@@ -64,7 +64,6 @@ class CartItemTest {
             name = NAME,
         )
 
-
         result.map {
             it.id.value shouldBe ID
             it.categoryName.value shouldBe CATEGORY_NAME
@@ -84,7 +83,6 @@ class CartItemTest {
             quantity = QUANTITY,
             isInBasket = IS_IN_BASKET,
         )
-
 
         result.map {
             it.id.value shouldBe ID
