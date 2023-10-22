@@ -60,6 +60,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -114,7 +120,9 @@ dependencies {
     implementation(libs.arrow.core)
 
     testImplementation(libs.junit)
-    testImplementation(libs.truth)
     testImplementation(libs.turbine)
+    testImplementation(libs.kotest.runner)
+    testImplementation(libs.kotest.assertion)
+    testImplementation(libs.kotest.property)
     testImplementation(libs.kotlinx.coroutines.test)
 }
