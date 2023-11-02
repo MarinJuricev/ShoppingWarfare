@@ -1,7 +1,6 @@
 TODOs:
 
 Use a single snackbar state ?
-Migrate to Kotest and Junit5
 Play around with the Store5 Library
 Migrate to KSP version that uses K2
 Try out Context Receivers/Parameters
