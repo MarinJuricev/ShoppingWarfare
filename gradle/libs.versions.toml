@@ -44,6 +44,7 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 showkase = "1.0.0-beta18"
 ksp = "1.9.10-1.0.13"
+sqldelight = "2.0.0"
 
 [libraries]
 arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
@@ -95,6 +96,7 @@ detekt-cli = { group = "io.gitlab.arturbosch.detekt", name = "detekt-cli", versi
 ktlint = { group = "com.pinterest", name = "ktlint", version.ref = "ktlint" }
 showkase = { group = "com.airbnb.android", name = "showkase", version.ref = "showkase" }
 showkase-processor = { group = "com.airbnb.android", name = "showkase-processor", version.ref = "showkase" }
+sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -116,3 +118,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5Plugin" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

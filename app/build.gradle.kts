@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.junit5)
+    alias(libs.plugins.sqldelight)
 }
 
 android {
@@ -68,6 +69,14 @@ android {
     }
 }
 
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("com.marinj.shoppingwarfare.db")
+        }
+    }
+}
+
 dependencies {
     implementation(project(":design-system"))
 
@@ -92,10 +101,10 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
-
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+    implementation(libs.sqldelight.android)
 
     implementation(libs.constraintlayout.compose)
 
