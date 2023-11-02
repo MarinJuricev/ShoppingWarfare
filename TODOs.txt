@@ -6,6 +6,7 @@ Play around with the Store5 Library
 Migrate to KSP version that uses K2
 Try out Context Receivers/Parameters
 Moduralize,
+Baseline Profiles
 Remove Android specific dependencies,
 Write out a BE for the app and remove Firebase ( we could use the Firebase internally for auth or w/e )
 KMM
