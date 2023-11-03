@@ -105,6 +105,8 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
     implementation(libs.sqldelight.android)
+    implementation(libs.sqldelight.coroutines.extension)
+    implementation(libs.sqldelight.primitive.adapters)
 
     implementation(libs.constraintlayout.compose)
 
