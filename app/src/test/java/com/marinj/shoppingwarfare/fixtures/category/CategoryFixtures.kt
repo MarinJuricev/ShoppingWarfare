@@ -39,8 +39,8 @@ fun buildLocalCategory(
     providedTitle: String = TITLE,
     providedBackgroundColor: Int = BACKGROUND_COLOR,
     providedTitleColor: Int = TITLE_COLOR,
-) = LocalCategory(
-    categoryId = providedCategoryId,
+) = com.marinj.shoppingwarfare.db.LocalCategory(
+    id = providedCategoryId,
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
     titleColor = providedTitleColor,
