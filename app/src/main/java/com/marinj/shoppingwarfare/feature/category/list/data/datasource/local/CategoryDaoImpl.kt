@@ -4,9 +4,8 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.marinj.shoppingwarfare.core.dispatcher.DispatcherProvider
 import com.marinj.shoppingwarfare.db.Database
-import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
+import com.marinj.shoppingwarfare.db.LocalCategory
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 
 class CategoryDaoImpl @Inject constructor(
@@ -19,11 +18,15 @@ class CategoryDaoImpl @Inject constructor(
             .asFlow()
             .mapToList(dispatcherProvider.io)
 
-    override suspend fun upsertCategory(entity: LocalCategory): Long {
-        TODO("Not yet implemented")
-    }
+    override suspend fun upsertCategory(entity: LocalCategory) =
+        database.categoryQueries
+            .upsertCategory(
+                id = entity.id,
+                title = entity.title,
+                backgroundColor = entity.backgroundColor,
+                titleColor = entity.titleColor,
+            )
 
-    override suspend fun deleteCategoryById(id: String) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun deleteCategoryById(id: String) =
+        database.categoryQueries.deleteCategoryById(id)
 }

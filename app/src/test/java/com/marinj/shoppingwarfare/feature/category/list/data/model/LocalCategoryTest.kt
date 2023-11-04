@@ -2,6 +2,8 @@ package com.marinj.shoppingwarfare.feature.category.list.data.model
 
 import com.marinj.shoppingwarfare.core.model.NonEmptyString.Companion.NonEmptyString
 import com.marinj.shoppingwarfare.core.model.ResourceColor.Companion.ResourceColor
+import com.marinj.shoppingwarfare.feature.category.list.data.mapper.toDomain
+import com.marinj.shoppingwarfare.feature.category.list.data.mapper.toLocal
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
 import io.kotest.matchers.shouldBe

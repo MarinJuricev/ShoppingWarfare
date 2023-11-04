@@ -7,7 +7,7 @@ interface CategoryDao {
 
     fun observeCategories(): Flow<List<LocalCategory>>
 
-    suspend fun upsertCategory(entity: LocalCategory): Long
+    suspend fun upsertCategory(entity: LocalCategory)
 
     suspend fun deleteCategoryById(id: String)
 }

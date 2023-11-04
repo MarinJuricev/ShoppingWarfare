@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.category.list.data.repository
 
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
+import com.marinj.shoppingwarfare.feature.category.list.data.mapper.toDomain
 import com.marinj.shoppingwarfare.feature.category.list.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
@@ -15,6 +16,9 @@ class CategoryRepositoryImpl @Inject constructor(
     private val categoryApi: CategoryApi,
 ) : CategoryRepository {
 
+    //TODO: Improve this, combine is not the operator that we want, atleast with a implementation like this,
+    // we don't want to wait for both of them to complete, what we want is to get it from the local source
+    // as fast as possible and eventually sync the remote source with the local source
     override fun observeCategories(): Flow<List<Category>> = combine(
         syncApiToLocal(),
         categoriesFromLocal(),
