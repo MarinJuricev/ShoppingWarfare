@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CategoryDetailSingletonDao {
+object ProductSingletonDao {
 
     @Provides
     @Singleton
-    fun provideCategoryDetailDao(
+    fun provideProductDao(
         database: ShoppingWarfareDatabase,
     ): ProductDao = database.productDao()
 }
