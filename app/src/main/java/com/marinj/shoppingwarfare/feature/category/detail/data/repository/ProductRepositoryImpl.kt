@@ -2,7 +2,6 @@ package com.marinj.shoppingwarfare.feature.category.detail.data.repository
 
 import arrow.core.Either
 import com.marinj.shoppingwarfare.core.result.Failure
-import com.marinj.shoppingwarfare.db.LocalProduct
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
 import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.toDomain

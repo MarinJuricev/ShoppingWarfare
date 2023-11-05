@@ -16,7 +16,7 @@ class CategoryRepositoryImpl @Inject constructor(
     private val categoryApi: CategoryApi,
 ) : CategoryRepository {
 
-    //TODO: Improve this, combine is not the operator that we want, atleast with a implementation like this,
+    // TODO: Improve this, combine is not the operator that we want, atleast with a implementation like this,
     // we don't want to wait for both of them to complete, what we want is to get it from the local source
     // as fast as possible and eventually sync the remote source with the local source
     override fun observeCategories(): Flow<List<Category>> = combine(
@@ -42,7 +42,6 @@ class CategoryRepositoryImpl @Inject constructor(
         categoryApi.addCategoryItem(category.toRemote())
 
     override suspend fun deleteCategoryById(id: String) =
-        categoryApi.deleteCategoryItemById(id).onRight {
-            categoryDao.deleteCategoryById(id)
-        }
+        categoryApi.deleteCategoryItemById(id)
+            .onRight { categoryDao.deleteCategoryById(id) }
 }

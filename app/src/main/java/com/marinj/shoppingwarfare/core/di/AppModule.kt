@@ -3,7 +3,6 @@ package com.marinj.shoppingwarfare.core.di
 import com.marinj.shoppingwarfare.core.dispatcher.DispatcherProvider
 import com.marinj.shoppingwarfare.core.navigation.Navigator
 import com.marinj.shoppingwarfare.core.navigation.NavigatorImpl
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
