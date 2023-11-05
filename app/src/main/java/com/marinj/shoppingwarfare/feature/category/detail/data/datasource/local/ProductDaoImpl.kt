@@ -20,16 +20,15 @@ class ProductDaoImpl @Inject constructor(
             .asFlow()
             .mapToList(dispatcherProvider.io)
 
-    override suspend fun upsertProduct(entity: LocalProduct): Long =
+    override suspend fun upsertProduct(entity: LocalProduct) = with(entity) {
         database.productQueries.upsertProduct(
-            id = entity.id,
-            categoryId = entity.categoryId,
-            title = entity.title,
-            quantity = entity.quantity,
-            isAddedToCart = entity.isAddedToCart,
+            id = id,
+            categoryId = categoryId,
+            categoryName = categoryName,
+            name = name,
         )
-
-    override suspend fun deleteProductById(productId: String) {
-        TODO("Not yet implemented")
     }
+
+    override suspend fun deleteProductById(productId: String) =
+        database.productQueries.deleteProductById(productId)
 }
