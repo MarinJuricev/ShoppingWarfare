@@ -15,6 +15,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -38,6 +39,11 @@ class CartListPresenter @AssistedInject constructor(
     private val updateCartItemIsInBasket: UpdateCartItemIsInBasket,
     private val cartItemToUiCartItemMapper: CartItemToUiCartItemMapper,
 ) : BasePresenter<CartListEvent> {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(coroutineScope: CoroutineScope): CartListPresenter
+    }
 
     private val isLoading = MutableStateFlow(true)
     private val uiCartItems = MutableStateFlow(emptyList<UiCartItem>())

@@ -28,9 +28,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartListPresenter: CartListPresenter,
-    private val cartStatusPresenter: CartStatusPresenter,
+    private val cartListPresenterFactory: CartListPresenter.Factory,
+    private val cartStatusPresenterFactory: CartStatusPresenter.Factory,
 ) : BaseViewModel<CartEvent>() {
+
+    private val cartListPresenter = cartListPresenterFactory.create(viewModelScope)
+    private val cartStatusPresenter = cartStatusPresenterFactory.create(viewModelScope)
 
     private val selectedTabPosition = MutableStateFlow(0)
     private val cartTabs = MutableStateFlow(

@@ -16,6 +16,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -34,6 +35,11 @@ class CartStatusPresenter @AssistedInject constructor(
     private val failureToStringMapper: FailureToStringMapper,
     private val uiCartItemToCartItemMapper: UiCartItemToCartItemMapper,
 ) : BasePresenter<CartStatusEvent> {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(coroutineScope: CoroutineScope): CartStatusPresenter
+    }
 
     private val receiptStatus = MutableStateFlow<ReceiptStatus>(ReceiptStatus.Empty)
     private val cartName = MutableStateFlow("")
