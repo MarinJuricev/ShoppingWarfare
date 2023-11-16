@@ -26,7 +26,8 @@ import androidx.lifecycle.LifecycleOwner
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ReceiptCaptureError
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.ReceiptCaptureError
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.ReceiptCaptureSuccess
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -63,18 +64,21 @@ fun CartCameraPreview(
                     implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                 }
 
-                cameraProviderFuture.addListener({
-                    val cameraProvider = cameraProviderFuture.get()
+                cameraProviderFuture.addListener(
+                    {
+                        val cameraProvider = cameraProviderFuture.get()
 
-                    setupCameraView(
-                        cameraProvider = cameraProvider,
-                        previewView = previewView,
-                        imageCapture = imageCapture,
-                        lifecycleOwner = lifecycleOwner,
-                        cameraSelector = cameraSelector,
-                        onCartEvent = onCartEvent,
-                    )
-                }, ContextCompat.getMainExecutor(context))
+                        setupCameraView(
+                            cameraProvider = cameraProvider,
+                            previewView = previewView,
+                            imageCapture = imageCapture,
+                            lifecycleOwner = lifecycleOwner,
+                            cameraSelector = cameraSelector,
+                            onCartEvent = onCartEvent,
+                        )
+                    },
+                    ContextCompat.getMainExecutor(context),
+                )
 
                 previewView
             },
@@ -154,7 +158,7 @@ private fun setupImageCaptureListener(
         ContextCompat.getMainExecutor(context),
         object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                onCartEvent(CartEvent.ReceiptCaptureSuccess(output.savedUri?.lastPathSegment))
+                onCartEvent(ReceiptCaptureSuccess(output.savedUri?.lastPathSegment))
             }
 
             override fun onError(exc: ImageCaptureException) {

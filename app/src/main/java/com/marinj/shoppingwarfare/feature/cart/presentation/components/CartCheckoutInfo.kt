@@ -21,8 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.DottedLine
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartNameUpdated
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CheckoutClicked
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.*
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
 import com.marinj.shoppingwarfare.ui.PrimaryOutlinedButton
 import com.marinj.shoppingwarfare.ui.PrimaryTextButton
@@ -69,7 +68,7 @@ fun CartCheckoutInfo(
                             .padding(horizontal = 8.dp)
                             .weight(1f),
                         enabled = viewState.isPremiumUser,
-                        onClick = { onCartEvent(CheckoutClicked) },
+                        onClick = { onCartEvent(CheckoutClicked(viewState.uiCartItems)) },
                     ) {
                         Text(text = stringResource(id = R.string.share_cart))
                     }
@@ -79,7 +78,7 @@ fun CartCheckoutInfo(
                             .weight(1f),
                         enabled = viewState.uiCartItems.isNotEmpty(),
                         text = stringResource(id = R.string.checkout),
-                        onClick = { onCartEvent(CheckoutClicked) },
+                        onClick = { onCartEvent(CheckoutClicked(viewState.uiCartItems)) },
                     )
                 }
             }

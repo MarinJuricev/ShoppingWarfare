@@ -15,21 +15,24 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEven
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.ReceiptCaptureError
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.ReceiptCaptureSuccess
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartTab
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
 import com.marinj.shoppingwarfare.feature.cart.presentation.presenter.CartListPresenter
 import com.marinj.shoppingwarfare.feature.cart.presentation.presenter.CartStatusPresenter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartListPresenterFactory: CartListPresenter.Factory,
-    private val cartStatusPresenterFactory: CartStatusPresenter.Factory,
+    cartListPresenterFactory: CartListPresenter.Factory,
+    cartStatusPresenterFactory: CartStatusPresenter.Factory,
 ) : BaseViewModel<CartEvent>() {
 
     private val cartListPresenter = cartListPresenterFactory.create(viewModelScope)
@@ -61,6 +64,11 @@ class CartViewModel @Inject constructor(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
         initialValue = CartViewState(),
+    )
+
+    val viewEffect: Flow<CartViewEffect> = merge(
+        cartListPresenter.viewEffect,
+        cartStatusPresenter.viewEffect,
     )
 
     override fun onEvent(event: CartEvent) {

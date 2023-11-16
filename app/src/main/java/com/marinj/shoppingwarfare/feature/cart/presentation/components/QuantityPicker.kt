@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.CartItemQuantityChanged
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 
 @Composable

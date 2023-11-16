@@ -30,7 +30,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCamer
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCheckoutInfo
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartTabs
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.OnGetCartItems
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
@@ -50,7 +50,7 @@ fun CartScreen(
     val viewState by cartViewModel.viewState.collectAsState()
 
     LaunchedEffect(Unit) {
-        cartViewModel.onEvent(OnGetCartItems)
+        cartViewModel.onEvent(CartListEvent.OnGetCartItems)
         setupTopBar(CartTopBar())
     }
 
