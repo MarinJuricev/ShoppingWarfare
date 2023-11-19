@@ -35,8 +35,8 @@ class CartViewModel @Inject constructor(
     cartStatusPresenterFactory: CartStatusPresenter.Factory,
 ) : BaseViewModel<CartEvent>() {
 
-    private val cartListPresenter = cartListPresenterFactory.create(viewModelScope)
-    private val cartStatusPresenter = cartStatusPresenterFactory.create(viewModelScope)
+    val cartListPresenter = cartListPresenterFactory.create(viewModelScope)
+    val cartStatusPresenter = cartStatusPresenterFactory.create(viewModelScope)
 
     private val selectedTabPosition = MutableStateFlow(0)
     private val cartTabs = MutableStateFlow(
