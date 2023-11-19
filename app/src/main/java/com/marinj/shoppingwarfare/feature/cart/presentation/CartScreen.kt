@@ -47,8 +47,6 @@ fun CartScreen(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     context: Context = LocalContext.current,
 ) {
-    val viewState by cartViewModel.viewState.collectAsState()
-
     LaunchedEffect(Unit) {
         cartViewModel.onEvent(CartListEvent.OnGetCartItems)
         setupTopBar(CartTopBar())
