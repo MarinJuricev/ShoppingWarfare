@@ -20,18 +20,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.DottedLine
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.*
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusState
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 import com.marinj.shoppingwarfare.ui.PrimaryOutlinedButton
 import com.marinj.shoppingwarfare.ui.PrimaryTextButton
 import com.marinj.shoppingwarfare.ui.SWTextField
 
 @Composable
 fun CartCheckoutInfo(
-    viewState: CartViewState,
+    viewState: CartStatusState,
+    uiCartItems: List<UiCartItem>,
     onReceiptClick: () -> Unit,
-    onCartEvent: (CartEvent) -> Unit,
+    onCartEvent: (CartStatusEvent) -> Unit,
     scrollState: ScrollState = rememberScrollState(),
 ) {
     Column(
@@ -67,8 +69,8 @@ fun CartCheckoutInfo(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .weight(1f),
-                        enabled = viewState.isPremiumUser,
-                        onClick = { onCartEvent(CheckoutClicked(viewState.uiCartItems)) },
+                        enabled = false,
+                        onClick = { onCartEvent(CheckoutClicked(uiCartItems)) },
                     ) {
                         Text(text = stringResource(id = R.string.share_cart))
                     }
@@ -76,9 +78,9 @@ fun CartCheckoutInfo(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .weight(1f),
-                        enabled = viewState.uiCartItems.isNotEmpty(),
+                        enabled = uiCartItems.isNotEmpty(),
                         text = stringResource(id = R.string.checkout),
-                        onClick = { onCartEvent(CheckoutClicked(viewState.uiCartItems)) },
+                        onClick = { onCartEvent(CheckoutClicked(uiCartItems)) },
                     )
                 }
             }

@@ -19,11 +19,11 @@ import com.google.accompanist.permissions.PermissionStatus.Granted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.marinj.shoppingwarfare.R.string
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent
 
 @Composable
 fun CartCameraPermission(
-    onCartEvent: (CartEvent) -> Unit,
+    onCartEvent: (CartStatusEvent) -> Unit,
     navigateToSettingsScreen: () -> Unit,
 ) {
     // Camera permission state

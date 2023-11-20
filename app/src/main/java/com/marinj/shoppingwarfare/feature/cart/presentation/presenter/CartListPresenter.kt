@@ -10,7 +10,6 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemToUiC
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.CartItemQuantityChanged
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.ItemAddedToBasket
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.OnGetCartItems
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
@@ -45,6 +44,10 @@ class CartListPresenter @AssistedInject constructor(
         fun create(coroutineScope: CoroutineScope): CartListPresenter
     }
 
+    init {
+        handleGetCartItems()
+    }
+
     private val isLoading = MutableStateFlow(true)
     private val uiCartItems = MutableStateFlow(emptyList<UiCartItem>())
 
@@ -63,13 +66,11 @@ class CartListPresenter @AssistedInject constructor(
 
     override fun onEvent(event: CartListEvent) {
         when (event) {
-            OnGetCartItems -> handleGetCartItems()
             is CartListEvent.DeleteCartItem -> handleDeleteCartItem(event.uiCartItem)
             is CartItemQuantityChanged -> handleCartItemQuantityChanged(
                 event.cartItemToUpdate,
                 event.newQuantity,
             )
-
             is ItemAddedToBasket -> handleItemAddedToBasket(event.cartItem)
         }
     }

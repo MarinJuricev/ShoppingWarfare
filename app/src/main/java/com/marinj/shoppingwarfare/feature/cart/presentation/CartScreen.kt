@@ -30,10 +30,12 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCamer
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartCheckoutInfo
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartItemList
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartTabs
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.CartViewItemDeleted
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect.Error
+import com.marinj.shoppingwarfare.feature.cart.presentation.presenter.CartListPresenter
+import com.marinj.shoppingwarfare.feature.cart.presentation.presenter.CartStatusPresenter
+import com.marinj.shoppingwarfare.feature.cart.presentation.presenter.CartTabPresenter
 import com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel.CartViewModel
 import com.marinj.shoppingwarfare.ui.ShoppingWarfareEmptyScreen
 import kotlinx.coroutines.CoroutineScope
@@ -42,17 +44,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun CartScreen(
     cartViewModel: CartViewModel = hiltViewModel(),
-    setupTopBar: (TopBarEvent) -> Unit,
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
     context: Context = LocalContext.current,
+    setupTopBar: (TopBarEvent) -> Unit,
 ) {
     LaunchedEffect(Unit) {
-        cartViewModel.onEvent(CartListEvent.OnGetCartItems)
         setupTopBar(CartTopBar())
-    }
-
-    LaunchedEffect(key1 = cartViewModel.viewEffect) {
         cartViewModel.viewEffect.collect { cartEffect ->
             when (cartEffect) {
                 is CartViewItemDeleted -> bottomSheetScaffoldState.snackbarHostState.showSnackbar(
@@ -73,6 +70,27 @@ fun CartScreen(
         }
     }
 
+    CartScreen(
+        cartListPresenter = cartViewModel.cartListPresenter,
+        cartStatusPresenter = cartViewModel.cartStatusPresenter,
+        cartTabPresenter = cartViewModel.cartTabPresenter,
+        bottomSheetScaffoldState = bottomSheetScaffoldState,
+        context = context,
+    )
+}
+
+@Composable
+fun CartScreen(
+    cartStatusPresenter: CartStatusPresenter,
+    cartListPresenter: CartListPresenter,
+    cartTabPresenter: CartTabPresenter,
+    bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    context: Context = LocalContext.current,
+) {
+    val cartStatusState by cartStatusPresenter.state.collectAsState()
+    val cartListState by cartListPresenter.state.collectAsState()
+
     BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = bottomSheetScaffoldState,
@@ -82,7 +100,7 @@ fun CartScreen(
                     coroutineScope.launch {
                         bottomSheetScaffoldState.expandOrCollapse()
                     }
-                    cartViewModel.onEvent(cartEvent)
+                    cartStatusPresenter.onEvent(cartEvent)
                 },
             ) {
                 context.openAppSystemSettings()
@@ -91,40 +109,42 @@ fun CartScreen(
         sheetPeekHeight = 0.dp,
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-            CartTabs(
-                selectedTabPosition = viewState.selectedTabPosition,
-                cartTabs = viewState.cartTabs,
-                onCartEvent = cartViewModel::onEvent,
-            )
+//            CartTabs(
+//                selectedTabPosition = cartTabPresenter.selectedTabPosition,
+//                cartTabs = viewState.cartTabs,
+//                onCartEvent = cartViewModel::onEvent,
+//            )
             Box(
                 modifier = Modifier
                     .fillMaxHeight(0.8f)
                     .fillMaxWidth(),
             ) {
                 when {
-                    viewState.uiCartItems.isEmpty() -> ShoppingWarfareEmptyScreen(
+                    cartListState.uiCartItems.isEmpty() -> ShoppingWarfareEmptyScreen(
                         message = stringResource(
                             string.empty_cart_message,
                         ),
                     )
+
                     else -> CartItemList(
-                        uiCartItems = viewState.uiCartItems,
-                        onCartEvent = cartViewModel::onEvent,
+                        uiCartItems = cartListState.uiCartItems,
+                        onCartEvent = cartListPresenter::onEvent,
                     )
                 }
 
-                if (viewState.isLoading) {
+                if (cartListState.isLoading) {
                     ShoppingWarfareLoadingIndicator()
                 }
             }
             CartCheckoutInfo(
-                viewState = viewState,
+                viewState = cartStatusState,
                 onReceiptClick = {
                     coroutineScope.launch {
                         bottomSheetScaffoldState.expandOrCollapse()
                     }
                 },
-                onCartEvent = cartViewModel::onEvent,
+                uiCartItems = cartListState.uiCartItems,
+                onCartEvent = cartStatusPresenter::onEvent,
             )
         }
     }

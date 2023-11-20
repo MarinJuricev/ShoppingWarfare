@@ -1,7 +1,6 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation.model
 
-sealed interface CartListEvent : CartEvent {
-    object OnGetCartItems : CartListEvent
+sealed interface CartListEvent {
     data class DeleteCartItem(val uiCartItem: UiCartItem.Content) : CartListEvent
     data class CartItemQuantityChanged(
         val cartItemToUpdate: UiCartItem.Content,
