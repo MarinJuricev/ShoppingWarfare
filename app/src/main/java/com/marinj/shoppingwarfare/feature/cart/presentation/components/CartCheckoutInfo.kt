@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.DottedLine
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.*
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.CartNameUpdated
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.CheckoutClicked
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 import com.marinj.shoppingwarfare.ui.PrimaryOutlinedButton
@@ -86,6 +87,7 @@ fun CartCheckoutInfo(
             }
             CartReceiptStatus(
                 viewState = viewState,
+                uiCartItems = uiCartItems,
                 onReceiptClick = onReceiptClick,
             )
         }

@@ -16,14 +16,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewState
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 import com.marinj.shoppingwarfare.ui.TextBodyLarge
 
 @ExperimentalMaterialApi
 @Composable
 fun CartReceiptStatus(
-    viewState: CartViewState,
+    viewState: CartStatusState,
+    uiCartItems: List<UiCartItem>,
     onReceiptClick: () -> Unit,
 ) {
     Column(
@@ -39,7 +41,7 @@ fun CartReceiptStatus(
         )
         ShoppingWarfareIconButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            enabled = viewState.uiCartItems.isNotEmpty(),
+            enabled = uiCartItems.isNotEmpty(),
             onClick = onReceiptClick,
         ) {
             Icon(

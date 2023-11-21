@@ -90,6 +90,7 @@ fun CartScreen(
 ) {
     val cartStatusState by cartStatusPresenter.state.collectAsState()
     val cartListState by cartListPresenter.state.collectAsState()
+    val cartTabState by cartTabPresenter.state.collectAsState()
 
     BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -102,18 +103,17 @@ fun CartScreen(
                     }
                     cartStatusPresenter.onEvent(cartEvent)
                 },
-            ) {
-                context.openAppSystemSettings()
-            }
+                navigateToSettingsScreen = context::openAppSystemSettings,
+            )
         },
         sheetPeekHeight = 0.dp,
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-//            CartTabs(
-//                selectedTabPosition = cartTabPresenter.selectedTabPosition,
-//                cartTabs = viewState.cartTabs,
-//                onCartEvent = cartViewModel::onEvent,
-//            )
+            CartTabs(
+                selectedTabPosition = cartTabState.selectedIndex,
+                cartTabs = cartTabState.cartTabs,
+                onCartEvent = cartTabPresenter::onEvent,
+            )
             Box(
                 modifier = Modifier
                     .fillMaxHeight(0.8f)

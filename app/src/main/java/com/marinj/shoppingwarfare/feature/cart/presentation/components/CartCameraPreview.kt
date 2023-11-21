@@ -25,7 +25,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.ReceiptCaptureError
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartStatusEvent.ReceiptCaptureSuccess
