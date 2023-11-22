@@ -20,6 +20,11 @@ class CartTabPresenter @AssistedInject constructor(
     @Assisted private val coroutineScope: CoroutineScope,
     cartTabItemsMapper: UiCartTabItemsMapper,
 ) : BasePresenter<CartTabEvent> {
+    @AssistedFactory
+    interface Factory {
+        fun create(coroutineScope: CoroutineScope): CartTabPresenter
+    }
+
 
     private val selectedTabPosition = MutableStateFlow(0)
     private val cartTabItems = MutableStateFlow(cartTabItemsMapper.map())
@@ -37,11 +42,6 @@ class CartTabPresenter @AssistedInject constructor(
         started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
         initialValue = CartTabViewState(),
     )
-
-    @AssistedFactory
-    interface Factory {
-        fun create(coroutineScope: CoroutineScope): CartTabPresenter
-    }
 
     override fun onEvent(event: CartTabEvent) {
         when (event) {
