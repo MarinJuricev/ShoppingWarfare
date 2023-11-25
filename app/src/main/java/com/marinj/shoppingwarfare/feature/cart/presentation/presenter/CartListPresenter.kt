@@ -8,8 +8,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsIn
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemToUiCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.CartItemQuantityChanged
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.ItemAddedToBasket
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.*
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
@@ -22,7 +21,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class CartListPresenter @AssistedInject constructor(
-    @Assisted val coroutineScope: CoroutineScope,
+    @Assisted private val coroutineScope: CoroutineScope,
     private val observeCartItems: ObserveCartItems,
     private val deleteCartItem: DeleteCartItem,
     private val updateCartItemQuantity: UpdateCartItemQuantity,
@@ -42,10 +43,6 @@ class CartListPresenter @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
         fun create(coroutineScope: CoroutineScope): CartListPresenter
-    }
-
-    init {
-        handleGetCartItems()
     }
 
     private val isLoading = MutableStateFlow(true)
@@ -72,19 +69,19 @@ class CartListPresenter @AssistedInject constructor(
                 event.newQuantity,
             )
             is ItemAddedToBasket -> handleItemAddedToBasket(event.cartItem)
+            ObserveCartItems -> handleObserveCartItems()
         }
     }
 
-    private fun handleGetCartItems() = coroutineScope.launch {
-        observeCartItems()
-            .onStart { isLoading.update { true } }
-            .catch { handleGetCartItemsError() }
-            .map(cartItemToUiCartItemMapper::map)
-            .collect { cartItems ->
-                isLoading.update { false }
-                uiCartItems.update { cartItems }
-            }
-    }
+    private fun handleObserveCartItems() = observeCartItems()
+        .onStart { isLoading.update { true } }
+        .catch { handleGetCartItemsError() }
+        .map(cartItemToUiCartItemMapper::map)
+        .onEach { cartItems ->
+            isLoading.update { false }
+            uiCartItems.update { cartItems }
+        }
+        .launchIn(coroutineScope)
 
     private suspend fun handleGetCartItemsError() {
         isLoading.update { false }

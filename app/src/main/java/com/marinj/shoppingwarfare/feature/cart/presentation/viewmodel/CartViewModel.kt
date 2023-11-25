@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.cart.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.presenter.CartListPresenter
 import com.marinj.shoppingwarfare.feature.cart.presentation.presenter.CartStatusPresenter
@@ -18,7 +19,9 @@ class CartViewModel @Inject constructor(
     cartTabPresenterFactory: CartTabPresenter.Factory,
 ) : ViewModel() {
 
-    val cartListPresenter = cartListPresenterFactory.create(viewModelScope)
+    val cartListPresenter = cartListPresenterFactory.create(viewModelScope).also {
+        it.onEvent(CartListEvent.ObserveCartItems)
+    }
     val cartStatusPresenter = cartStatusPresenterFactory.create(viewModelScope)
     val cartTabPresenter = cartTabPresenterFactory.create(viewModelScope)
 

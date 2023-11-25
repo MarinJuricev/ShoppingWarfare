@@ -40,7 +40,10 @@ class CartTabPresenter @AssistedInject constructor(
     }.stateIn(
         scope = coroutineScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_DELAY),
-        initialValue = CartTabViewState(),
+        initialValue = CartTabViewState(
+            // Ugly workaround, since setting an empty list would cause the TabRow to crash in the drawPhase
+            cartTabs = cartTabItems.value,
+        ),
     )
 
     override fun onEvent(event: CartTabEvent) {
