@@ -5,8 +5,8 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.repository.Catego
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepository
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class DeleteCategoryTest {
 
@@ -14,7 +14,7 @@ class DeleteCategoryTest {
 
     private lateinit var sut: DeleteCategory
 
-    @Before
+    @BeforeEach
     fun setUp() {
         sut = DeleteCategoryImpl(categoryRepository)
     }

@@ -25,7 +25,6 @@ class CartTabPresenter @AssistedInject constructor(
         fun create(coroutineScope: CoroutineScope): CartTabPresenter
     }
 
-
     private val selectedTabPosition = MutableStateFlow(0)
     private val cartTabItems = MutableStateFlow(cartTabItemsMapper.map())
 

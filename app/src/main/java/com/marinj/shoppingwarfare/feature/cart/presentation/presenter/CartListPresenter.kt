@@ -8,7 +8,6 @@ import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemIsIn
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.UpdateCartItemQuantity
 import com.marinj.shoppingwarfare.feature.cart.presentation.mapper.CartItemToUiCartItemMapper
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.*
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListState
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartViewEffect
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
@@ -64,12 +63,12 @@ class CartListPresenter @AssistedInject constructor(
     override fun onEvent(event: CartListEvent) {
         when (event) {
             is CartListEvent.DeleteCartItem -> handleDeleteCartItem(event.uiCartItem)
-            is CartItemQuantityChanged -> handleCartItemQuantityChanged(
+            is CartListEvent.CartItemQuantityChanged -> handleCartItemQuantityChanged(
                 event.cartItemToUpdate,
                 event.newQuantity,
             )
-            is ItemAddedToBasket -> handleItemAddedToBasket(event.cartItem)
-            ObserveCartItems -> handleObserveCartItems()
+            is CartListEvent.ItemAddedToBasket -> handleItemAddedToBasket(event.cartItem)
+            CartListEvent.ObserveCartItems -> handleObserveCartItems()
         }
     }
 

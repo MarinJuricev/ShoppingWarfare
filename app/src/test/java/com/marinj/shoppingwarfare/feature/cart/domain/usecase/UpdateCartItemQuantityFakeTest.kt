@@ -8,21 +8,15 @@ import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class UpdateCartItemQuantityFakeTest {
 
     private val cartRepository: CartRepository = FakeCartRepository()
 
-    private lateinit var sut: UpdateCartItemQuantityImpl
-
-    @Before
-    fun setUp() {
-        sut = UpdateCartItemQuantityImpl(
-            cartRepository,
-        )
-    }
+    private val sut = UpdateCartItemQuantityImpl(
+        cartRepository,
+    )
 
     @Test
     fun `invoke SHOULD trigger updateCartItemQuantity and return result from cartRepository`() =

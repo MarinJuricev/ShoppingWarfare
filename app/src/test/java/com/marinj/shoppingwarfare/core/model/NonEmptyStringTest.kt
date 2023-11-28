@@ -4,7 +4,7 @@ import arrow.core.left
 import com.marinj.shoppingwarfare.core.model.NonEmptyString.Companion.NonEmptyString
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class NonEmptyStringTest {
 

@@ -16,21 +16,13 @@ import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarEvent.UserTopBar
 import com.marinj.shoppingwarfare.core.viewmodel.topbar.TopBarViewModel
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineRule::class)
 class TopBarViewModelTest {
 
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
-
-    private lateinit var sut: TopBarViewModel
-
-    @Before
-    fun setUp() {
-        sut = TopBarViewModel()
-    }
+    private val sut = TopBarViewModel()
 
     @Test
     fun `onEvent SHOULD update viewState to match categoryTopBar when CategoryTopBar is provided`() =

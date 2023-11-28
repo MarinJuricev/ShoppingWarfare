@@ -15,13 +15,11 @@ import com.marinj.shoppingwarfare.feature.history.list.presentation.mapper.Histo
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineRule::class)
 class HistoryDetailViewModelTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val historyItemToUiHistoryItemMapper = HistoryItemToUiHistoryItemMapper()
     private val failureToStringMapper = FailureToStringMapper()

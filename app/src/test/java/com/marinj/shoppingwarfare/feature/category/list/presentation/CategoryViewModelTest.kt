@@ -27,13 +27,11 @@ import com.marinj.shoppingwarfare.fixtures.category.buildUiCategory
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineRule::class)
 class CategoryViewModelTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val navigator = FakeNavigator
 

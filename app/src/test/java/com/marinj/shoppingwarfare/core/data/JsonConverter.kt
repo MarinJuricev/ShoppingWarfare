@@ -2,7 +2,7 @@ package com.marinj.shoppingwarfare.core.data
 
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class MoshiJsonConverterTest {
 

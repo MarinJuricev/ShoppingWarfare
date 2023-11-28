@@ -18,13 +18,11 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeFailureCreateCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCreateCategory
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineRule::class)
 class CreateCategoryViewModelTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     @Test
     fun `SHOULD update categoryName WHEN OnCategoryNameChanged is provided`() = runTest {

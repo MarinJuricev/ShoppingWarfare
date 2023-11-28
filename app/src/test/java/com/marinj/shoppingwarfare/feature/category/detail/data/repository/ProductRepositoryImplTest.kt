@@ -14,7 +14,7 @@ import com.marinj.shoppingwarfare.fixtures.category.buildRemoteProduct
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ProductRepositoryImplTest {
 

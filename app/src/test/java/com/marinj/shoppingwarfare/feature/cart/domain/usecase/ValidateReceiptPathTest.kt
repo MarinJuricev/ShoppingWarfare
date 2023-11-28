@@ -2,7 +2,7 @@ package com.marinj.shoppingwarfare.feature.cart.domain.usecase
 
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.ReceiptStatus
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ValidateReceiptPathTest {
 
