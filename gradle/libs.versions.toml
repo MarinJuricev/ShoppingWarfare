@@ -35,7 +35,8 @@ coil = "2.3.0"
 kotlinx-datetime = "0.3.1"
 firebase-bom = "32.2.3"
 kotlinx-serialization = "1.4.1"
-junit = "4.13.2"
+junit5= "5.10.1"
+junit5Plugin = "1.9.3.0"
 kotest = "5.7.2"
 coroutines-test = "1.7.1"
 core-ktx = "1.12.0"
@@ -79,7 +80,9 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-perf = { group = "com.google.firebase", name = "firebase-perf-ktx" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
+junitApi = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit5" }
+junitEngine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit5" }
+junitParams = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit5" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertion = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
@@ -112,3 +115,4 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5Plugin" }
