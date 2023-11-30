@@ -1,5 +1,6 @@
 package com.marinj.shoppingwarfare.feature.playground
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector
 import androidx.compose.animation.core.AnimationVector2D
@@ -32,7 +33,7 @@ import kotlinx.coroutines.launch
 
 /**
  * Shamelessly copy pasted from:
- * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/animation/animation/integration-tests/animation-demos/src/main/java/androidx/compose/animation/demos/lookahead/AnimateBoundsModifier.kt
+ * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/animation/animation/integration-tests/animation-demos/src/main/java/androidx/compose/animation/demos/lookahead/LookaheadModifiers.kt
  *
  * This is only a playground for the potentially upcoming APIs
  */
@@ -183,5 +184,39 @@ internal class DeferredAnimation<T, V : AnimationVector>(
             }
         }
         return animatable?.value ?: targetValue
+    }
+}
+
+context(LookaheadScope)
+@OptIn(ExperimentalComposeUiApi::class)
+@SuppressLint("UnnecessaryComposedModifier")
+fun Modifier.animatePosition(): Modifier = composed {
+    val offsetAnimation = remember {
+        DeferredAnimation(IntOffset.VectorConverter)
+    }
+    this.intermediateLayout { measurable, constraints ->
+        measurable.measure(constraints).run {
+            layout(width, height) {
+                val (x, y) =
+                    coordinates?.let { coordinates ->
+                        val origin = this.lookaheadScopeCoordinates
+                        offsetAnimation.updateTarget(
+                            origin.localLookaheadPositionOf(
+                                coordinates
+                            )
+                                .round(),
+                            spring(stiffness = Spring.StiffnessMediumLow),
+                        )
+                        val currentOffset =
+                            origin.localPositionOf(
+                                coordinates,
+                                Offset.Zero
+                            )
+                        (offsetAnimation.value
+                            ?: offsetAnimation.target!!) - currentOffset.round()
+                    } ?: IntOffset.Zero
+                place(x, y)
+            }
+        }
     }
 }
