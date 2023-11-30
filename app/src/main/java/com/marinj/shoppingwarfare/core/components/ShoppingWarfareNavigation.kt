@@ -23,6 +23,7 @@ import com.marinj.shoppingwarfare.feature.cart.presentation.navigation.buildCart
 import com.marinj.shoppingwarfare.feature.category.list.presentation.navigation.CATEGORY_ROOT
 import com.marinj.shoppingwarfare.feature.category.list.presentation.navigation.buildCategoryGraph
 import com.marinj.shoppingwarfare.feature.history.list.presentation.navigation.buildHistoryGraph
+import com.marinj.shoppingwarfare.feature.playground.buildPlaygroundGraph
 import com.marinj.shoppingwarfare.feature.user.presentation.navigation.buildUserGraph
 import com.marinj.shoppingwarfare.ui.SWNavigationMenu
 import com.marinj.shoppingwarfare.ui.SWScaffold
@@ -90,6 +91,7 @@ fun ShoppingWarfareNavigation(
             buildCartGraph(topBarViewModel::onEvent)
             buildHistoryGraph(topBarViewModel::onEvent)
             buildUserGraph(topBarViewModel::onEvent)
+            buildPlaygroundGraph(topBarViewModel::onEvent)
         }
     }
 }
