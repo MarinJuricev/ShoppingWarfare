@@ -1,6 +1,5 @@
 package com.marinj.shoppingwarfare.feature.playground
 
-
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -126,7 +125,6 @@ fun LookaheadWithFlowRowDemo() {
         }
     }
 }
-
 
 private val colors = listOf(
     Color(0xffff6f69),

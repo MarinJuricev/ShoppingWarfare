@@ -41,7 +41,7 @@ fun LookaheadWithDisappearingMovableContentDemo() {
         Column {
             Box(
                 Modifier
-                    .padding(start = 50.dp, top = 200.dp, bottom = 100.dp)
+                    .padding(start = 50.dp, top = 200.dp, bottom = 100.dp),
             ) {
                 val icon = remember {
                     movableContentOf<Boolean> {
@@ -62,7 +62,8 @@ fun LookaheadWithDisappearingMovableContentDemo() {
                 Row(
                     Modifier
                         .background(Color.Yellow)
-                        .animateContentSize(), verticalAlignment = Alignment.CenterVertically
+                        .animateContentSize(),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     if (isCompact) {
                         icon(true)
@@ -89,12 +90,12 @@ fun MyIcon(visible: Boolean, modifier: Modifier = Modifier) {
         visible,
         enter = fadeIn(),
         exit = fadeOut() + slideOutHorizontally { -it },
-        modifier = modifier
+        modifier = modifier,
     ) {
         Box(
             modifier
                 .size(40.dp)
-                .background(color = Color.Red, CircleShape)
+                .background(color = Color.Red, CircleShape),
         )
     }
 }
@@ -109,11 +110,11 @@ fun Title(visible: Boolean, modifier: Modifier = Modifier) {
 @Composable
 fun Details(visible: Boolean, modifier: Modifier = Modifier) {
     AnimatedVisibility(
-        visible, enter = fadeIn(),
+        visible,
+        enter = fadeIn(),
         exit = fadeOut() + slideOutVertically { it },
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text("Detailed Text", fontSize = 18.sp)
     }
 }
-

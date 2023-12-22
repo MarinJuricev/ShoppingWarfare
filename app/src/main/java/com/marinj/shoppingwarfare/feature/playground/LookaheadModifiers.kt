@@ -43,16 +43,15 @@ fun Modifier.animateBounds(
     modifier: Modifier = Modifier,
     sizeAnimationSpec: FiniteAnimationSpec<IntSize> = spring(
         Spring.DampingRatioNoBouncy,
-        Spring.StiffnessMediumLow
+        Spring.StiffnessMediumLow,
     ),
     positionAnimationSpec: FiniteAnimationSpec<IntOffset> = spring(
         Spring.DampingRatioNoBouncy,
-        Spring.StiffnessMediumLow
+        Spring.StiffnessMediumLow,
     ),
     debug: Boolean = false,
-    lookaheadScope: (closestLookaheadScope: LookaheadScope) -> LookaheadScope = { it }
+    lookaheadScope: (closestLookaheadScope: LookaheadScope) -> LookaheadScope = { it },
 ) = composed {
-
     val outerOffsetAnimation = remember { DeferredAnimation(IntOffset.VectorConverter) }
     val outerSizeAnimation = remember { DeferredAnimation(IntSize.VectorConverter) }
 
@@ -69,7 +68,8 @@ fun Modifier.animateBounds(
             if (debug) {
                 val offset = outerOffsetAnimation.target!! - outerOffsetAnimation.value!!
                 translate(
-                    offset.x.toFloat(), offset.y.toFloat()
+                    offset.x.toFloat(),
+                    offset.y.toFloat(),
                 ) {
                     drawRect(Color.Black.copy(alpha = 0.5f), style = Stroke(10f))
                 }
@@ -85,7 +85,7 @@ fun Modifier.animateBounds(
                 .run {
                     layout(w, h) {
                         val (x, y) = outerOffsetAnimation.updateTargetBasedOnCoordinates(
-                            positionAnimationSpec
+                            positionAnimationSpec,
                         )
                         place(x, y)
                     }
@@ -97,7 +97,8 @@ fun Modifier.animateBounds(
             if (debug) {
                 val offset = offsetAnimation.target!! - offsetAnimation.value!!
                 translate(
-                    offset.x.toFloat(), offset.y.toFloat()
+                    offset.x.toFloat(),
+                    offset.y.toFloat(),
                 ) {
                     drawRect(Color.Green.copy(alpha = 0.5f), style = Stroke(10f))
                 }
@@ -141,7 +142,7 @@ internal fun DeferredAnimation<IntOffset, AnimationVector2D>.updateTargetBasedOn
             )
             val current = lookaheadScopeCoordinates.localPositionOf(
                 coordinates,
-                Offset.Zero
+                Offset.Zero,
             ).round()
             return (animOffset - current)
         }
@@ -154,7 +155,7 @@ internal fun DeferredAnimation<IntOffset, AnimationVector2D>.updateTargetBasedOn
 // change in a frame (if the target was changed multiple times in the same frame) as the
 // animation target.
 internal class DeferredAnimation<T, V : AnimationVector>(
-    private val vectorConverter: TwoWayConverter<T, V>
+    private val vectorConverter: TwoWayConverter<T, V>,
 ) {
     val value: T?
         get() = animatable?.value ?: target
@@ -176,7 +177,7 @@ internal class DeferredAnimation<T, V : AnimationVector>(
                 launch {
                     animateTo(
                         targetValue,
-                        animationSpec
+                        animationSpec,
                     )
                 }
             } ?: Animatable(targetValue, vectorConverter).let {
@@ -202,7 +203,7 @@ fun Modifier.animatePosition(): Modifier = composed {
                         val origin = this.lookaheadScopeCoordinates
                         offsetAnimation.updateTarget(
                             origin.localLookaheadPositionOf(
-                                coordinates
+                                coordinates,
                             )
                                 .round(),
                             spring(stiffness = Spring.StiffnessMediumLow),
@@ -210,10 +211,12 @@ fun Modifier.animatePosition(): Modifier = composed {
                         val currentOffset =
                             origin.localPositionOf(
                                 coordinates,
-                                Offset.Zero
+                                Offset.Zero,
                             )
-                        (offsetAnimation.value
-                            ?: offsetAnimation.target!!) - currentOffset.round()
+                        (
+                            offsetAnimation.value
+                                ?: offsetAnimation.target!!
+                            ) - currentOffset.round()
                     } ?: IntOffset.Zero
                 place(x, y)
             }

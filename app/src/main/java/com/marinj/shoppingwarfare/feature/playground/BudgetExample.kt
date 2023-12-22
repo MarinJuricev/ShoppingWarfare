@@ -22,7 +22,6 @@ import com.marinj.shoppingwarfare.ui.PrimaryElevatedButton
 
 @Composable
 fun BudgetExample() {
-
     var isColumn: Boolean by remember { mutableStateOf(true) }
 
     LookaheadScope {
