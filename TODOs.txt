@@ -2,6 +2,8 @@ TODOs:
 
 Use a single snackbar state ?
 Migrate to Kotest and Junit5
+Play around with the Store5 Library
+Try out Context Receivers/Parameters
 Moduralize,
 Remove Android specific dependencies,
 Write out a BE for the app and remove Firebase ( we could use the Firebase internally for auth or w/e )
