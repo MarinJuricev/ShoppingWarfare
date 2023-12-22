@@ -73,5 +73,6 @@
     <!-- User -->
     <string name="user">User</string>
     <string name="history_search">Find previous receipts</string>
+    <string name="playground">Playground</string>
 
 </resources>

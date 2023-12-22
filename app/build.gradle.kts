@@ -51,6 +51,7 @@ android {
             "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
             "-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi",
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xcontext-receivers",
         )
     }
     buildFeatures {
@@ -83,10 +84,10 @@ dependencies {
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.compiler)
-    debugImplementation (libs.androidx.compose.ui.tooling)
-    implementation (libs.androidx.navigation.compose)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.navigation.compose)
 
-    implementation (libs.accompanist.permissions)
+    implementation(libs.accompanist.permissions)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

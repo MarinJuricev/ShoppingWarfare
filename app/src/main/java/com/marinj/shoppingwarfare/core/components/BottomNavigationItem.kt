@@ -15,12 +15,15 @@ sealed class BottomNavigationItem(
     object History : BottomNavigationItem("history", R.string.history, R.drawable.history_icon)
     object User : BottomNavigationItem("user", R.string.user, R.drawable.user_icon)
 
+    object Playground : BottomNavigationItem("playground", R.string.playground, R.drawable.playground_icon)
+
     companion object {
         val NAVIGATION_ITEMS = listOf(
             Category,
             Cart,
             History,
             User,
+            Playground,
         )
     }
 }
