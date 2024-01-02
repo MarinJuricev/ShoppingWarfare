@@ -1,0 +1,36 @@
+import kotlin.Long;
+
+CREATE TABLE LocalHistoryItem (
+ id TEXT NOT NULL PRIMARY KEY,
+ receiptPath TEXT,
+ timestamp INTEGER AS Long NOT NULL,
+ cartName TEXT NOT NULL
+);
+
+
+CREATE TABLE LocalHistoryCartItem (
+ id TEXT NOT NULL PRIMARY KEY,
+ categoryName TEXT NOT NULL,
+ name TEXT NOT NULL,
+ quantity INTEGER NOT NULL,
+ historyItemId TEXT NOT NULL,
+ FOREIGN KEY(historyItemId) REFERENCES LocalHistoryItem(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+selectHistoryItemWithCartItems:
+SELECT LocalHistoryItem.id, LocalHistoryItem.receiptPath, LocalHistoryItem.timestamp, LocalHistoryItem.cartName,
+       LocalHistoryCartItem.id, LocalHistoryCartItem.categoryName, LocalHistoryCartItem.name, LocalHistoryCartItem.quantity
+FROM LocalHistoryItem
+LEFT JOIN LocalHistoryCartItem ON LocalHistoryItem.id = LocalHistoryCartItem.historyItemId
+WHERE LocalHistoryItem.id = ?
+ORDER BY LocalHistoryItem.id;
+
+upsertCategory:
+INSERT OR REPLACE INTO LocalHistoryItem (id, receiptPath, timestamp, cartName)
+VALUES (?, ?, ?, ?);
+
+selectLocalHistoryItemById:
+SELECT id, receiptPath, timestamp, cartName FROM LocalHistoryItem WHERE id = ?;
+
+deleteAllFromLocalHistoryItem:
+DELETE FROM LocalHistoryItem;
