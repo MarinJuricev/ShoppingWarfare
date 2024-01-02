@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.detail.data.model
 
 import androidx.annotation.Keep
+import com.marinj.shoppingwarfare.db.LocalProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import kotlinx.serialization.Serializable
 
