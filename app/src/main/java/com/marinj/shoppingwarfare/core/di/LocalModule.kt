@@ -2,8 +2,13 @@ package com.marinj.shoppingwarfare.core.di
 
 import android.content.Context
 import androidx.room.Room
+import app.cash.sqldelight.ColumnAdapter
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.marinj.shoppingwarfare.core.data.ShoppingWarfareDatabase
 import com.marinj.shoppingwarfare.core.data.ShoppingWarfareRoomDatabase
+import com.marinj.shoppingwarfare.db.Database
+import com.marinj.shoppingwarfare.db.LocalCategory
+import com.marinj.shoppingwarfare.db.LocalHistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDaoTypeConverters
 import dagger.Module
 import dagger.Provides
@@ -18,7 +23,7 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(
+    fun provideRoomDatabase(
         @ApplicationContext context: Context,
         historyDaoTypeConverters: HistoryDaoTypeConverters,
     ): ShoppingWarfareRoomDatabase {
@@ -36,4 +41,29 @@ object LocalModule {
     fun provideShoppingWarfareDatabase(
         database: ShoppingWarfareRoomDatabase,
     ): ShoppingWarfareDatabase = database
+
+    @Provides
+    @Singleton
+    fun provideDatabase(
+        @ApplicationContext context: Context,
+    ): Database {
+        val driver = AndroidSqliteDriver(Database.Schema, context, "shopping-warfare.db")
+
+        return Database(
+            driver = driver,
+            LocalCategoryAdapter = LocalCategory.Adapter(
+                backgroundColorAdapter = LongColumnAdapter,
+                titleColorAdapter = LongColumnAdapter,
+            ),
+            LocalHistoryItemAdapter = LocalHistoryItem.Adapter(
+                timestampAdapter = LongColumnAdapter,
+            ),
+        )
+    }
+}
+
+object LongColumnAdapter : ColumnAdapter<Long, Long> {
+    override fun decode(databaseValue: Long): Long = databaseValue
+
+    override fun encode(value: Long): Long = value
 }
