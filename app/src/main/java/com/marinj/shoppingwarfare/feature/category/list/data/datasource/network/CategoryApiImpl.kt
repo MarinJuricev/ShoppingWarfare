@@ -48,15 +48,13 @@ class CategoryApiImpl @Inject constructor(
             .getCategoryCollection()
             .document(categoryItem.categoryId)
             .set(categoryItem)
-            .addOnSuccessListener {
-                if (continuation.isActive) {
-                    continuation.resume(Unit.right())
+            .addOnCompleteListener { task ->
+                when {
+                    continuation.isActive && task.isSuccessful -> continuation.resume(Unit.right())
+                    else -> continuation.resume(
+                        Failure.ErrorMessage("Error while adding category item: ${task.exception?.message}").left(),
+                    )
                 }
-            }
-            .addOnFailureListener { exception: Exception ->
-                continuation.resume(
-                    Failure.ErrorMessage("Error while adding category item: ${exception.message}").left(),
-                )
             }
     }
 

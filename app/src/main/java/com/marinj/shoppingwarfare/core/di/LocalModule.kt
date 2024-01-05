@@ -47,7 +47,11 @@ object LocalModule {
     fun provideDatabase(
         @ApplicationContext context: Context,
     ): Database {
-        val driver = AndroidSqliteDriver(Database.Schema, context, "shopping-warfare.db")
+        val driver = AndroidSqliteDriver(
+            schema = Database.Schema,
+            context = context,
+            name = "shopping-warfare.db",
+        )
 
         return Database(
             driver = driver,
