@@ -50,7 +50,7 @@ object LocalModule {
         val driver = AndroidSqliteDriver(
             schema = Database.Schema,
             context = context,
-            name = "shopping-warfare.db",
+            name = "shopping-warfare-delight.db",
         )
 
         return Database(
