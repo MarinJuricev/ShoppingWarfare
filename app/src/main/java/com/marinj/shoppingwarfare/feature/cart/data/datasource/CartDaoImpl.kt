@@ -2,7 +2,6 @@ package com.marinj.shoppingwarfare.feature.cart.data.datasource
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOneNotNull
 import com.marinj.shoppingwarfare.core.dispatcher.DispatcherProvider
 import com.marinj.shoppingwarfare.db.Database
 import com.marinj.shoppingwarfare.db.LocalCartItem
@@ -50,11 +49,9 @@ class CartDaoImpl @Inject constructor(
             categoryName = entity.categoryName,
         )
 
-
     override suspend fun deleteCartItemById(id: String) = database
         .localCartItemQueries
         .deleteCartItemById(id)
-
 
     override suspend fun getCartItemById(id: String): LocalCartItem? = database
         .localCartItemQueries

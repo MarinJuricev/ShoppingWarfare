@@ -5,6 +5,8 @@ import arrow.core.left
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.db.LocalCategory
+import com.marinj.shoppingwarfare.db.LocalProduct
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
@@ -69,23 +71,20 @@ fun buildProduct(
 ).getOrNull()!!
 
 class FakeSuccessProductDao(
-    private val localProductsToEmit: List<LocalCategoryProducts> = emptyList(),
+    private val localProductsToEmit: List<LocalProduct> = emptyList(),
 ) : ProductDao {
 
     val localProducts = mutableListOf<LocalProduct>()
 
     override fun observeProductsForGivenCategoryId(
         categoryId: String,
-    ): Flow<List<LocalCategoryProducts>> = flow {
+    ): Flow<List<LocalProduct>> = flow {
         emit(localProductsToEmit)
     }
 
     override suspend fun upsertProduct(
         entity: LocalProduct,
-    ): Long {
-        localProducts.add(entity)
-        return 1L
-    }
+    ) = Unit
 
     override suspend fun deleteProductById(productId: String) {
         localProducts.removeIf { it.id == productId }
