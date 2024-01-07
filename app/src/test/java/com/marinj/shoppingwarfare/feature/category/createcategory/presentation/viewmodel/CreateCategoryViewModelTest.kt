@@ -16,7 +16,9 @@ import com.marinj.shoppingwarfare.feature.category.createcategory.presentation.m
 import com.marinj.shoppingwarfare.feature.category.list.domain.usecase.CreateCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureCreateCategory
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCreateCategory
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldBeEmpty
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -30,9 +32,9 @@ class CreateCategoryViewModelTest {
         val event = OnCategoryNameChanged(categoryText)
         val sut = buildSut()
 
-        sut.onEvent(event)
-
         sut.createCategoryViewState.test {
+            awaitItem().categoryName.shouldBeEmpty()
+            sut.onEvent(event)
             awaitItem().categoryName shouldBe categoryText
         }
     }
@@ -44,9 +46,9 @@ class CreateCategoryViewModelTest {
             val event = OnBackgroundColorChanged(selectedColor)
             val sut = buildSut()
 
-            sut.onEvent(event)
-
             sut.createCategoryViewState.test {
+                awaitItem().backgroundColor.shouldBeNull()
+                sut.onEvent(event)
                 awaitItem().backgroundColor shouldBe selectedColor
             }
         }
@@ -57,9 +59,9 @@ class CreateCategoryViewModelTest {
         val event = CreateCategoryEvent.OnTitleColorChanged(selectedColor)
         val sut = buildSut()
 
-        sut.onEvent(event)
-
         sut.createCategoryViewState.test {
+            awaitItem().titleColor.shouldBeNull()
+            sut.onEvent(event)
             awaitItem().titleColor shouldBe selectedColor
         }
     }

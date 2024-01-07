@@ -28,7 +28,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MainCoroutineRule::class)
 class HistoryViewModelTest {
 
-
     private val navigator = FakeNavigator
 
     @Test
@@ -84,9 +83,10 @@ class HistoryViewModelTest {
         val sut = buildSut(
             observeHistoryItems = FakeSuccessObserveHistoryItems(),
         )
-        sut.onEvent(event)
 
         sut.viewState.test {
+            awaitItem().searchText shouldBe ""
+            sut.onEvent(event)
             awaitItem().searchText shouldBe newSearchText
         }
     }
@@ -100,9 +100,10 @@ class HistoryViewModelTest {
             observeHistoryItems = FakeSuccessObserveHistoryItems(),
         )
         sut.onEvent(OnGetHistoryItems)
-        sut.onEvent(event)
 
         sut.viewState.test {
+            awaitItem().historyItems.shouldBeEmpty()
+            sut.onEvent(event)
             awaitItem().historyItems shouldBe filteredList
         }
     }

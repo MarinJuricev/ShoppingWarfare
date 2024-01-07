@@ -8,7 +8,6 @@ class FailureToStringMapperTest {
 
     private val sut = FailureToStringMapper()
 
-
     @Test
     fun `map SHOULD return provided errorMessage when failure is of type ErrorMessage`() {
         val errorMessage = "errorMessage"

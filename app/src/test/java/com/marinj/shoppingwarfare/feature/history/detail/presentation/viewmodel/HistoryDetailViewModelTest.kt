@@ -12,7 +12,9 @@ import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.Hist
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailEvent.OnGetHistoryDetail
 import com.marinj.shoppingwarfare.feature.history.detail.presentation.model.HistoryDetailViewEffect.Error
 import com.marinj.shoppingwarfare.feature.history.list.presentation.mapper.HistoryItemToUiHistoryItemMapper
+import com.marinj.shoppingwarfare.feature.history.list.presentation.model.UiHistoryItem
 import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
@@ -39,6 +41,9 @@ class HistoryDetailViewModelTest {
             sut.onEvent(event)
 
             sut.viewState.test {
+                val initialItem = awaitItem()
+                initialItem.isLoading.shouldBeTrue()
+                initialItem.uiHistoryItem shouldBe UiHistoryItem.DEFAULT
                 val updatedViewState = awaitItem()
 
                 updatedViewState.isLoading.shouldBeFalse()

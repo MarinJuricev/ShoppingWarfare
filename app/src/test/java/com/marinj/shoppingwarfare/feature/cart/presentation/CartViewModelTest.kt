@@ -2,7 +2,6 @@ package com.marinj.shoppingwarfare.feature.cart.presentation
 
 class CartViewModelTest {
 
-
 //    @Test
 //    fun `SHOULD update cartData WHEN OnGetCartItems is provided and emits cartData`() =
 //        runTest {

@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.feature.cart.presentation.presenter
 
 import app.cash.turbine.test
+import com.marinj.shoppingwarfare.MainCoroutineRule
 import com.marinj.shoppingwarfare.core.mapper.FailureToStringMapper
 import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCheckoutCart
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.CheckoutCart
@@ -12,7 +13,9 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineRule::class)
 class CartStatusPresenterTest {
 
     @Test
@@ -22,6 +25,7 @@ class CartStatusPresenterTest {
             sut.onEvent(ReceiptCaptureError)
 
             sut.state.test {
+                awaitItem().receiptStatus shouldBe ReceiptStatus.Empty
                 awaitItem().receiptStatus shouldBe ReceiptStatus.Error
             }
         }

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MainCoroutineRule::class)
 class TopBarViewModelTest {
 
-    private val sut = TopBarViewModel()
+    private val sut by lazy { TopBarViewModel() }
 
     @Test
     fun `onEvent SHOULD update viewState to match categoryTopBar when CategoryTopBar is provided`() =
@@ -42,6 +42,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
+                awaitItem() shouldBe NoSearchBarTopBarViewState()
                 awaitItem() shouldBe expectedResult
             }
         }
@@ -62,6 +63,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
+                awaitItem() shouldBe NoSearchBarTopBarViewState()
                 awaitItem() shouldBe expectedResult
             }
         }
@@ -88,6 +90,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
+                awaitItem() shouldBe NoSearchBarTopBarViewState()
                 awaitItem() shouldBe expectedResult
             }
         }
@@ -103,6 +106,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
+                awaitItem() shouldBe NoSearchBarTopBarViewState()
                 awaitItem() shouldBe expectedResult
             }
         }
@@ -129,6 +133,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
+                awaitItem() shouldBe NoSearchBarTopBarViewState()
                 awaitItem() shouldBe expectedResult
             }
         }
@@ -144,6 +149,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
+                awaitItem() shouldBe NoSearchBarTopBarViewState()
                 awaitItem() shouldBe expectedResult
             }
         }
@@ -164,6 +170,7 @@ class TopBarViewModelTest {
             )
 
             sut.viewState.test {
+                awaitItem() shouldBe NoSearchBarTopBarViewState()
                 awaitItem() shouldBe expectedResult
             }
         }
