@@ -24,9 +24,10 @@ class HistoryRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun upsertHistoryItem(
-        historyItem: HistoryItem,
-    ): Either<Failure, Unit> = historyDao.upsertHistoryItem(historyItem.toLocal()).right()
+override suspend fun upsertHistoryItem(
+    historyItem: HistoryItem,
+    ): Either<Failure, Unit> =
+        historyDao.upsertHistoryItem(historyItem.toLocal()).right()
 
     override suspend fun getHistoryItemById(id: String): Either<Failure, HistoryItem> {
         return when (val result = historyDao.getHistoryItemById(id)) {

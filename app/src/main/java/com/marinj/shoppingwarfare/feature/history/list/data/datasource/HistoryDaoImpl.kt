@@ -27,14 +27,27 @@ class HistoryDaoImpl @Inject constructor(
 
     override suspend fun upsertHistoryItem(
         entity: LocalHistoryItem,
-    ) = database
-        .historyQueries
-        .upsert(
-            id = entity.historyItemId,
-            receiptPath = entity.receiptPath,
-            timestamp = entity.timestamp,
-            cartName = entity.cartName,
-        )
+    ) = database.transaction {
+        database
+            .historyQueries
+            .upsert(
+                id = entity.historyItemId,
+                receiptPath = entity.receiptPath,
+                timestamp = entity.timestamp,
+                cartName = entity.cartName,
+            )
+
+        entity.historyCartItems.forEach { historyCartItem ->
+            database.historyCartItemQueries
+                .upsert(
+                    id = historyCartItem.id,
+                    historyItemId = entity.historyItemId,
+                    categoryName = historyCartItem.categoryName,
+                    name = historyCartItem.name,
+                    quantity = historyCartItem.quantity.toLong(),
+                )
+        }
+    }
 
     override suspend fun getHistoryItemById(
         id: String,

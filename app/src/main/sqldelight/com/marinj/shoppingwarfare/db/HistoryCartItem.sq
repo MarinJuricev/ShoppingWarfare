@@ -11,3 +11,7 @@ selectCartItemsForHistoryItem:
 SELECT cartItem.id, cartItem.categoryName, cartItem.name, cartItem.quantity,cartItem.historyItemId
 FROM LocalHistoryCartItem AS cartItem
 WHERE cartItem.historyItemId = ?;
+
+upsert:
+INSERT OR REPLACE INTO LocalHistoryCartItem (id, categoryName, name, quantity, historyItemId)
+VALUES (?, ?, ?, ?, ?);

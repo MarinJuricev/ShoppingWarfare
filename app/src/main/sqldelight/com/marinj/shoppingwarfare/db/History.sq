@@ -7,6 +7,8 @@ CREATE TABLE LocalHistoryItem (
  cartName TEXT NOT NULL
 );
 
+CREATE INDEX idx_localHistoryItem_id ON LocalHistoryItem(id);
+
 selectAllHistoryItems:
 SELECT historyItem.id, historyItem.receiptPath, historyItem.timestamp, historyItem.cartName
 FROM LocalHistoryItem AS historyItem;

@@ -20,7 +20,7 @@ data class HistoryItem private constructor(
             historyCartItems: List<HistoryCartItem>,
         ) = either {
             val mappedId = NonEmptyString(valueToValidate = id, tag = "id").bind()
-            val mappedReceiptPath = NonEmptyString(valueToValidate = receiptPath, tag = "receiptPath").bind()
+            val mappedReceiptPath = receiptPath?.let { NonEmptyString(valueToValidate = receiptPath, tag = "receiptPath").bind() }
             val mappedCartName = NonEmptyString(valueToValidate = cartName, tag = "cartName").bind()
 
             HistoryItem(
