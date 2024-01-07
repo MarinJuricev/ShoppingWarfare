@@ -4,8 +4,6 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.marinj.shoppingwarfare.core.dispatcher.DispatcherProvider
 import com.marinj.shoppingwarfare.db.Database
-import com.marinj.shoppingwarfare.db.LocalHistoryCartItem
-import com.marinj.shoppingwarfare.feature.history.list.data.mapper.toDomain
 import com.marinj.shoppingwarfare.feature.history.list.data.mapper.toLocalHistoryItem
 import com.marinj.shoppingwarfare.feature.history.list.data.model.LocalHistoryItem
 import kotlinx.coroutines.flow.Flow
@@ -48,9 +46,7 @@ class HistoryDaoImpl @Inject constructor(
             with(database) { toLocalHistoryItem(listOf(historyItem)).first() }
         }
 
-
     override suspend fun deleteHistory() = database
         .historyQueries
         .deleteAllFromLocalHistoryItem()
 }
-

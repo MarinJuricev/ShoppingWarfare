@@ -13,7 +13,9 @@ fun LocalHistoryCartItem.toDomain(): HistoryCartItem = HistoryCartItem(
 )
 
 context(Database)
-fun toLocalHistoryItem(historyItem: List<com.marinj.shoppingwarfare.db.LocalHistoryItem>) =
+fun toLocalHistoryItem(
+    historyItem: List<com.marinj.shoppingwarfare.db.LocalHistoryItem>,
+) =
     historyItem.map {
         val cartItems = historyCartItemQueries
             .selectCartItemsForHistoryItem(it.id)
