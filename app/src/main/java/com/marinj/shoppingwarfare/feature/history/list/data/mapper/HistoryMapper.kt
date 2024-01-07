@@ -6,7 +6,7 @@ import com.marinj.shoppingwarfare.feature.history.list.data.model.LocalHistoryIt
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryCartItem
 
 fun LocalHistoryCartItem.toDomain(): HistoryCartItem = HistoryCartItem(
-    id = historyItemId,
+    id = id,
     categoryName = categoryName,
     name = name,
     quantity = quantity.toInt(),
