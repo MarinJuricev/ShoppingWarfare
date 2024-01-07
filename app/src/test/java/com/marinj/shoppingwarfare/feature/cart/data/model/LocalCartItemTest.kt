@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.cart.data.model
 
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.buildLocalCartItem
+import com.marinj.shoppingwarfare.feature.cart.data.mapper.toDomain
 import com.marinj.shoppingwarfare.feature.cart.data.mapper.toLocal
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -38,7 +39,7 @@ class LocalCartItemTest {
 
     @Test
     fun `toDomain SHOULd map quantity`() {
-        val sut = buildLocalCartItem(providedQuantity = QUANTITY)
+        val sut = buildLocalCartItem(providedQuantity = QUANTITY.toLong())
 
         val actualResult = sut.toDomain()
 
@@ -69,7 +70,7 @@ class LocalCartItemTest {
 
         val actualResult = sut.toLocal()
 
-        actualResult.cartItemId shouldBe ID
+        actualResult.id shouldBe ID
     }
 
     @Test

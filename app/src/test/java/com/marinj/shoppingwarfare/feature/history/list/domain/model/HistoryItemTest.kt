@@ -3,6 +3,7 @@ package com.marinj.shoppingwarfare.feature.history.list.domain.model
 import arrow.core.left
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.history.list.domain.model.HistoryItem.Companion.HistoryItem
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -24,9 +25,7 @@ class HistoryItemTest {
     }
 
     @Test
-    fun `HistoryItem SHOULD return Left WHEN receiptPath is empty`() {
-        val expectedResult = ErrorMessage("receiptPath can not be null or empty").left()
-
+    fun `HistoryItem SHOULD return Right WHEN receiptPath is null`() {
         val result = HistoryItem(
             id = ID,
             receiptPath = null,
@@ -35,7 +34,7 @@ class HistoryItemTest {
             historyCartItems = emptyList(),
         )
 
-        result shouldBe expectedResult
+        result.isRight().shouldBeTrue()
     }
 
     @Test

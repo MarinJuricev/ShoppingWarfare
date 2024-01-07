@@ -5,7 +5,7 @@ CREATE TABLE LocalCartItem (
     categoryName TEXT NOT NULL,
     name TEXT NOT NULL,
     quantity INTEGER NOT NULL,
-    isInBasket INTEGER AS Boolean
+    isInBasket INTEGER AS Boolean NOT NULL
 );
 
 observeCartItems:

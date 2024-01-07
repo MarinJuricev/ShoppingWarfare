@@ -5,14 +5,11 @@ import arrow.core.left
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
-import com.marinj.shoppingwarfare.db.LocalCategory
 import com.marinj.shoppingwarfare.db.LocalProduct
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.usecase.AddToCart
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
-import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalCategoryProducts
-import com.marinj.shoppingwarfare.feature.category.detail.data.model.LocalProduct
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.RemoteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product.Companion.Product
@@ -20,7 +17,6 @@ import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.Prod
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.CreateProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.DeleteProduct
 import com.marinj.shoppingwarfare.feature.category.detail.domain.usecase.ObserveProducts
-import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
@@ -50,14 +46,6 @@ fun buildLocalProduct(
     name = providedName,
 )
 
-fun buildLocalCategoryProducts(
-    providedLocalCategory: LocalCategory = buildLocalCategory(),
-    providedLocalProductList: List<LocalProduct> = emptyList(),
-) = LocalCategoryProducts(
-    category = providedLocalCategory,
-    productList = providedLocalProductList,
-)
-
 fun buildProduct(
     providedProductId: String = PRODUCT_ID,
     providedCategoryName: String = CATEGORY_NAME,
@@ -84,7 +72,10 @@ class FakeSuccessProductDao(
 
     override suspend fun upsertProduct(
         entity: LocalProduct,
-    ) = Unit
+    ) {
+        localProducts.add(entity)
+        return
+    }
 
     override suspend fun deleteProductById(productId: String) {
         localProducts.removeIf { it.id == productId }

@@ -89,7 +89,7 @@ class FakeSuccessHistoryDao(
 ) : HistoryDao {
     override fun observeHistoryItems(): Flow<List<LocalHistoryItem>> = flowOf(historyItemsToReturn)
 
-    override suspend fun upsertHistoryItem(entity: LocalHistoryItem): Long = 1L
+    override suspend fun upsertHistoryItem(entity: LocalHistoryItem) = Unit
 
     override suspend fun getHistoryItemById(id: String) = buildLocalHistoryItem()
 
@@ -99,7 +99,7 @@ class FakeSuccessHistoryDao(
 object FakeFailureHistoryDao : HistoryDao {
     override fun observeHistoryItems(): Flow<List<LocalHistoryItem>> = flowOf(emptyList())
 
-    override suspend fun upsertHistoryItem(entity: LocalHistoryItem): Long = 0L
+    override suspend fun upsertHistoryItem(entity: LocalHistoryItem) = Unit
 
     override suspend fun getHistoryItemById(id: String) = null
 

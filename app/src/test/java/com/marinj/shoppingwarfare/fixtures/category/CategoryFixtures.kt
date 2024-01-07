@@ -6,9 +6,9 @@ import arrow.core.left
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.db.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.local.CategoryDao
 import com.marinj.shoppingwarfare.feature.category.list.data.datasource.network.CategoryApi
-import com.marinj.shoppingwarfare.feature.category.list.data.model.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.data.model.RemoteCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category.Companion.Category
@@ -37,9 +37,9 @@ fun buildRemoteCategory(
 fun buildLocalCategory(
     providedCategoryId: String = ID,
     providedTitle: String = TITLE,
-    providedBackgroundColor: Int = BACKGROUND_COLOR,
-    providedTitleColor: Int = TITLE_COLOR,
-) = com.marinj.shoppingwarfare.db.LocalCategory(
+    providedBackgroundColor: Long = BACKGROUND_COLOR.toLong(),
+    providedTitleColor: Long = TITLE_COLOR.toLong(),
+) = LocalCategory(
     id = providedCategoryId,
     title = providedTitle,
     backgroundColor = providedBackgroundColor,
@@ -82,13 +82,10 @@ class FakeSuccessCategoryDao(
 
     override suspend fun upsertCategory(
         entity: LocalCategory,
-    ): Long {
-        localCategories.add(entity)
-        return 1L
-    }
+    ) = Unit
 
     override suspend fun deleteCategoryById(id: String) {
-        localCategories.removeIf { it.categoryId == id }
+        localCategories.removeIf { it.id == id }
     }
 }
 

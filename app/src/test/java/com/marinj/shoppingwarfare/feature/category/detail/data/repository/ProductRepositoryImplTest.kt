@@ -4,10 +4,10 @@ import app.cash.turbine.test
 import arrow.core.left
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.toDomain
 import com.marinj.shoppingwarfare.fixtures.category.FakeFailureProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductApi
 import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductDao
-import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategoryProducts
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalProduct
 import com.marinj.shoppingwarfare.fixtures.category.buildProduct
 import com.marinj.shoppingwarfare.fixtures.category.buildRemoteProduct
@@ -21,16 +21,12 @@ class ProductRepositoryImplTest {
     @Test
     fun `observeProducts SHOULD return products from local source`() = runTest {
         val remoteProducts = listOf(buildRemoteProduct())
-        val localCategoryProducts = listOf(
-            buildLocalCategoryProducts(
-                providedLocalProductList = listOf(
-                    buildLocalProduct(
-                        providedCategoryName = CATEGORY_NAME,
-                        providedName = PRODUCT_NAME,
-                        providedCategoryId = CATEGORY_ID,
-                        providedProductId = PRODUCT_ID,
-                    ),
-                ),
+        val localProducts = listOf(
+            buildLocalProduct(
+                providedCategoryName = CATEGORY_NAME,
+                providedName = PRODUCT_NAME,
+                providedCategoryId = CATEGORY_ID,
+                providedProductId = PRODUCT_ID,
             ),
         )
         val expectedResult = listOf(
@@ -41,7 +37,7 @@ class ProductRepositoryImplTest {
         )
         val sut = ProductRepositoryImpl(
             productApi = FakeSuccessProductApi(remoteProducts),
-            productDao = FakeSuccessProductDao(localCategoryProducts),
+            productDao = FakeSuccessProductDao(localProducts),
         )
 
         sut.observeProducts(PRODUCT_ID).test {
@@ -117,12 +113,8 @@ class ProductRepositoryImplTest {
             providedName = PRODUCT_NAME,
             providedCategoryId = CATEGORY_ID,
         )
-        val localCategoryProducts = listOf(
-            buildLocalCategoryProducts(
-                providedLocalProductList = listOf(localProduct),
-            ),
-        )
-        val dao = FakeSuccessProductDao(localCategoryProducts)
+        val localProducts = listOf(localProduct)
+        val dao = FakeSuccessProductDao(localProducts)
         val sut = ProductRepositoryImpl(
             productApi = FakeSuccessProductApi(),
             productDao = dao,
