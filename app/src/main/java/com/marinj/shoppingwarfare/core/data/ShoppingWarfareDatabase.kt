@@ -6,5 +6,4 @@ import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDa
 
 interface ShoppingWarfareDatabase {
     fun cartDao(): CartDao
-    fun historyDao(): HistoryDao
 }

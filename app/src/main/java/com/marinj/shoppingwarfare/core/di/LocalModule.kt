@@ -9,7 +9,6 @@ import com.marinj.shoppingwarfare.core.data.ShoppingWarfareRoomDatabase
 import com.marinj.shoppingwarfare.db.Database
 import com.marinj.shoppingwarfare.db.LocalCategory
 import com.marinj.shoppingwarfare.db.LocalHistoryItem
-import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDaoTypeConverters
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,13 +24,12 @@ object LocalModule {
     @Singleton
     fun provideRoomDatabase(
         @ApplicationContext context: Context,
-        historyDaoTypeConverters: HistoryDaoTypeConverters,
     ): ShoppingWarfareRoomDatabase {
         val builder = Room.databaseBuilder(
             context,
             ShoppingWarfareRoomDatabase::class.java,
             "shopping-warfare.db",
-        ).addTypeConverter(historyDaoTypeConverters)
+        )
 
         return builder.build()
     }

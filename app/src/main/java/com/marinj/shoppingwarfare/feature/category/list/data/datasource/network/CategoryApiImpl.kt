@@ -65,13 +65,14 @@ class CategoryApiImpl @Inject constructor(
             .getCategoryCollection()
             .document(categoryId)
             .delete()
-            .addOnSuccessListener {
-                if (continuation.isActive) {
-                    continuation.resume(Unit.right())
+            .addOnCompleteListener { task ->
+                when {
+                    continuation.isActive && task.isSuccessful -> continuation.resume(Unit.right())
+                    else -> continuation.resume(
+                        task.exception?.localizedMessage?.let { Failure.ErrorMessage(it).left() }
+                            ?: Unknown.left(),
+                    )
                 }
-            }
-            .addOnFailureListener {
-                continuation.resume(Unknown.left())
             }
     }
 

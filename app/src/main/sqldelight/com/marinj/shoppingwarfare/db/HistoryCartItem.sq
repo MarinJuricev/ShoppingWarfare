@@ -1,0 +1,13 @@
+CREATE TABLE LocalHistoryCartItem (
+ id TEXT NOT NULL PRIMARY KEY,
+ categoryName TEXT NOT NULL,
+ name TEXT NOT NULL,
+ quantity INTEGER NOT NULL,
+ historyItemId TEXT NOT NULL,
+ FOREIGN KEY(historyItemId) REFERENCES LocalHistoryItem(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+selectCartItemsForHistoryItem:
+SELECT cartItem.id, cartItem.categoryName, cartItem.name, cartItem.quantity,cartItem.historyItemId
+FROM LocalHistoryCartItem AS cartItem
+WHERE cartItem.historyItemId = ?;
