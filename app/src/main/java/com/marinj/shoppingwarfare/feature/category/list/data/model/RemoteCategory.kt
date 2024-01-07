@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.feature.category.list.data.model
 
 import androidx.annotation.Keep
+import com.marinj.shoppingwarfare.db.LocalCategory
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import kotlinx.serialization.Serializable
 
@@ -13,10 +14,10 @@ data class RemoteCategory(
     val titleColor: Int,
 ) {
     fun toLocal() = LocalCategory(
-        categoryId = categoryId,
+        id = categoryId,
         title = title,
-        backgroundColor = backgroundColor,
-        titleColor = titleColor,
+        backgroundColor = backgroundColor.toLong(),
+        titleColor = titleColor.toLong(),
     )
 }
 

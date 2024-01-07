@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.history.list.di
 
-import com.marinj.shoppingwarfare.core.data.ShoppingWarfareDatabase
 import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDao
+import com.marinj.shoppingwarfare.feature.history.list.data.datasource.HistoryDaoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ object HistorySingletonModule {
     @Provides
     @Singleton
     fun provideHistoryDao(
-        database: ShoppingWarfareDatabase,
-    ): HistoryDao = database.historyDao()
+        dao: HistoryDaoImpl,
+    ): HistoryDao = dao
 }

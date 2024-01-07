@@ -1,0 +1,16 @@
+CREATE TABLE LocalProduct (
+   id TEXT NOT NULL PRIMARY KEY,
+   categoryId TEXT NOT NULL REFERENCES LocalCategory(id) ON DELETE CASCADE NOT NULL,
+   categoryName TEXT NOT NULL,
+   name TEXT NOT NULL
+);
+
+selectProductsForGivenCategoryId:
+SELECT * FROM LocalProduct WHERE categoryId == ?;
+
+upsertProduct:
+INSERT OR REPLACE INTO LocalProduct (id, categoryId, categoryName, name)
+VALUES (?, ?, ?, ?);
+
+deleteProductById:
+DELETE FROM LocalProduct WHERE id == ?;

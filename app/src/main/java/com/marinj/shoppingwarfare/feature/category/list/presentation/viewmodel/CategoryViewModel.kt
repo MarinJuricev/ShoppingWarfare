@@ -83,7 +83,10 @@ class CategoryViewModel @Inject constructor(
     private fun handleGetGroceries() = viewModelScope.launch {
         observeCategories()
             .onStart { isLoading.update { true } }
-            .catch { handleGetCategoriesError() }
+            .catch { throwable ->
+                val error = throwable.localizedMessage ?: "Failed to fetch Categories, try again later."
+                handleGetCategoriesError(error)
+            }
             .map { categoryList -> categoryList.map(Category::toUi) }
             .collect { uiCategoryList ->
                 isLoading.update { false }
@@ -95,9 +98,9 @@ class CategoryViewModel @Inject constructor(
         navigator.emitDestination(Destination(CreateCategoryDestination.route()))
     }
 
-    private suspend fun handleGetCategoriesError() {
+    private suspend fun handleGetCategoriesError(errorMessage: String) {
         isLoading.update { false }
-        _viewEffect.send(Error("Failed to fetch Categories, try again later."))
+        _viewEffect.send(Error(errorMessage))
     }
 
     private fun handleNavigateToCategoryDetail(

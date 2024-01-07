@@ -1,14 +1,15 @@
 TODOs:
 
 Use a single snackbar state ?
-Migrate to Kotest and Junit5
 Play around with the Store5 Library
 Migrate to KSP version that uses K2
 Try out Context Receivers/Parameters
 Moduralize,
+Baseline Profiles
 Remove Android specific dependencies,
+Add dependabot or renovate to track version updates
 Write out a BE for the app and remove Firebase ( we could use the Firebase internally for auth or w/e )
 KMM
  - Try out the SKIE Touchlab plugin
- - Decompose / Voyager for shared navigation logic ?
+ - Decompose / Voyager / Appyx for shared navigation logic ?
  - A bespoke viewModel layer with custom CFlow or something like NativeCoroutines ( depends on the impression of the SKIE plugin )

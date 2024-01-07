@@ -5,8 +5,8 @@ import arrow.core.left
 import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.Unknown
+import com.marinj.shoppingwarfare.db.LocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
-import com.marinj.shoppingwarfare.feature.cart.data.model.LocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.data.model.RemoteCartItem
 import com.marinj.shoppingwarfare.feature.cart.data.remote.CartApi
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
@@ -41,13 +41,13 @@ fun buildLocalCartItem(
     providedId: String = ID,
     providedCategoryName: String = CATEGORY_NAME,
     providedName: String = NAME,
-    providedQuantity: UInt = QUANTITY,
+    providedQuantity: Long = QUANTITY.toLong(),
     providedIsInBasket: Boolean = IS_IN_BASKET,
 ) = LocalCartItem(
-    cartItemId = providedId,
+    id = providedId,
     categoryName = providedCategoryName,
     name = providedName,
-    quantity = providedQuantity.toInt(),
+    quantity = providedQuantity,
     isInBasket = providedIsInBasket,
 )
 
@@ -99,7 +99,7 @@ class FakeSuccessCartDao(
 
     override suspend fun updateCartItemIsInBasket(id: String, updatedIsInBasket: Boolean) = Unit
 
-    override suspend fun upsertCartItem(entity: LocalCartItem): Long = 1L
+    override suspend fun upsertCartItem(entity: LocalCartItem) = Unit
 
     override suspend fun deleteCartItemById(id: String) = Unit
 
@@ -118,7 +118,7 @@ object FakeFailureCartDao : CartDao {
 
     override suspend fun updateCartItemIsInBasket(id: String, updatedIsInBasket: Boolean) = Unit
 
-    override suspend fun upsertCartItem(entity: LocalCartItem): Long = 0L
+    override suspend fun upsertCartItem(entity: LocalCartItem) = Unit
 
     override suspend fun deleteCartItemById(id: String) = Unit
 

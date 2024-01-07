@@ -1,6 +1,7 @@
 package com.marinj.shoppingwarfare.feature.cart.data.model
 
 import androidx.annotation.Keep
+import com.marinj.shoppingwarfare.db.LocalCartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import kotlinx.serialization.Serializable
 
@@ -14,10 +15,10 @@ data class RemoteCartItem(
     val inBasket: Boolean,
 ) {
     fun toLocal() = LocalCartItem(
-        cartItemId = cartItemId,
+        id = cartItemId,
         categoryName = categoryName,
         name = name,
-        quantity = quantity,
+        quantity = quantity.toLong(),
         isInBasket = inBasket,
     )
 }

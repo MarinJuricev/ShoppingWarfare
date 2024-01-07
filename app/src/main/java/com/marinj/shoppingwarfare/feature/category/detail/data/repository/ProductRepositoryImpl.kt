@@ -4,6 +4,7 @@ import arrow.core.Either
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.local.ProductDao
 import com.marinj.shoppingwarfare.feature.category.detail.data.datasource.network.ProductApi
+import com.marinj.shoppingwarfare.feature.category.detail.data.mapper.toDomain
 import com.marinj.shoppingwarfare.feature.category.detail.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.category.detail.domain.model.Product
 import com.marinj.shoppingwarfare.feature.category.detail.domain.repository.ProductRepository
@@ -29,12 +30,8 @@ class ProductRepositoryImpl @Inject constructor(
 
     private fun productsFromLocal(
         productId: String,
-    ): Flow<List<Product>> =
-        productDao.observeProductsForGivenCategoryId(productId).map { localCategoryList ->
-            localCategoryList.flatMap { localCategoryProduct ->
-                localCategoryProduct.toProductOrNull().filterNotNull()
-            }
-        }
+    ): Flow<List<Product>> = productDao.observeProductsForGivenCategoryId(productId)
+        .map { localProducts -> localProducts.mapNotNull { it.toDomain().getOrNull() } }
 
     private fun syncApiToLocal(
         productId: String,

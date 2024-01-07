@@ -16,7 +16,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toLocal()
 
-        actual.cartItemId shouldBe expectedResult
+        actual.id shouldBe expectedResult
     }
 
     @Test

@@ -1,0 +1,19 @@
+import kotlin.Long;
+
+
+CREATE TABLE LocalCategory (
+  id TEXT NOT NULL PRIMARY KEY,
+  title TEXT NOT NULL,
+  backgroundColor INTEGER AS Long NOT NULL,
+  titleColor INTEGER AS Long NOT NULL
+);
+
+selectAllCategories:
+SELECT id, title, backgroundColor, titleColor FROM LocalCategory;
+
+upsertCategory:
+INSERT OR REPLACE INTO LocalCategory(id, title, backgroundColor, titleColor)
+VALUES (?, ?, ?, ?);
+
+deleteCategoryById:
+DELETE FROM LocalCategory WHERE id = ?;

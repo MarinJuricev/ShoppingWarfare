@@ -2,6 +2,8 @@ package com.marinj.shoppingwarfare.feature.category.list.data.model
 
 import com.marinj.shoppingwarfare.core.model.NonEmptyString.Companion.NonEmptyString
 import com.marinj.shoppingwarfare.core.model.ResourceColor.Companion.ResourceColor
+import com.marinj.shoppingwarfare.feature.category.list.data.mapper.toDomain
+import com.marinj.shoppingwarfare.feature.category.list.data.mapper.toLocal
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
 import io.kotest.matchers.shouldBe
@@ -32,7 +34,7 @@ class LocalCategoryTest {
     @Test
     fun `toDomain SHOULD map backgroundColor`() {
         val expectedResult = ResourceColor(valueToValidate = BACKGROUND_COLOR).getOrNull()
-        val localCategory = buildLocalCategory(providedBackgroundColor = BACKGROUND_COLOR)
+        val localCategory = buildLocalCategory(providedBackgroundColor = BACKGROUND_COLOR.toLong())
 
         val actualResult = localCategory.toDomain()
 
@@ -42,7 +44,7 @@ class LocalCategoryTest {
     @Test
     fun `toDomain SHOULD map titleColor`() {
         val expectedResult = ResourceColor(valueToValidate = TITLE_COLOR).getOrNull()
-        val localCategory = buildLocalCategory(providedTitleColor = TITLE_COLOR)
+        val localCategory = buildLocalCategory(providedTitleColor = TITLE_COLOR.toLong())
 
         val actualResult = localCategory.toDomain()
 
@@ -55,7 +57,7 @@ class LocalCategoryTest {
 
         val actualResult = category.toLocal()
 
-        actualResult.categoryId shouldBe ID
+        actualResult.id shouldBe ID
     }
 
     @Test

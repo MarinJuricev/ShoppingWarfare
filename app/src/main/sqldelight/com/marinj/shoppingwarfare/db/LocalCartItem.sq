@@ -1,0 +1,43 @@
+import kotlin.Boolean;
+
+CREATE TABLE LocalCartItem (
+    id TEXT NOT NULL PRIMARY KEY,
+    categoryName TEXT NOT NULL,
+    name TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    isInBasket INTEGER AS Boolean NOT NULL
+);
+
+observeCartItems:
+SELECT id, categoryName, name, quantity, isInBasket
+FROM LocalCartItem;
+
+observeCartItemsCount:
+SELECT SUM(quantity)
+FROM LocalCartItem;
+
+updateCartItemQuantity:
+UPDATE LocalCartItem
+SET quantity = ?
+WHERE id = ?;
+
+updateCartItemIsInBasket:
+UPDATE LocalCartItem
+SET isInBasket = ?
+WHERE id = ?;
+
+updateCartItem:
+INSERT OR REPLACE INTO LocalCartItem (id, categoryName, name, quantity, isInBasket)
+VALUES (?, ?, ?, ?, ?);
+
+deleteCartItemById:
+DELETE FROM LocalCartItem
+WHERE id = ?;
+
+getCartItemById:
+SELECT id, categoryName, name, quantity, isInBasket
+FROM LocalCartItem
+WHERE id = ?;
+
+deleteCart:
+DELETE FROM LocalCartItem;

@@ -1,0 +1,28 @@
+import kotlin.Long;
+
+CREATE TABLE LocalHistoryItem (
+ id TEXT NOT NULL PRIMARY KEY,
+ receiptPath TEXT,
+ timestamp INTEGER AS Long NOT NULL,
+ cartName TEXT NOT NULL
+);
+
+CREATE INDEX idx_localHistoryItem_id ON LocalHistoryItem(id);
+
+selectAllHistoryItems:
+SELECT historyItem.id, historyItem.receiptPath, historyItem.timestamp, historyItem.cartName
+FROM LocalHistoryItem AS historyItem;
+
+
+upsert:
+INSERT OR REPLACE INTO LocalHistoryItem (id, receiptPath, timestamp, cartName)
+VALUES (?, ?, ?, ?);
+
+selectLocalHistoryItemById:
+SELECT historyItem.id, historyItem.receiptPath, historyItem.timestamp, historyItem.cartName
+FROM LocalHistoryItem AS historyItem
+WHERE historyItem.id = ?
+GROUP BY historyItem.id;
+
+deleteAllFromLocalHistoryItem:
+DELETE FROM LocalHistoryItem;

@@ -6,7 +6,8 @@ import arrow.core.right
 import com.marinj.shoppingwarfare.core.result.Failure
 import com.marinj.shoppingwarfare.core.result.Failure.ErrorMessage
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
-import com.marinj.shoppingwarfare.feature.cart.data.model.toLocal
+import com.marinj.shoppingwarfare.feature.cart.data.mapper.toDomain
+import com.marinj.shoppingwarfare.feature.cart.data.mapper.toLocal
 import com.marinj.shoppingwarfare.feature.cart.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.cart.data.remote.CartApi
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem

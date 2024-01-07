@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -64,7 +64,7 @@ fun CartItemCard(
                         bottom.linkTo(parent.bottom)
                     }
                     .size(24.dp),
-                imageVector = Icons.Default.KeyboardArrowLeft,
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                 tint = if (MaterialTheme.colors.isLight) Color.DarkGray else Color.White,
                 contentDescription = stringResource(
                     R.string.swipe_to_delete_item,

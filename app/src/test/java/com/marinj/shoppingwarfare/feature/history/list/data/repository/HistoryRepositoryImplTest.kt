@@ -30,21 +30,7 @@ class HistoryRepositoryImplTest {
     }
 
     @Test
-    fun `upsertHistoryItem SHOULD return Left Failure WHEN historyDao returns 0L`() =
-        runTest {
-            val historyItem = buildHistoryItem()
-            val sut = HistoryRepositoryImpl(
-                historyDao = FakeFailureHistoryDao,
-            )
-            val expectedResult = ErrorMessage("Error while adding new historyItem").left()
-
-            val actualResult = sut.upsertHistoryItem(historyItem)
-
-            actualResult shouldBe expectedResult
-        }
-
-    @Test
-    fun `upsertHistoryItem SHOULD return Right Unit WHEN historyDao returns 1L`() = runTest {
+    fun `upsertHistoryItem SHOULD return Right Unit`() = runTest {
         val historyItem = buildHistoryItem()
         val sut = HistoryRepositoryImpl(
             historyDao = FakeSuccessHistoryDao(),
