@@ -16,15 +16,15 @@ import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareSwipeToDismiss
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.CartDescription
 import com.marinj.shoppingwarfare.feature.cart.presentation.components.QuantityPicker
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.DeleteCartItem
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.ItemAddedToBasket
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.DeleteCartItem
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.ItemAddedToBasket
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 
 @Composable
 fun CartItemCard(
     cartItem: UiCartItem.Content,
-    onCartEvent: (CartEvent) -> Unit,
+    onCartEvent: (CartListEvent) -> Unit,
 ) {
     ShoppingWarfareSwipeToDismiss(
         modifier = Modifier

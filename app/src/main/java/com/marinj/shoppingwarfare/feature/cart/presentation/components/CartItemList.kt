@@ -4,13 +4,13 @@ import CartItemCard
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.util.fastForEach
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 
 @Composable
 fun CartItemList(
     uiCartItems: List<UiCartItem>,
-    onCartEvent: (CartEvent) -> Unit,
+    onCartEvent: (CartListEvent) -> Unit,
 ) {
     LazyColumn {
         uiCartItems.fastForEach { uiCartItem ->

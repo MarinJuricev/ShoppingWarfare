@@ -6,15 +6,15 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepositor
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class UndoCategoryDeletionTest {
 
     private val categoryRepository: CategoryRepository = FakeSuccessCategoryRepository()
     private lateinit var sut: UndoCategoryDeletion
 
-    @Before
+    @BeforeEach
     fun setUp() {
         sut = UndoCategoryDeletionImpl(
             categoryRepository,

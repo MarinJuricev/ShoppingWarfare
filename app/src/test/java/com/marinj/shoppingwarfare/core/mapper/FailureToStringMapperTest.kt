@@ -2,17 +2,11 @@ package com.marinj.shoppingwarfare.core.mapper
 
 import com.marinj.shoppingwarfare.core.result.Failure
 import io.kotest.matchers.shouldBe
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class FailureToStringMapperTest {
 
-    private lateinit var sut: FailureToStringMapper
-
-    @Before
-    fun setUp() {
-        sut = FailureToStringMapper()
-    }
+    private val sut = FailureToStringMapper()
 
     @Test
     fun `map SHOULD return provided errorMessage when failure is of type ErrorMessage`() {

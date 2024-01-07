@@ -5,7 +5,7 @@ import com.marinj.shoppingwarfare.feature.history.FakeSuccessHistoryRepository
 import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class GetHistoryItemByIdTest {
 

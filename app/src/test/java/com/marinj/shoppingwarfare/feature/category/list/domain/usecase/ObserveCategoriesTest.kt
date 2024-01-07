@@ -5,8 +5,8 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessCategoryRepositor
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class ObserveCategoriesTest {
 
@@ -19,7 +19,7 @@ class ObserveCategoriesTest {
 
     private lateinit var sut: ObserveCategories
 
-    @Before
+    @BeforeEach
     fun setUp() {
         sut = ObserveCategoriesImpl(
             categoryRepository,

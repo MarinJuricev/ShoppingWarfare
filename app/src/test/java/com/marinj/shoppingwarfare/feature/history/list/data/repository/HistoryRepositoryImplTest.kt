@@ -10,7 +10,7 @@ import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import com.marinj.shoppingwarfare.feature.history.buildLocalHistoryItem
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private const val HISTORY_ITEM_ID = "historyItemId"
 

@@ -4,7 +4,7 @@ import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Content
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem.Header
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class UiCartItemToCartItemMapperTest {
 

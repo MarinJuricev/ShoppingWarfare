@@ -5,7 +5,7 @@ import com.marinj.shoppingwarfare.core.model.ResourceColor.Companion.ResourceCol
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildLocalCategory
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class LocalCategoryTest {
 

@@ -2,8 +2,8 @@ package com.marinj.shoppingwarfare.feature.cart.data.model
 
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.buildRemoteCartItem
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Test
 
 class RemoteCartItemTest {
 
@@ -16,7 +16,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toLocal()
 
-        assertEquals(expectedResult, actual.cartItemId)
+        actual.cartItemId shouldBe expectedResult
     }
 
     @Test
@@ -28,7 +28,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toLocal()
 
-        assertEquals(expectedResult, actual.categoryName)
+        actual.categoryName shouldBe expectedResult
     }
 
     @Test
@@ -40,7 +40,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toLocal()
 
-        assertEquals(expectedResult, actual.name)
+        actual.name shouldBe expectedResult
     }
 
     @Test
@@ -52,7 +52,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toLocal()
 
-        assertEquals(expectedResult.toInt(), actual.quantity)
+        actual.quantity shouldBe expectedResult.toInt()
     }
 
     @Test
@@ -64,7 +64,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toLocal()
 
-        assertEquals(expectedResult, actual.isInBasket)
+        actual.isInBasket shouldBe expectedResult
     }
 
     @Test
@@ -76,7 +76,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toRemote()
 
-        assertEquals(expectedResult, actual.cartItemId)
+        actual.cartItemId shouldBe expectedResult
     }
 
     @Test
@@ -88,7 +88,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toRemote()
 
-        assertEquals(expectedResult, actual.categoryName)
+        actual.categoryName shouldBe expectedResult
     }
 
     @Test
@@ -100,7 +100,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toRemote()
 
-        assertEquals(expectedResult, actual.name)
+        actual.name shouldBe expectedResult
     }
 
     @Test
@@ -112,7 +112,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toRemote()
 
-        assertEquals(expectedResult.toInt(), actual.quantity)
+        actual.quantity shouldBe expectedResult.toInt()
     }
 
     @Test
@@ -124,7 +124,7 @@ class RemoteCartItemTest {
 
         val actual = sut.toRemote()
 
-        assertEquals(expectedResult, actual.inBasket)
+        actual.inBasket shouldBe expectedResult
     }
 }
 

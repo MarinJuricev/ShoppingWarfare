@@ -22,13 +22,11 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineRule::class)
 class HistoryViewModelTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val navigator = FakeNavigator
 
@@ -85,9 +83,10 @@ class HistoryViewModelTest {
         val sut = buildSut(
             observeHistoryItems = FakeSuccessObserveHistoryItems(),
         )
-        sut.onEvent(event)
 
         sut.viewState.test {
+            awaitItem().searchText shouldBe ""
+            sut.onEvent(event)
             awaitItem().searchText shouldBe newSearchText
         }
     }
@@ -101,9 +100,10 @@ class HistoryViewModelTest {
             observeHistoryItems = FakeSuccessObserveHistoryItems(),
         )
         sut.onEvent(OnGetHistoryItems)
-        sut.onEvent(event)
 
         sut.viewState.test {
+            awaitItem().historyItems.shouldBeEmpty()
+            sut.onEvent(event)
             awaitItem().historyItems shouldBe filteredList
         }
     }

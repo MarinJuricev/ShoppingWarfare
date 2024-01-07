@@ -3,7 +3,7 @@ package com.marinj.shoppingwarfare.feature.history.list.presentation.mapper
 import com.marinj.shoppingwarfare.feature.history.buildHistoryCartItem
 import com.marinj.shoppingwarfare.feature.history.buildHistoryItem
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private const val ID = "id"
 private const val RECEIPT_PATH = "receiptPath"

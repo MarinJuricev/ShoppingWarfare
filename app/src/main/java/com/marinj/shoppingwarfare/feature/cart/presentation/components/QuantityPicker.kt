@@ -17,15 +17,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.marinj.shoppingwarfare.R
 import com.marinj.shoppingwarfare.core.components.ShoppingWarfareIconButton
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartItemQuantityChanged
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartListEvent.CartItemQuantityChanged
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.UiCartItem
 
 @Composable
 fun QuantityPicker(
     modifier: Modifier = Modifier,
     uiCartItem: UiCartItem.Content,
-    onCartEvent: (CartEvent) -> Unit,
+    onCartEvent: (CartListEvent) -> Unit,
 ) {
     Row(
         modifier = modifier,

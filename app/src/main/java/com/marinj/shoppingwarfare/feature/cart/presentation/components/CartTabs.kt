@@ -6,15 +6,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.util.fastForEachIndexed
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent
-import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartEvent.CartTabPositionUpdated
 import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartTab
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartTabEvent
+import com.marinj.shoppingwarfare.feature.cart.presentation.model.CartTabEvent.CartTabPositionUpdated
 
 @Composable
 fun CartTabs(
     selectedTabPosition: Int,
     cartTabs: List<CartTab>,
-    onCartEvent: (CartEvent) -> Unit,
+    onCartEvent: (CartTabEvent) -> Unit,
 ) {
     TabRow(selectedTabIndex = selectedTabPosition) {
         cartTabs.fastForEachIndexed { index, cartTab ->

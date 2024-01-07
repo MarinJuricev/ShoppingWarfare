@@ -25,15 +25,14 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessUndoCategoryDelet
 import com.marinj.shoppingwarfare.fixtures.category.buildCategory
 import com.marinj.shoppingwarfare.fixtures.category.buildUiCategory
 import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineRule::class)
 class CategoryViewModelTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val navigator = FakeNavigator
 
@@ -49,9 +48,12 @@ class CategoryViewModelTest {
             navigator,
         )
 
-        sut.onEvent(GetCategories)
-
         sut.viewState.test {
+            val initialViewState = awaitItem()
+            initialViewState.categories shouldBe emptyList()
+            initialViewState.isLoading.shouldBeTrue()
+
+            sut.onEvent(GetCategories)
             val updatedViewState = awaitItem()
             updatedViewState.categories shouldBe expectedResult
             updatedViewState.isLoading.shouldBeFalse()

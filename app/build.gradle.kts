@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.junit5)
 }
 
 android {
@@ -62,10 +63,8 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
+    tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
     }
 }
 
@@ -120,7 +119,9 @@ dependencies {
 
     implementation(libs.arrow.core)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.junitApi)
+    testImplementation(libs.junitParams)
+    testRuntimeOnly(libs.junitEngine)
     testImplementation(libs.turbine)
     testImplementation(libs.kotest.runner)
     testImplementation(libs.kotest.assertion)

@@ -9,7 +9,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.mapper.CartDataToHistoryIt
 import com.marinj.shoppingwarfare.feature.history.FakeSuccessHistoryRepository
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class CheckoutCartTest {
 

@@ -6,13 +6,11 @@ import com.marinj.shoppingwarfare.core.viewmodel.badge.BadgeEvent.StartObserving
 import com.marinj.shoppingwarfare.feature.cart.FakeSuccessObserveCartItemsCount
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MainCoroutineRule::class)
 class BadgeViewModelTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     @Test
     fun `onEvent SHOULD update cartBadgeCount when StartObservingBadgesCount is provided`() =
@@ -22,9 +20,9 @@ class BadgeViewModelTest {
             )
             val expectedResult = BadgeViewState(cartBadgeCount = NUMBER_OF_CART_ITEMS)
 
-            sut.onEvent(StartObservingBadgesCount)
-
             sut.viewState.test {
+                awaitItem() shouldBe BadgeViewState()
+                sut.onEvent(StartObservingBadgesCount)
                 awaitItem() shouldBe expectedResult
             }
         }

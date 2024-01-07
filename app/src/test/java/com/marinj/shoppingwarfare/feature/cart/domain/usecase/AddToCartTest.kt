@@ -5,7 +5,7 @@ import com.marinj.shoppingwarfare.feature.cart.FakeSuccessCartRepository
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class AddToCartTest {
 

@@ -8,7 +8,7 @@ import com.marinj.shoppingwarfare.fixtures.category.FakeSuccessProductRepository
 import com.marinj.shoppingwarfare.fixtures.category.buildProduct
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class DeleteProductTest {
     @Test

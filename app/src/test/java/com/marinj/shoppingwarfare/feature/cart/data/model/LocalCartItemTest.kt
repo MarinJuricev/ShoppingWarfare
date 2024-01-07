@@ -5,7 +5,7 @@ import com.marinj.shoppingwarfare.feature.cart.buildLocalCartItem
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class LocalCartItemTest {
     @Test
