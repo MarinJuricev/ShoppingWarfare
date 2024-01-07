@@ -1,7 +1,7 @@
 package com.marinj.shoppingwarfare.feature.cart.di
 
-import com.marinj.shoppingwarfare.core.data.ShoppingWarfareDatabase
 import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDao
+import com.marinj.shoppingwarfare.feature.cart.data.datasource.CartDaoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ object CartSingletonModule {
     @Provides
     @Singleton
     fun provideCartDao(
-        database: ShoppingWarfareDatabase,
-    ): CartDao = database.cartDao()
+        dao: CartDaoImpl,
+    ): CartDao = dao
 }

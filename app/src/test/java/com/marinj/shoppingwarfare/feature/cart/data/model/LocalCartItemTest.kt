@@ -2,6 +2,7 @@ package com.marinj.shoppingwarfare.feature.cart.data.model
 
 import com.marinj.shoppingwarfare.feature.cart.buildCartItem
 import com.marinj.shoppingwarfare.feature.cart.buildLocalCartItem
+import com.marinj.shoppingwarfare.feature.cart.data.mapper.toLocal
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
