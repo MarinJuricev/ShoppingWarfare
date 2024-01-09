@@ -44,6 +44,8 @@ espresso-core = "3.5.1"
 showkase = "1.0.0-beta18"
 ksp = "1.9.10-1.0.13"
 sqldelight = "2.0.0"
+store = "5.0.0"
+atomicfu = "0.18.5"
 
 [libraries]
 arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
@@ -95,6 +97,8 @@ showkase-processor = { group = "com.airbnb.android", name = "showkase-processor"
 sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines-extension = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-primitive-adapters = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
+store = { group = "org.mobilenativefoundation.store", name = "store5", version.ref = "store" }
+atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version.ref = "atomicfu" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

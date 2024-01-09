@@ -126,6 +126,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.arrow.core)
+    implementation(libs.store)
+    implementation(libs.atomicfu)
 
     testImplementation(libs.junitApi)
     testImplementation(libs.junitParams)
