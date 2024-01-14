@@ -7,9 +7,9 @@ import com.marinj.shoppingwarfare.feature.category.list.data.model.toRemote
 import com.marinj.shoppingwarfare.feature.category.list.domain.model.Category
 import com.marinj.shoppingwarfare.feature.category.list.domain.repository.CategoryRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
@@ -17,11 +17,12 @@ class CategoryRepositoryImpl @Inject constructor(
     private val categoryApi: CategoryApi,
 ) : CategoryRepository {
 
-    override fun observeCategories(): Flow<List<Category>> = flowOf(Unit)
-        .flatMapLatest {
-            syncApiToLocal()
-            categoriesFromLocal()
-        }
+    override fun observeCategories(): Flow<List<Category>> = combine(
+        syncApiToLocal().onStart { emit(emptyList()) },
+        categoriesFromLocal(),
+    ) { _, categoriesFromLocal ->
+        categoriesFromLocal
+    }
 
     private fun syncApiToLocal() = categoryApi.observeCategories()
         .map { remoteCategories ->

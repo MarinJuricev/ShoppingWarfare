@@ -13,9 +13,9 @@ import com.marinj.shoppingwarfare.feature.cart.data.remote.CartApi
 import com.marinj.shoppingwarfare.feature.cart.domain.model.CartItem
 import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(
@@ -23,11 +23,12 @@ class CartRepositoryImpl @Inject constructor(
     private val cartApi: CartApi,
 ) : CartRepository {
 
-    override fun observeCartItems(): Flow<List<CartItem>> = flowOf(Unit)
-        .flatMapLatest {
-            syncApiToLocal()
-            cartFromLocal()
-        }
+    override fun observeCartItems(): Flow<List<CartItem>> = combine(
+        syncApiToLocal().onStart { emit(emptyList()) },
+        cartFromLocal(),
+    ) { _, fromLocal ->
+        fromLocal
+    }
 
     private fun syncApiToLocal() = cartApi.observeCartItems()
         .map { remoteCategories ->

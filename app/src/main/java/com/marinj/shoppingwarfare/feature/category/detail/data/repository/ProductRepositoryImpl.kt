@@ -12,8 +12,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
@@ -23,11 +22,12 @@ class ProductRepositoryImpl @Inject constructor(
     private val productDao: ProductDao,
 ) : ProductRepository {
 
-    override fun observeProducts(productId: String) = flowOf(Unit)
-        .flatMapLatest {
-            syncApiToLocal(productId).onStart { emit(emptyList()) }
-            productsFromLocal(productId)
-        }
+    override fun observeProducts(productId: String) = combine(
+        syncApiToLocal(productId).onStart { emit(emptyList()) },
+        productsFromLocal(productId),
+    ) { _, fromLocal ->
+        fromLocal
+    }
 
     private fun productsFromLocal(
         productId: String,
