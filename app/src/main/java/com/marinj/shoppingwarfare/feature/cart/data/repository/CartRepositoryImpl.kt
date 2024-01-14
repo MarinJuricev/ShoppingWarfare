@@ -15,6 +15,7 @@ import com.marinj.shoppingwarfare.feature.cart.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(
@@ -23,10 +24,10 @@ class CartRepositoryImpl @Inject constructor(
 ) : CartRepository {
 
     override fun observeCartItems(): Flow<List<CartItem>> = combine(
-        syncApiToLocal(),
+        syncApiToLocal().onStart { emit(emptyList()) },
         cartFromLocal(),
-    ) { _, cartFromLocal ->
-        cartFromLocal
+    ) { _, fromLocal ->
+        fromLocal
     }
 
     private fun syncApiToLocal() = cartApi.observeCartItems()

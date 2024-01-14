@@ -9,6 +9,7 @@ import com.marinj.shoppingwarfare.feature.category.list.domain.repository.Catego
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
@@ -16,11 +17,8 @@ class CategoryRepositoryImpl @Inject constructor(
     private val categoryApi: CategoryApi,
 ) : CategoryRepository {
 
-    // TODO: Improve this, combine is not the operator that we want, atleast with a implementation like this,
-    // we don't want to wait for both of them to complete, what we want is to get it from the local source
-    // as fast as possible and eventually sync the remote source with the local source
     override fun observeCategories(): Flow<List<Category>> = combine(
-        syncApiToLocal(),
+        syncApiToLocal().onStart { emit(emptyList()) },
         categoriesFromLocal(),
     ) { _, categoriesFromLocal ->
         categoriesFromLocal

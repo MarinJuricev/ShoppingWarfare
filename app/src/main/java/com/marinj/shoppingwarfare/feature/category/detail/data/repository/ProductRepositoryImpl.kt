@@ -14,6 +14,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
@@ -22,10 +23,10 @@ class ProductRepositoryImpl @Inject constructor(
 ) : ProductRepository {
 
     override fun observeProducts(productId: String) = combine(
-        syncApiToLocal(productId),
+        syncApiToLocal(productId).onStart { emit(emptyList()) },
         productsFromLocal(productId),
-    ) { _, productsFromLocal ->
-        productsFromLocal
+    ) { _, fromLocal ->
+        fromLocal
     }
 
     private fun productsFromLocal(
